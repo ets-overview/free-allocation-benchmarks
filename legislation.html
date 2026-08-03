@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Legislation Map — EU Climate Policy Explorer</title>
+<meta name="description" content="An interactive map of 82 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+
+<!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
+<meta property="og:title" content="EU Climate Legislation Map">
+<meta property="og:description" content="An interactive map of 82 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EU Climate Legislation Map">
+<meta name="twitter:description" content="An interactive map of 82 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#fff; --ink:#14181f; --muted:#5f6b7a; --line:#e3e7ec; --accent:#1f5fbf;
+    --green:#1f8a5f; --yellow:#d9a520; --red:#c0392b; --violet:#6b5bd2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);overflow:hidden;
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+
+  header{background:#0b3d91;color:#fff;padding:14px 22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px;letter-spacing:-.01em;white-space:nowrap}
+  header .tagline{color:#c2d3ef;font-size:13px;flex:1;min-width:200px}
+  header .links{display:flex;gap:8px;flex-shrink:0}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;padding:5px 11px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:#0b3d91;border-color:#fff;font-weight:600}
+
+  .bar{background:var(--panel);border-bottom:1px solid var(--line);padding:9px 22px;
+       display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  select,input,.btn{font:inherit;font-size:13.5px;padding:6px 9px;border:1px solid var(--line);
+                    border-radius:7px;background:#fff;color:var(--ink)}
+  .btn{cursor:pointer} .btn:hover{background:#f2f5f9}
+  input[type=search]{min-width:200px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;
+        border:1px solid var(--line);border-radius:20px;padding:4px 11px;background:#fff;user-select:none}
+  .chip.off{opacity:.4}
+  .chip .dot{width:10px;height:10px;border-radius:50%}
+  .chip .dot.ring, #legend .dot.ring{background:#eeecfb;border:2px dashed var(--violet)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .seg button{border:0;background:#fff;font:inherit;font-size:13.5px;padding:6px 13px;cursor:pointer;color:var(--muted)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--accent);color:#fff;font-weight:600}
+  .seg button:not(.on):hover{background:#f2f5f9;color:var(--ink)}
+  .spacer{flex:1}
+  .count{font-size:12.5px;color:var(--muted)}
+
+  #stage{position:absolute;inset:0;top:auto;height:calc(100% - 108px);width:100%}
+  #wrap{position:relative;height:calc(100vh - 108px);width:100%}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  canvas.drag{cursor:grabbing}
+
+  #panel{position:absolute;top:14px;right:14px;width:400px;max-width:calc(100% - 28px);
+         max-height:calc(100% - 28px);overflow:auto;background:var(--panel);border:1px solid var(--line);
+         border-radius:12px;box-shadow:0 8px 28px rgba(20,24,31,.16);padding:20px 22px;
+         transform:translateX(calc(100% + 24px));transition:transform .22s cubic-bezier(.4,0,.2,1);z-index:10}
+  #panel.on{transform:none}
+  #panel .close{position:absolute;top:12px;right:14px;border:0;background:none;font-size:22px;line-height:1;
+                color:var(--muted);cursor:pointer;padding:2px 6px}
+  #panel .close:hover{color:var(--ink)}
+  #panel h2{margin:0 6px 3px 0;font-size:17px;padding-right:22px;letter-spacing:-.01em}
+  #panel .num{font-size:12.5px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  #panel .meta{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 14px}
+  #panel .sum{font-size:14px;color:#39414d;margin:0 0 16px}
+  #panel h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+            margin:16px 0 7px;border-top:1px solid var(--line);padding-top:13px}
+  #panel ul{list-style:none;margin:0;padding:0}
+  #panel li{padding:5px 0;font-size:13.5px;display:flex;gap:8px;align-items:flex-start}
+  #panel li .rel{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+                 border:1px solid var(--line);border-radius:4px;padding:1px 5px;flex-shrink:0;margin-top:2px;min-width:88px;text-align:center}
+  #panel li a{color:var(--accent);text-decoration:none;cursor:pointer}
+  #panel li a:hover{text-decoration:underline}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+  .badge.g{background:#e6f5ee;color:#14663f} .badge.y{background:#fbf2dc;color:#87680d}
+  .badge.r{background:#fbeae8;color:#96291d} .badge.n{background:#eef2f7;color:#4a5567}
+  .badge.p{background:#eeecfb;color:#453a95}
+  #panel .ext{display:inline-block;margin-top:14px;font-size:13px;color:var(--accent);text-decoration:none}
+  #panel .ext:hover{text-decoration:underline}
+
+  /* lifted clear of the OS task bar / browser status bar at the bottom of the window */
+  #legend{position:absolute;left:14px;bottom:62px;background:rgba(255,255,255,.94);border:1px solid var(--line);
+          border-radius:10px;padding:11px 14px;font-size:12.5px;color:var(--muted);z-index:5;max-width:290px}
+  #legend .row{display:flex;align-items:center;gap:8px;margin:4px 0}
+  #legend .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+  #legend .ln{width:22px;height:0;border-top:2px solid #b7c0cb;flex-shrink:0}
+  #legend .ln.dash{border-top-style:dashed}
+  #legend .ln.dot2{border-top-style:dotted}
+  #legend .ln.fine{border-top:1px dashed #cfd6de}
+  #legend .hint{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.45}
+
+  #tip{position:absolute;pointer-events:none;background:#14181f;color:#fff;font-size:12.5px;
+       padding:5px 9px;border-radius:6px;opacity:0;transition:opacity .12s;z-index:8;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EU climate legislation map</h1>
+  <div class="tagline">Fit for 55 and the Green Deal core — how the acts connect, and what is still standing.</div>
+  <span class="links">
+    <a href="index.html">← Home</a>
+    <a href="benchmarks.html">Benchmarks</a>
+    <a href="legislation.html" aria-current="page">Legislation map</a>
+  </span>
+</header>
+
+<div class="bar">
+  <span class="seg">
+    <button id="mNet">Network</button><button id="mTime" class="on">Timeline</button>
+  </span>
+  <input type="search" id="q" placeholder="Search legislation…">
+  <select id="dom"></select>
+  <span class="chip" data-st="g"><span class="dot" style="background:var(--green)"></span>In force, unamended</span>
+  <span class="chip" data-st="y"><span class="dot" style="background:var(--yellow)"></span>In force, amended</span>
+  <span class="chip" data-st="r"><span class="dot" style="background:var(--red)"></span>Repealed or expired</span>
+  <span class="chip" data-st="p"><span class="dot ring" style="border-color:var(--violet)"></span>Proposed</span>
+  <button class="btn" id="reset">Reset view</button>
+  <div class="spacer"></div>
+  <span class="count" id="count"></span>
+</div>
+
+<div id="wrap">
+  <canvas id="cv"></canvas>
+  <div id="tip"></div>
+
+  <div id="legend">
+    <div class="row"><span class="dot" style="background:var(--green)"></span>In force, text as adopted</div>
+    <div class="row"><span class="dot" style="background:var(--yellow)"></span>In force, amended since adoption</div>
+    <div class="row"><span class="dot" style="background:var(--red)"></span>Repealed or expired</div>
+    <div class="row"><span class="dot ring"></span>Proposed, in negotiation</div>
+    <div class="row" style="margin-top:9px"><span class="ln"></span>amends</div>
+    <div class="row"><span class="ln dash"></span>repeals / replaces</div>
+    <div class="row"><span class="ln dot2"></span>implements / supplements</div>
+    <div class="row"><span class="ln fine"></span>relates to (no formal legal link)</div>
+    <div class="hint">Nodes are anchored to their year of adoption and grouped into policy-area lanes, so the
+      amendment arrows run left to right through time. Scroll to zoom, drag the background to pan.</div>
+  </div>
+
+  <div id="panel">
+    <button class="close" id="pClose" aria-label="Close">×</button>
+    <h2 id="pTitle"></h2>
+    <div class="num" id="pNum"></div>
+    <div class="meta" id="pMeta"></div>
+    <p class="sum" id="pSum"></p>
+    <div id="pRels"></div>
+    <a class="ext" id="pExt" target="_blank" rel="noopener">Open on EUR-Lex →</a>
+  </div>
+</div>
+
+<script>
+// ============================================================ DATA
+// st: g = in force as adopted · y = in force but amended · r = repealed/expired
+// rel: [type, targetId] — type: am (amends) · rp (repeals/replaces) · im (implements/supplements)
+const DOMS = {
+  fw:  {label:"Framework & governance", col:"#0b3d91"},
+  cp:  {label:"Carbon pricing",         col:"#c0392b"},
+  es:  {label:"Effort sharing & land",  col:"#2e8b57"},
+  tr:  {label:"Transport",              col:"#8e44ad"},
+  en:  {label:"Energy",                 col:"#d68910"},
+  ip:  {label:"Industry & products",    col:"#16a085"},
+  rf:  {label:"Reporting & finance",    col:"#34495e"}
+};
+
+const L = [
+// ---------- Framework & governance
+{id:"climatelaw", num:"Reg. (EU) 2021/1119", title:"European Climate Law", yr:2021, dom:"fw", st:"y",
+ eli:"reg/2021/1119",
+ sum:"Makes climate neutrality by 2050 legally binding and sets the 2030 target of at least −55% net emissions versus 1990. Establishes the European Scientific Advisory Board on Climate Change and a framework for indicative GHG budgets. Amended in 2026 to add the 2040 target.",
+ rel:[["am","gov"]]},
+{id:"cl2040", num:"Reg. (EU) 2026/667", title:"2040 target amendment to the Climate Law", yr:2026, dom:"fw", st:"g",
+ eli:"reg/2026/667",
+ sum:"Adds a binding 2040 target of −90% net emissions versus 1990, allows high-quality international credits up to 5% of 1990 net emissions from 2036, introduces biennial implementation reviews, and postpones the start of ETS2 by one year to 1 January 2028. In force since 7 April 2026.",
+ rel:[["am","climatelaw"],["am","ets"]]},
+{id:"gov", num:"Reg. (EU) 2018/1999", title:"Governance of the Energy Union", yr:2018, dom:"fw", st:"y",
+ eli:"reg/2018/1999",
+ sum:"The planning and reporting backbone: National Energy and Climate Plans, long-term strategies, biennial progress reports and the GHG inventory system. Nearly every later climate act plugs its reporting obligations into this regulation.",
+ rel:[]},
+{id:"eap8", num:"Decision (EU) 2022/591", title:"8th Environment Action Programme", yr:2022, dom:"fw", st:"g",
+ eli:"dec/2022/591",
+ sum:"Sets the EU's environmental priorities to 2030 and the monitoring framework for them, including climate mitigation and adaptation. Successor to the 7th EAP.",
+ rel:[["rp","eap7"],["rl","climatelaw"]]},
+{id:"eap7", num:"Decision No 1386/2013/EU", title:"7th Environment Action Programme", yr:2013, dom:"fw", st:"r",
+ eli:"dec/2013/1386",
+ sum:"Guided EU environment policy to 2020 under the banner 'Living well, within the limits of our planet'. Expired at the end of 2020 and superseded by the 8th EAP.",
+ rel:[]},
+
+// ---------- Carbon pricing
+{id:"ets", num:"Dir. 2003/87/EC", title:"EU Emissions Trading System Directive", yr:2003, dom:"cp", st:"y",
+ eli:"dir/2003/87",
+ sum:"The founding act of the EU carbon market, and the most heavily amended piece of EU climate law. Establishes the cap-and-trade system for power, industry, aviation and — since 2024 — maritime transport, together with the rules on allocation, monitoring and surrender.",
+ rel:[]},
+{id:"link04", num:"Dir. 2004/101/EC", title:"Linking Directive", yr:2004, dom:"cp", st:"g",
+ eli:"dir/2004/101",
+ sum:"Allowed operators to use Kyoto Protocol credits (CERs and ERUs) from the Clean Development Mechanism and Joint Implementation for compliance. International credits have since been excluded from the EU ETS.",
+ rel:[["am","ets"]]},
+{id:"avi08", num:"Dir. 2008/101/EC", title:"Aviation in the EU ETS", yr:2008, dom:"cp", st:"g",
+ eli:"dir/2008/101",
+ sum:"Brought aviation into the EU ETS from 2012. Its full application to flights to and from third countries was suspended after international objections — the origin of the long-running 'stop the clock' derogations.",
+ rel:[["am","ets"]]},
+{id:"p3", num:"Dir. 2009/29/EC", title:"Phase 3 revision of the ETS", yr:2009, dom:"cp", st:"g",
+ eli:"dir/2009/29",
+ sum:"Created the modern ETS architecture from 2013: a single EU-wide cap declining by a linear reduction factor, auctioning as the default allocation method, and harmonised benchmark-based free allocation replacing national allocation plans.",
+ rel:[["am","ets"]]},
+{id:"p4", num:"Dir. (EU) 2018/410", title:"Phase 4 revision of the ETS", yr:2018, dom:"cp", st:"g",
+ eli:"dir/2018/410",
+ sum:"Set the 2021–2030 rules: linear reduction factor raised to 2.2%, benchmarks updated twice per decade, a tighter carbon leakage list, and the Innovation and Modernisation Funds.",
+ rel:[["am","ets"],["am","msr"]]},
+{id:"avi17", num:"Reg. (EU) 2017/2392", title:"Aviation derogation extension", yr:2017, dom:"cp", st:"g",
+ eli:"reg/2017/2392",
+ sum:"Extended the limitation of the ETS to intra-EEA flights while ICAO developed CORSIA, and set out how the EU would respond to that scheme.",
+ rel:[["am","ets"]]},
+{id:"avi23", num:"Dir. (EU) 2023/958", title:"Aviation revision and CORSIA", yr:2023, dom:"cp", st:"g",
+ eli:"dir/2023/958",
+ sum:"Phases out free allocation for aviation by 2026, implements CORSIA for extra-EEA flights, and introduces monitoring and reporting of non-CO₂ aviation effects from 2025.",
+ rel:[["am","ets"]]},
+{id:"ets23", num:"Dir. (EU) 2023/959", title:"ETS revision, maritime and ETS2", yr:2023, dom:"cp", st:"g",
+ eli:"dir/2023/959",
+ sum:"The Fit for 55 overhaul: a 62% reduction target for ETS sectors by 2030, a one-off cap rebasing, extension to maritime transport, the CBAM-linked phase-out of free allocation to 2034, and the creation of ETS2 for buildings and road transport fuels.",
+ rel:[["am","ets"],["am","msr"]]},
+{id:"msr", num:"Decision (EU) 2015/1814", title:"Market Stability Reserve", yr:2015, dom:"cp", st:"y",
+ eli:"dec/2015/1814",
+ sum:"Absorbs surplus allowances into a reserve when the total number in circulation crosses defined thresholds, and releases them when it falls below. The main structural answer to the post-2008 allowance glut.",
+ rel:[]},
+{id:"far", num:"Del. Reg. (EU) 2019/331", title:"Free Allocation Regulation", yr:2019, dom:"cp", st:"y",
+ eli:"reg_del/2019/331",
+ sum:"Defines the 54 benchmarks, their product definitions and system boundaries, the sub-installation logic and the rules for determining historical activity levels. The rulebook that turns a benchmark value into an allocation.",
+ rel:[["im","ets"],["rp","bmdec"]]},
+{id:"far24", num:"Del. Reg. (EU) 2024/873", title:"Free Allocation Regulation amendment", yr:2024, dom:"cp", st:"g",
+ eli:"reg_del/2024/873",
+ sum:"Updates benchmark definitions and system boundaries: sintered ore becomes agglomerated iron ore, hot metal covers direct-reduction steelmaking, cement clinker covers alternative hydraulic binders, and hydrogen and ammonia cover electrolytic hydrogen.",
+ rel:[["am","far"]]},
+{id:"bmdec", num:"Decision 2011/278/EU", title:"Benchmarking Decision", yr:2011, dom:"cp", st:"r",
+ eli:"dec/2011/278",
+ sum:"Set the original 54 benchmark values for 2013–2020, derived from 2007–2008 performance data. Repealed and replaced by the Free Allocation Regulation from 2021, but still the numerical starting point from which every later benchmark reduction is calculated.",
+ rel:[["im","ets"]]},
+{id:"bm21", num:"Impl. Reg. (EU) 2021/447", title:"Benchmark values 2021–2025", yr:2021, dom:"cp", st:"y",
+ eli:"reg_impl/2021/447",
+ sum:"The revised benchmark values for the second phase-4 allocation period, based on verified 2016–2017 performance of the 10% most efficient installations, with the total reduction bounded between 3% and 24%.",
+ rel:[["im","far"]]},
+{id:"bm26a", num:"Impl. Reg. (EU) 2026/389", title:"Soda ash benchmark amendment", yr:2026, dom:"cp", st:"g",
+ eli:"reg_impl/2026/389",
+ sum:"Amends the 2021–2025 benchmark values to redetermine the soda ash benchmark for 2025, following the revised definition of 'emissions' introduced by the 2023 ETS revision.",
+ rel:[["am","bm21"]]},
+{id:"bm26", num:"Impl. Reg. (EU) 2026/1412", title:"Benchmark values 2026–2030", yr:2026, dom:"cp", st:"g",
+ eli:"reg_impl/2026/1412",
+ sum:"The current benchmark values, based on verified 2021–2022 performance with the total reduction bounded between 6% and 50%. Free allocation falls by more than 16% on average against 2021; the heat and fuel fall-backs each drop 34%.",
+ rel:[["im","far"]]},
+{id:"mrr", num:"Impl. Reg. (EU) 2018/2066", title:"Monitoring and Reporting Regulation", yr:2018, dom:"cp", st:"y",
+ eli:"reg_impl/2018/2066",
+ sum:"Governs how installations and operators monitor, calculate and report greenhouse gas emissions under the ETS — the measurement layer beneath every allocation and surrender obligation.",
+ rel:[["im","ets"]]},
+{id:"mrr23", num:"Impl. Reg. (EU) 2023/2122", title:"MRR update for the 2023 ETS revision", yr:2023, dom:"cp", st:"g",
+ eli:"reg_impl/2023/2122",
+ sum:"Adapts monitoring and reporting to the revised ETS scope, including maritime transport and the revised definition of emissions.",
+ rel:[["am","mrr"]]},
+{id:"avr", num:"Impl. Reg. (EU) 2018/2067", title:"Accreditation and Verification Regulation", yr:2018, dom:"cp", st:"y",
+ eli:"reg_impl/2018/2067",
+ sum:"Sets the requirements for independent verification of ETS emissions reports and for the accreditation of verifiers.",
+ rel:[["im","ets"]]},
+{id:"alloc19", num:"Impl. Reg. (EU) 2019/1842", title:"Allocation adjustment rules", yr:2019, dom:"cp", st:"y",
+ eli:"reg_impl/2019/1842",
+ sum:"Governs how free allocation is adjusted when an installation's activity level changes materially against its baseline — the mechanism that links allocation to real production year by year.",
+ rel:[["im","ets"],["im","far"]]},
+{id:"auct10", num:"Reg. (EU) No 1031/2010", title:"Auctioning Regulation (2010)", yr:2010, dom:"cp", st:"r",
+ eli:"reg/2010/1031",
+ sum:"Governed the timing, administration and format of allowance auctions from phase 3. Repealed and replaced in 2023 to accommodate maritime coverage and ETS2.",
+ rel:[["im","ets"]]},
+{id:"auct23", num:"Del. Reg. (EU) 2023/2830", title:"Auctioning Regulation (2023)", yr:2023, dom:"cp", st:"g",
+ eli:"reg_del/2023/2830",
+ sum:"The current auctioning rulebook: auction calendars, products, bidding, clearing price determination and the common auction platform, covering both the main ETS and ETS2.",
+ rel:[["im","ets"],["rp","auct10"]]},
+{id:"reg19", num:"Del. Reg. (EU) 2019/1122", title:"Union Registry Regulation", yr:2019, dom:"cp", st:"y",
+ eli:"reg_del/2019/1122",
+ sum:"Governs the Union Registry — the accounts in which allowances are held, transferred and surrendered, and the compliance status of every operator.",
+ rel:[["im","ets"]]},
+{id:"cbam", num:"Reg. (EU) 2023/956", title:"Carbon Border Adjustment Mechanism", yr:2023, dom:"cp", st:"y",
+ eli:"reg/2023/956",
+ sum:"Prices embedded carbon in imports of cement, iron and steel, aluminium, fertilisers, electricity and hydrogen, mirroring the ETS carbon price as free allocation is withdrawn. Transitional reporting ran 2023–2025; the definitive regime began on 1 January 2026.",
+ rel:[["im","ets"]]},
+{id:"cbam25", num:"Reg. (EU) 2025/2083", title:"CBAM simplification (Omnibus)", yr:2025, dom:"cp", st:"g",
+ eli:"reg/2025/2083",
+ sum:"Cuts administrative burden ahead of the compliance phase: a single 50-tonne cumulative mass threshold exempting most small importers, and the annual declaration deadline moved from 31 May to 30 September.",
+ rel:[["am","cbam"]]},
+{id:"scf", num:"Reg. (EU) 2023/955", title:"Social Climate Fund", yr:2023, dom:"cp", st:"g",
+ eli:"reg/2023/955",
+ sum:"Channels ETS2 revenues to vulnerable households, micro-enterprises and transport users through national Social Climate Plans, to cushion the distributional impact of carbon pricing on heating and road fuels.",
+ rel:[["im","ets23"]]},
+
+// ---------- Effort sharing & land use
+{id:"esd", num:"Decision No 406/2009/EC", title:"Effort Sharing Decision", yr:2009, dom:"es", st:"r",
+ eli:"dec/2009/406",
+ sum:"Set binding national targets for sectors outside the ETS for 2013–2020. Superseded by the Effort Sharing Regulation for the period from 2021.",
+ rel:[]},
+{id:"esr", num:"Reg. (EU) 2018/842", title:"Effort Sharing Regulation", yr:2018, dom:"es", st:"y",
+ eli:"reg/2018/842",
+ sum:"Binding annual national emission targets for the sectors outside the ETS — transport, buildings, agriculture, small industry and waste — with limited banking, borrowing and transfer flexibilities between member states.",
+ rel:[["rp","esd"]]},
+{id:"esr23", num:"Reg. (EU) 2023/857", title:"Effort Sharing revision", yr:2023, dom:"es", st:"g",
+ eli:"reg/2023/857",
+ sum:"Raises the collective non-ETS target to −40% by 2030 versus 2005 and redistributes national targets, which now range from −10% to −50%.",
+ rel:[["am","esr"],["am","gov"]]},
+{id:"lulucf", num:"Reg. (EU) 2018/841", title:"LULUCF Regulation", yr:2018, dom:"es", st:"y",
+ eli:"reg/2018/841",
+ sum:"Brings land use, land use change and forestry into the 2030 framework, originally under a 'no debit' rule requiring accounted emissions not to exceed removals.",
+ rel:[["rp","lulucfdec"]]},
+{id:"lulucf23", num:"Reg. (EU) 2023/839", title:"LULUCF revision", yr:2023, dom:"es", st:"g",
+ eli:"reg/2023/839",
+ sum:"Replaces the no-debit rule with a binding EU net removals target of 310 Mt CO₂e by 2030, distributed as national targets, and simplifies the accounting to reported inventory figures.",
+ rel:[["am","lulucf"]]},
+{id:"lulucfdec", num:"Decision No 529/2013/EU", title:"LULUCF accounting rules", yr:2013, dom:"es", st:"r",
+ eli:"dec/2013/529",
+ sum:"Established accounting rules and action-plan reporting for land use emissions and removals, ahead of the sector's full integration into the climate framework.",
+ rel:[]},
+{id:"crcf", num:"Reg. (EU) 2024/3012", title:"Carbon Removals Certification Framework", yr:2024, dom:"es", st:"g",
+ eli:"reg/2024/3012",
+ sum:"The first EU-wide voluntary framework for certifying permanent carbon removals, carbon farming and carbon storage in products, with QU.A.L.ITY criteria for quantification, additionality, storage and sustainability.",
+ rel:[["im","climatelaw"],["rl","lulucf"]]},
+
+// ---------- Transport
+{id:"cars09", num:"Reg. (EC) No 443/2009", title:"CO₂ standards for cars (2009)", yr:2009, dom:"tr", st:"r",
+ eli:"reg/2009/443",
+ sum:"The first binding EU fleet-average CO₂ target for new passenger cars, set at 130 g/km. Repealed and recast in 2019.",
+ rel:[]},
+{id:"vans11", num:"Reg. (EU) No 510/2011", title:"CO₂ standards for vans (2011)", yr:2011, dom:"tr", st:"r",
+ eli:"reg/2011/510",
+ sum:"Extended fleet-average CO₂ targets to new light commercial vehicles. Repealed and merged with the car standards in 2019.",
+ rel:[]},
+{id:"cars19", num:"Reg. (EU) 2019/631", title:"CO₂ standards for cars and vans", yr:2019, dom:"tr", st:"y",
+ eli:"reg/2019/631",
+ sum:"The single recast framework of fleet-wide CO₂ targets for new cars and vans, with manufacturer-specific targets, pooling and the excess emissions premium.",
+ rel:[["rp","cars09"],["rp","vans11"]]},
+{id:"cars23", num:"Reg. (EU) 2023/851", title:"2035 zero-emission standard", yr:2023, dom:"tr", st:"g",
+ eli:"reg/2023/851",
+ sum:"Sets a 100% CO₂ reduction for new cars and vans from 2035 — effectively ending sales of new combustion vehicles — with a −55% interim target for cars in 2030.",
+ rel:[["am","cars19"]]},
+{id:"cars25", num:"Reg. (EU) 2025/1214", title:"2025–2027 compliance flexibility", yr:2025, dom:"tr", st:"g",
+ eli:"reg/2025/1214",
+ sum:"Lets manufacturers meet the 2025 target on a three-year average across 2025–2027 rather than annually, after a sharp step-down in the target coincided with slower EV uptake.",
+ rel:[["am","cars19"]]},
+{id:"hdv19", num:"Reg. (EU) 2019/1242", title:"CO₂ standards for heavy-duty vehicles", yr:2019, dom:"tr", st:"y",
+ eli:"reg/2019/1242",
+ sum:"The first CO₂ standards for new trucks, initially −15% by 2025 and −30% by 2030 against a 2019–2020 reference.",
+ rel:[["rl","esr"]]},
+{id:"hdv24", num:"Reg. (EU) 2024/1610", title:"Heavy-duty CO₂ revision", yr:2024, dom:"tr", st:"g",
+ eli:"reg/2024/1610",
+ sum:"Raises heavy-duty targets to −45% by 2030, −65% by 2035 and −90% by 2040, and extends scope to trailers, buses, vocational vehicles and smaller trucks.",
+ rel:[["am","hdv19"]]},
+{id:"mrvship", num:"Reg. (EU) 2015/757", title:"Shipping MRV Regulation", yr:2015, dom:"tr", st:"y",
+ eli:"reg/2015/757",
+ sum:"Requires monitoring, reporting and verification of CO₂ emissions from large ships calling at EEA ports. The data infrastructure that made maritime's later inclusion in the ETS possible.",
+ rel:[["rl","ets23"]]},
+{id:"mrv23", num:"Reg. (EU) 2023/957", title:"Shipping MRV revision", yr:2023, dom:"tr", st:"g",
+ eli:"reg/2023/957",
+ sum:"Extends shipping MRV to methane and nitrous oxide and to offshore vessels, aligning it with the inclusion of maritime transport in the ETS.",
+ rel:[["am","mrvship"],["im","ets23"]]},
+{id:"fueleu", num:"Reg. (EU) 2023/1805", title:"FuelEU Maritime", yr:2023, dom:"tr", st:"g",
+ eli:"reg/2023/1805",
+ sum:"Sets a declining limit on the greenhouse gas intensity of energy used on board ships, from −2% in 2025 to −80% by 2050, plus onshore power requirements at berth.",
+ rel:[["rl","ets23"]]},
+{id:"refuel", num:"Reg. (EU) 2023/2405", title:"ReFuelEU Aviation", yr:2023, dom:"tr", st:"g",
+ eli:"reg/2023/2405",
+ sum:"Obliges EU airports and fuel suppliers to blend sustainable aviation fuel, rising from 2% in 2025 to 70% by 2050, with a sub-target for synthetic e-fuels.",
+ rel:[["rl","avi23"]]},
+{id:"afir", num:"Reg. (EU) 2023/1804", title:"Alternative Fuels Infrastructure Regulation", yr:2023, dom:"tr", st:"g",
+ eli:"reg/2023/1804",
+ sum:"Binding national targets for recharging and hydrogen refuelling infrastructure along the TEN-T network, plus shore-side electricity at ports and airports. Converts the earlier directive into directly applicable law.",
+ rel:[["rp","afid"],["rl","cars23"]]},
+{id:"afid", num:"Dir. 2014/94/EU", title:"Alternative Fuels Infrastructure Directive", yr:2014, dom:"tr", st:"r",
+ eli:"dir/2014/94",
+ sum:"Required member states to set national infrastructure targets for alternative fuels, but left the level of ambition to them. Replaced by the binding AFIR in 2023.",
+ rel:[]},
+
+// ---------- Energy
+{id:"red2", num:"Dir. (EU) 2018/2001", title:"Renewable Energy Directive II", yr:2018, dom:"en", st:"y",
+ eli:"dir/2018/2001",
+ sum:"Set a 32% renewables target for 2030, sustainability criteria for bioenergy, and rules on guarantees of origin, renewable fuels of non-biological origin and self-consumption.",
+ rel:[]},
+{id:"red3", num:"Dir. (EU) 2023/2413", title:"Renewable Energy Directive III", yr:2023, dom:"en", st:"g",
+ eli:"dir/2023/2413",
+ sum:"Raises the 2030 renewables target to 42.5% with a 45% aspiration, adds binding sub-targets for industry and transport, and introduces permitting acceleration and renewables acceleration areas.",
+ rel:[["am","red2"],["am","gov"]]},
+{id:"eed12", num:"Dir. 2012/27/EU", title:"Energy Efficiency Directive (2012)", yr:2012, dom:"en", st:"r",
+ eli:"dir/2012/27",
+ sum:"Established the energy savings obligation, energy audits and public-sector renovation duties. Recast in 2023.",
+ rel:[]},
+{id:"eed23", num:"Dir. (EU) 2023/1791", title:"Energy Efficiency Directive (recast)", yr:2023, dom:"en", st:"g",
+ eli:"dir/2023/1791",
+ sum:"Makes the EU energy efficiency target binding for the first time — an 11.7% reduction in final energy consumption by 2030 — and enshrines the energy efficiency first principle.",
+ rel:[["rp","eed12"]]},
+{id:"epbd10", num:"Dir. 2010/31/EU", title:"Energy Performance of Buildings Directive (2010)", yr:2010, dom:"en", st:"r",
+ eli:"dir/2010/31",
+ sum:"Introduced nearly zero-energy buildings, energy performance certificates and minimum performance requirements. Recast in 2024, with repeal phased through 2026.",
+ rel:[]},
+{id:"epbd24", num:"Dir. (EU) 2024/1275", title:"Energy Performance of Buildings Directive (recast)", yr:2024, dom:"en", st:"g",
+ eli:"dir/2024/1275",
+ sum:"Requires zero-emission new buildings, sets national renovation trajectories for the worst-performing stock, and phases out fossil fuel boiler subsidies from 2025.",
+ rel:[["rp","epbd10"],["rl","eed23"]]},
+{id:"etd", num:"Dir. 2003/96/EC", title:"Energy Taxation Directive", yr:2003, dom:"en", st:"y",
+ eli:"dir/2003/96",
+ sum:"Sets minimum excise rates for energy products and electricity. Still based on volume rather than energy content or carbon intensity — the Fit for 55 proposal to recast it remains unadopted, making this the package's most conspicuous gap.",
+ rel:[["rl","ets"]]},
+{id:"methane", num:"Reg. (EU) 2024/1787", title:"Methane Emissions Regulation", yr:2024, dom:"en", st:"g",
+ eli:"reg/2024/1787",
+ sum:"First EU rules on methane in the energy sector: measurement and reporting, leak detection and repair, limits on venting and flaring, and from 2030 a maximum methane intensity for imported fossil fuels.",
+ rel:[["am","gov"]]},
+{id:"tene22", num:"Reg. (EU) 2022/869", title:"TEN-E Regulation", yr:2022, dom:"en", st:"g",
+ eli:"reg/2022/869",
+ sum:"Revised rules for trans-European energy infrastructure, ending support for new fossil gas projects and prioritising offshore grids, hydrogen networks and CO₂ transport.",
+ rel:[["rp","tene13"],["rl","red3"]]},
+{id:"tene13", num:"Reg. (EU) No 347/2013", title:"TEN-E Regulation (2013)", yr:2013, dom:"en", st:"r",
+ eli:"reg/2013/347",
+ sum:"The earlier energy infrastructure framework and its Projects of Common Interest lists, which still included fossil gas corridors. Repealed in 2022.",
+ rel:[]},
+{id:"gasdir", num:"Dir. (EU) 2024/1788", title:"Gas and Hydrogen Market Directive", yr:2024, dom:"en", st:"g",
+ eli:"dir/2024/1788",
+ sum:"Recasts the internal gas market rules to cover renewable and low-carbon gases and to establish a regulatory framework for dedicated hydrogen networks.",
+ rel:[]},
+{id:"gasreg", num:"Reg. (EU) 2024/1789", title:"Gas and Hydrogen Market Regulation", yr:2024, dom:"en", st:"g",
+ eli:"reg/2024/1789",
+ sum:"The companion regulation on access to gas and hydrogen networks, including tariff rules, the European Network of Network Operators for Hydrogen and a low-carbon fuels certification scheme.",
+ rel:[["rl","gasdir"]]},
+
+// ---------- Industry & products
+{id:"nzia", num:"Reg. (EU) 2024/1735", title:"Net-Zero Industry Act", yr:2024, dom:"ip", st:"g",
+ eli:"reg/2024/1735",
+ sum:"Targets 40% domestic manufacturing capacity for net-zero technologies by 2030 and an annual CO₂ injection capacity of 50 Mt, with faster permitting and non-price criteria in public procurement and renewables auctions.",
+ rel:[["rl","ets"]]},
+{id:"crma", num:"Reg. (EU) 2024/1252", title:"Critical Raw Materials Act", yr:2024, dom:"ip", st:"g",
+ eli:"reg/2024/1252",
+ sum:"Benchmarks for extraction, processing and recycling of strategic raw materials and a cap on single-country import dependence — the supply-side complement to the industrial decarbonisation acts.",
+ rel:[["rl","nzia"]]},
+{id:"fgas24", num:"Reg. (EU) 2024/573", title:"F-gas Regulation", yr:2024, dom:"ip", st:"g",
+ eli:"reg/2024/573",
+ sum:"Phases out hydrofluorocarbon consumption entirely by 2050, with a steep quota decline from 2025 and product-specific bans. Aligns EU law with the Kigali Amendment and goes beyond it.",
+ rel:[["rp","fgas14"]]},
+{id:"fgas14", num:"Reg. (EU) No 517/2014", title:"F-gas Regulation (2014)", yr:2014, dom:"ip", st:"r",
+ eli:"reg/2014/517",
+ sum:"Introduced the HFC phase-down quota system and containment obligations. Repealed and tightened in 2024.",
+ rel:[]},
+{id:"ods24", num:"Reg. (EU) 2024/590", title:"Ozone-Depleting Substances Regulation", yr:2024, dom:"ip", st:"g",
+ eli:"reg/2024/590",
+ sum:"Recasts the ODS rules and, for the first time, requires recovery or destruction of ozone-depleting substances banked in building insulation foams — a significant hidden emissions source.",
+ rel:[["rp","ods09"]]},
+{id:"ods09", num:"Reg. (EC) No 1005/2009", title:"Ozone-Depleting Substances Regulation (2009)", yr:2009, dom:"ip", st:"r",
+ eli:"reg/2009/1005",
+ sum:"Implemented the Montreal Protocol in EU law, controlling production, trade and use of CFCs, halons and HCFCs. Repealed and recast in 2024.",
+ rel:[]},
+{id:"ied", num:"Dir. 2010/75/EU", title:"Industrial Emissions Directive", yr:2010, dom:"ip", st:"y",
+ eli:"dir/2010/75",
+ sum:"Permits and best available techniques for large industrial installations. Its interaction with the ETS matters: installations covered by both are generally exempt from IED energy efficiency requirements for CO₂.",
+ rel:[]},
+{id:"ied24", num:"Dir. (EU) 2024/1785", title:"Industrial Emissions Directive revision", yr:2024, dom:"ip", st:"g",
+ eli:"dir/2024/1785",
+ sum:"Extends scope to more intensive livestock rearing and battery manufacture, tightens permit conditions towards the best end of BAT ranges, and adds transformation plans towards climate neutrality by 2050.",
+ rel:[["am","ied"]]},
+{id:"eudr", num:"Reg. (EU) 2023/1115", title:"Deforestation Regulation", yr:2023, dom:"ip", st:"y",
+ eli:"reg/2023/1115",
+ sum:"Bans placing cattle, cocoa, coffee, palm oil, rubber, soy and wood on the EU market unless deforestation-free and geolocated to the plot of production. Application has been postponed twice.",
+ rel:[]},
+{id:"eudr25", num:"Reg. (EU) 2025/2650", title:"Deforestation Regulation postponement", yr:2025, dom:"ip", st:"g",
+ eli:"reg/2025/2650",
+ sum:"Delays application of the main EUDR obligations by a further year, to 30 December 2026 for large operators and 30 June 2027 for micro and small enterprises.",
+ rel:[["am","eudr"]]},
+{id:"nrl", num:"Reg. (EU) 2024/1991", title:"Nature Restoration Regulation", yr:2024, dom:"ip", st:"g",
+ eli:"reg/2024/1991",
+ sum:"Binding restoration targets covering 20% of EU land and sea by 2030, including rewetting of drained peatlands — which links it directly to the LULUCF sink target.",
+ rel:[["rl","lulucf"]]},
+
+// ---------- Reporting & finance
+{id:"tax", num:"Reg. (EU) 2020/852", title:"Taxonomy Regulation", yr:2020, dom:"rf", st:"y",
+ eli:"reg/2020/852",
+ sum:"Defines when an economic activity counts as environmentally sustainable, through technical screening criteria for substantial contribution and do-no-significant-harm. The classification layer under most EU sustainable finance rules.",
+ rel:[]},
+{id:"nfrd", num:"Dir. 2014/95/EU", title:"Non-Financial Reporting Directive", yr:2014, dom:"rf", st:"r",
+ eli:"dir/2014/95",
+ sum:"The first EU requirement for large public-interest entities to disclose non-financial information, including environmental and climate matters. It covered around 11 700 companies and left the reporting format largely to them, which made disclosures hard to compare — the weakness the CSRD was written to fix. Formally an amending directive that inserted the regime into the Accounting Directive 2013/34/EU; the CSRD replaced that regime from financial year 2024, so it is shown here as superseded rather than repealed as a standalone instrument.",
+ rel:[]},
+{id:"csrd", num:"Dir. (EU) 2022/2464", title:"Corporate Sustainability Reporting Directive", yr:2022, dom:"rf", st:"y",
+ eli:"dir/2022/2464",
+ sum:"Requires large and listed companies to report against the European Sustainability Reporting Standards, including Scope 1–3 emissions and transition plans, with assurance. Extends the reporting population from roughly 11 700 companies under the NFRD to more than 50 000.",
+ rel:[["rl","tax"],["rp","nfrd"]]},
+{id:"stopclock", num:"Dir. (EU) 2025/794", title:"CSRD and CSDDD 'stop-the-clock'", yr:2025, dom:"rf", st:"g",
+ eli:"dir/2025/794",
+ sum:"Postpones sustainability reporting obligations by two years for the second and third waves of companies, part of the 2025 Omnibus simplification drive.",
+ rel:[["am","csrd"]]},
+
+// ---------- Proposals currently in the legislative procedure
+{id:"p_ets5", num:"COM(2026) 616", title:"EU ETS review — Phase 5, 2031–2040", yr:2026, dom:"cp", st:"p",
+ prop:"Tabled 17 July 2026 · ordinary legislative procedure",
+ url:"https://climate.ec.europa.eu/document/download/c0b4ca8e-0e12-4b4e-9976-98c0b4224410_en",
+ sum:"The most consequential ETS reform since 2005. Sets the Phase 5 framework aligned to the 2040 target: linear reduction factor of 3.7% for 2031–35 then 1.7%, free allocation extended to 2040 but conditional from 2031 on a verified decarbonisation investment plan, CBAM free allocation phase-out slowed and stretched to 2038, benchmark update rules for 2031–35 and 2036–40, a 4% cross-sectoral correction factor buffer, waste incineration brought into scope from 2031, aviation extended to flights within 5,000 km from 2029, maritime extended to 400–5,000 GT vessels, permanent carbon removals integrated via a 250 Mt cap increase, and a new Industrial Decarbonisation Bank from 2028. Agreement targeted for Q1 2027.",
+ rel:[["am","ets"],["am","msr"],["rl","cl2040"],["rl","crcf"]]},
+{id:"p_fb", num:"COM(2026) 619", title:"Fall-back benchmark uplift for 2026–2030", yr:2026, dom:"cp", st:"p",
+ prop:"Tabled 17 July 2026 · ordinary legislative procedure",
+ url:"https://climate.ec.europa.eu/document/download/672f0f66-a1c2-41d4-a6d6-ff82fea1eb62_en",
+ sum:"Separate proposal tabled alongside the ETS review. Relaxes the maximum annual reduction rate applied to the heat and fuel fall-back benchmarks for the current period, unlocking roughly 80 million additional allowances — about €6 bn — for energy-intensive industry. Oil and gas activities are excluded and stay on the existing rate. If adopted it would directly change the heat and fuel values in the 2026–2030 benchmark regulation.",
+ rel:[["am","bm26"],["rl","p_ets5"]]},
+{id:"p_msr", num:"COM(2026) 153", title:"MSR invalidation amendment", yr:2026, dom:"cp", st:"p",
+ prop:"Tabled 1 April 2026 · ordinary legislative procedure",
+ url:"https://climate.ec.europa.eu/document/download/ea54bb9d-505e-47ec-b81e-f635443182d3_en?filename=COM_2026_153_1_EN_ACT_part1_v4.pdf",
+ sum:"Ends the invalidation mechanism under which allowances held in the Market Stability Reserve above 400 million are cancelled, retaining them instead as a buffer against future supply tightness. The July ETS review supplements this with dynamic thresholds, a new lower buffer and a halved intake rate.",
+ rel:[["am","msr"],["rl","p_ets5"]]},
+{id:"p_cbamx", num:"CBAM scope extension", title:"CBAM downstream goods and anti-avoidance", yr:2025, dom:"cp", st:"p",
+ prop:"Tabled December 2025 · ordinary legislative procedure",
+ url:"https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
+ sum:"Extends CBAM to around 180 steel- and aluminium-intensive downstream products from 1 January 2028, and adds anti-avoidance measures against misdeclared emission intensities — including closing the 'scrap loophole' by potentially bringing pre-consumer steel and aluminium scrap into scope.",
+ rel:[["am","cbam"]]},
+{id:"p_etd", num:"COM(2021) 563", title:"Energy Taxation Directive recast", yr:2021, dom:"en", st:"p",
+ prop:"Tabled 14 July 2021 · unanimity in Council, still unadopted",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52021PC0563",
+ sum:"Would shift energy taxation from volume to energy content and environmental performance, rank fuels by emissions and remove fossil fuel exemptions. Tabled as part of Fit for 55 in July 2021 and still stuck after five years, because tax files need unanimity in Council. The package's longest-running gap.",
+ rel:[["rp","etd"]]}
+];
+
+// ============================================================ GRAPH SETUP
+const RELLBL={am:"amends", rp:"repeals", im:"implements", rl:"relates to"};
+// a proposal has not done anything yet — its links are conditional
+const PROPLBL={am:"would amend", rp:"would repeal", im:"would implement", rl:"relates to"};
+const relLabel = e => (byId[e.s].st==="p" ? PROPLBL : RELLBL)[e.type];
+const byId=Object.fromEntries(L.map(d=>[d.id,d]));
+const EDGES=[];
+L.forEach(s=>(s.rel||[]).forEach(([t,tid])=>{
+  if(byId[tid]) EDGES.push({s:s.id,t:tid,type:t});
+}));
+// yellow acts whose amending act is not itself in this map
+// only acts already adopted count — a pending proposal has not amended anything yet
+const AMENDED_IN_MAP=new Set(EDGES.filter(e=>e.type==="am"&&byId[e.s].st!=="p").map(e=>e.t));
+// degree drives node size
+L.forEach(d=>d.deg=0);
+EDGES.forEach(e=>{byId[e.s].deg++; byId[e.t].deg++;});
+const NBR={}; L.forEach(d=>NBR[d.id]=new Set());
+EDGES.forEach(e=>{NBR[e.s].add(e.t); NBR[e.t].add(e.s);});
+
+const STCOL={g:"#1f8a5f", y:"#d9a520", r:"#c0392b", p:"#6b5bd2"};
+const STLBL={g:"In force, as adopted", y:"In force, amended", r:"Repealed or expired", p:"Proposed, not yet adopted"};
+
+// initial layout: rough domain clusters on a circle, so the simulation starts sane
+const domKeys=Object.keys(DOMS);
+L.forEach((d,i)=>{
+  const k=domKeys.indexOf(d.dom), a=k/domKeys.length*Math.PI*2;
+  d.x=Math.cos(a)*260+(Math.random()-.5)*140;
+  d.y=Math.sin(a)*260+(Math.random()-.5)*140;
+  d.vx=0; d.vy=0; d.r=7+Math.min(11,d.deg*1.5);
+});
+
+// ============================================================ CANVAS
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+let W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+let view={x:0,y:0,k:1};
+function resize(){
+  const r=cv.getBoundingClientRect(); W=r.width; H=r.height;
+  cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+new ResizeObserver(resize).observe(cv); resize();
+
+let hover=null, selected=null, dragNode=null, panning=false, last={x:0,y:0}, moved=false;
+let mode="timeline";
+const filt={q:"", dom:"", st:new Set(["g","y","r","p"])};
+
+// ---- timeline geometry: x = adoption year, y = policy-area lane
+const YR0=Math.min(...L.map(d=>d.yr)), YR1=Math.max(...L.map(d=>d.yr));
+const XSP=92, LANE=112;
+const tx = yr => (yr-(YR0+YR1)/2)*XSP;
+const ty = dom => (domKeys.indexOf(dom)-(domKeys.length-1)/2)*LANE;
+const TL_W=(YR1-YR0)*XSP, TL_H=(domKeys.length-1)*LANE;
+
+function fitView(){
+  if(mode==="force"){ view={x:0,y:0,k:1}; return; }
+  const k=Math.min((W-40)/(TL_W+340), (H-40)/(TL_H+200));
+  // shift left so the lane labels on the right stay on screen
+  view={x:-95, y:-26, k:Math.max(0.2,Math.min(2,k))};
+}
+
+const visible = d =>
+  filt.st.has(d.st) &&
+  (!filt.dom || d.dom===filt.dom) &&
+  (!filt.q || (d.title+" "+d.num+" "+d.sum).toLowerCase().includes(filt.q));
+
+function toWorld(px,py){ return {x:(px-W/2)/view.k-view.x, y:(py-H/2)/view.k-view.y}; }
+function toScreen(x,y){ return {x:(x+view.x)*view.k+W/2, y:(y+view.y)*view.k+H/2}; }
+
+// ------------------------------------------------ force simulation
+function step(){
+  const vis=L.filter(visible);
+  const TL = mode==="timeline";
+  // repulsion / collision
+  for(let i=0;i<vis.length;i++) for(let j=i+1;j<vis.length;j++){
+    const a=vis[i],b=vis[j];
+    let dx=b.x-a.x, dy=b.y-a.y, d2=dx*dx+dy*dy||0.01;
+    const minD=(a.r+b.r+(TL?9:14));
+    let f=(TL?520:2600)/d2;
+    if(d2<minD*minD) f+=(minD-Math.sqrt(d2))*(TL?0.34:0.28);
+    const d=Math.sqrt(d2); dx/=d; dy/=d;
+    a.vx-=dx*f; a.vy-=dy*f; b.vx+=dx*f; b.vy+=dy*f;
+  }
+  if(TL){
+    // anchor hard to the year, softly to the policy-area lane
+    vis.forEach(d=>{
+      d.vx += (tx(d.yr)-d.x)*0.115;
+      d.vy += (ty(d.dom)-d.y)*0.030;
+    });
+  }else{
+    EDGES.forEach(e=>{
+      const a=byId[e.s], b=byId[e.t];
+      if(!visible(a)||!visible(b)) return;
+      const dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy)||.01;
+      const rest=115, f=(d-rest)*0.012;
+      a.vx+=dx/d*f; a.vy+=dy/d*f; b.vx-=dx/d*f; b.vy-=dy/d*f;
+    });
+    vis.forEach(d=>{ d.vx-=d.x*0.0016; d.vy-=d.y*0.0016; });
+  }
+  vis.forEach(d=>{
+    if(d===dragNode){d.vx=0;d.vy=0;return;}
+    d.vx*=TL?0.80:0.86; d.vy*=TL?0.80:0.86;
+    d.x+=Math.max(-14,Math.min(14,d.vx));
+    d.y+=Math.max(-14,Math.min(14,d.vy));
+  });
+}
+
+// ---- timeline axis + lane bands
+function drawAxis(){
+  const x0=tx(YR0)-46, x1=tx(YR1)+46;
+  const yTop=ty(domKeys[0])-58, yBot=ty(domKeys[domKeys.length-1])+58;
+  // lane bands + labels
+  ctx.textAlign="left"; ctx.textBaseline="middle";
+  domKeys.forEach((k,i)=>{
+    const y=ty(k);
+    if(i%2===0){ ctx.fillStyle="rgba(20,24,31,.028)"; ctx.fillRect(x0,y-LANE/2,x1-x0,LANE); }
+    ctx.beginPath(); ctx.moveTo(x0,y-LANE/2); ctx.lineTo(x1,y-LANE/2);
+    ctx.strokeStyle="rgba(20,24,31,.07)"; ctx.lineWidth=1/view.k; ctx.stroke();
+    ctx.font=`600 ${13/view.k}px -apple-system,Segoe UI,sans-serif`;
+    ctx.fillStyle=DOMS[k].col;
+    ctx.fillText(DOMS[k].label, x1+14, y);
+  });
+  // year gridlines + labels
+  ctx.textAlign="center";
+  for(let y=YR0;y<=YR1;y++){
+    const X=tx(y);
+    ctx.beginPath(); ctx.moveTo(X,yTop); ctx.lineTo(X,yBot);
+    ctx.strokeStyle= y%5===0 ? "rgba(20,24,31,.14)" : "rgba(20,24,31,.055)";
+    ctx.lineWidth=1/view.k; ctx.stroke();
+    ctx.textBaseline="top";
+    ctx.font=`${(y%5===0?"600 ":"")}${12/view.k}px -apple-system,Segoe UI,sans-serif`;
+    ctx.fillStyle= y%5===0 ? "#5f6b7a" : "#98a2ae";
+    ctx.fillText(String(y), X, yBot+9);
+  }
+  ctx.textBaseline="alphabetic";
+}
+
+// ------------------------------------------------ draw
+const DASH={am:[], rp:[6,4], im:[1.5,4], rl:[3,3]};
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const vis=new Set(L.filter(visible).map(d=>d.id));
+  const focus = hover||selected;
+  const near = focus ? new Set([focus.id,...NBR[focus.id]]) : null;
+
+  ctx.save();
+  ctx.translate(W/2,H/2); ctx.scale(view.k,view.k); ctx.translate(view.x,view.y);
+  if(mode==="timeline") drawAxis();
+
+  // edges
+  EDGES.forEach(e=>{
+    if(!vis.has(e.s)||!vis.has(e.t)) return;
+    const a=byId[e.s], b=byId[e.t];
+    const on = !near || (near.has(e.s)&&near.has(e.t));
+    const soft = e.type==="rl";
+    ctx.beginPath();
+    ctx.setLineDash(DASH[e.type].map(v=>v/view.k*1));
+    ctx.strokeStyle = on ? (near?(soft?"#a8b2be":"#7d8794"):(soft?"#dde2e8":"#c8d0da")) : "#e8ecf1";
+    ctx.lineWidth = (on&&near?(soft?1.3:1.8):(soft?0.9:1.1))/view.k;
+    // slight curve so reciprocal links do not overlap
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2, dx=b.x-a.x, dy=b.y-a.y;
+    ctx.moveTo(a.x,a.y);
+    ctx.quadraticCurveTo(mx-dy*0.07, my+dx*0.07, b.x,b.y);
+    ctx.stroke();
+    // arrowhead
+    if(on && !soft){
+      const ang=Math.atan2(b.y-my-dx*0.07, b.x-mx+dy*0.07);
+      const L2=8/view.k, off=b.r+3;
+      const px=b.x-Math.cos(ang)*off, py=b.y-Math.sin(ang)*off;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(px,py);
+      ctx.lineTo(px-Math.cos(ang-0.4)*L2, py-Math.sin(ang-0.4)*L2);
+      ctx.lineTo(px-Math.cos(ang+0.4)*L2, py-Math.sin(ang+0.4)*L2);
+      ctx.closePath();
+      ctx.fillStyle=ctx.strokeStyle; ctx.fill();
+    }
+  });
+  ctx.setLineDash([]);
+
+  // nodes
+  L.forEach(d=>{
+    if(!vis.has(d.id)) return;
+    const on = !near || near.has(d.id);
+    ctx.globalAlpha = on?1:0.16;
+    // domain ring
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r+3.2,0,7);
+    ctx.fillStyle=DOMS[d.dom].col; ctx.globalAlpha=on?0.28:0.06; ctx.fill();
+    ctx.globalAlpha = on?1:0.16;
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,7);
+    if(d.st==="p"){
+      // proposals are hollow with a dashed rim — visibly not yet solid law
+      ctx.fillStyle="#f0eefb"; ctx.fill();
+      ctx.setLineDash([3.5/view.k, 2.6/view.k]);
+      ctx.lineWidth=2.2/view.k; ctx.strokeStyle=STCOL.p; ctx.stroke();
+      ctx.setLineDash([]);
+    }else{
+      ctx.fillStyle=STCOL[d.st]; ctx.fill();
+    }
+    if(d===selected){ ctx.lineWidth=2.6/view.k; ctx.strokeStyle="#14181f"; ctx.stroke(); }
+    else if(d===hover){ ctx.lineWidth=2/view.k; ctx.strokeStyle=d.st==="p"?"#453a95":"#fff"; ctx.stroke(); }
+    ctx.globalAlpha=1;
+  });
+
+  // labels
+  // the timeline layout is structured enough to carry labels at lower zoom than the free graph
+  const showAll = view.k > (mode==="timeline" ? 0.40 : 0.55);
+  ctx.textAlign="center"; ctx.textBaseline="top";
+  L.forEach(d=>{
+    if(!vis.has(d.id)) return;
+    const on = !near || near.has(d.id);
+    const big = d.deg>=4;
+    if(!(showAll||big||d===hover||d===selected)) return;
+    if(!on && !showAll) return;
+    ctx.globalAlpha = on?1:0.14;
+    const fs=11/view.k;
+    ctx.font=`${d===selected||d===hover?"600 ":""}${fs}px -apple-system,Segoe UI,sans-serif`;
+    const txt=d.num.replace(/^(Dir\.|Reg\.|Decision|Del\. Reg\.|Impl\. Reg\.) /,"");
+    ctx.lineWidth=3.4/view.k; ctx.strokeStyle="rgba(246,247,249,.92)";
+    ctx.strokeText(txt, d.x, d.y+d.r+5);
+    ctx.fillStyle= on?"#3a434f":"#9aa4b0";
+    ctx.fillText(txt, d.x, d.y+d.r+5);
+    ctx.globalAlpha=1;
+  });
+
+  ctx.restore();
+}
+
+function loop(){ step(); draw(); requestAnimationFrame(loop); }
+loop();
+
+// ------------------------------------------------ hit testing & interaction
+function pick(px,py){
+  const w=toWorld(px,py);
+  let best=null,bd=1e9;
+  L.forEach(d=>{
+    if(!visible(d)) return;
+    const dist=Math.hypot(d.x-w.x, d.y-w.y);
+    if(dist<d.r+6 && dist<bd){bd=dist;best=d;}
+  });
+  return best;
+}
+const tip=document.getElementById("tip");
+cv.addEventListener("pointermove",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  if(dragNode){
+    const w=toWorld(px,py); dragNode.x=w.x; dragNode.y=w.y; moved=true; return;
+  }
+  if(panning){
+    view.x+=(px-last.x)/view.k; view.y+=(py-last.y)/view.k;
+    last={x:px,y:py}; moved=true; return;
+  }
+  const h=pick(px,py);
+  if(h!==hover){ hover=h; cv.style.cursor=h?"pointer":"grab"; }
+  if(h){
+    tip.textContent=`${h.num} — ${h.title}`;
+    tip.style.left=(px+14)+"px"; tip.style.top=(py+14)+"px"; tip.style.opacity=1;
+  } else tip.style.opacity=0;
+});
+cv.addEventListener("pointerdown",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  cv.setPointerCapture(ev.pointerId); moved=false;
+  const h=pick(px,py);
+  if(h){ dragNode=h; } else { panning=true; last={x:px,y:py}; cv.classList.add("drag"); }
+});
+cv.addEventListener("pointerup",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  if(!moved){ const h=pick(px,py); h ? open(h) : close(); }
+  dragNode=null; panning=false; cv.classList.remove("drag");
+});
+cv.addEventListener("wheel",ev=>{
+  ev.preventDefault();
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  const before=toWorld(px,py);
+  view.k=Math.max(0.25,Math.min(3.5, view.k*(ev.deltaY<0?1.12:1/1.12)));
+  const after=toWorld(px,py);
+  view.x+=after.x-before.x; view.y+=after.y-before.y;
+},{passive:false});
+
+// ------------------------------------------------ detail panel
+const panel=document.getElementById("panel");
+function open(d){
+  selected=d;
+  document.getElementById("pTitle").textContent=d.title;
+  document.getElementById("pNum").textContent=d.num;
+  document.getElementById("pMeta").innerHTML=
+    `<span class="badge ${d.st}">${STLBL[d.st]}</span>`+
+    `<span class="badge n">${DOMS[d.dom].label}</span>`+
+    `<span class="badge n">${d.st==="p"?"Proposed":"Adopted"} ${d.yr}</span>`;
+  document.getElementById("pSum").innerHTML=
+    (d.prop?`<span style="display:block;color:var(--violet);font-weight:600;font-size:12.5px;margin-bottom:7px">${d.prop}</span>`:"")+
+    d.sum.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+  const out=EDGES.filter(e=>e.s===d.id), inc=EDGES.filter(e=>e.t===d.id);
+  const li=(e,other)=>`<li><span class="rel">${relLabel(e)}</span>
+      <a data-go="${other}">${byId[other].num} — ${byId[other].title}</a></li>`;
+  let html="";
+  if(d.st==="y" && !AMENDED_IN_MAP.has(d.id))
+    html+=`<h3>Why amber</h3><p class="sum" style="margin:0;color:var(--muted)">In force but amended since
+      adoption. The amending acts are outside this map's scope — typically technical delegated or implementing
+      acts — so no incoming amendment link is drawn. The consolidated text on EUR-Lex shows the current wording.</p>`;
+  if(out.length) html+=`<h3>Links from this act</h3><ul>${out.map(e=>li(e,e.t)).join("")}</ul>`;
+  if(inc.length) html+=`<h3>Links to this act</h3><ul>${inc.map(e=>
+      `<li><span class="rel">${relLabel(e)}</span>
+       <a data-go="${e.s}">${byId[e.s].num} — ${byId[e.s].title}</a></li>`).join("")}</ul>`;
+  if(!out.length&&!inc.length) html+=`<h3>Links</h3><p class="sum" style="margin:0;color:var(--muted)">No links recorded in this map.</p>`;
+  document.getElementById("pRels").innerHTML=html;
+  const ext=document.getElementById("pExt");
+  ext.href = d.url || ("http://data.europa.eu/eli/"+d.eli+"/oj");
+  ext.textContent = d.url ? "Open the proposal →" : "Open on EUR-Lex →";
+  panel.classList.add("on");
+
+  // bring the node into view beside the panel, without snapping the zoom
+  view.x = -d.x + 170/view.k;
+  if(mode==="force") view.y = -d.y;
+  else view.y = Math.max(-TL_H/2-90, Math.min(TL_H/2+90, -d.y));
+}
+function close(){ selected=null; panel.classList.remove("on"); }
+document.getElementById("pClose").onclick=close;
+document.getElementById("pRels").addEventListener("click",ev=>{
+  const a=ev.target.closest("[data-go]"); if(!a) return;
+  const d=byId[a.dataset.go];
+  if(!visible(d)){ // make sure a filtered-out target becomes reachable
+    filt.st.add(d.st); document.querySelectorAll(".chip").forEach(c=>c.classList.remove("off"));
+    document.getElementById("dom").value=""; filt.dom="";
+    document.getElementById("q").value=""; filt.q="";
+    updateCount();
+  }
+  open(d);
+});
+addEventListener("keydown",e=>{ if(e.key==="Escape") close(); });
+
+// ------------------------------------------------ controls
+const domSel=document.getElementById("dom");
+domSel.innerHTML=`<option value="">All policy areas</option>`+
+  Object.entries(DOMS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join("");
+function updateCount(){
+  const v=L.filter(visible), c=s=>v.filter(d=>d.st===s).length;
+  document.getElementById("count").textContent=
+    `${v.length} of ${L.length} shown · ${c("g")} unamended · ${c("y")} amended · ${c("r")} repealed · ${c("p")} proposed`;
+}
+document.getElementById("q").oninput=e=>{filt.q=e.target.value.toLowerCase().trim();updateCount();};
+domSel.onchange=e=>{filt.dom=e.target.value;updateCount();};
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  const s=c.dataset.st;
+  filt.st.has(s)?filt.st.delete(s):filt.st.add(s);
+  c.classList.toggle("off",!filt.st.has(s));
+  updateCount();
+});
+document.getElementById("reset").onclick=()=>{
+  close();
+  if(mode==="force") L.forEach(d=>{
+    const k=domKeys.indexOf(d.dom), a=k/domKeys.length*Math.PI*2;
+    d.x=Math.cos(a)*260+(Math.random()-.5)*140;
+    d.y=Math.sin(a)*260+(Math.random()-.5)*140; d.vx=0; d.vy=0;
+  });
+  fitView();
+};
+
+// ------------------------------------------------ layout mode
+const hintEl=document.querySelector("#legend .hint");
+const HINTS={
+  force:`Click a node for detail. Drag to reposition, scroll to zoom, drag the background to pan.
+         Node size reflects how many other acts connect to it.`,
+  timeline:`Nodes are anchored to their year of adoption and grouped into policy-area lanes, so the
+            amendment arrows run left to right through time. Scroll to zoom, drag the background to pan.`
+};
+function setMode(m){
+  if(m===mode) return;
+  mode=m;
+  document.getElementById("mNet").classList.toggle("on",m==="force");
+  document.getElementById("mTime").classList.toggle("on",m==="timeline");
+  hintEl.textContent=HINTS[m];
+  // seed positions near their targets so the transition settles quickly
+  if(m==="timeline") L.forEach(d=>{
+    d.x=tx(d.yr)+(Math.random()-.5)*10;
+    d.y=ty(d.dom)+(Math.random()-.5)*LANE*0.8; d.vx=0; d.vy=0;
+  });
+  fitView();
+}
+document.getElementById("mNet").onclick=()=>setMode("force");
+document.getElementById("mTime").onclick=()=>setMode("timeline");
+
+// ------------------------------------------------ initial state: timeline
+hintEl.textContent=HINTS[mode];
+L.forEach(d=>{
+  d.x=tx(d.yr)+(Math.random()-.5)*10;
+  d.y=ty(d.dom)+(Math.random()-.5)*LANE*0.8; d.vx=0; d.vy=0;
+});
+fitView();
+updateCount();
+</script>
+</body>
+</html>

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Allocation Benchmarks — EU Climate Policy Explorer</title>
+<meta name="description" content="All 54 EU ETS free allocation benchmarks from 2013 to 2030, with the Article 10a(2) derivation behind each value, the CBAM phase-out overlay, and an installation-level allowance gap calculator.">
+
+<!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
+<meta property="og:title" content="Free Allocation Benchmarks">
+<meta property="og:description" content="All 54 EU ETS free allocation benchmarks from 2013 to 2030, with the derivation behind each value, the CBAM phase-out overlay, and an allowance gap calculator.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/benchmarks.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Allocation Benchmarks">
+<meta name="twitter:description" content="All 54 EU ETS free allocation benchmarks from 2013 to 2030, with the derivation behind each value, the CBAM phase-out overlay, and an allowance gap calculator.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#ffffff; --ink:#14181f; --muted:#5f6b7a;
+    --line:#e3e7ec; --accent:#1f5fbf; --down:#1f8a5f; --up:#c0392b; --flat:#8a94a0;
+    --cap:#c0392b; --floor:#d68910; --data:#1f5fbf;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:#0b3d91;color:#fff;padding:26px 28px 22px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:920px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header .top .links{display:flex;gap:8px;flex-shrink:0}
+  header .top a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+                padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header .top a:hover{background:#174ba8;color:#fff}
+  header .top a[aria-current]{background:#fff;color:#0b3d91;border-color:#fff;font-weight:600}
+  .headerinner{max-width:1320px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 20px 60px}
+
+  nav{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav button{background:none;border:0;padding:14px 15px;font:inherit;font-weight:600;color:var(--muted);
+             cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav button:hover{color:var(--ink)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:24px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:26px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:960px}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  select,input,.btn{font:inherit;padding:7px 10px;border:1px solid var(--line);
+       border-radius:7px;background:#fff;color:var(--ink)}
+  .btn{cursor:pointer}
+  input[type=search]{min-width:210px}
+  label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
+
+  .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 18px;margin-bottom:8px}
+  .fld label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+             color:var(--muted);margin-bottom:5px}
+  .fld input,.fld select{width:100%}
+  .fld .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+  .tblscroll{max-height:640px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:left;white-space:normal}
+  th.l,td.l{text-align:left}
+  thead th{position:sticky;top:0;background:#fafbfc;cursor:pointer;user-select:none;font-size:11.5px;
+           text-transform:uppercase;letter-spacing:.04em;color:var(--muted);z-index:5;
+           box-shadow:inset 0 -1px 0 var(--line)}
+  thead th.nosort{cursor:default}
+  thead th:hover{color:var(--ink)}
+  thead th .arw{opacity:.4;font-size:10px}
+  tbody tr:hover{background:#f4f8ff}
+  tfoot td{font-weight:700;background:#fafbfc;border-top:2px solid var(--line)}
+  .neg{color:var(--down);font-weight:600}
+  .pos{color:var(--up);font-weight:600}
+  .zero{color:var(--flat)}
+  .dim{color:var(--muted)}
+  .tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:20px;background:#eef2f7;color:var(--muted)}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+  .pill.cap{background:#fdeceb;color:#a5281c}
+  .pill.floor{background:#fdf3e2;color:#8a5600}
+  .pill.data{background:#eaf1fc;color:#17458c}
+  .flag{display:inline-block;margin-left:5px;font-size:11px;padding:1px 6px;border-radius:4px;
+        background:#fff4e0;color:#9a5b00;border:1px solid #ffe0b0;cursor:help}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .ok{background:#e9f7ef;border:1px solid #bfe3cd;color:#1f6b45;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px}
+
+  .chartbox{position:relative;height:520px}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:20px}
+  .sec h3{margin:0 0 2px;font-size:15px}
+  .sec .cnt{font-size:12px;color:var(--muted);margin-bottom:10px}
+
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p, details li{font-size:13.5px;color:#39414d}
+  code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:12.5px}
+  a{color:var(--accent)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .hide{display:none}
+  .kpi2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0 4px}
+  .kpi2 .card .k{font-size:22px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>EU ETS free allocation benchmarks</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <a href="benchmarks.html" aria-current="page">Benchmarks</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>All 54 benchmark values across the three allocation periods — 2013–2020 (Decision 2011/278/EU),
+       2021–2025 (Reg. (EU) 2021/447) and 2026–2030 (Reg. (EU) 2026/1412) — with the derivation of each value,
+       the CBAM phase-out overlay, and an installation-level allocation calculator.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="headerinner">
+    <button data-tab="overview" class="on">Overview</button>
+    <button data-tab="rates">Reduction rates</button>
+    <button data-tab="cbam">CBAM overlay</button>
+    <button data-tab="table">Full table</button>
+    <button data-tab="sectors">By sector</button>
+    <button data-tab="calc">Calculator</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= OVERVIEW ================= -->
+<section id="tab-overview">
+  <div class="cards" id="kpis"></div>
+
+  <div class="panel">
+    <h2>Change from 2021–2025 to 2026–2030</h2>
+    <p class="sub">Percentage change in each benchmark value. Green = tighter (fewer free allowances per unit of output).
+       Red = looser. Rows marked <span class="flag">!</span> are not like-for-like across periods.</p>
+    <div class="controls">
+      <select id="ovSector"></select>
+      <label class="chk"><input type="checkbox" id="ovHideFlag"> Hide non-comparable benchmarks</label>
+    </div>
+    <div class="chartbox"><canvas id="changeChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Benchmark value vs. what the cleanest 10% actually achieved</h2>
+    <p class="sub">Points below the 1:1 line are benchmarks set more generously than measured 2021/22 best practice —
+       the result of the 6%–50% statutory bounds on the total reduction. See the Reduction rates tab for the mechanism.</p>
+    <div class="controls"><select id="scSector"></select></div>
+    <div class="chartbox"><canvas id="scatterChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Trajectory, indexed to 2013–2020 = 100</h2>
+    <p class="sub">Values are fixed within each period, so these are step changes rather than annual trends.</p>
+    <div class="controls">
+      <select id="trajSector"></select>
+      <button class="btn" id="trajClear">Clear all</button>
+      <span class="tag" id="trajCount"></span>
+    </div>
+    <div id="trajPicker" style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:14px;max-height:150px;overflow:auto"></div>
+    <div class="chartbox"><canvas id="trajChart"></canvas></div>
+  </div>
+</section>
+
+<!-- ================= REDUCTION RATES ================= -->
+<section id="tab-rates" class="hide">
+  <div class="panel">
+    <h2>How each 2026–2030 value is actually derived</h2>
+    <p class="sub">Article 10a(2) does not simply adopt observed best practice. It computes an
+       <strong>annual reduction rate</strong> by comparing the measured 2021/22 average of the 10% most efficient
+       installations against the original 2007/08-based benchmark over 14 years, extrapolates that rate linearly over
+       20 years (2007/08 → 2027/28), then <strong>clamps the total reduction to between 6% and 50%</strong>.
+       The clamp binds for a large share of benchmarks, which means their values are set by the statutory limit rather
+       than by data.</p>
+    <div class="controls">
+      <select id="rtSector"></select>
+      <select id="rtPeriod">
+        <option value="2">2026–2030 (14-yr rate, 20-yr window, 6%–50%)</option>
+        <option value="1">2021–2025 (9-yr rate, 15-yr window, 3%–24%)</option>
+      </select>
+      <select id="rtSort">
+        <option value="rate">Sort by annual rate</option>
+        <option value="name">Sort by name</option>
+        <option value="sector">Sort by sector</option>
+      </select>
+    </div>
+    <div class="kpi2" id="rtKpis"></div>
+    <div class="chartbox"><canvas id="rateChart"></canvas></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--cap)"></span>Capped — raw rate exceeded the maximum reduction</span>
+      <span><span class="swatch" style="background:var(--floor)"></span>Floored — raw rate below the minimum reduction (or performance worsened)</span>
+      <span><span class="swatch" style="background:var(--data)"></span>Data-driven — inside the bounds</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Derivation table</h2>
+    <p class="sub">Each step of the Article 10a(2) calculation for the selected period: the 2007/08 starting value,
+       the measured performance of the 10% most efficient installations, the resulting annual rate, the raw extrapolated
+       reduction and the reduction actually applied after the statutory bounds.</p>
+    <div class="tblscroll">
+      <table id="rtTbl">
+        <thead><tr>
+          <th class="nosort">Benchmark</th>
+          <th class="nosort">Sector</th>
+          <th class="nosort">2007/08 base</th>
+          <th class="nosort">Measured 10%</th>
+          <th class="nosort">Annual rate</th>
+          <th class="nosort">Raw reduction</th>
+          <th class="nosort">Applied</th>
+          <th class="nosort">Status</th>
+          <th class="nosort">Benchmark value</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CBAM ================= -->
+<section id="tab-cbam" class="hide">
+  <div class="panel">
+    <h2>The CBAM factor: nominal vs. effective allocation</h2>
+    <p class="sub">For goods listed in Annex I to the CBAM Regulation (EU) 2023/956, free allocation is multiplied by an
+       annual CBAM factor that falls to zero in 2034. A benchmark that looks stable across 2026–2030 therefore delivers
+       a rapidly shrinking allocation in practice: the effective value halves between 2028 and 2030 alone.
+       Non-CBAM carbon-leakage sectors keep a factor of 100% with no phase-out date set.</p>
+    <div class="controls">
+      <label class="chk"><input type="checkbox" id="cbShowProp" checked> Show the July 2026 review proposal (indicative)</label>
+    </div>
+    <div class="chartbox" style="height:400px"><canvas id="cbamChart"></canvas></div>
+    <div class="warn" style="margin-top:16px">The dashed scenario is <strong>not law</strong>. The Commission's ETS review
+      proposal of 17 July 2026 (COM(2026) 619) would reintroduce 15% of the phased-out free allocation from 2028 and
+      extend the phase-out to 2038. Modelled here as <code>factor′ = factor + 0.15 × (1 − factor)</code> from 2028 —
+      an illustrative reading, not the legislative text, which is still going through co-decision.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Effective benchmark by year, CBAM goods</h2>
+    <p class="sub">2026–2030 benchmark value × CBAM factor. Beyond 2030 the benchmark itself is not yet determined —
+       the 2031–2035 update is part of the ETS review — so those columns hold the 2026–2030 value flat and are
+       indicative only. The CBAM mapping below is my reading of CBAM Annex I against the ETS product benchmarks;
+       treat it as indicative and check your installation's own determination.</p>
+    <div class="tblscroll">
+      <table id="cbTbl"><thead><tr id="cbHead"></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CALCULATOR ================= -->
+<section id="tab-calc" class="hide">
+  <div class="panel">
+    <h2>Installation allocation calculator</h2>
+    <p class="sub">Enter your activity level and emissions intensity to see free allocation, the resulting allowance
+       gap and its cost, year by year. Formula:
+       <code>allocation = benchmark × activity level × CLEF × CBAM factor × CSCF</code>.</p>
+    <div class="form">
+      <div class="fld">
+        <label for="cBm">Benchmark</label>
+        <select id="cBm"></select>
+        <div class="hint" id="cBmHint"></div>
+      </div>
+      <div class="fld">
+        <label for="cProd">Annual activity level</label>
+        <input type="number" id="cProd" value="1000000" min="0" step="any">
+        <div class="hint" id="cProdHint"></div>
+      </div>
+      <div class="fld">
+        <label for="cInt">Your emissions intensity</label>
+        <input type="number" id="cInt" value="0.82" min="0" step="any">
+        <div class="hint" id="cIntHint"></div>
+      </div>
+      <div class="fld">
+        <label for="cClef">Carbon leakage status</label>
+        <select id="cClef">
+          <option value="cl">On the carbon leakage list — 100%</option>
+          <option value="nocl">Not on the list — 30% in 2026, to 0% in 2030</option>
+        </select>
+        <div class="hint">Non-list sectors: 30 / 22.5 / 15 / 7.5 / 0% for 2026–2030.</div>
+      </div>
+      <div class="fld">
+        <label for="cCbam">CBAM good</label>
+        <select id="cCbam">
+          <option value="auto">Auto from benchmark</option>
+          <option value="yes">Yes — apply CBAM factor</option>
+          <option value="no">No — no CBAM factor</option>
+        </select>
+        <div class="hint" id="cCbamHint"></div>
+      </div>
+      <div class="fld">
+        <label for="cScen">CBAM scenario</label>
+        <select id="cScen">
+          <option value="law">Current law (phase-out to 0 in 2034)</option>
+          <option value="prop">July 2026 proposal (indicative)</option>
+        </select>
+        <div class="hint">See the CBAM overlay tab for the caveat.</div>
+      </div>
+      <div class="fld">
+        <label for="cCscf">Cross-sectoral correction factor</label>
+        <input type="number" id="cCscf" value="100" min="0" max="100" step="any">
+        <div class="hint">In %. Applies if the free-allocation cap binds; 100 = no correction.</div>
+      </div>
+      <div class="fld">
+        <label for="cPrice">EUA price</label>
+        <input type="number" id="cPrice" value="80" min="0" step="any">
+        <div class="hint">€ per allowance, held flat across all years.</div>
+      </div>
+    </div>
+    <div class="controls" style="margin-top:8px">
+      <button class="btn" id="cReset">Reset to benchmark-average installation</button>
+      <span class="tag" id="cSummary"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="kpi2" id="cKpis"></div>
+    <div class="chartbox" style="height:400px"><canvas id="calcChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Year by year</h2>
+    <p class="sub" id="cTblNote"></p>
+    <div class="tblscroll">
+      <table id="cTbl">
+        <thead><tr>
+          <th class="nosort l">Year</th>
+          <th class="nosort">Benchmark</th>
+          <th class="nosort">CLEF</th>
+          <th class="nosort">CBAM factor</th>
+          <th class="nosort">Free allocation</th>
+          <th class="nosort">Verified emissions</th>
+          <th class="nosort">Gap</th>
+          <th class="nosort">Cost / (revenue)</th>
+        </tr></thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TABLE ================= -->
+<section id="tab-table" class="hide">
+  <div class="panel">
+    <h2>All benchmark values</h2>
+    <p class="sub">Click a column header to sort. 52 product benchmarks plus the heat and fuel fall-backs.
+       "10% avg" columns are the measured averages of the 10% most efficient installations, as published in each annex.</p>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search benchmark…">
+      <select id="tblSector"></select>
+      <select id="tblUnit"></select>
+      <label class="chk"><input type="checkbox" id="tblCbam"> CBAM goods only</label>
+      <span class="tag" id="rowcount"></span>
+    </div>
+    <div class="tblscroll">
+      <table id="tbl">
+        <thead><tr>
+          <th data-k="name">Benchmark <span class="arw">↕</span></th>
+          <th data-k="sector">Sector <span class="arw">↕</span></th>
+          <th data-k="v13">2013–2020 <span class="arw">↕</span></th>
+          <th data-k="v21">2021–2025 <span class="arw">↕</span></th>
+          <th data-k="v26">2026–2030 <span class="arw">↕</span></th>
+          <th data-k="m17">10% avg 16/17 <span class="arw">↕</span></th>
+          <th data-k="m">10% avg 21/22 <span class="arw">↕</span></th>
+          <th data-k="c1">Δ P3→P4a <span class="arw">↕</span></th>
+          <th data-k="c2">Δ P4a→P4b <span class="arw">↕</span></th>
+          <th data-k="c3">Δ total <span class="arw">↕</span></th>
+          <th data-k="unit">Unit <span class="arw">↕</span></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--down)"></span>Tighter (benchmark fell)</span>
+      <span><span class="swatch" style="background:var(--up)"></span>Looser (benchmark rose)</span>
+      <span><span class="flag">!</span> scope or definition change — comparison not like-for-like</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTORS ================= -->
+<section id="tab-sectors" class="hide">
+  <div class="panel">
+    <h2>Benchmarks by sector</h2>
+    <p class="sub">Each panel shows the three period values side by side, on an independent scale.</p>
+  </div>
+  <div class="grid2" id="secGrid"></div>
+</section>
+
+<!-- ================= NOTES ================= -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <div class="ok"><strong>All three periods verified against the official Official Journal annexes.</strong>
+      The 2026–2030 column was checked line by line against the adopted text of Reg. (EU) 2026/1412 as published
+      on 29 June 2026 — not the May consultation draft. Three values moved between draft and adoption:
+      grey cement clinker 0,657 → <strong>0,656</strong>, facing bricks 0,085 → <strong>0,083</strong>,
+      iron casting 0,164 → <strong>0,163</strong>. Everything else is unchanged from the draft.</div>
+    <h2>Sources</h2>
+    <ul>
+      <li><strong>2013–2020</strong> — Commission Decision 2011/278/EU, Annex I. Based on 2007–2008 sector data.</li>
+      <li><strong>2021–2025</strong> — <a href="https://eur-lex.europa.eu/eli/reg_impl/2021/447/oj/eng" target="_blank">Commission Implementing Regulation (EU) 2021/447</a>, Annex.</li>
+      <li><strong>2026–2030</strong> — <a href="http://data.europa.eu/eli/reg_impl/2026/1412/oj" target="_blank">Commission Implementing Regulation (EU) 2026/1412</a> of 26 June 2026 (OJ 29.6.2026, in force 30.6.2026), applying retroactively to allocation from 1 January 2026.</li>
+      <li>Definitions and system boundaries: Annex I to Delegated Regulation (EU) 2019/331, as amended by Delegated Regulation (EU) 2024/873.</li>
+      <li>CBAM factor: Article 10a(1a) of Directive 2003/87/EC as amended by Directive (EU) 2023/959. CBAM goods scope: Annex I to Regulation (EU) 2023/956.</li>
+    </ul>
+  </div>
+
+  <details open>
+    <summary>The reduction-rate methodology, and where it is exact vs. reconstructed</summary>
+    <p>The derivation on the Reduction rates tab implements Article 10a(2) directly, for both 2021–2025 and 2026–2030.
+       Three special cases are handled explicitly:</p>
+    <ul>
+      <li><strong>Aromatics and syngas</strong> are adjusted by the same percentage as refinery products
+          (Art. 10a(2), fourth subparagraph), not by their own measured performance. The alignment uses the ratio of the
+          <em>published, rounded</em> refinery benchmark to its 2007/08 base — that is what reproduces the official figures exactly.</li>
+      <li><strong>Hydrogen</strong> was aligned with refineries for 2021–2025 but decoupled for 2026–2030, because
+          Directive (EU) 2023/959 separated the two updates. It now uses its own measured rate.</li>
+      <li><strong>Soda ash</strong> has relevant intermediate emissions added as a final step after the reduction is
+          applied, per Reg. (EU) 2026/389. The formula alone gives 0,707; the published value is 1,122, so roughly
+          0,415 t CO₂e/t is the intermediate-emissions add-on.</li>
+    </ul>
+    <p>The rate is a <em>linear</em> percentage of the 2007/08 value per year, not a compound rate — the Directive
+       reduces "by 1% of the value that was set based on 2007-8 data in respect of each year".</p>
+    <p><strong>A note on precision.</strong> The annual rates and raw reductions shown are derived from the annexes'
+       published 10%-most-efficient averages, which are themselves rounded to three decimals. The Commission computed
+       from the unrounded NIMs dataset, so treat the intermediate percentages as accurate to roughly a tenth of a point
+       rather than exact. The benchmark values in the final column are the published figures, not derived ones.</p>
+  </details>
+
+  <details>
+    <summary>Why some period-to-period comparisons are not like-for-like</summary>
+    <ul>
+      <li><strong>Indirect emissions coverage (14 benchmarks).</strong> The benchmarks previously governed by
+          fuel/electricity exchangeability now account for indirect emissions from electricity consumption. The Commission
+          kept this coverage deliberately, to avoid penalising electrification; it <em>raises</em> the value, worth around
+          €4 bn across 2026–2030. A rise here is not a weakened target.</li>
+      <li><strong>Definition and system-boundary changes under Delegated Reg. (EU) 2024/873.</strong>
+          "Sintered ore" became "Agglomerated iron ore"; grey and white cement clinker now cover alternative hydraulic
+          binders; hot metal now covers direct-reduction steelmaking (though DRI output is excluded from the efficiency
+          calculation, per Art. 10a(2)(e)); hydrogen and ammonia now cover hydrogen from water electrolysis.</li>
+      <li><strong>Soda ash.</strong> See the note above. Reg. (EU) 2026/389 also amended the 2021–2025 soda ash value
+          for the year 2025 specifically; the 0,753 shown here is the original 2021/447 figure.</li>
+      <li><strong>Different data basis.</strong> 2013–2020 values came from voluntary 2007–2008 sector submissions,
+          with five product benchmarks and both fall-backs derived from BREFs or literature. The later periods use
+          verified installation-level data, so the P3→P4a step is partly a data-quality artefact — most visible across
+          pulp and paper, where measured intensities collapsed to near zero.</li>
+      <li><strong>Excluded sub-installations.</strong> Where emissions could not be attributed cleanly, installations
+          were dropped from the calculation. For 2026–2030 this affects refinery products, hot metal, sintered dolime,
+          ammonia, steam cracking, phenol/acetone and hydrogen.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Calculator assumptions</summary>
+    <ul>
+      <li><strong>Activity level.</strong> The calculator treats your input as the historical activity level used for
+          allocation. Real allocation uses a median of past activity and is adjusted when activity changes by more than
+          15% against the baseline — not modelled here.</li>
+      <li><strong>CLEF for non-carbon-leakage sectors.</strong> Modelled as 30% in 2026 falling linearly to 0% in 2030
+          (30 / 22.5 / 15 / 7.5 / 0). The Directive says 30% "until 2026" then decreasing in equal amounts to 0%
+          "after 2030", which some read as reaching zero in 2031 instead. If that reading prevails the figures for
+          non-list sectors are slightly more generous than shown.</li>
+      <li><strong>Beyond 2030</strong> the benchmark is held flat at its 2026–2030 value because the 2031–2035 update has
+          not been determined. Those rows are indicative.</li>
+      <li><strong>EUA price</strong> is held flat. A single flat price is a modelling convenience, not a forecast, and the
+          cost figures scale linearly with it.</li>
+      <li>Not modelled: the ETS investment booster, indirect cost compensation under state aid rules, CSCF changes over
+          time, or the conditionality on decarbonisation investment plans proposed for 2031 onwards.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Units</summary>
+    <p>Most product benchmarks are <code>allowances / tonne of product</code>. Refinery products and aromatics are
+       <code>allowances / CWT</code> (CO₂-weighted tonne). Hydrogen and syngas are per tonne of 100% pure product.
+       The heat and fuel fall-backs are <code>allowances / TJ</code>. Absolute values are only comparable within a
+       unit class.</p>
+  </details>
+
+  <details>
+    <summary>Known next steps in the policy</summary>
+    <ul>
+      <li>The Commission's ETS review of 17 July 2026 proposes <strong>sector-specific fall-back benchmarks</strong>, to
+          raise allocation determined via the heat/fuel routes without triggering the cross-sectoral correction factor.
+          If adopted, the single heat and fuel rows here would split by sector.</li>
+      <li>The same proposal would reintroduce 15% of phased-out free allocation for CBAM sectors from 2028 and extend the
+          phase-out to 2038, extend carbon-leakage protection to 2040, define benchmark update rules for 2031–2035 and
+          2036–2040, raise the CSCF buffer to 4%, and from 2031 make all free allocation conditional on a verified
+          decarbonisation investment plan.</li>
+      <li>No phase-out date has been set for carbon-leakage sectors outside CBAM.</li>
+    </ul>
+  </details>
+</section>
+
+<footer class="wrap" style="padding-bottom:30px">
+  Figures transcribed from the OJ annexes and cross-checked; the derivation reproduces all official values. Still a
+  working visualisation, not an official publication — verify against EUR-Lex before use in filings or contracts.
+</footer>
+</div>
+
+<script>
+// ================================================================ DATA
+// a=2013–2020, b=2021–2025, c=2026–2030
+// m17 = measured avg of 10% most efficient 2016/2017 · m = same for 2021/2022
+// cbam = my reading of CBAM Reg. (EU) 2023/956 Annex I coverage (indicative)
+// f flags: e indirect-electricity · d definition change · b data-basis break · s soda-ash intermediates
+// dp = decimals as printed in the OJ
+const D = [
+ {n:"Coke", s:"Iron & steel", u:"t/t", a:0.286, b:0.217, c:0.143, m17:0.144, m:0.132},
+ {n:"Sintered ore → Agglomerated iron ore", s:"Iron & steel", u:"t/t", a:0.171, b:0.157, c:0.086, m17:0.163, m:0.024, f:"d", cbam:1},
+ {n:"Hot metal", s:"Iron & steel", u:"t/t", a:1.328, b:1.288, c:1.248, m17:1.331, m:1.360, f:"d", cbam:1},
+ {n:"EAF carbon steel", s:"Iron & steel", u:"t/t", a:0.283, b:0.215, c:0.142, m17:0.209, m:0.130, f:"e", cbam:1},
+ {n:"EAF high alloy steel", s:"Iron & steel", u:"t/t", a:0.352, b:0.268, c:0.176, m17:0.266, m:0.186, f:"e", cbam:1},
+ {n:"Iron casting", s:"Iron & steel", u:"t/t", a:0.325, b:0.282, c:0.163, m17:0.299, m:0.210, f:"e", cbam:1},
+
+ {n:"Pre-bake anode", s:"Aluminium", u:"t/t", a:0.324, b:0.312, c:0.290, m17:0.317, m:0.300},
+ {n:"Aluminium", s:"Aluminium", u:"t/t", a:1.514, b:1.464, c:1.423, m17:1.484, m:1.489, cbam:1},
+
+ {n:"Grey cement clinker", s:"Cement & lime", u:"t/t", a:0.766, b:0.693, c:0.656, m17:0.722, m:0.689, f:"d", cbam:1},
+ {n:"White cement clinker", s:"Cement & lime", u:"t/t", a:0.987, b:0.957, c:0.890, m17:0.973, m:0.919, f:"d", cbam:1},
+ {n:"Lime", s:"Cement & lime", u:"t/t", a:0.954, b:0.725, c:0.693, m17:0.746, m:0.771},
+ {n:"Dolime", s:"Cement & lime", u:"t/t", a:1.072, b:0.815, c:0.792, m17:0.881, m:0.876},
+ {n:"Sintered dolime", s:"Cement & lime", u:"t/t", a:1.449, b:1.406, c:1.162, m17:1.441, m:1.248},
+
+ {n:"Float glass", s:"Glass", u:"t/t", a:0.453, b:0.399, c:0.394, m17:0.421, m:0.412},
+ {n:"Bottles & jars, colourless glass", s:"Glass", u:"t/t", a:0.382, b:0.290, c:0.242, m17:0.323, m:0.284},
+ {n:"Bottles & jars, coloured glass", s:"Glass", u:"t/t", a:0.306, b:0.237, c:0.233, m17:0.265, m:0.255},
+ {n:"Continuous filament glass fibre", s:"Glass", u:"t/t", a:0.406, b:0.309, c:0.232, m17:0.290, m:0.284},
+ {n:"Mineral wool", s:"Glass", u:"t/t", a:0.682, b:0.536, c:0.341, m17:0.595, m:0.413, f:"e"},
+
+ {n:"Facing bricks", s:"Ceramics & gypsum", u:"t/t", a:0.139, b:0.106, c:0.083, m17:0.094, m:0.100},
+ {n:"Pavers", s:"Ceramics & gypsum", u:"t/t", a:0.192, b:0.146, c:0.108, m17:0.140, m:0.133},
+ {n:"Roof tiles", s:"Ceramics & gypsum", u:"t/t", a:0.144, b:0.120, c:0.121, m17:0.130, m:0.128},
+ {n:"Spray-dried powder", s:"Ceramics & gypsum", u:"t/t", a:0.076, b:0.058, c:0.046, m17:0.050, m:0.055},
+ {n:"Plaster", s:"Ceramics & gypsum", u:"t/t", a:0.048, b:0.047, c:0.045, m17:0.048, m:0.049},
+ {n:"Dried secondary gypsum", s:"Ceramics & gypsum", u:"t/t", a:0.017, b:0.013, c:0.009, m17:0.008, m:0.010},
+ {n:"Plasterboard", s:"Ceramics & gypsum", u:"t/t", a:0.131, b:0.110, c:0.122, m17:0.119, m:0.125, f:"e"},
+
+ {n:"Short fibre kraft pulp", s:"Pulp & paper", u:"t/t", a:0.120, b:0.091, c:0.060, m17:0.000, m:0.029, f:"b"},
+ {n:"Long fibre kraft pulp", s:"Pulp & paper", u:"t/t", a:0.060, b:0.046, c:0.040, m17:0.001, m:0.046, f:"b"},
+ {n:"Sulphite / thermo-mech. / mech. pulp", s:"Pulp & paper", u:"t/t", a:0.020, b:0.015, c:0.010, m17:0.000, m:0.000, f:"b"},
+ {n:"Recovered paper pulp", s:"Pulp & paper", u:"t/t", a:0.039, b:0.030, c:0.020, m17:0.000, m:0.000, f:"b"},
+ {n:"Newsprint", s:"Pulp & paper", u:"t/t", a:0.298, b:0.226, c:0.149, m17:0.007, m:0.018, f:"b"},
+ {n:"Uncoated fine paper", s:"Pulp & paper", u:"t/t", a:0.318, b:0.242, c:0.159, m17:0.011, m:0.015, f:"b"},
+ {n:"Coated fine paper", s:"Pulp & paper", u:"t/t", a:0.318, b:0.242, c:0.159, m17:0.043, m:0.066, f:"b"},
+ {n:"Tissue", s:"Pulp & paper", u:"t/t", a:0.334, b:0.254, c:0.167, m17:0.139, m:0.170, f:"b"},
+ {n:"Testliner and fluting", s:"Pulp & paper", u:"t/t", a:0.248, b:0.188, c:0.124, m17:0.071, m:0.056, f:"b"},
+ {n:"Uncoated carton board", s:"Pulp & paper", u:"t/t", a:0.237, b:0.180, c:0.119, m17:0.009, m:0.021, f:"b"},
+ {n:"Coated carton board", s:"Pulp & paper", u:"t/t", a:0.273, b:0.207, c:0.137, m17:0.011, m:0.034, f:"b"},
+
+ {n:"Nitric acid", s:"Chemicals", u:"t/t", a:0.302, b:0.230, c:0.151, m17:0.038, m:0.015, cbam:1},
+ {n:"Adipic acid", s:"Chemicals", u:"t/t", a:2.790, b:2.120, c:1.400, m17:0.320, m:0.340, dp:2},
+ {n:"Vinyl chloride monomer (VCM)", s:"Chemicals", u:"t/t", a:0.204, b:0.155, c:0.191, m17:0.171, m:0.195},
+ {n:"Phenol / acetone", s:"Chemicals", u:"t/t", a:0.266, b:0.230, c:0.219, m17:0.244, m:0.233},
+ {n:"S-PVC", s:"Chemicals", u:"t/t", a:0.085, b:0.066, c:0.080, m17:0.073, m:0.082},
+ {n:"E-PVC", s:"Chemicals", u:"t/t", a:0.238, b:0.181, c:0.161, m17:0.103, m:0.184},
+ {n:"Soda ash", s:"Chemicals", u:"t/t", a:0.843, b:0.753, c:1.122, m17:0.789, m:0.748, f:"s"},
+ {n:"Carbon black", s:"Chemicals", u:"t/t", a:1.954, b:1.485, c:1.048, m17:1.141, m:1.320, f:"e"},
+ {n:"Ammonia", s:"Chemicals", u:"t/t", a:1.619, b:1.570, c:1.522, m17:1.604, m:1.630, f:"ed", cbam:1},
+ {n:"Steam cracking", s:"Chemicals", u:"t/t", a:0.702, b:0.681, c:0.638, m17:0.693, m:0.657, f:"e"},
+ {n:"Styrene", s:"Chemicals", u:"t/t", a:0.527, b:0.401, c:0.264, m17:0.419, m:0.318, f:"e"},
+ {n:"Hydrogen", s:"Chemicals", u:"t/t", a:8.850, b:6.840, c:7.980, m17:4.090, m:8.240, f:"ed", dp:2, cbam:1},
+ {n:"Synthesis gas (syngas)", s:"Chemicals", u:"t/t", a:0.242, b:0.187, c:0.190, m17:0.009, m:0.002, f:"e"},
+ {n:"Ethylene oxide / ethylene glycols", s:"Chemicals", u:"t/t", a:0.512, b:0.389, c:0.321, m17:0.314, m:0.378, f:"e"},
+
+ {n:"Refinery products", s:"Refining", u:"t/CWT", a:0.0295, b:0.0228, c:0.0232, m17:0.0255, m:0.0251, f:"e"},
+ {n:"Aromatics", s:"Refining", u:"t/CWT", a:0.0295, b:0.0228, c:0.0232, m17:0.0072, m:0.0116, f:"e"},
+
+ {n:"Heat benchmark", s:"Fall-back", u:"t/TJ", a:62.3, b:47.3, c:31.2, m17:1.6, m:7.2},
+ {n:"Fuel benchmark", s:"Fall-back", u:"t/TJ", a:56.1, b:42.6, c:28.1, m17:34.3, m:10.4}
+];
+
+const ALIAS_B = ["Aromatics","Synthesis gas (syngas)"];                       // 2026–2030: follow refinery
+const ALIAS_A = ["Aromatics","Synthesis gas (syngas)","Hydrogen"];            // 2021–2025: follow refinery
+const CFG = { 1:{n:9, ext:15, lo:0.03, hi:0.24, val:"b", meas:"m17", label:"2021–2025"},
+              2:{n:14,ext:20, lo:0.06, hi:0.50, val:"c", meas:"m",   label:"2026–2030"} };
+
+// CBAM factor, Art. 10a(1a) Dir. 2003/87/EC as amended by Dir. (EU) 2023/959
+const CBAMF = {2025:1, 2026:0.975, 2027:0.95, 2028:0.90, 2029:0.775, 2030:0.515,
+               2031:0.39, 2032:0.265, 2033:0.14, 2034:0};
+// Indicative July 2026 proposal: reintroduce 15% of the phased-out share from 2028
+const cbamProp = y => y<2028 ? CBAMF[y] : CBAMF[y]+0.15*(1-CBAMF[y]);
+// CLEF for sectors not on the carbon leakage list
+const CLEF_NO = {2026:0.30, 2027:0.225, 2028:0.15, 2029:0.075, 2030:0, 2031:0, 2032:0, 2033:0, 2034:0};
+const YEARS = [2026,2027,2028,2029,2030,2031,2032,2033,2034];
+
+const FLAGTXT = {
+  e:"Indirect (electricity) emissions are accounted for in the 2026–2030 value — raised deliberately to avoid penalising electrification. Not like-for-like.",
+  d:"Product definition / system boundary changed under Delegated Reg. (EU) 2024/873.",
+  b:"Underlying data basis changed: the 2013–2020 value was literature- or BREF-derived rather than from verified installation data.",
+  s:"Soda ash: relevant intermediate emissions are added as the final calculation step for 2026–2030, per Reg. (EU) 2026/389."
+};
+const SECTORS = [...new Set(D.map(d=>d.s))];
+const UNITS   = [...new Set(D.map(d=>d.u))];
+const UNITLBL = {"t/t":"allowances / t product","t/CWT":"allowances / CWT","t/TJ":"allowances / TJ"};
+const ACTLBL  = {"t/t":"tonnes of product per year","t/CWT":"CO₂-weighted tonnes (CWT) per year","t/TJ":"TJ per year"};
+const INTLBL  = {"t/t":"t CO₂e per tonne of product","t/CWT":"t CO₂e per CWT","t/TJ":"t CO₂e per TJ"};
+const PAL = {"Iron & steel":"#c0392b","Aluminium":"#8e44ad","Cement & lime":"#7f8c8d","Glass":"#16a085",
+             "Ceramics & gypsum":"#d68910","Pulp & paper":"#2e8b57","Chemicals":"#1f5fbf",
+             "Refining":"#34495e","Fall-back":"#b03a7a"};
+
+D.forEach(d=>{
+  d.dp = d.dp || (d.u==="t/CWT"?4 : d.u==="t/TJ"?1 : 3);
+  d.c1=(d.b-d.a)/d.a*100; d.c2=(d.c-d.b)/d.b*100; d.c3=(d.c-d.a)/d.a*100;
+});
+const REF = D.find(d=>d.n==="Refinery products");
+
+// ---------------------------------------------------------------- helpers
+const fmt = (v,d)=> v.toFixed(typeof d==="number"?d:(d&&d.dp)||3);
+const fmtU = (v,u)=> u==="t/CWT"?v.toFixed(4):(u==="t/TJ"?v.toFixed(1):v.toFixed(3));
+const pct = v => (v>0?"+":"")+v.toFixed(1)+"%";
+const cls = v => v< -0.05 ? "neg" : (v>0.05 ? "pos" : "zero");
+const flagTip = f => f ? [...f].map(ch=>FLAGTXT[ch]).join("  ") : "";
+const num = (v,d=0)=> v.toLocaleString("en-GB",{minimumFractionDigits:d,maximumFractionDigits:d});
+const eur = v => (v<0?"(":"")+"€"+num(Math.abs(v))+(v<0?")":"");
+// round-half-up, immune to the binary representation of exact .5 ties (0.1415 etc.)
+const rnd = (v,dp)=>{ const f=Math.pow(10,dp); return Math.round((v*f).toFixed(6)*1)/f; };
+
+// ---------------------------------------------------------------- Art. 10a(2) derivation
+function derive(d, per){
+  const g=CFG[per], meas=d[g.meas], published=d[g.val];
+  const aliasSet = per===2?ALIAS_B:ALIAS_A;
+  let annual, clamped, bound, aligned=false;
+  if(aliasSet.includes(d.n)){
+    // aligned with the refinery adjustment, using the published rounded refinery value
+    clamped = 1 - REF[g.val]/REF.a;
+    annual  = clamped/g.ext;
+    bound   = "data"; aligned = true;
+  }else{
+    annual  = (1 - meas/d.a)/g.n;
+    const raw = annual*g.ext;
+    clamped = Math.min(Math.max(raw, g.lo), g.hi);
+    bound   = raw>g.hi ? "cap" : (raw<g.lo ? "floor" : "data");
+  }
+  const raw = annual*g.ext;
+  let computed = d.a*(1-clamped), addon=0;
+  if(d.n==="Soda ash" && per===2){ addon = published-computed; computed = published; }
+  const r = rnd(computed, d.dp);
+  const off = Math.round(Math.abs(r-published)*Math.pow(10,d.dp));
+  return {annual, raw, clamped, bound, computed, addon, aligned, published,
+          rounded:r, off, ok:off===0, g};
+}
+const BOUNDLBL={cap:"At maximum",floor:"At minimum",data:"Data-driven"};
+
+// ================================================================ TABS
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b===btn));
+    document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+    document.getElementById("tab-"+btn.dataset.tab).classList.remove("hide");
+    if(btn.dataset.tab==="sectors") buildSectors();
+    if(btn.dataset.tab==="rates") drawRates();
+    if(btn.dataset.tab==="cbam") drawCbam();
+    if(btn.dataset.tab==="calc") runCalc();
+    window.scrollTo(0,0);
+  };
+});
+
+// ================================================================ KPIs
+(function(){
+  const comp=D.filter(d=>!d.f);
+  const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;
+  const capped=D.filter(d=>derive(d,2).bound==="cap").length;
+  const kpis=[
+    [D.length, "benchmarks in force — 52 product plus heat and fuel fall-backs"],
+    [pct(avg(comp.map(d=>d.c2))), "mean change 2021–25 → 2026–30, like-for-like benchmarks only"],
+    [capped+" of "+D.length, "benchmarks set by the 50% statutory maximum, not by observed data"],
+    ["−34.0%", "heat and fuel fall-back benchmarks, the steepest cuts in the update"],
+    ["51.5%", "CBAM factor in 2030 — nominal allocation halves in four years"]
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(k=>
+    `<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+})();
+
+// ================================================================ SELECTS
+function fillSector(el,label){
+  el.innerHTML = `<option value="">${label}</option>`+SECTORS.map(s=>`<option>${s}</option>`).join("");
+}
+["ovSector","trajSector","tblSector","scSector","rtSector"].forEach(id=>fillSector(document.getElementById(id),"All sectors"));
+document.getElementById("tblUnit").innerHTML =
+  `<option value="">All units</option>`+UNITS.map(u=>`<option value="${u}">${UNITLBL[u]}</option>`).join("");
+document.getElementById("cBm").innerHTML = SECTORS.map(s=>
+  `<optgroup label="${s}">`+D.filter(d=>d.s===s).map(d=>`<option>${d.n}</option>`).join("")+`</optgroup>`).join("");
+document.getElementById("cBm").value="Grey cement clinker";
+
+// ================================================================ OVERVIEW: change chart
+let changeChart;
+function drawChange(){
+  const sec=document.getElementById("ovSector").value;
+  const hide=document.getElementById("ovHideFlag").checked;
+  const rows=D.filter(d=>(!sec||d.s===sec)&&(!hide||!d.f)).sort((x,y)=>x.c2-y.c2);
+  const ctx=document.getElementById("changeChart");
+  ctx.parentElement.style.height=Math.max(320, rows.length*21+70)+"px";
+  const data={labels:rows.map(d=>d.n+(d.f?"  !":"")),
+    datasets:[{data:rows.map(d=>d.c2),
+      backgroundColor:rows.map(d=>d.c2<0?"rgba(31,138,95,.85)":"rgba(192,57,43,.85)"),
+      borderRadius:3,barThickness:13}]};
+  const opts={indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+      const d=rows[c.dataIndex];
+      return [`${fmtU(d.b,d.u)} → ${fmtU(d.c,d.u)}  (${pct(d.c2)})`, d.f?"⚠ "+flagTip(d.f):""].filter(Boolean);}}}},
+    scales:{x:{title:{display:true,text:"% change, 2021–2025 → 2026–2030"},grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:11}}}}};
+  if(changeChart){changeChart.data=data;changeChart.options=opts;changeChart.update();}
+  else changeChart=new Chart(ctx,{type:"bar",data,options:opts});
+}
+document.getElementById("ovSector").onchange=drawChange;
+document.getElementById("ovHideFlag").onchange=drawChange;
+drawChange();
+
+// ================================================================ OVERVIEW: scatter
+let scChart;
+function drawScatter(){
+  const sec=document.getElementById("scSector").value;
+  const rows=D.filter(d=>(!sec||d.s===sec)&&d.m>0);
+  const sets=SECTORS.filter(s=>rows.some(r=>r.s===s)).map(s=>({
+    label:s, backgroundColor:PAL[s], pointRadius:6, pointHoverRadius:9,
+    data:rows.filter(r=>r.s===s).map(r=>({x:r.c, y:r.m, r0:r}))
+  }));
+  const all=rows.flatMap(r=>[r.c,r.m]);
+  const lo=Math.min(...all)*0.8, hi=Math.max(...all)*1.15;
+  sets.push({label:"1:1 line",type:"line",data:[{x:lo,y:lo},{x:hi,y:hi}],
+    borderColor:"#c3ccd6",borderDash:[5,4],borderWidth:1.5,pointRadius:0,fill:false});
+  const opts={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:11,font:{size:11}}},
+      tooltip:{filter:c=>c.dataset.label!=="1:1 line",callbacks:{label:c=>{
+        const r=c.raw.r0, gap=(r.c-r.m)/r.m*100, dv=derive(r,2);
+        return [r.n, `benchmark ${fmtU(r.c,r.u)} · measured ${fmtU(r.m,r.u)}`,
+                `benchmark is ${gap>0?"+":""}${gap.toFixed(0)}% vs measured best practice`,
+                BOUNDLBL[dv.bound]];}}}},
+    scales:{x:{type:"logarithmic",title:{display:true,text:"2026–2030 benchmark value (log scale, mixed units)"},grid:{color:"#eef1f5"}},
+            y:{type:"logarithmic",title:{display:true,text:"Measured 10% most efficient, 2021/22 (log scale)"},grid:{color:"#eef1f5"}}}};
+  if(scChart){scChart.data={datasets:sets};scChart.options=opts;scChart.update();}
+  else scChart=new Chart(document.getElementById("scatterChart"),{type:"scatter",data:{datasets:sets},options:opts});
+}
+document.getElementById("scSector").onchange=drawScatter;
+drawScatter();
+
+// ================================================================ OVERVIEW: trajectory
+let trajChart, picked=new Set(["Hot metal","Grey cement clinker","Refinery products","Ammonia","Heat benchmark","Newsprint"]);
+function buildPicker(){
+  const sec=document.getElementById("trajSector").value;
+  const rows=D.filter(d=>!sec||d.s===sec);
+  document.getElementById("trajPicker").innerHTML=rows.map(d=>
+    `<label class="chk"><input type="checkbox" data-n="${d.n}" ${picked.has(d.n)?"checked":""}> ${d.n}</label>`).join("");
+  document.querySelectorAll("#trajPicker input").forEach(i=>i.onchange=e=>{
+    e.target.checked?picked.add(e.target.dataset.n):picked.delete(e.target.dataset.n); drawTraj();
+  });
+}
+function drawTraj(){
+  const rows=D.filter(d=>picked.has(d.n));
+  document.getElementById("trajCount").textContent=picked.size+" selected";
+  const data={labels:["2013–2020","2021–2025","2026–2030"],
+    datasets:rows.map(d=>({label:d.n,data:[100,d.b/d.a*100,d.c/d.a*100],
+      borderColor:PAL[d.s],backgroundColor:PAL[d.s],tension:0,pointRadius:5,borderWidth:2}))};
+  const opts={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>{const d=rows[c.datasetIndex];
+        return `${d.n}: ${fmtU([d.a,d.b,d.c][c.dataIndex],d.u)} (index ${c.parsed.y.toFixed(0)})`;}}}},
+    scales:{y:{title:{display:true,text:"Index, 2013–2020 = 100"},grid:{color:"#eef1f5"}},x:{grid:{display:false}}}};
+  if(trajChart){trajChart.data=data;trajChart.options=opts;trajChart.update();}
+  else trajChart=new Chart(document.getElementById("trajChart"),{type:"line",data,options:opts});
+}
+document.getElementById("trajSector").onchange=buildPicker;
+document.getElementById("trajClear").onclick=()=>{picked.clear();buildPicker();drawTraj();};
+buildPicker(); drawTraj();
+
+// ================================================================ REDUCTION RATES
+let rateChart;
+function drawRates(){
+  const per=+document.getElementById("rtPeriod").value;
+  const sec=document.getElementById("rtSector").value;
+  const sortBy=document.getElementById("rtSort").value;
+  let rows=D.filter(d=>!sec||d.s===sec).map(d=>({d, v:derive(d,per)}));
+  if(sortBy==="rate") rows.sort((x,y)=>y.v.annual-x.v.annual);
+  else if(sortBy==="name") rows.sort((x,y)=>x.d.n.localeCompare(y.d.n));
+  else rows.sort((x,y)=>x.d.s.localeCompare(y.d.s)||y.v.annual-x.v.annual);
+
+  const g=CFG[per];
+  const nCap=rows.filter(r=>r.v.bound==="cap").length;
+  const nFloor=rows.filter(r=>r.v.bound==="floor").length;
+  const nData=rows.length-nCap-nFloor;
+  document.getElementById("rtKpis").innerHTML=[
+    [nCap, `at the ${(g.hi*100).toFixed(0)}% maximum reduction`],
+    [nFloor, `at the ${(g.lo*100).toFixed(0)}% minimum reduction`],
+    [nData, "inside the bounds — genuinely data-driven"],
+    [(g.lo*100).toFixed(0)+"–"+(g.hi*100).toFixed(0)+"%", `statutory bounds on total reduction over ${g.ext} years`]
+  ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+
+  const ctx=document.getElementById("rateChart");
+  ctx.parentElement.style.height=Math.max(320, rows.length*21+80)+"px";
+  const COL={cap:"rgba(192,57,43,.85)",floor:"rgba(214,137,16,.85)",data:"rgba(31,95,191,.85)"};
+  const data={labels:rows.map(r=>r.d.n+(r.v.aligned?" (aligned)":"")),
+    datasets:[{data:rows.map(r=>r.v.annual*100),
+      backgroundColor:rows.map(r=>COL[r.v.bound]),borderRadius:3,barThickness:13}]};
+  const opts={indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>{
+        const r=rows[c.dataIndex], v=r.v;
+        const L=[`Annual rate ${(v.annual*100).toFixed(2)}%/yr of the 2007/08 value`,
+                 `Raw ${g.ext}-yr reduction ${(v.raw*100).toFixed(1)}% → applied ${(v.clamped*100).toFixed(1)}%`,
+                 `${BOUNDLBL[v.bound]} · benchmark ${fmt(v.published,r.d.dp)}`];
+        if(v.aligned) L.push("Aligned with the refinery adjustment, not own data");
+        if(v.addon) L.push(`+${v.addon.toFixed(3)} intermediate-emissions add-on`);
+        return L;}}}},
+    scales:{x:{title:{display:true,text:`Implied annual reduction rate, % of the 2007/08 value per year (${g.n}-yr observation)`},
+               grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:11}}}}};
+  if(rateChart){rateChart.data=data;rateChart.options=opts;rateChart.update();}
+  else rateChart=new Chart(ctx,{type:"bar",data,options:opts});
+
+  document.querySelector("#rtTbl tbody").innerHTML=rows.map(({d,v})=>`<tr>
+    <td>${d.n}${v.aligned?'<span class="flag" title="Adjusted by the same percentage as refinery products, per Art. 10a(2) fourth subparagraph.">aligned</span>':""}</td>
+    <td class="l"><span class="swatch" style="background:${PAL[d.s]}"></span>${d.s}</td>
+    <td>${fmt(d.a,d.dp)}</td>
+    <td class="dim">${v.aligned?"—":fmt(d[g.meas],d.dp)}</td>
+    <td>${(v.annual*100).toFixed(2)}%</td>
+    <td class="dim">${(v.raw*100).toFixed(1)}%</td>
+    <td>${(v.clamped*100).toFixed(1)}%</td>
+    <td class="l"><span class="pill ${v.bound}">${BOUNDLBL[v.bound]}</span></td>
+    <td><strong>${fmt(v.published,d.dp)}</strong>${v.addon?`<span class="dim" style="font-size:11px"> (incl. +${v.addon.toFixed(3)})</span>`:""}</td></tr>`).join("");
+}
+["rtPeriod","rtSector","rtSort"].forEach(id=>document.getElementById(id).onchange=drawRates);
+
+// ================================================================ CBAM
+let cbamChart;
+function drawCbam(){
+  const showProp=document.getElementById("cbShowProp").checked;
+  const yrs=[2025,...YEARS];
+  const sets=[
+    {label:"CBAM goods — current law",data:yrs.map(y=>CBAMF[y]*100),
+     borderColor:"#c0392b",backgroundColor:"#c0392b",tension:0,pointRadius:4,borderWidth:2.5},
+    {label:"Carbon-leakage sectors outside CBAM",data:yrs.map(()=>100),
+     borderColor:"#1f8a5f",backgroundColor:"#1f8a5f",tension:0,pointRadius:3,borderWidth:2},
+    {label:"Not on the carbon leakage list",data:yrs.map(y=>y===2025?30:(CLEF_NO[y]??0)*100),
+     borderColor:"#8a94a0",backgroundColor:"#8a94a0",tension:0,pointRadius:3,borderWidth:2}
+  ];
+  if(showProp) sets.push({label:"CBAM goods — July 2026 proposal (indicative)",
+     data:yrs.map(y=>cbamProp(y)*100),borderColor:"#c0392b",backgroundColor:"#c0392b",
+     borderDash:[6,4],tension:0,pointRadius:3,borderWidth:2});
+  const opts={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+    scales:{y:{beginAtZero:true,max:105,title:{display:true,text:"Share of nominal free allocation retained (%)"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}};
+  const data={labels:yrs.map(String),datasets:sets};
+  if(cbamChart){cbamChart.data=data;cbamChart.options=opts;cbamChart.update();}
+  else cbamChart=new Chart(document.getElementById("cbamChart"),{type:"line",data,options:opts});
+
+  const rows=D.filter(d=>d.cbam);
+  document.getElementById("cbHead").innerHTML =
+    `<th class="nosort">Benchmark</th><th class="nosort">Nominal 2026–30</th>`+
+    YEARS.map(y=>`<th class="nosort">${y}</th>`).join("");
+  document.querySelector("#cbTbl tbody").innerHTML = rows.map(d=>`<tr>
+    <td>${d.n}</td><td><strong>${fmt(d.c,d.dp)}</strong></td>`+
+    YEARS.map(y=>`<td class="${y>2030?"dim":""}">${fmt(d.c*CBAMF[y],d.dp)}</td>`).join("")+`</tr>`).join("");
+}
+document.getElementById("cbShowProp").onchange=drawCbam;
+
+// ================================================================ CALCULATOR
+function calcInputs(){
+  const d=D.find(x=>x.n===document.getElementById("cBm").value);
+  return {
+    d,
+    prod:+document.getElementById("cProd").value||0,
+    inten:+document.getElementById("cInt").value||0,
+    clef:document.getElementById("cClef").value,
+    cbamSel:document.getElementById("cCbam").value,
+    scen:document.getElementById("cScen").value,
+    cscf:(+document.getElementById("cCscf").value||0)/100,
+    price:+document.getElementById("cPrice").value||0
+  };
+}
+function syncHints(){
+  const d=D.find(x=>x.n===document.getElementById("cBm").value);
+  document.getElementById("cBmHint").textContent =
+    `2026–2030 value ${fmt(d.c,d.dp)} ${UNITLBL[d.u]}. Measured 10% best in 2021/22: ${fmt(d.m,d.dp)}.`;
+  document.getElementById("cProdHint").textContent = ACTLBL[d.u];
+  document.getElementById("cIntHint").textContent =
+    `${INTLBL[d.u]}. Benchmark is ${fmt(d.c,d.dp)}; enter your own verified figure.`;
+  document.getElementById("cCbamHint").textContent = d.cbam
+    ? "This benchmark is mapped to CBAM Annex I goods — factor applied by default."
+    : "Not mapped to CBAM Annex I — no factor applied by default.";
+}
+let calcChart;
+function runCalc(){
+  syncHints();
+  const I=calcInputs(), d=I.d;
+  const isCbam = I.cbamSel==="auto" ? !!d.cbam : I.cbamSel==="yes";
+  const emis = I.prod*I.inten;
+  const rows = YEARS.map(y=>{
+    const clef = I.clef==="cl" ? 1 : (CLEF_NO[y]??0);
+    const cf   = isCbam ? (I.scen==="prop"?cbamProp(y):CBAMF[y]) : 1;
+    const alloc= d.c*I.prod*clef*cf*I.cscf;
+    const gap  = emis-alloc;
+    return {y, clef, cf, alloc, emis, gap, cost:gap*I.price};
+  });
+  const to30=rows.filter(r=>r.y<=2030);
+  const sum=a=>a.reduce((s,x)=>s+x,0);
+
+  document.getElementById("cSummary").textContent =
+    `${num(emis)} t CO₂e/yr verified emissions · intensity ${(I.inten/d.c*100).toFixed(0)}% of benchmark`;
+
+  document.getElementById("cKpis").innerHTML=[
+    [num(to30[0].alloc), "free allowances in 2026"],
+    [num(to30[4].alloc), "free allowances in 2030"],
+    [eur(sum(to30.map(r=>r.cost))), "cumulative allowance cost 2026–2030"],
+    [eur(sum(rows.map(r=>r.cost))), "cumulative to 2034 (indicative beyond 2030)"],
+    [num(sum(to30.map(r=>r.gap))), "cumulative allowance shortfall 2026–2030 (t)"]
+  ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+
+  const data={labels:rows.map(r=>String(r.y)),datasets:[
+    {type:"bar",label:"Free allocation",data:rows.map(r=>r.alloc),
+     backgroundColor:rows.map(r=>r.y>2030?"rgba(11,61,145,.35)":"rgba(11,61,145,.85)"),borderRadius:3},
+    {type:"bar",label:"Allowances to buy",data:rows.map(r=>Math.max(0,r.gap)),
+     backgroundColor:rows.map(r=>r.y>2030?"rgba(192,57,43,.35)":"rgba(192,57,43,.8)"),borderRadius:3},
+    {type:"line",label:"Verified emissions",data:rows.map(r=>r.emis),
+     borderColor:"#14181f",borderWidth:2,borderDash:[5,4],pointRadius:0,tension:0}
+  ]};
+  const opts={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${num(c.parsed.y)} t`}}},
+    scales:{x:{stacked:true,grid:{display:false}},
+            y:{stacked:true,title:{display:true,text:"t CO₂e / allowances per year"},grid:{color:"#eef1f5"}}}};
+  if(calcChart){calcChart.data=data;calcChart.options=opts;calcChart.update();}
+  else calcChart=new Chart(document.getElementById("calcChart"),{type:"bar",data,options:opts});
+
+  document.getElementById("cTblNote").innerHTML =
+    `Benchmark ${fmt(d.c,d.dp)} ${UNITLBL[d.u]} · ${isCbam?"CBAM factor applied":"no CBAM factor"} ·
+     CSCF ${(I.cscf*100).toFixed(1)}% · EUA €${num(I.price)}.
+     <strong>Rows from 2031 are indicative</strong> — the benchmark is held at its 2026–2030 value because the
+     2031–2035 update has not been determined.`;
+  document.querySelector("#cTbl tbody").innerHTML=rows.map(r=>`<tr${r.y>2030?' class="dim"':""}>
+    <td class="l">${r.y}${r.y>2030?' <span class="tag">indicative</span>':""}</td>
+    <td>${fmt(d.c,d.dp)}</td>
+    <td>${(r.clef*100).toFixed(1)}%</td>
+    <td>${(r.cf*100).toFixed(1)}%</td>
+    <td>${num(r.alloc)}</td>
+    <td>${num(r.emis)}</td>
+    <td class="${r.gap>0?"pos":"neg"}">${num(r.gap)}</td>
+    <td class="${r.cost>0?"pos":"neg"}">${eur(r.cost)}</td></tr>`).join("");
+  document.querySelector("#cTbl tfoot").innerHTML=`<tr>
+    <td class="l">2026–2030 total</td><td></td><td></td><td></td>
+    <td>${num(sum(to30.map(r=>r.alloc)))}</td>
+    <td>${num(sum(to30.map(r=>r.emis)))}</td>
+    <td>${num(sum(to30.map(r=>r.gap)))}</td>
+    <td>${eur(sum(to30.map(r=>r.cost)))}</td></tr>`;
+}
+["cBm","cProd","cInt","cClef","cCbam","cScen","cCscf","cPrice"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.oninput=runCalc; el.onchange=runCalc;
+});
+document.getElementById("cReset").onclick=()=>{
+  const d=D.find(x=>x.n===document.getElementById("cBm").value);
+  document.getElementById("cInt").value=d.c;
+  document.getElementById("cCscf").value=100;
+  runCalc();
+};
+document.getElementById("cBm").addEventListener("change",()=>{
+  const d=D.find(x=>x.n===document.getElementById("cBm").value);
+  document.getElementById("cInt").value=+(d.c*1.25).toFixed(d.dp+1);
+  runCalc();
+});
+runCalc();
+
+// ================================================================ FULL TABLE
+let sortK="sector", sortD=1;
+const KEY={v13:"a",v21:"b",v26:"c",m17:"m17",m:"m",c1:"c1",c2:"c2",c3:"c3"};
+function drawTable(){
+  const q=document.getElementById("q").value.toLowerCase();
+  const sec=document.getElementById("tblSector").value;
+  const un=document.getElementById("tblUnit").value;
+  const cb=document.getElementById("tblCbam").checked;
+  const rows=D.filter(d=>(!q||d.n.toLowerCase().includes(q))&&(!sec||d.s===sec)&&(!un||d.u===un)&&(!cb||d.cbam));
+  rows.sort((x,y)=>{
+    const g=r=> sortK==="name"?r.n : sortK==="sector"?r.s : sortK==="unit"?r.u : r[KEY[sortK]];
+    const A=g(x),B=g(y);
+    return (typeof A==="string"?A.localeCompare(B):A-B)*sortD;
+  });
+  document.getElementById("rowcount").textContent=rows.length+" of "+D.length;
+  document.querySelector("#tbl tbody").innerHTML=rows.map(d=>`<tr>
+    <td>${d.n}${d.f?`<span class="flag" title="${flagTip(d.f)}">!</span>`:""}${d.cbam?`<span class="tag" style="margin-left:5px">CBAM</span>`:""}</td>
+    <td><span class="swatch" style="background:${PAL[d.s]}"></span>${d.s}</td>
+    <td>${fmt(d.a,d.dp)}</td><td>${fmt(d.b,d.dp)}</td><td><strong>${fmt(d.c,d.dp)}</strong></td>
+    <td class="dim">${fmt(d.m17,d.dp)}</td><td class="dim">${fmt(d.m,d.dp)}</td>
+    <td class="${cls(d.c1)}">${pct(d.c1)}</td>
+    <td class="${cls(d.c2)}">${pct(d.c2)}</td>
+    <td class="${cls(d.c3)}">${pct(d.c3)}</td>
+    <td class="dim" style="font-size:12px">${UNITLBL[d.u]}</td></tr>`).join("");
+}
+document.querySelectorAll("#tbl thead th").forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k; if(!k) return; sortD=(k===sortK)?-sortD:1; sortK=k; drawTable();
+});
+["q","tblSector","tblUnit","tblCbam"].forEach(id=>{
+  const el=document.getElementById(id); el.oninput=drawTable; el.onchange=drawTable;
+});
+drawTable();
+
+// ================================================================ SECTORS
+let secBuilt=false;
+function buildSectors(){
+  if(secBuilt) return; secBuilt=true;
+  const grid=document.getElementById("secGrid");
+  SECTORS.forEach(s=>{
+    const rows=D.filter(d=>d.s===s);
+    const div=document.createElement("div");
+    div.className="panel sec";
+    div.innerHTML=`<h3><span class="swatch" style="background:${PAL[s]}"></span>${s}</h3>
+      <div class="cnt">${rows.length} benchmark${rows.length>1?"s":""} · ${[...new Set(rows.map(r=>UNITLBL[r.u]))].join(", ")}</div>
+      <div style="position:relative;height:${Math.max(190, rows.length*46+70)}px"><canvas></canvas></div>`;
+    grid.appendChild(div);
+    new Chart(div.querySelector("canvas"),{type:"bar",
+      data:{labels:rows.map(r=>r.n),datasets:[
+        {label:"2013–2020",data:rows.map(r=>r.a),backgroundColor:"#b8c0cc",borderRadius:2},
+        {label:"2021–2025",data:rows.map(r=>r.b),backgroundColor:"#5b8ff9",borderRadius:2},
+        {label:"2026–2030",data:rows.map(r=>r.c),backgroundColor:"#0b3d91",borderRadius:2}]},
+      options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:"bottom",labels:{boxWidth:11,font:{size:11}}},
+          tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmtU(c.parsed.x,rows[c.dataIndex].u)}`}}},
+        scales:{x:{grid:{color:"#eef1f5"}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+  });
+}
+</script>
+</body>
+</html>
