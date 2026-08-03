@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The EU ETS — EU Climate Policy Explorer</title>
+<meta name="description" content="How the EU Emissions Trading System works and what it has produced: the cap trajectory to 2040, the Market Stability Reserve, verified emissions and auction revenue.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="The EU Emissions Trading System">
+<meta property="og:description" content="How the EU ETS works and what it has produced: the cap trajectory to 2040, the Market Stability Reserve, verified emissions and auction revenue.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/ets.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The EU Emissions Trading System">
+<meta name="twitter:description" content="How the EU ETS works and what it has produced: the cap trajectory to 2040, the Market Stability Reserve, verified emissions and auction revenue.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5f6b7a;--line:#e3e7ec;--accent:#1f5fbf;
+        --down:#1f8a5f;--up:#c0392b;--violet:#6b5bd2;--navy:#0b3d91}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--navy);color:#fff;padding:26px 28px 22px}
+  .headerinner{max-width:1240px;margin:0 auto;padding:0 20px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:900px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+           padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:var(--navy);border-color:#fff;font-weight:600}
+
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px 60px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:24px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:25px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:950px}
+  .chartbox{position:relative;height:440px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th.l,td.l{text-align:left;white-space:normal}
+  thead th{background:#fafbfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tbody tr:hover{background:#f4f8ff}
+  .tblscroll{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:20px}
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p,details li{font-size:13.5px;color:#39414d}
+  code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:12.5px}
+  a{color:var(--accent)}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .ok{background:#e9f7ef;border:1px solid #bfe3cd;color:#1f6b45;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px}
+  .sw{display:inline-block;width:20px;height:0;border-top:3px solid;margin-right:5px;vertical-align:3px}
+  .sw.d{border-top-style:dashed}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .hide{display:none}
+  ul.tl{list-style:none;margin:0;padding:0}
+  ul.tl li{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--line);margin-left:6px}
+  ul.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+  ul.tl li::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;
+                   background:var(--accent);border:2px solid #fff}
+  ul.tl li.past::before{background:#b8c0cc}
+  ul.tl li.prop::before{background:#f0eefb;border-color:var(--violet)}
+  ul.tl .yr{font-weight:700;font-size:13px;color:var(--accent);display:block;margin-bottom:2px}
+  ul.tl li.past .yr{color:var(--muted)}
+  ul.tl li.prop .yr{color:var(--violet)}
+  ul.tl .txt{font-size:13.5px;color:#39414d}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>The EU Emissions Trading System</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <a href="ets.html" aria-current="page">EU ETS</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="cbam.html">CBAM</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>Europe's carbon market in numbers: how many allowances exist, how fast that number is falling, how the
+       surplus is managed, and what the system has actually delivered since 2005.</p>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="headerinner">
+    <button data-tab="cap" class="on">Cap &amp; supply</button>
+    <button data-tab="msr">Market Stability Reserve</button>
+    <button data-tab="out">Outcomes</button>
+    <button data-tab="scope">Scope &amp; timeline</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ===================== CAP ===================== -->
+<section id="tab-cap">
+  <div class="cards" id="kpis"></div>
+
+  <div class="panel">
+    <h2>The cap, 2013 to 2040</h2>
+    <p class="sub">Every allowance is a right to emit one tonne of CO₂e, and the cap is simply how many exist.
+       It falls each year by a fixed number of allowances — the linear reduction factor applied to a fixed
+       reference quantity — so the decline is a straight line, not a percentage curve. Two things make the recent
+       years steeper: the reduction factor nearly doubled in 2024, and the cap was cut twice on top of that.</p>
+    <div class="controls">
+      <label class="chk"><input type="checkbox" id="showExt" checked> Show what current rules would imply after 2030</label>
+      <label class="chk"><input type="checkbox" id="showProp" checked> Show the July 2026 Phase 5 proposal</label>
+    </div>
+    <div class="chartbox"><canvas id="capChart"></canvas></div>
+    <div class="legend">
+      <span><span class="sw" style="border-color:#0b3d91"></span>Cap in force (2013–2030)</span>
+      <span><span class="sw d" style="border-color:#c0392b"></span>Current rules simply extended — supply ends around 2039</span>
+      <span><span class="sw d" style="border-color:#6b5bd2"></span>Proposed Phase 5 — allowances continue into the 2040s</span>
+    </div>
+    <div class="warn" style="margin-top:16px">The single most consequential thing in this chart is not the slope
+      but where the lines end. Extending today's reduction factor mechanically would take the cap to zero around
+      <strong>2039</strong>. The July 2026 proposal deliberately flattens the trajectory — 3.7% a year for 2031–35,
+      then 1.7% — so allowances are still being issued in 2040. That is what aligns the ETS with a 90% net target
+      rather than a 100% gross one.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Why the line bends: reduction factors and one-off cuts</h2>
+    <p class="sub">The reduction factor is a percentage of a fixed 2008–2012 reference quantity, so a constant
+       factor removes a constant number of allowances every year.</p>
+    <div class="tblscroll">
+      <table id="lrfTbl">
+        <thead><tr><th class="l">Period</th><th>Reduction factor</th><th>Allowances removed per year</th>
+          <th class="l">Also happening</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MSR ===================== -->
+<section id="tab-msr" class="hide">
+  <div class="panel">
+    <h2>The surplus and the Market Stability Reserve</h2>
+    <p class="sub">The ETS spent its first decade drowning in unused allowances. The Market Stability Reserve,
+       operating since 2019, withdraws allowances when the surplus is large and returns them when it is small.
+       The measure it reacts to is the Total Number of Allowances in Circulation — every allowance ever issued,
+       minus those surrendered or in the reserve.</p>
+    <div class="chartbox"><canvas id="tnacChart"></canvas></div>
+    <div class="legend">
+      <span><span class="sw" style="border-color:#0b3d91"></span>TNAC, as published each May</span>
+      <span><span class="sw d" style="border-color:#c0392b"></span>Upper threshold, 1 096 Mt — above this, 24% is withdrawn</span>
+      <span><span class="sw d" style="border-color:#d9a520"></span>Upper buffer, 833 Mt — between the two, the excess over 833 is withdrawn</span>
+      <span><span class="sw d" style="border-color:#1f8a5f"></span>Lower threshold, 400 Mt — below this, allowances are released</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ok"><strong>Cross-check.</strong> Applying the published rules to the TNAC series reproduces the
+      Commission's announced intake volumes exactly — 272.4 Mt from the 2022 figure, 266.8 Mt from 2023, and
+      190.5 Mt from 2025. That agreement is the reason the series below can be trusted.</div>
+    <h2>What the reserve actually did</h2>
+    <div class="tblscroll">
+      <table id="msrTbl">
+        <thead><tr><th class="l">TNAC year</th><th>TNAC (Mt)</th><th class="l">Rule triggered</th>
+          <th>Withdrawn over the following year (Mt)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:14px">Intakes run from 1 September of the year after publication to
+      31 August of the year after that.</p>
+  </div>
+
+  <div class="panel">
+    <h2>What the 2026 proposals would change</h2>
+    <p class="sub">Two separate proposals are in negotiation. Neither is law.</p>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">COM(2026) 153 — April 2026</h3>
+        <p style="font-size:13.5px;color:#39414d;margin:0">Ends the invalidation mechanism, under which allowances
+           held in the reserve above 400 million are permanently cancelled. They would instead be retained as a
+           buffer against future tightness — a significant softening, since invalidation is what makes the MSR
+           permanently remove supply rather than merely defer it.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">COM(2026) 616 — July 2026</h3>
+        <p style="font-size:13.5px;color:#39414d;margin:0">Recalibrates the reserve to a shrinking cap: a new lower
+           buffer at 300 Mt from 2028, all reference points declining 4% a year from 2029, the intake rate halved
+           from 24% to 12% with the upper threshold reset to 947 Mt, and cumulative net aviation demand folded into
+           the TNAC — which alone cuts the 2027 figure by roughly 173 Mt and so triggers earlier releases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OUTCOMES ===================== -->
+<section id="tab-out" class="hide">
+  <div class="panel">
+    <h2>Where the reductions actually came from</h2>
+    <p class="sub">This is the most important chart on the page, and the least comfortable. Between 2013 and 2024
+       emissions from stationary installations fell 45.8% — but almost all of that came from combustion, meaning
+       the power sector switching away from coal. Industrial process emissions barely moved.</p>
+    <div class="chartbox" style="height:330px"><canvas id="sectorChart"></canvas></div>
+    <div class="warn" style="margin-top:16px">A carbon price plus cheap renewables was enough to transform
+      electricity generation. It has not been enough to transform steel, cement or chemicals — which is precisely
+      why free allocation, the benchmark system and CBAM exist, and why the argument about them is so persistent.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Auction revenue</h2>
+    <p class="sub">Allowances not given away free are auctioned, and the money goes mostly to member states. From
+       2028 the July 2026 proposal would require at least 50% of it to go to defined climate priorities, with
+       fossil fuel lock-in explicitly prohibited.</p>
+    <div class="cards" id="revKpis" style="margin-top:0"></div>
+    <p class="sub" style="margin-bottom:0">Revenue fell between 2023 and 2024 despite a tightening cap, because the
+       allowance price fell further than the volume did. Auction revenue tracks price far more than it tracks
+       ambition — a point worth remembering whenever the figure is cited as a measure of policy success.</p>
+  </div>
+</section>
+
+<!-- ===================== SCOPE ===================== -->
+<section id="tab-scope" class="hide">
+  <div class="panel">
+    <h2>Twenty years of scope changes</h2>
+    <p class="sub">The ETS has grown by accretion. Each expansion brought a cap adjustment with it.</p>
+    <ul class="tl" id="timeline"></ul>
+  </div>
+
+  <div class="panel">
+    <h2>Two systems, not one</h2>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">EU ETS 1 — since 2005</h3>
+        <p style="font-size:13.5px;color:#39414d">Power generation, energy-intensive industry, intra-EEA aviation
+           and, since 2024, maritime transport. Upstream of the consumer: the obligation sits with the installation
+           or operator that emits. Roughly 40% of EU greenhouse gas emissions.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">EU ETS 2 — from 2028</h3>
+        <p style="font-size:13.5px;color:#39414d">A separate, parallel system for fuels used in buildings, road
+           transport and small industry. The obligation sits with the fuel supplier, not the household or driver,
+           but the cost passes through at the pump and the boiler. Originally due in 2027 and postponed by a year
+           in March 2026; auctioning still starts in 2027, and the Social Climate Fund is meant to cushion the
+           distributional impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NOTES ===================== -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <h2>Sources</h2>
+    <ul>
+      <li><strong>Cap.</strong> <a href="https://climate.ec.europa.eu/eu-action/carbon-markets/eu-emissions-trading-system-eu-ets/eu-ets-emissions-cap_en" target="_blank" rel="noopener">Commission EU ETS emissions cap page</a>; Commission Decision (EU) 2023/1575 for the 2024 figure of 1 386 051 745 allowances; Commission Decision (EU) 2020/1722 for 2021.</li>
+      <li><strong>Reduction factors and rebasings.</strong> Directive 2003/87/EC as amended by Directive (EU) 2023/959.</li>
+      <li><strong>TNAC and MSR.</strong> Annual Commission communications publishing the total number of allowances in circulation; Decision (EU) 2015/1814 as amended.</li>
+      <li><strong>Emissions and revenue.</strong> European Environment Agency EU ETS data viewer and ETC/CM trends reports; Commission reporting on the functioning of the carbon market.</li>
+      <li><strong>Proposals.</strong> COM(2026) 153 of 1 April 2026 and COM(2026) 616 of 17 July 2026, both in the ordinary legislative procedure.</li>
+    </ul>
+  </div>
+
+  <details open>
+    <summary>Which numbers here are official and which are computed</summary>
+    <p><strong>Official published figures:</strong> the annual caps for 2013–2024, the TNAC series, and the MSR
+       intake volumes. The 2024 cap and the 2021 cap each come from a dedicated Commission decision.</p>
+    <p><strong>Computed by applying the legislated formula:</strong> the caps for 2025 to 2030. These are the fixed
+       reference quantity of 2 039 152 882 allowances multiplied by the reduction factor for each period, with the
+       27 Mt rebasing subtracted in 2026. The method reproduces the 2026 cap of roughly 1 184 Mt cited in Commission
+       material, and the 2030 result of about 827 Mt sits within a rounding error of the 62% reduction against 2005
+       that the Directive targets — two independent checks that the arithmetic is right.</p>
+    <p><strong>Illustrative:</strong> both post-2030 lines. The extension of current rules is a mechanical
+       projection nobody intends to enact; the Phase 5 line applies the proposed reduction factors and ignores the
+       cap increases the same proposal makes for carbon removals, aviation and maritime, so it understates the
+       proposed cap somewhat. Treat both as showing shape, not level.</p>
+  </details>
+
+  <details>
+    <summary>Why the emissions figures need care</summary>
+    <p>Scope has changed repeatedly, so a single continuous emissions series across 2005–2025 is not comparing like
+       with like — maritime alone added roughly 78 Mt of covered emissions in 2024. The figures shown here are
+       therefore given as changes over defined windows on a consistent scope, rather than as a year-by-year series.
+       The 2025 figure is an analyst estimate published before the full verified dataset.</p>
+  </details>
+
+  <details>
+    <summary>What this page does not cover</summary>
+    <p>Free allocation is treated in depth on the <a href="benchmarks.html">benchmarks page</a>, and the
+       CBAM interlock on the <a href="cbam.html">CBAM page</a>. Not covered anywhere yet: the Innovation and
+       Modernisation Funds, national implementation and enforcement, the aviation cap in detail, or the EUA
+       price series.</p>
+  </details>
+</section>
+
+<footer class="wrap" style="padding-bottom:30px">
+  Compiled from Commission and EEA sources, August 2026. An orientation tool, not an official publication —
+  verify against the primary sources before relying on any figure.
+</footer>
+</div>
+
+<script>
+// ---------------------------------------------------------------- data
+const REF = 2039152882;                       // 2008–2012 reference quantity
+const CAP = {                                  // official published caps, million allowances
+  2013:2084.30, 2014:2046.04, 2015:2007.77, 2016:1969.51, 2017:1931.24,
+  2018:1892.98, 2019:1854.72, 2020:1816.45,
+  2021:1571.58, 2022:1528.58, 2023:1485.58, 2024:1386.05
+};
+const R43 = REF*0.043/1e6, R44 = REF*0.044/1e6, R37 = REF*0.037/1e6, R17 = REF*0.017/1e6;
+// computed 2025–2030 under the legislated factors
+CAP[2025]=CAP[2024]-R43;
+CAP[2026]=CAP[2025]-R43-27;
+CAP[2027]=CAP[2026]-R43;
+CAP[2028]=CAP[2027]-R44;
+CAP[2029]=CAP[2028]-R44;
+CAP[2030]=CAP[2029]-R44;
+// mechanical extension of current rules
+const EXT={2030:CAP[2030]};
+for(let y=2031;y<=2042;y++) EXT[y]=Math.max(0, EXT[y-1]-R44);
+// proposed Phase 5 factors
+const PROP={2030:CAP[2030]};
+for(let y=2031;y<=2035;y++) PROP[y]=PROP[y-1]-R37;
+for(let y=2036;y<=2042;y++) PROP[y]=PROP[y-1]-R17;
+
+const TNAC={2018:1654.9, 2019:1385.5, 2020:1579.6, 2021:1449.3,
+            2022:1134.8, 2023:1111.7, 2024:1148.0, 2025:1023.5};
+const UPPER=1096, BUFFER=833, LOWER=400;
+function intake(t){                            // published MSR rules
+  if(t>UPPER) return {v:t*0.24, r:"Above the upper threshold — 24% of the TNAC withdrawn"};
+  if(t>BUFFER) return {v:t-BUFFER, r:"Between buffer and threshold — the excess over 833 Mt withdrawn"};
+  if(t<LOWER)  return {v:-100,   r:"Below the lower threshold — 100 Mt released"};
+  return {v:0, r:"Between buffer and lower threshold — no intake"};
+}
+
+const LRF=[
+  ["2013–2020","1.74%","38.3 million","Phase 3. Cap set EU-wide for the first time, replacing national allocation plans."],
+  ["2021–2023","2.2%","43.0 million","Phase 4 begins. Free allocation moves to benchmark values updated twice per decade."],
+  ["2024–2027","4.3%","87.7 million","Maritime transport added, raising the cap by 78.4 Mt. One-off cut of 90 Mt in 2024 and 27 Mt in 2026."],
+  ["2028–2030","4.4%","89.7 million","Aviation free allocation fully phased out; CBAM begins withdrawing industrial free allocation."],
+  ["2031–2035","3.7% (proposed)","75.4 million","Phase 5 under COM(2026) 616. Free allocation becomes conditional on a verified decarbonisation plan."],
+  ["2036–2040","1.7% (proposed)","34.7 million","Deliberately flatter, so allowances are still issued in 2040. Reverts to 2.7% if high-quality international credits prove unavailable."]
+];
+
+const TIMELINE=[
+  [2005,"past","The system starts, covering power generation and heavy industry in 25 member states. Allowances are handed out almost entirely free, based on historical emissions."],
+  [2008,"past","Phase 2. Nitrous oxide and aluminium added in some states; the financial crisis collapses demand and creates a surplus that will take fifteen years to work off."],
+  [2012,"past","Aviation joins, but international objections force the scope back to intra-EEA flights within a year — the 'stop the clock' derogation, still in place today."],
+  [2013,"past","Phase 3. A single EU-wide cap, auctioning as the default, and harmonised benchmark-based free allocation."],
+  [2019,"past","The Market Stability Reserve begins operating, and the allowance price starts to recover from below €10."],
+  [2021,"past","Phase 4. The reduction factor rises to 2.2% and the UK leaves the system."],
+  [2024,"past","Maritime transport enters. The reduction factor nearly doubles to 4.3% and the cap is cut by 90 Mt on top."],
+  [2026,"now","CBAM's definitive regime starts and free allocation to CBAM sectors begins to fall. Benchmark values for 2026–2030 take effect. The 2040 target of −90% becomes law."],
+  [2028,"prop","ETS 2 starts for buildings and road transport fuels, postponed by a year from 2027. Auctioning under it begins in 2027 regardless."],
+  [2031,"prop","Proposed Phase 5: free allocation conditional on verified decarbonisation plans, waste incineration brought into scope, an Industrial Decarbonisation Bank."],
+  [2034,"prop","Free allocation to CBAM sectors reaches zero under current law — the July 2026 proposal would push this to 2038."]
+];
+
+const REV=[["€43.6 bn","total auction revenue in 2023"],
+           ["€38.8 bn","total auction revenue in 2024 — lower despite a tighter cap"],
+           ["€24.4 bn","of the 2024 total going directly to member states"],
+           ["€245 bn+","cumulative auction revenue by late 2025"]];
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hide");
+  window.scrollTo(0,0);
+});
+
+// ---------------------------------------------------------------- KPIs
+const f1=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
+document.getElementById("kpis").innerHTML=[
+  [f1(CAP[2026])+" Mt","allowances issued in 2026 — the cap in force this year"],
+  ["−43%","fall in the cap between 2013 and 2026"],
+  ["4.3%","reduction factor since 2024, up from 1.74% before 2021"],
+  ["117 Mt","cut from the cap by the two one-off rebasings, on top of the annual decline"],
+  ["≈2039","when supply would end if today's rules were simply extended"]
+].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+document.getElementById("revKpis").innerHTML=REV.map(k=>
+  `<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+
+// ---------------------------------------------------------------- cap chart
+const capYears=[]; for(let y=2013;y<=2042;y++) capYears.push(y);
+let capChart;
+function drawCap(){
+  const ext=document.getElementById("showExt").checked;
+  const prop=document.getElementById("showProp").checked;
+  const ds=[{label:"Cap in force",data:capYears.map(y=>CAP[y]??null),
+    borderColor:"#0b3d91",backgroundColor:"#0b3d91",borderWidth:3,pointRadius:0,tension:0,spanGaps:false}];
+  if(ext) ds.push({label:"Current rules extended",data:capYears.map(y=>EXT[y]??null),
+    borderColor:"#c0392b",borderDash:[6,4],borderWidth:2,pointRadius:0,tension:0});
+  if(prop) ds.push({label:"Proposed Phase 5",data:capYears.map(y=>PROP[y]??null),
+    borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:0,tension:0});
+  const opts={responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f1(c.parsed.y)} Mt`}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances issued per year"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false},ticks:{maxRotation:0,autoSkipPadding:14}}}};
+  const data={labels:capYears.map(String),datasets:ds};
+  if(capChart){capChart.data=data;capChart.options=opts;capChart.update();}
+  else capChart=new Chart(document.getElementById("capChart"),{type:"line",data,options:opts});
+}
+document.getElementById("showExt").onchange=drawCap;
+document.getElementById("showProp").onchange=drawCap;
+drawCap();
+
+document.querySelector("#lrfTbl tbody").innerHTML=LRF.map(r=>
+  `<tr><td class="l"><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td>
+   <td class="l" style="color:#4b5563;font-size:13px">${r[3]}</td></tr>`).join("");
+
+// ---------------------------------------------------------------- TNAC chart
+const ty=Object.keys(TNAC).map(Number).sort();
+new Chart(document.getElementById("tnacChart"),{type:"line",
+  data:{labels:ty.map(String),datasets:[
+    {label:"TNAC",data:ty.map(y=>TNAC[y]),borderColor:"#0b3d91",backgroundColor:"rgba(11,61,145,.08)",
+     borderWidth:3,pointRadius:5,tension:0,fill:true},
+    {label:"Upper threshold 1 096 Mt",data:ty.map(()=>UPPER),borderColor:"#c0392b",borderDash:[6,4],borderWidth:1.6,pointRadius:0},
+    {label:"Upper buffer 833 Mt",data:ty.map(()=>BUFFER),borderColor:"#d9a520",borderDash:[6,4],borderWidth:1.6,pointRadius:0},
+    {label:"Lower threshold 400 Mt",data:ty.map(()=>LOWER),borderColor:"#1f8a5f",borderDash:[6,4],borderWidth:1.6,pointRadius:0}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.datasetIndex===0
+        ? `TNAC ${f1(c.parsed.y)} Mt — ${intake(c.parsed.y).r}` : `${c.dataset.label}`}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}}});
+
+document.querySelector("#msrTbl tbody").innerHTML=ty.map(y=>{
+  const t=TNAC[y], i=intake(t);
+  return `<tr><td class="l"><strong>${y}</strong></td><td>${f1(t)}</td>
+    <td class="l" style="color:#4b5563;font-size:13px">${i.r}</td>
+    <td style="font-weight:600;color:${i.v>0?"var(--down)":"var(--muted)"}">${i.v?f1(i.v):"—"}</td></tr>`;
+}).join("");
+
+// ---------------------------------------------------------------- sector chart
+new Chart(document.getElementById("sectorChart"),{type:"bar",
+  data:{labels:["Combustion — mostly power generation","Industrial processes","All stationary installations"],
+    datasets:[{data:[-55.6,-16.8,-45.8],
+      backgroundColor:["rgba(31,138,95,.85)","rgba(192,57,43,.85)","rgba(11,61,145,.85)"],borderRadius:4}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>`${c.parsed.x}% change, 2013 to 2024`}}},
+    scales:{x:{title:{display:true,text:"% change in verified emissions, 2013 to 2024"},grid:{color:"#eef1f5"}},
+            y:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- timeline
+document.getElementById("timeline").innerHTML=TIMELINE.map(([y,cls,txt])=>
+  `<li class="${cls==='now'?'':cls}"><span class="yr">${y}</span><span class="txt">${txt}</span></li>`).join("");
+</script>
+</body>
+</html>
