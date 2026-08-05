@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Legislation Map — EU Climate Policy Explorer</title>
-<meta name="description" content="An interactive map of 82 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="description" content="An interactive map of 102 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Legislation Map">
-<meta property="og:description" content="An interactive map of 82 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:description" content="An interactive map of 102 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Legislation Map">
-<meta name="twitter:description" content="An interactive map of 82 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:description" content="An interactive map of 102 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -101,6 +101,22 @@
 
   #tip{position:absolute;pointer-events:none;background:#14181f;color:#fff;font-size:12.5px;
        padding:5px 9px;border-radius:6px;opacity:0;transition:opacity .12s;z-index:8;white-space:nowrap}
+
+  #scrim{position:absolute;inset:0;background:rgba(20,24,31,.34);z-index:40;display:none}
+  #scrim.on{display:block}
+  #intro{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:41;
+         width:660px;max-width:calc(100% - 32px);max-height:calc(100% - 40px);overflow:auto;
+         background:var(--panel);border:1px solid var(--line);border-radius:14px;
+         box-shadow:0 16px 48px rgba(20,24,31,.24);padding:26px 30px 22px;display:none}
+  #intro.on{display:block}
+  #intro h2{margin:0 0 14px;font-size:19px;letter-spacing:-.01em}
+  #intro p{font-size:14px;line-height:1.62;color:#39414d;margin:0 0 13px}
+  #intro p:last-of-type{margin-bottom:0}
+  #intro .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;
+               margin-top:20px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap}
+  #intro .btn{background:var(--accent);color:#fff;border:0;font-weight:600;padding:9px 20px;border-radius:8px;cursor:pointer}
+  #intro .btn:hover{background:#17509f}
+  #intro a{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -128,6 +144,7 @@
   <span class="chip" data-st="r"><span class="dot" style="background:var(--red)"></span>Repealed or expired</span>
   <span class="chip" data-st="p"><span class="dot ring" style="border-color:var(--violet)"></span>Proposed</span>
   <button class="btn" id="reset">Reset view</button>
+  <button class="btn" id="about">About this map</button>
   <div class="spacer"></div>
   <span class="count" id="count"></span>
 </div>
@@ -135,6 +152,29 @@
 <div id="wrap">
   <canvas id="cv"></canvas>
   <div id="tip"></div>
+
+  <div id="scrim"></div>
+  <div id="intro">
+    <h2>About this map</h2>
+    <p>Mapping climate legislation presents a particular challenge because of the broad and cross-cutting nature
+       of climate policy. Many legal acts are only partially related to climate change, even though they may have
+       significant implications for climate mitigation. Energy policy, for example, overlaps extensively with
+       climate policy.</p>
+    <p>To keep the overview clear, I have consciously tried to include only legislation that addresses climate
+       change as a primary objective. Given the already large number of legal acts covered, including all
+       indirectly relevant legislation would make the map considerably more complex and difficult to navigate.</p>
+    <p>Furthermore, the starting point of this map has been determined somewhat arbitrarily. For carbon pricing,
+       the timeline begins with the EU Emissions Trading System (EU ETS), while in other policy areas selected
+       pieces of legislation serve as starting points. The main objective at this stage is to present the current
+       landscape of climate legislation. Older legislation may be added in the future to better illustrate the
+       historical development of climate policy over time.</p>
+    <p>If you believe that important legislation is missing, please feel free to get in touch at
+       <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
+    <div class="foot">
+      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.</span>
+      <button class="btn" id="introClose">Explore the map</button>
+    </div>
+  </div>
 
   <div id="legend">
     <div class="row"><span class="dot" style="background:var(--green)"></span>In force, text as adopted</div>
@@ -187,14 +227,14 @@ const L = [
 {id:"gov", num:"Reg. (EU) 2018/1999", title:"Governance of the Energy Union", yr:2018, dom:"fw", st:"y",
  eli:"reg/2018/1999",
  sum:"The planning and reporting backbone: National Energy and Climate Plans, long-term strategies, biennial progress reports and the GHG inventory system. Nearly every later climate act plugs its reporting obligations into this regulation.",
- rel:[]},
+ rel:[["rp","mmr"]]},
 {id:"eap8", num:"Decision (EU) 2022/591", title:"8th Environment Action Programme", yr:2022, dom:"fw", st:"g",
  eli:"dec/2022/591",
  sum:"Sets the EU's environmental priorities to 2030 and the monitoring framework for them, including climate mitigation and adaptation. Successor to the 7th EAP.",
- rel:[["rp","eap7"],["rl","climatelaw"]]},
-{id:"eap7", num:"Decision No 1386/2013/EU", title:"7th Environment Action Programme", yr:2013, dom:"fw", st:"r",
+ rel:[["rl","eap7"],["rl","climatelaw"]]},
+{id:"eap7", num:"Decision No 1386/2013/EU", title:"7th Environment Action Programme", yr:2013, dom:"fw", st:"g",
  eli:"dec/2013/1386",
- sum:"Guided EU environment policy to 2020 under the banner 'Living well, within the limits of our planet'. Expired at the end of 2020 and superseded by the 8th EAP.",
+ sum:"Guided EU environment policy under the banner 'Living well, within the limits of our planet'. Its programme period ran to 31 December 2020 and the 8th EAP succeeded it, but the decision itself was never repealed and EUR-Lex still lists it as in force \u2014 which is why it is shown green here rather than red.",
  rel:[]},
 
 // ---------- Carbon pricing
@@ -261,6 +301,7 @@ const L = [
 {id:"mrr", num:"Impl. Reg. (EU) 2018/2066", title:"Monitoring and Reporting Regulation", yr:2018, dom:"cp", st:"y",
  eli:"reg_impl/2018/2066",
  sum:"Governs how installations and operators monitor, calculate and report greenhouse gas emissions under the ETS — the measurement layer beneath every allocation and surrender obligation.",
+ amBy:["Impl. Reg. (EU) 2020/2085", "Impl. Reg. (EU) 2022/1371", "Impl. Reg. (EU) 2023/2122"],
  rel:[["im","ets"]]},
 {id:"mrr23", num:"Impl. Reg. (EU) 2023/2122", title:"MRR update for the 2023 ETS revision", yr:2023, dom:"cp", st:"g",
  eli:"reg_impl/2023/2122",
@@ -269,23 +310,34 @@ const L = [
 {id:"avr", num:"Impl. Reg. (EU) 2018/2067", title:"Accreditation and Verification Regulation", yr:2018, dom:"cp", st:"y",
  eli:"reg_impl/2018/2067",
  sum:"Sets the requirements for independent verification of ETS emissions reports and for the accreditation of verifiers.",
+ amBy:["Impl. Reg. (EU) 2020/2084"],
  rel:[["im","ets"]]},
 {id:"alloc19", num:"Impl. Reg. (EU) 2019/1842", title:"Allocation adjustment rules", yr:2019, dom:"cp", st:"y",
  eli:"reg_impl/2019/1842",
  sum:"Governs how free allocation is adjusted when an installation's activity level changes materially against its baseline — the mechanism that links allocation to real production year by year.",
+ amBy:["amended \u2014 see the consolidated text on EUR-Lex"],
  rel:[["im","ets"],["im","far"]]},
 {id:"auct10", num:"Reg. (EU) No 1031/2010", title:"Auctioning Regulation (2010)", yr:2010, dom:"cp", st:"r",
  eli:"reg/2010/1031",
  sum:"Governed the timing, administration and format of allowance auctions from phase 3. Repealed and replaced in 2023 to accommodate maritime coverage and ETS2.",
  rel:[["im","ets"]]},
-{id:"auct23", num:"Del. Reg. (EU) 2023/2830", title:"Auctioning Regulation (2023)", yr:2023, dom:"cp", st:"g",
+{id:"auct23", num:"Del. Reg. (EU) 2023/2830", title:"Auctioning Regulation (2023)", yr:2023, dom:"cp", st:"y",
  eli:"reg_del/2023/2830",
  sum:"The current auctioning rulebook: auction calendars, products, bidding, clearing price determination and the common auction platform, covering both the main ETS and ETS2.",
  rel:[["im","ets"],["rp","auct10"]]},
+{id:"auct26", num:"Del. Reg. (EU) 2026/787", title:"Auctioning Regulation amendment", yr:2026, dom:"cp", st:"g",
+ eli:"reg_del/2026/787",
+ sum:"Amends the auctioning rules on the timing, administration and other aspects of allowance auctions. In force since 16 June 2026.",
+ rel:[["am","auct23"]]},
 {id:"reg19", num:"Del. Reg. (EU) 2019/1122", title:"Union Registry Regulation", yr:2019, dom:"cp", st:"y",
  eli:"reg_del/2019/1122",
- sum:"Governs the Union Registry — the accounts in which allowances are held, transferred and surrendered, and the compliance status of every operator.",
+ sum:"Governs the Union Registry \u2014 the accounts in which allowances are held, transferred and surrendered, and the compliance status of every operator. Amended six times, most recently in January 2026.",
+ amBy:["Del. Reg. (EU) 2019/1124","Del. Reg. (EU) 2023/1642","Del. Reg. (EU) 2023/2904","Del. Reg. (EU) 2025/1253","Del. Reg. (EU) 2026/81","Del. Reg. (EU) 2026/109"],
  rel:[["im","ets"]]},
+{id:"reg26109", num:"Del. Reg. (EU) 2026/109", title:"Union Registry amendment for the Effort Sharing Regulation", yr:2026, dom:"cp", st:"g",
+ eli:"reg_del/2026/109",
+ sum:"Amends and corrects the Union Registry Regulation as regards the functioning of the registry under the Effort Sharing Regulation, as revised by Regulation (EU) 2023/857. A reminder that the Union Registry carries the effort sharing accounts as well as the ETS ones. In force since 27 April 2026.",
+ rel:[["am","reg19"],["im","esr"]]},
 {id:"cbam", num:"Reg. (EU) 2023/956", title:"Carbon Border Adjustment Mechanism", yr:2023, dom:"cp", st:"y",
  eli:"reg/2023/956",
  sum:"Prices embedded carbon in imports of cement, iron and steel, aluminium, fertilisers, electricity and hydrogen, mirroring the ETS carbon price as free allocation is withdrawn. Transitional reporting ran 2023–2025; the definitive regime began on 1 January 2026.",
@@ -350,6 +402,15 @@ const L = [
  eli:"reg/2025/1214",
  sum:"Lets manufacturers meet the 2025 target on a three-year average across 2025–2027 rather than annually, after a sharp step-down in the target coincided with slower EV uptake.",
  rel:[["am","cars19"]]},
+{id:"carlabel", num:"Dir. 1999/94/EC", title:"Car fuel economy and CO\u2082 labelling", yr:1999, dom:"tr", st:"g",
+ eli:"dir/1999/94",
+ sum:"Requires fuel economy and CO\u2082 information to be made available to consumers for new passenger cars \u2014 the label on the windscreen, the guide in the showroom. The oldest act in this map, and the point at which EU vehicle CO\u2082 policy began as consumer information rather than as a binding standard.",
+ rel:[]},
+{id:"p_cars35", num:"COM(2025) 995", title:"CO\u2082 standards for light-duty vehicles and vehicle labelling", yr:2025, dom:"tr", st:"p",
+ prop:"Tabled 16 December 2025 \u00b7 procedure 2025/0420(COD)",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0995",
+ sum:"Would amend the CO\u2082 emission standards for new light-duty vehicles and overhaul vehicle labelling, repealing the 1999 labelling directive and folding consumer information into the same instrument as the fleet targets. Tabled in December 2025, and the vehicle for the contested review of the 2035 zero-emission requirement.",
+ rel:[["am","cars19"],["rp","carlabel"],["rl","cars23"]]},
 {id:"hdv19", num:"Reg. (EU) 2019/1242", title:"CO₂ standards for heavy-duty vehicles", yr:2019, dom:"tr", st:"y",
  eli:"reg/2019/1242",
  sum:"The first CO₂ standards for new trucks, initially −15% by 2025 and −30% by 2030 against a 2019–2020 reference.",
@@ -360,15 +421,16 @@ const L = [
  rel:[["am","hdv19"]]},
 {id:"mrvship", num:"Reg. (EU) 2015/757", title:"Shipping MRV Regulation", yr:2015, dom:"tr", st:"y",
  eli:"reg/2015/757",
- sum:"Requires monitoring, reporting and verification of CO₂ emissions from large ships calling at EEA ports. The data infrastructure that made maritime's later inclusion in the ETS possible.",
- rel:[["rl","ets23"]]},
+ sum:"Requires monitoring, reporting and verification of CO\u2082 emissions from large ships calling at EEA ports. The data infrastructure that made maritime's later inclusion in the ETS possible.",
+ amBy:["Del. Reg. (EU) 2016/2071","Reg. (EU) 2023/957","Del. Reg. (EU) 2023/2776","Del. Reg. (EU) 2024/3214"],
+ rel:[]},
 {id:"mrv23", num:"Reg. (EU) 2023/957", title:"Shipping MRV revision", yr:2023, dom:"tr", st:"g",
  eli:"reg/2023/957",
  sum:"Extends shipping MRV to methane and nitrous oxide and to offshore vessels, aligning it with the inclusion of maritime transport in the ETS.",
  rel:[["am","mrvship"],["im","ets23"]]},
 {id:"fueleu", num:"Reg. (EU) 2023/1805", title:"FuelEU Maritime", yr:2023, dom:"tr", st:"g",
  eli:"reg/2023/1805",
- sum:"Sets a declining limit on the greenhouse gas intensity of energy used on board ships, from −2% in 2025 to −80% by 2050, plus onshore power requirements at berth.",
+ sum:"Sets a declining limit on the greenhouse gas intensity of energy used on board ships, from \u22122% in 2025 to \u221280% by 2050, plus onshore power requirements at berth.",
  rel:[["rl","ets23"]]},
 {id:"refuel", num:"Reg. (EU) 2023/2405", title:"ReFuelEU Aviation", yr:2023, dom:"tr", st:"g",
  eli:"reg/2023/2405",
@@ -387,7 +449,7 @@ const L = [
 {id:"red2", num:"Dir. (EU) 2018/2001", title:"Renewable Energy Directive II", yr:2018, dom:"en", st:"y",
  eli:"dir/2018/2001",
  sum:"Set a 32% renewables target for 2030, sustainability criteria for bioenergy, and rules on guarantees of origin, renewable fuels of non-biological origin and self-consumption.",
- rel:[]},
+ rel:[["rp","red1"]]},
 {id:"red3", num:"Dir. (EU) 2023/2413", title:"Renewable Energy Directive III", yr:2023, dom:"en", st:"g",
  eli:"dir/2023/2413",
  sum:"Raises the 2030 renewables target to 42.5% with a 45% aspiration, adds binding sub-targets for industry and transport, and introduces permitting acceleration and renewables acceleration areas.",
@@ -411,6 +473,7 @@ const L = [
 {id:"etd", num:"Dir. 2003/96/EC", title:"Energy Taxation Directive", yr:2003, dom:"en", st:"y",
  eli:"dir/2003/96",
  sum:"Sets minimum excise rates for energy products and electricity. Still based on volume rather than energy content or carbon intensity — the Fit for 55 proposal to recast it remains unadopted, making this the package's most conspicuous gap.",
+ amBy:["successive Council directives granting and extending national derogations"],
  rel:[["rl","ets"]]},
 {id:"methane", num:"Reg. (EU) 2024/1787", title:"Methane Emissions Regulation", yr:2024, dom:"en", st:"g",
  eli:"reg/2024/1787",
@@ -469,7 +532,7 @@ const L = [
 {id:"eudr", num:"Reg. (EU) 2023/1115", title:"Deforestation Regulation", yr:2023, dom:"ip", st:"y",
  eli:"reg/2023/1115",
  sum:"Bans placing cattle, cocoa, coffee, palm oil, rubber, soy and wood on the EU market unless deforestation-free and geolocated to the plot of production. Application has been postponed twice.",
- rel:[]},
+ rel:[["rp","eutr"]]},
 {id:"eudr25", num:"Reg. (EU) 2025/2650", title:"Deforestation Regulation postponement", yr:2025, dom:"ip", st:"g",
  eli:"reg/2025/2650",
  sum:"Delays application of the main EUDR obligations by a further year, to 30 December 2026 for large operators and 30 June 2027 for micro and small enterprises.",
@@ -480,9 +543,9 @@ const L = [
  rel:[["rl","lulucf"]]},
 
 // ---------- Reporting & finance
-{id:"tax", num:"Reg. (EU) 2020/852", title:"Taxonomy Regulation", yr:2020, dom:"rf", st:"y",
+{id:"tax", num:"Reg. (EU) 2020/852", title:"Taxonomy Regulation", yr:2020, dom:"rf", st:"g",
  eli:"reg/2020/852",
- sum:"Defines when an economic activity counts as environmentally sustainable, through technical screening criteria for substantial contribution and do-no-significant-harm. The classification layer under most EU sustainable finance rules.",
+ sum:"Defines when an economic activity counts as environmentally sustainable, through technical screening criteria for substantial contribution and do-no-significant-harm. The classification layer under most EU sustainable finance rules. Shown green because the Climate and Environmental Delegated Acts supplement the Regulation with technical criteria rather than amending its text \u2014 a distinction worth keeping in mind, since almost all of the operative detail lives in those delegated acts.",
  rel:[]},
 {id:"nfrd", num:"Dir. 2014/95/EU", title:"Non-Financial Reporting Directive", yr:2014, dom:"rf", st:"r",
  eli:"dir/2014/95",
@@ -506,23 +569,100 @@ const L = [
 {id:"p_fb", num:"COM(2026) 619", title:"Fall-back benchmark uplift for 2026–2030", yr:2026, dom:"cp", st:"p",
  prop:"Tabled 17 July 2026 · ordinary legislative procedure",
  url:"https://climate.ec.europa.eu/document/download/672f0f66-a1c2-41d4-a6d6-ff82fea1eb62_en",
- sum:"Separate proposal tabled alongside the ETS review. Relaxes the maximum annual reduction rate applied to the heat and fuel fall-back benchmarks for the current period, unlocking roughly 80 million additional allowances — about €6 bn — for energy-intensive industry. Oil and gas activities are excluded and stay on the existing rate. If adopted it would directly change the heat and fuel values in the 2026–2030 benchmark regulation.",
- rel:[["am","bm26"],["rl","p_ets5"]]},
+ sum:"Separate proposal tabled alongside the ETS review. Relaxes the maximum annual reduction rate applied to the heat and fuel fall-back benchmarks for the current period, unlocking roughly 80 million additional allowances — about €6 bn — for energy-intensive industry. Oil and gas activities are excluded and stay on the existing rate. It amends the ETS Directive itself rather than the benchmark regulation, but the effect lands on the heat and fuel values for 2026–2030.",
+ rel:[["am","ets"],["rl","bm26"],["rl","p_ets5"]]},
 {id:"p_msr", num:"COM(2026) 153", title:"MSR invalidation amendment", yr:2026, dom:"cp", st:"p",
  prop:"Tabled 1 April 2026 · ordinary legislative procedure",
  url:"https://climate.ec.europa.eu/document/download/ea54bb9d-505e-47ec-b81e-f635443182d3_en?filename=COM_2026_153_1_EN_ACT_part1_v4.pdf",
  sum:"Ends the invalidation mechanism under which allowances held in the Market Stability Reserve above 400 million are cancelled, retaining them instead as a buffer against future supply tightness. The July ETS review supplements this with dynamic thresholds, a new lower buffer and a halved intake rate.",
  rel:[["am","msr"],["rl","p_ets5"]]},
-{id:"p_cbamx", num:"CBAM scope extension", title:"CBAM downstream goods and anti-avoidance", yr:2025, dom:"cp", st:"p",
- prop:"Tabled December 2025 · ordinary legislative procedure",
- url:"https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
- sum:"Extends CBAM to around 180 steel- and aluminium-intensive downstream products from 1 January 2028, and adds anti-avoidance measures against misdeclared emission intensities — including closing the 'scrap loophole' by potentially bringing pre-consumer steel and aluminium scrap into scope.",
+{id:"p_cbamx", num:"COM(2025) 989", title:"CBAM downstream goods and anti-avoidance", yr:2025, dom:"cp", st:"p",
+ prop:"Tabled 17 December 2025 \u00b7 procedure 2025/0419(COD)",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0989",
+ sum:"Would amend the CBAM Regulation to extend its scope to downstream goods and add anti-avoidance measures: around 180 steel- and aluminium-intensive products from 1 January 2028, plus provisions against misdeclared emission intensities and the 'scrap loophole', under which routing material through pre-consumer steel and aluminium scrap can strip the carbon content out of a shipment on paper.",
  rel:[["am","cbam"]]},
 {id:"p_etd", num:"COM(2021) 563", title:"Energy Taxation Directive recast", yr:2021, dom:"en", st:"p",
  prop:"Tabled 14 July 2021 · unanimity in Council, still unadopted",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52021PC0563",
  sum:"Would shift energy taxation from volume to energy content and environmental performance, rank fuels by emissions and remove fossil fuel exemptions. Tabled as part of Fit for 55 in July 2021 and still stuck after five years, because tax files need unanimity in Council. The package's longest-running gap.",
- rel:[["rp","etd"]]}
+ rel:[["rp","etd"]]},
+// ---------- added after reviewing the EUR-Lex climate-tagged proposal export
+{id:"ccs", num:"Dir. 2009/31/EC", title:"CO\u2082 Geological Storage Directive", yr:2009, dom:"ip", st:"y",
+ eli:"dir/2009/31",
+ sum:"The legal framework for permanently storing CO\u2082 underground: site selection, permitting, monitoring, closure and long-term liability transfer to the state. Adopted alongside the 2009 ETS revision and largely dormant for a decade, it has become central again \u2014 the Net-Zero Industry Act's 50 Mt annual injection target, the CRCF's permanent removals and the ETS review's BioCCS and DACCS provisions all depend on it.",
+ amBy:["Reg. (EC) No 1137/2008","Dir. (EU) 2018/410","Reg. (EU) 2024/1735"],
+ rel:[["rl","ets"]]},
+{id:"mmr", num:"Reg. (EU) No 525/2013", title:"Monitoring Mechanism Regulation", yr:2013, dom:"fw", st:"r",
+ eli:"reg/2013/525",
+ sum:"The EU's greenhouse gas monitoring, reporting and inventory system for the 2013\u20132020 period, including reporting on national policies, projections and climate finance. Repealed by the Governance Regulation from 2021, which absorbed its functions into the integrated National Energy and Climate Plan cycle.",
+ rel:[]},
+{id:"red1", num:"Dir. 2009/28/EC", title:"Renewable Energy Directive I", yr:2009, dom:"en", st:"r",
+ eli:"dir/2009/28",
+ sum:"The first binding EU renewables framework: a 20% share by 2020 with binding national targets, a 10% transport sub-target, and the original sustainability criteria for biofuels. Repealed and recast by RED II from mid-2021.",
+ rel:[]},
+{id:"hdvmrv", num:"Reg. (EU) 2018/956", title:"Heavy-duty vehicle CO\u2082 monitoring and reporting", yr:2018, dom:"tr", st:"y",
+ eli:"reg/2018/956",
+ sum:"Requires manufacturers and member states to monitor and report CO\u2082 emissions and fuel consumption of new heavy-duty vehicles. The same pattern as shipping MRV: build the dataset first, then set the standard on top of it \u2014 the CO\u2082 standards for trucks followed a year later.",
+ amBy:["Reg. (EU) 2019/1242","Del. Reg. (EU) 2019/888","Reg. (EU) 2024/1610"],
+ rel:[["rl","hdv19"]]},
+{id:"paris", num:"Council Decision (EU) 2016/1841", title:"Conclusion of the Paris Agreement", yr:2016, dom:"fw", st:"g",
+ eli:"dec/2016/1841",
+ sum:"The act by which the EU ratified the Paris Agreement, binding the Union to the 1.5\u20132\u00b0C temperature goal and to submitting successive nationally determined contributions. Everything downstream \u2014 the Climate Law targets, the ETS cap trajectory, the effort sharing distribution \u2014 is ultimately an implementation of this commitment.",
+ rel:[["rl","climatelaw"],["rl","kyoto"]]},
+
+// ---------- pending proposals identified from the export
+{id:"p_mrvsimp", num:"COM(2026) 620", title:"Maritime MRV simplification and ETS alignment", yr:2026, dom:"tr", st:"p",
+ prop:"Tabled 17 July 2026 \u00b7 part of the July 2026 package",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0620",
+ sum:"Would amend both the shipping MRV Regulation and FuelEU Maritime to simplify and streamline monitoring, reporting and verification and align them with the ETS revision. Three overlapping maritime reporting regimes have accumulated since 2015; this is the attempt to reconcile them.",
+ rel:[["am","mrvship"],["am","fueleu"],["rl","p_ets5"]]},
+{id:"p_msr2", num:"COM(2025) 738", title:"Market stability reserve for ETS 2", yr:2025, dom:"cp", st:"p",
+ prop:"Tabled 27 November 2025 \u00b7 ordinary legislative procedure",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0738",
+ sum:"Would amend the MSR Decision as regards the reserve for the buildings, road transport and additional fuels system \u2014 the ETS 2 counterpart to the main market stability reserve, and a live question given the price volatility expected when ETS 2 starts in 2028.",
+ rel:[["am","msr"],["rl","ets23"]]},
+{id:"p_hdvcred", num:"COM(2025) 784", title:"Heavy-duty vehicle emission credits", yr:2025, dom:"tr", st:"p",
+ prop:"Tabled 16 December 2025 \u00b7 ordinary legislative procedure",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0784",
+ sum:"Would amend the heavy-duty CO\u2082 standards as regards the calculation of emission credits \u2014 the mechanism letting manufacturers offset over-performance in one year against shortfalls in another. The truck equivalent of the 2025 flexibility granted for cars.",
+ rel:[["am","hdv19"]]},
+{id:"p_tdf", num:"COM(2025) 990", title:"Temporary Decarbonisation Fund", yr:2025, dom:"ip", st:"p",
+ prop:"Tabled 17 December 2025 \u00b7 ordinary legislative procedure",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0990",
+ sum:"Would establish a Temporary Decarbonisation Fund to support industrial decarbonisation. Tabled the same day as the CBAM downstream extension, and part of the same bargain: tighter carbon costs on industry paired with money to help it invest.",
+ rel:[["rl","ets"],["rl","cbam"]]},
+{id:"p_ida", num:"COM(2026) 100", title:"Industrial capacity and decarbonisation acceleration", yr:2026, dom:"ip", st:"p",
+ prop:"Tabled 4 March 2026 \u00b7 ordinary legislative procedure",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0100",
+ sum:"Would establish a framework of measures to accelerate industrial capacity and decarbonisation in strategic sectors \u2014 the successor logic to the Net-Zero Industry Act, aimed at building European manufacturing capacity for clean technologies rather than only pricing the emissions of the old ones.",
+ rel:[["rl","nzia"]]},
+{id:"p_fleet", num:"COM(2025) 994", title:"Clean corporate vehicles", yr:2025, dom:"tr", st:"p",
+ prop:"Tabled 16 December 2025 \u00b7 ordinary legislative procedure",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0994",
+ sum:"Would set requirements for corporate vehicle fleets, which account for a large share of new registrations in the EU and turn over quickly into the second-hand market. Targets the demand side of road transport decarbonisation, where the CO\u2082 standards only reach the supply side.",
+ rel:[["rl","cars19"],["rl","afir"]]},
+
+// ---------- added after reviewing the EUR-Lex "Tackling climate change" summary tree
+{id:"innov", num:"Del. Reg. (EU) 2019/856", title:"Innovation Fund", yr:2019, dom:"cp", st:"g",
+ eli:"reg_del/2019/856",
+ sum:"Governs the operation of the Innovation Fund, financed directly by auctioning allowances set aside from the ETS cap, supporting first-of-a-kind low-carbon technologies. One of the largest dedicated climate funding instruments anywhere, and structurally part of the carbon market rather than the EU budget \u2014 its size rises and falls with the allowance price.",
+ rel:[["im","ets"]]},
+{id:"modfund", num:"Impl. Reg. (EU) 2020/1001", title:"Modernisation Fund", yr:2020, dom:"cp", st:"g",
+ eli:"reg_impl/2020/1001",
+ sum:"Detailed rules for the Modernisation Fund, which channels a share of auctioning revenue into energy system modernisation in lower-income member states. The ETS review would widen its eligibility to electrification, industrial decarbonisation and carbon capture, while keeping fossil generation excluded.",
+ rel:[["im","ets"]]},
+{id:"ner300", num:"Decision 2010/670/EU", title:"NER 300 programme", yr:2010, dom:"cp", st:"g",
+ eli:"dec/2010/670",
+ sum:"The predecessor funding programme, financed by 300 million allowances from the new entrants' reserve to demonstrate carbon capture and storage and innovative renewables. Widely judged a disappointment: the allowance price collapsed after 2010, so it raised far less than intended and most CCS projects never reached a final investment decision. The Innovation Fund was designed around that lesson.",
+ rel:[["im","ets"],["rl","innov"],["rl","ccs"]]},
+{id:"eutr", num:"Reg. (EU) No 995/2010", title:"EU Timber Regulation", yr:2010, dom:"ip", st:"r",
+ eli:"reg/2010/995",
+ sum:"Prohibited placing illegally harvested timber on the EU market and required operators to exercise due diligence. Superseded by the Deforestation Regulation, which replaced a legality test with a far harder deforestation-free test and extended the scope well beyond timber.",
+ rel:[]},
+{id:"kyoto", num:"Council Decision 2002/358/EC", title:"Approval of the Kyoto Protocol", yr:2002, dom:"fw", st:"g",
+ eli:"dec/2002/358",
+ sum:"The act by which the European Community approved the Kyoto Protocol, together with the burden-sharing arrangement distributing its target among member states. The direct reason the EU ETS exists: an internationally binding target created the need for a compliance instrument, and the ETS was the answer.",
+ rel:[["rl","ets"]]},
 ];
 
 // ============================================================ GRAPH SETUP
@@ -820,10 +960,16 @@ function open(d){
   const li=(e,other)=>`<li><span class="rel">${relLabel(e)}</span>
       <a data-go="${other}">${byId[other].num} — ${byId[other].title}</a></li>`;
   let html="";
-  if(d.st==="y" && !AMENDED_IN_MAP.has(d.id))
-    html+=`<h3>Why amber</h3><p class="sum" style="margin:0;color:var(--muted)">In force but amended since
-      adoption. The amending acts are outside this map's scope — typically technical delegated or implementing
-      acts — so no incoming amendment link is drawn. The consolidated text on EUR-Lex shows the current wording.</p>`;
+  if(d.st==="y" && !AMENDED_IN_MAP.has(d.id)){
+    html+=`<h3>Amended by</h3>`;
+    html+= d.amBy && d.amBy.length
+      ? `<ul>${d.amBy.map(a=>`<li><span class="rel">amends</span><span>${a}</span></li>`).join("")}</ul>
+         <p class="sum" style="margin:9px 0 0;color:var(--muted);font-size:12.5px">These acts are not shown as
+         nodes: they are technical amendments that would crowd the map without changing its shape. Read the
+         consolidated text on EUR-Lex for the current wording.</p>`
+      : `<p class="sum" style="margin:0;color:var(--muted)">In force, but amended since adoption by acts outside
+         this map's scope. See the consolidated text on EUR-Lex.</p>`;
+  }
   if(out.length) html+=`<h3>Links from this act</h3><ul>${out.map(e=>li(e,e.t)).join("")}</ul>`;
   if(inc.length) html+=`<h3>Links to this act</h3><ul>${inc.map(e=>
       `<li><span class="rel">${relLabel(e)}</span>
@@ -905,6 +1051,15 @@ function setMode(m){
 }
 document.getElementById("mNet").onclick=()=>setMode("force");
 document.getElementById("mTime").onclick=()=>setMode("timeline");
+
+// ------------------------------------------------ intro overlay
+const introEl=document.getElementById("intro"), scrim=document.getElementById("scrim");
+function showIntro(v){ introEl.classList.toggle("on",v); scrim.classList.toggle("on",v); }
+document.getElementById("introClose").onclick=()=>showIntro(false);
+document.getElementById("about").onclick=()=>showIntro(true);
+scrim.onclick=()=>showIntro(false);
+addEventListener("keydown",e=>{ if(e.key==="Escape" && introEl.classList.contains("on")) showIntro(false); });
+showIntro(true);   // open on arrival
 
 // ------------------------------------------------ initial state: timeline
 hintEl.textContent=HINTS[mode];
