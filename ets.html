@@ -79,6 +79,9 @@
   .seg button.on{background:var(--accent);color:#fff;font-weight:600}
   .seg button:not(.on):hover{background:#f2f5f9;color:var(--ink)}
   .tag{display:inline-block;font-size:12px;padding:3px 9px;border-radius:20px;background:#eef2f7;color:var(--muted)}
+  .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
+      font-size:14px;line-height:1.9}
+  .dim{color:var(--muted)}
   .hide{display:none}
   ul.tl{list-style:none;margin:0;padding:0}
   ul.tl li{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--line);margin-left:6px}
@@ -130,21 +133,66 @@
   <div class="cards" id="kpis"></div>
 
   <div class="panel">
+    <h2>What the cap actually is</h2>
+    <p class="sub">Worth settling before reading any chart on this page, because the word invites the wrong
+       assumption. The cap is not a ceiling that emissions must stay under in a given year. It is the
+       <strong>quantity of allowances issued</strong> in that year — a supply figure, fixed in advance to an exact
+       number by Commission decision, and then created and distributed between auctioning and free allocation.
+       1 386 051 745 allowances in 2024, not "up to" that.</p>
+    <div class="eq">
+      <strong>Cap</strong> = how many allowances are issued &nbsp;·&nbsp; a budget, decided in advance<br>
+      <strong>Not</strong> = how much may be emitted in that year &nbsp;·&nbsp; that is only constrained cumulatively
+    </div>
+    <p class="sub">Three things break the equivalence between the cap and a year's emissions, and all three matter
+       when reading the charts below.</p>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Allowances can be banked</h3>
+        <p style="font-size:13.5px;color:#39414d">Allowances do not expire within a trading period, so an
+           installation can surrender one issued years earlier. Annual emissions can therefore exceed annual
+           issuance. For most of the system's history the opposite happened — issuance ran ahead of emissions and
+           accumulated as the surplus the Market Stability Reserve now exists to absorb. What binds is the
+           <em>cumulative</em> total ever issued, minus whatever has been cancelled.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Issued is not the same as available</h3>
+        <p style="font-size:13.5px;color:#39414d">The MSR takes allowances out of auction volumes before they reach
+           the market — around 190 Mt over the year from September 2026. Since 2023, anything the reserve holds
+           above 400 Mt is cancelled outright, which is the only mechanism that permanently destroys supply rather
+           than deferring it. So the cap overstates what is actually purchasable in any given year.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px"><strong>Aviation has its own separate cap</strong>, calculated
+      bottom-up rather than from the reduction factor. The headline figure charted below is the cap for
+      electricity and heat generation, industry and maritime transport. Comparing it directly against total
+      verified emissions — which is a natural thing to do, and which the two charts on this page invite — mixes
+      scopes. The comparison that is like for like is on the free allocation chart, where both series come from
+      the same registry extract.</div>
+  </div>
+
+  <div class="panel">
     <h2>The cap, 2013 to 2040</h2>
     <p class="sub">Every allowance is a right to emit one tonne of CO₂e, and the cap is simply how many exist.
        It falls each year by a fixed number of allowances — the linear reduction factor applied to a fixed
        reference quantity — so the decline is a straight line, not a percentage curve. Two things make the recent
        years steeper: the reduction factor nearly doubled in 2024, and the cap was cut twice on top of that.</p>
     <div class="controls">
-      <label class="chk"><input type="checkbox" id="showExt" checked> Show what current rules would imply after 2030</label>
-      <label class="chk"><input type="checkbox" id="showProp" checked> Show the July 2026 Phase 5 proposal</label>
+      <span class="seg"><button id="capLvl" class="on">Cap level</button><button id="capChg">Annual change</button></span>
+      <label class="chk"><input type="checkbox" id="showExt" checked> Current rules after 2030</label>
+      <label class="chk"><input type="checkbox" id="showProp" checked> July 2026 Phase 5 proposal</label>
     </div>
     <div class="chartbox"><canvas id="capChart"></canvas></div>
-    <div class="legend">
+    <div class="legend" id="capLegend">
       <span><span class="sw" style="border-color:#0b3d91"></span>Cap in force (2013–2030)</span>
       <span><span class="sw d" style="border-color:#c0392b"></span>Current rules simply extended — supply ends around 2039</span>
       <span><span class="sw d" style="border-color:#6b5bd2"></span>Proposed Phase 5 — allowances continue into the 2040s</span>
     </div>
+    <div class="warn" style="margin-top:16px" id="capNote"><strong>Switch to “Annual change” to see the reduction
+      factors and the rebasings.</strong> On the level chart the steps are real but almost invisible: a change from
+      1.74% to 2.2% alters the slope by five million allowances a year on a scale of two billion. The annual change
+      view plots how much the cap falls each year, where every one of them is unmistakable — the 38 Mt a year of
+      phase 3, the 43 Mt of early phase 4, the jump to 88 Mt in 2024, and the two one-off rebasings sitting on top
+      as visible spikes in 2024 and 2026.</div>
     <div class="warn" style="margin-top:16px">The single most consequential thing in this chart is not the slope
       but where the lines end. Extending today's reduction factor mechanically would take the cap to zero around
       <strong>2039</strong>. The July 2026 proposal deliberately flattens the trajectory — 3.7% a year for 2031–35,
@@ -163,7 +211,11 @@
     <div class="warn" style="margin-top:18px">Free allocation is now about <strong>42%</strong> of verified
       emissions and still falling. That average hides the thing that matters: power generation receives almost
       nothing, while carbon-leakage industry receives close to its full benchmark entitlement. The
-      <a href="benchmarks.html">benchmarks page</a> is where that split is set, one product at a time.</div>
+      <a href="benchmarks.html">benchmarks page</a> is where that split is set, one product at a time.<br><br>
+      The value of a free allowance is whatever an allowance is worth, so this chart and the
+      <a href="#" data-goto="scope">allowance price since 2005</a> are two halves of the same question: free
+      allocation was worth little when carbon traded at €5 and is worth a great deal at €75, even as the volume
+      handed out has fallen by three quarters.</div>
   </div>
 
   <div class="panel">
@@ -361,7 +413,7 @@
 <!-- ===================== SCOPE ===================== -->
 <section id="tab-scope" class="hide">
   <div class="panel">
-    <h2>The allowance price since 2005</h2>
+    <h2 id="pricePanel">The allowance price since 2005</h2>
     <p class="sub">The price is the whole mechanism: everything the ETS does, it does by making emissions
        expensive. Three eras are visible. A long slump through 2012–2017, when a post-crisis surplus left
        allowances trading between €4 and €8 and the carbon price changed almost nobody's investment decision.
@@ -563,6 +615,17 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
   window.scrollTo(0,0);
 });
 
+// jump to another tab from an in-page link
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-goto]"); if(!a) return;
+  e.preventDefault();
+  const btn=document.querySelector(`nav.tabs button[data-tab="${a.dataset.goto}"]`);
+  if(btn){ btn.click();
+    const t=document.getElementById("pricePanel");
+    if(t) setTimeout(()=>t.scrollIntoView({behavior:"smooth",block:"center"}),60);
+  }
+});
+
 // ---------------------------------------------------------------- KPIs
 const f1=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
 document.getElementById("kpis").innerHTML=[
@@ -584,24 +647,66 @@ document.getElementById("revKpis").innerHTML=REV.map(k=>
 
 // ---------------------------------------------------------------- cap chart
 const capYears=[]; for(let y=2013;y<=2042;y++) capYears.push(y);
-let capChart;
+let capChart, capMode="level";
+// why the cap moved in each year, for the annual-change view
+const CAPWHY={
+ 2021:["Phase 4 begins",  "New baseline and the UK leaves the system — not a like-for-like annual step", "#8a94a0"],
+ 2024:["Reduction factor 4.3%","Maritime adds 78.4 Mt to the cap, a 90 Mt rebasing takes it back out","#c0392b"],
+ 2026:["Reduction factor 4.3%","Includes the second rebasing of 27 Mt","#c0392b"]
+};
+function capDiffs(){
+  return capYears.map((y,i)=>{
+    if(i===0||CAP[y]==null||CAP[capYears[i-1]]==null) return null;
+    return +(CAP[capYears[i-1]]-CAP[y]).toFixed(1);
+  });
+}
 function drawCap(){
   const ext=document.getElementById("showExt").checked;
   const prop=document.getElementById("showProp").checked;
-  const ds=[{label:"Cap in force",data:capYears.map(y=>CAP[y]??null),
-    borderColor:"#0b3d91",backgroundColor:"#0b3d91",borderWidth:3,pointRadius:0,tension:0,spanGaps:false}];
-  if(ext) ds.push({label:"Current rules extended",data:capYears.map(y=>EXT[y]??null),
-    borderColor:"#c0392b",borderDash:[6,4],borderWidth:2,pointRadius:0,tension:0});
-  if(prop) ds.push({label:"Proposed Phase 5",data:capYears.map(y=>PROP[y]??null),
-    borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:0,tension:0});
-  const opts={responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
-      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f1(c.parsed.y)} Mt`}}},
-    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances issued per year"},grid:{color:"#eef1f5"}},
-            x:{grid:{display:false},ticks:{maxRotation:0,autoSkipPadding:14}}}};
-  const data={labels:capYears.map(String),datasets:ds};
+  let data,opts;
+  if(capMode==="level"){
+    const ds=[{label:"Cap in force",data:capYears.map(y=>CAP[y]??null),
+      borderColor:"#0b3d91",backgroundColor:"#0b3d91",borderWidth:3,
+      pointRadius:capYears.map(y=>CAP[y]!=null?3:0),pointHoverRadius:7,pointHitRadius:20,
+      tension:0,spanGaps:false}];
+    if(ext) ds.push({label:"Current rules extended",data:capYears.map(y=>EXT[y]??null),
+      borderColor:"#c0392b",borderDash:[6,4],borderWidth:2,pointRadius:0,pointHitRadius:12,tension:0});
+    if(prop) ds.push({label:"Proposed Phase 5",data:capYears.map(y=>PROP[y]??null),
+      borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:0,pointHitRadius:12,tension:0});
+    data={labels:capYears.map(String),datasets:ds};
+    opts={responsive:true,maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false,axis:"x"},
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{title:c=>`Year ${c[0].label}`,
+          label:c=>`${c.dataset.label}: ${f1(c.parsed.y)} Mt`}}},
+      scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances issued per year"},grid:{color:"#eef1f5"}},
+              x:{grid:{display:false},ticks:{autoSkip:false,maxRotation:90,minRotation:90,font:{size:10}}}}};
+  }else{
+    const d=capDiffs();
+    data={labels:capYears.map(String),datasets:[{label:"Reduction on the previous year",data:d,
+      backgroundColor:capYears.map(y=>CAPWHY[y]?CAPWHY[y][2]:"rgba(11,61,145,.85)"),borderRadius:3}]};
+    opts={responsive:true,maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false,axis:"x"},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{title:c=>`Year ${c[0].label}`,
+          label:c=>`Cap falls ${f1(c.parsed.y)} Mt`,
+          afterBody:c=>{const y=+c[0].label; const w=CAPWHY[y];
+            return w?[w[0],w[1]]:["Annual reduction factor only"];}}}},
+      scales:{y:{beginAtZero:true,title:{display:true,text:"Fall in the cap versus the previous year, Mt"},grid:{color:"#eef1f5"}},
+              x:{grid:{display:false},ticks:{autoSkip:false,maxRotation:90,minRotation:90,font:{size:10}}}}};
+  }
+  const type=capMode==="level"?"line":"bar";
+  if(capChart && capChart.config.type!==type){capChart.destroy();capChart=null;}
   if(capChart){capChart.data=data;capChart.options=opts;capChart.update();}
-  else capChart=new Chart(document.getElementById("capChart"),{type:"line",data,options:opts});
+  else capChart=new Chart(document.getElementById("capChart"),{type,data,options:opts});
+  document.querySelectorAll("#tab-cap .legend, #capLegend").forEach(e=>e.style.display=capMode==="level"?"":"none");
+}
+document.getElementById("capLvl").onclick=()=>{capMode="level";capToggle();};
+document.getElementById("capChg").onclick=()=>{capMode="change";capToggle();};
+function capToggle(){
+  document.getElementById("capLvl").classList.toggle("on",capMode==="level");
+  document.getElementById("capChg").classList.toggle("on",capMode==="change");
+  drawCap();
 }
 document.getElementById("showExt").onchange=drawCap;
 document.getElementById("showProp").onchange=drawCap;
