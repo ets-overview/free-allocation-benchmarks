@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Legislation Map — EU Climate Policy Explorer</title>
-<meta name="description" content="An interactive map of 102 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="description" content="An interactive map of 103 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Legislation Map">
-<meta property="og:description" content="An interactive map of 102 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:description" content="An interactive map of 103 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Legislation Map">
-<meta name="twitter:description" content="An interactive map of 102 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:description" content="An interactive map of 103 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -631,11 +631,11 @@ const L = [
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0990",
  sum:"Would establish a Temporary Decarbonisation Fund to support industrial decarbonisation. Tabled the same day as the CBAM downstream extension, and part of the same bargain: tighter carbon costs on industry paired with money to help it invest.",
  rel:[["rl","ets"],["rl","cbam"]]},
-{id:"p_ida", num:"COM(2026) 100", title:"Industrial capacity and decarbonisation acceleration", yr:2026, dom:"ip", st:"p",
- prop:"Tabled 4 March 2026 \u00b7 ordinary legislative procedure",
+{id:"p_ida", num:"COM(2026) 100", title:"Industrial Accelerator Act", yr:2026, dom:"ip", st:"p",
+ prop:"Tabled 4 March 2026 \u00b7 ordinary legislative procedure \u00b7 feedback 11 March \u2013 8 May 2026",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0100",
- sum:"Would establish a framework of measures to accelerate industrial capacity and decarbonisation in strategic sectors \u2014 the successor logic to the Net-Zero Industry Act, aimed at building European manufacturing capacity for clean technologies rather than only pricing the emissions of the old ones.",
- rel:[["rl","nzia"]]},
+ sum:"Formally a regulation establishing a framework of measures for accelerating industrial capacity and decarbonisation in strategic sectors. Originally conceived as the Industrial Decarbonisation Accelerator Act and rebranded in 2025 when its scope widened from decarbonisation to industrial capacity generally \u2014 which is itself the story of how EU climate-industrial policy has shifted. Covers energy-intensive industries, net-zero technologies and automotive, and sets a target of raising manufacturing to 20% of EU GDP by 2035, from 14.3% in 2024. It is the main legislative instrument under the Clean Industrial Deal, the Commission\u2019s February 2025 action plan \u2014 which is a communication rather than a legal act, and so does not appear on this map in its own right.",
+ rel:[["rl","nzia"],["rl","ets"],["rl","crma"]]},
 {id:"p_fleet", num:"COM(2025) 994", title:"Clean corporate vehicles", yr:2025, dom:"tr", st:"p",
  prop:"Tabled 16 December 2025 \u00b7 ordinary legislative procedure",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0994",
@@ -663,6 +663,10 @@ const L = [
  eli:"dec/2002/358",
  sum:"The act by which the European Community approved the Kyoto Protocol, together with the burden-sharing arrangement distributing its target among member states. The direct reason the EU ETS exists: an internationally binding target created the need for a compliance instrument, and the ETS was the answer.",
  rel:[["rl","ets"]]},
+{id:"cbamprice", num:"Impl. Reg. (EU) 2025/2548", title:"CBAM certificate price methodology", yr:2025, dom:"cp", st:"g",
+ eli:"reg_impl/2025/2548",
+ sum:"Lays down how the Commission calculates and publishes the price of CBAM certificates \u2014 the weighted average of EU ETS auction clearing prices, quarterly through 2026 and weekly from 2027. The instrument that pins the border price to the domestic one, so that imported and EU-made goods face the same carbon cost.",
+ rel:[["im","cbam"],["rl","ets"]]},
 ];
 
 // ============================================================ GRAPH SETUP

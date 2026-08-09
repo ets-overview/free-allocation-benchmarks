@@ -117,6 +117,7 @@
     <button data-tab="cap" class="on">Cap &amp; supply</button>
     <button data-tab="msr">Market Stability Reserve</button>
     <button data-tab="out">Outcomes</button>
+    <button data-tab="rev">Revenue &amp; spending</button>
     <button data-tab="scope">Timeline &amp; scope</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
@@ -149,6 +150,20 @@
       <strong>2039</strong>. The July 2026 proposal deliberately flattens the trajectory — 3.7% a year for 2031–35,
       then 1.7% — so allowances are still being issued in 2040. That is what aligns the ETS with a 90% net target
       rather than a 100% gross one.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Free allocation against verified emissions, 2005–2025</h2>
+    <p class="sub">The cap says how many allowances exist. This says how many were given away rather than sold —
+       and for the whole of phase 2, industry received more allowances than it emitted. The cliff in 2013 is the
+       moment auctioning became the default: free allocation fell 59% in a single year, from 1 993 Mt to 825 Mt,
+       while emissions barely moved.</p>
+    <div class="chartbox" style="height:400px"><canvas id="allocChart"></canvas></div>
+    <div class="cards" id="allocCards" style="margin:18px 0 0"></div>
+    <div class="warn" style="margin-top:18px">Free allocation is now about <strong>42%</strong> of verified
+      emissions and still falling. That average hides the thing that matters: power generation receives almost
+      nothing, while carbon-leakage industry receives close to its full benchmark entitlement. The
+      <a href="benchmarks.html">benchmarks page</a> is where that split is set, one product at a time.</div>
   </div>
 
   <div class="panel">
@@ -246,14 +261,100 @@
   </div>
 
   <div class="panel">
+    <h2>Does anyone actually comply?</h2>
+    <p class="sub">A cap is only as good as its enforcement, and this is the part of the system almost nobody
+       looks at. For the 2024 compliance year the registry assigns each installation a code: A if it surrendered
+       at least as many allowances as it emitted, B if it did not. Of 12 873 installations with a calculated
+       status, <strong>12 576 were compliant — 97.7%</strong>. A separate 475 fall under code C, meaning emissions
+       were never reported at all, and 1 118 are excluded small emitters.</p>
+    <div class="chartbox" style="height:430px"><canvas id="cmpChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>The gap sits almost entirely in the newest sectors.</strong>
+      Aircraft operators come in at 91.2% and maritime at 96.4%, against 98–100% for the long-established
+      stationary sectors — cement clinker, bulk chemicals, gypsum and mineral oil refining record no failures at
+      all. Compliance appears to be a function of how long a sector has been in the system rather than how hard
+      its abatement is, which is an argument for lead time whenever the scope expands again. Maritime entered
+      in 2024 and is being measured in its very first compliance year.</div>
+  </div>
+
+  <div class="panel">
     <h2>Auction revenue</h2>
-    <p class="sub">Allowances not given away free are auctioned, and the money goes mostly to member states. From
-       2028 the July 2026 proposal would require at least 50% of it to go to defined climate priorities, with
-       fossil fuel lock-in explicitly prohibited.</p>
+    <p class="sub">Allowances not given away free are auctioned. Revenue fell between 2023 and 2024 despite a
+       tightening cap, because the allowance price fell further than the volume did — auction revenue tracks price
+       far more than it tracks ambition, which is worth remembering whenever the figure is cited as a measure of
+       policy success. Where the money goes is on the <strong>Revenue &amp; spending</strong> tab.</p>
     <div class="cards" id="revKpis" style="margin-top:0"></div>
-    <p class="sub" style="margin-bottom:0">Revenue fell between 2023 and 2024 despite a tightening cap, because the
-       allowance price fell further than the volume did. Auction revenue tracks price far more than it tracks
-       ambition — a point worth remembering whenever the figure is cited as a measure of policy success.</p>
+  </div>
+</section>
+
+<!-- ===================== REVENUE ===================== -->
+<section id="tab-rev" class="hide">
+  <div class="cards" id="rvKpis"></div>
+
+  <div class="panel">
+    <h2>Auction revenue, 2013–2024</h2>
+    <p class="sub">Revenue is the allowance price multiplied by the volume auctioned, so it follows the price
+       almost entirely. It grew tenfold between 2013 and 2023 — from €3.1 bn to €33.0 bn — then fell by a quarter
+       in 2024 as the price came off, even though the cap kept tightening.</p>
+    <div class="chartbox" style="height:340px"><canvas id="rvTimeChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>What the money is spent on</h2>
+    <p class="sub">Member states must spend at least a defined share of auction revenue on climate and energy
+       purposes, and report what they did with it. From the 2023 reporting year the EEA publishes a category
+       breakdown; before that it was a single aggregate figure, so this view only exists for two years.</p>
+    <div class="controls">
+      <span class="seg"><button id="rv24" class="on">2024</button><button id="rv23">2023</button></span>
+    </div>
+    <div class="chartbox" style="height:360px"><canvas id="rvCatChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>Two things stand out in 2024.</strong> €3.17 bn went back to
+      industry as compensation for indirect carbon costs — the electricity price effect of the ETS — which is more
+      than twice what was spent on social support and just transition combined. And €4.84 bn, a fifth of the
+      year's revenue, was committed but not yet allocated, disbursed or reported. The carbon price raises money
+      considerably faster than governments spend it.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Indirect cost compensation, and why the figures differ</h2>
+    <p class="sub">Power generators pass their allowance costs into wholesale electricity prices, so an
+       electricity-intensive manufacturer pays for carbon twice: once on its own emissions, once in its power bill.
+       Member states may reimburse part of that second cost under EU State aid rules. It is the third carbon
+       leakage instrument alongside free allocation and CBAM — and the only one with no phase-out date.</p>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">€3.17 bn — the EEA figure</h3>
+        <p style="font-size:13.5px;color:#39414d">What member states reported spending <em>out of 2024 auction
+           revenue</em> on indirect cost compensation. This is the figure in the chart above, on the same basis as
+           every other category there.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">€5.52 bn — the carbon market report figure</h3>
+        <p style="font-size:13.5px;color:#39414d">Total compensation <em>paid out during 2024</em> by fifteen
+           member states, for costs incurred in 2023, from whatever source. Up 40% on the €3.95 bn paid in 2023.
+           Larger because it is not limited to ETS revenue and runs on a different year basis.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:18px">Both numbers are correct and they are not comparable. Whenever you
+      see a figure for indirect cost compensation, check whether it means money drawn from auction revenue in a
+      given year or total aid disbursed in that year — the two differ by roughly three quarters.
+      In December 2025 the Commission widened the scheme: 20 more sectors and two subsectors became eligible, and
+      the maximum share of indirect costs that may be compensated rose from 75% to 80%. The
+      <a href="cbam.html">CBAM page</a> sets out why an expanding, unphased instrument sits awkwardly beside a
+      free allocation phase-out that CBAM is designed to mirror exactly.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Who spends it, and who does not</h2>
+    <p class="sub">For 2024, revenue each member state was due to spend on climate and energy action, against what
+       it reported actually spending. Hover for the share and for indirect cost compensation on top.</p>
+    <div class="chartbox" style="height:620px"><canvas id="rvMsChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>Across the EU 27, €16.3 bn of €21.7 bn was reported as
+      spent — 75%.</strong> The gap is concentrated: Italy reported none of its €2.56 bn and Croatia none of its
+      €118 m, while Estonia reported 8%, Latvia 6% and Lithuania 12%. Germany, the Netherlands, Bulgaria and
+      Greece reported spending everything. France is its own case — it paid <strong>€834 m</strong> in indirect
+      carbon cost compensation to industry, more than the €700 m it reported spending on climate and energy
+      action. Reporting gaps are not the same as money vanishing: funds may be committed but not yet disbursed,
+      or reported late. But the pattern is persistent enough to be a live criticism of how the revenue rule works.</div>
   </div>
 </section>
 
@@ -308,6 +409,19 @@
       </div>
     </div>
   </div>
+
+  <div class="panel">
+    <h2>How big is ETS 2 going to be?</h2>
+    <p class="sub">It does not start pricing until 2028, but reporting began in 2024 — and those reports are
+       already in the Union Registry. Eighteen national accounts reported <strong>957 Mt CO₂e for 2024</strong>.
+       For scale, that is roughly 80% of everything the original ETS covered in the same year. ETS 2 is not a
+       small addition to the carbon market; it is close to a second one.</p>
+    <div class="chartbox" style="height:340px"><canvas id="ets2Chart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>2024 only.</strong> The 2025 reporting is still coming in —
+      13 accounts and 307 Mt so far, which is incomplete rather than a collapse, so it is not shown. These are
+      reported emissions under the monitoring obligation, not a cap: the ETS 2 cap is set separately and the
+      first surrender obligation falls in 2029 for 2028 emissions.</div>
+  </div>
 </section>
 
 <!-- ===================== NOTES ===================== -->
@@ -320,6 +434,9 @@
       <li><strong>TNAC and MSR.</strong> <a href="https://op.europa.eu/en/search-results?p_p_id=eu_europa_publications_portlet_search_executor_SearchExecutorPortlet_INSTANCE_q8EzsBteHybf&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;queryText=total+number+of+allowances+in+circulation&amp;facet.collection=EULex%2CEUPub%2CEUDir%2CEUWebPage%2CEUSummariesOfLegislation%2CPublicProcurement&amp;startRow=1&amp;resultsPerPage=10&amp;SEARCH_TYPE=SIMPLE" target="_blank" rel="noopener">Annual Commission communications publishing the total number of allowances in circulation</a>; <a href="http://data.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a> as amended.</li>
       <li><strong>Allowance price.</strong> <a href="https://icapcarbonaction.com/en/ets-prices" target="_blank" rel="noopener">ICAP Allowance Price Explorer</a> — daily primary-market prices for the EU ETS, combining ICAP's pre-2018 and post-2019 series. Monthly and annual figures on this page are means computed from that daily data.</li>
       <li><strong>Emissions.</strong> <a href="https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards" target="_blank" rel="noopener">European Environment Agency EU ETS data viewer</a>, underlying database, July 2026 release. Series computed from the field “EU ETS verified emissions”, summed across EEA countries excluding the United Kingdom, by main activity code.</li>
+      <li><strong>Free allocation and ETS 2 reported emissions.</strong> <a href="https://union-registry.ec.europa.eu/" target="_blank" rel="noopener">EU Union Registry</a> daily data extracts (operator yearly activity, snapshot 7 August 2026). Free allocation and verified emissions aggregated per year excluding the United Kingdom; ETS 2 national accounts separated by account name.</li>
+      <li><strong>Auction revenue and its use.</strong> <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA indicator: use of auctioning revenues generated under the EU ETS</a>, EU-27 scope. Category breakdown available from the 2023 reporting year only.</li>
+      <li><strong>Compliance.</strong> EU Union Registry compliance data for the 2024 compliance year (codes A, B, C by installation and main activity type).</li>
       <li><strong>Revenue.</strong> Commission reporting on the functioning of the European carbon market; EEA auctioning revenue indicator.</li>
       <li><strong>Proposals.</strong> <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52026PC0153" target="_blank" rel="noopener">COM(2026) 153</a> of 1 April 2026 and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=comnat:COM_2026_0616_FIN" target="_blank" rel="noopener">COM(2026) 616</a> of 17 July 2026, both in the ordinary legislative procedure.</li>
     </ul>
@@ -455,6 +572,13 @@ document.getElementById("kpis").innerHTML=[
   ["117 Mt","cut from the cap by the two one-off rebasings, on top of the annual decline"],
   ["≈2039","when supply would end if today's rules were simply extended"]
 ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+document.getElementById("rvKpis").innerHTML=[
+  ["€24.4 bn","auction revenue in 2024, down from €33.0 bn in 2023"],
+  ["75%","of the 2024 revenue due for climate and energy action reported as spent"],
+  ["€3.17 bn","paid back to industry in 2024 for indirect carbon costs"],
+  ["€4.84 bn","committed but not yet allocated, disbursed or reported"],
+  ["10×","growth in annual revenue between 2013 and 2023"]
+].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 document.getElementById("revKpis").innerHTML=REV.map(k=>
   `<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 
@@ -576,6 +700,83 @@ document.getElementById("emCards").innerHTML=Object.keys(EM).map(k=>{
 }).join("");
 drawEm();
 
+const CMP=[{"n": "Aircraft operators", "a": 436, "b": 42, "p": 91.2}, {"n": "Paper & cardboard", "a": 442, "b": 17, "p": 96.3}, {"n": "Maritime operators", "a": 3195, "b": 121, "p": 96.4}, {"n": "Ferrous metals", "a": 200, "b": 5, "p": 97.6}, {"n": "Bricks & tiles", "a": 132, "b": 3, "p": 97.8}, {"n": "Ceramics", "a": 602, "b": 12, "p": 98.0}, {"n": "Lime & dolomite", "a": 203, "b": 4, "p": 98.1}, {"n": "Ammonia", "a": 60, "b": 1, "p": 98.4}, {"n": "Other", "a": 198, "b": 3, "p": 98.5}, {"n": "Combustion of fuels", "a": 5364, "b": 75, "p": 98.6}, {"n": "Glass", "a": 287, "b": 4, "p": 98.6}, {"n": "Production or processing of non-fe", "a": 77, "b": 1, "p": 98.7}, {"n": "Combustion >20 MW", "a": 232, "b": 3, "p": 98.7}, {"n": "Coke ovens", "a": 177, "b": 2, "p": 98.9}, {"n": "Cement clinker", "a": 205, "b": 0, "p": 100.0}, {"n": "Bulk chemicals", "a": 289, "b": 0, "p": 100.0}, {"n": "Gypsum", "a": 77, "b": 0, "p": 100.0}, {"n": "Refining of mineral oil", "a": 108, "b": 0, "p": 100.0}];
+const CMP_A=12576, CMP_B=297, CMP_C=475;
+
+new Chart(document.getElementById("cmpChart"),{type:"bar",
+  data:{labels:CMP.map(d=>d.n),datasets:[{data:CMP.map(d=>d.p),
+    backgroundColor:CMP.map(d=>d.p<97?"rgba(192,57,43,.85)":(d.p<99?"rgba(217,165,32,.85)":"rgba(31,138,95,.85)")),
+    borderRadius:3,barThickness:14}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>{const d=CMP[c.dataIndex];
+        return [`${d.p.toFixed(1)}% compliant`,`${d.a} met the obligation, ${d.b} did not`];}}}},
+    scales:{x:{min:88,max:100,title:{display:true,text:"% of assessed installations that surrendered enough allowances, 2024"},
+               grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+
+// ---------------------------------------------------------------- auction revenue & spending
+// EEA, use of ETS auctioning revenues. EU-27 scope. Reporting categories changed in 2023.
+const RV_Y=[2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const RV_T=[3.14,2.77,4.35,3.37,4.92,12.57,14.12,14.38,24.95,29.71,32.96,24.39];
+const RV_CAT=[
+ {n:"Energy supply, grids and storage",      y23:9.70, y24:3.24, col:"#0b3d91"},
+ {n:"Energy efficiency in buildings",        y23:2.30, y24:3.34, col:"#1f5fbf"},
+ {n:"Public transport and mobility",         y23:5.10, y24:3.58, col:"#16a085"},
+ {n:"Social support and just transition",    y23:2.70, y24:1.39, col:"#2e8b57"},
+ {n:"Other (adaptation, LULUCF, waste, admin)",y23:2.40,y24:4.72, col:"#7f8c8d"},
+ {n:"Aid to industry for indirect carbon costs",y23:2.10,y24:3.17,col:"#c0392b"},
+ {n:"International climate finance",         y23:0.11, y24:0.09, col:"#8e44ad"},
+ {n:"Committed or not yet allocated",        y23:8.70, y24:4.84, col:"#d9a520"}
+];
+const RV_MS=[{"c": "Germany", "aid": 323.6894539, "due": 5205.043546, "spent": 5205.043546}, {"c": "Poland", "aid": 614.73621, "due": 3192.63473, "spent": 3015.72868}, {"c": "Italy", "aid": 0.0, "due": 2558.13197, "spent": 0.0}, {"c": "Spain", "aid": 244.0, "due": 2331.3759, "spent": 1120.913814}, {"c": "Netherlands", "aid": 0.0, "due": 927.82574, "spent": 927.82574}, {"c": "Bulgaria", "aid": 0.0, "due": 826.34552, "spent": 826.34552}, {"c": "Greece", "aid": 272.384, "due": 820.153, "spent": 820.153}, {"c": "France", "aid": 833.83337, "due": 700.0, "spent": 700.0}, {"c": "Czechia", "aid": 58.01967051, "due": 605.0499255, "spent": 579.0362164}, {"c": "Hungary", "aid": 0.0, "due": 584.5670355, "spent": 117.4409094}, {"c": "Belgium", "aid": 0.0, "due": 539.08608, "spent": 203.9996}, {"c": "Romania", "aid": 116.826, "due": 518.976, "spent": 518.976}, {"c": "Portugal", "aid": 25.0, "due": 510.216385, "spent": 510.216385}, {"c": "Finland", "aid": 0.0, "due": 417.932, "spent": 417.932}, {"c": "Austria", "aid": 0.0, "due": 313.070665, "spent": 313.070665}, {"c": "Denmark", "aid": 0.0, "due": 298.81237, "spent": 298.81237}, {"c": "Estonia", "aid": 0.0, "due": 254.6328, "spent": 19.732148}, {"c": "Sweden", "aid": 0.0, "due": 236.483, "spent": 236.483}, {"c": "Slovakia", "aid": 58.3, "due": 233.49638, "spent": 86.449844}, {"c": "Ireland", "aid": 0.0, "due": 138.814985, "spent": 138.814985}, {"c": "Croatia", "aid": 0.0, "due": 118.30238, "spent": 0.0}, {"c": "Slovenia", "aid": 25.401151, "due": 108.019724, "spent": 93.442569}, {"c": "Cyprus", "aid": 0.0, "due": 95.493, "spent": 94.609}, {"c": "Lithuania", "aid": 0.0, "due": 86.997, "spent": 10.39991871}, {"c": "Latvia", "aid": 0.0, "due": 64.48615, "spent": 4.023405}, {"c": "Malta", "aid": 0.0, "due": 44.175, "spent": 44.175}, {"c": "Luxembourg", "aid": 0.0, "due": 5.07621268, "spent": 5.07621268}];
+let rvCatYear=2024, rvCatChart;
+function drawRvCat(){
+  const k=rvCatYear===2024?"y24":"y23";
+  const rows=[...RV_CAT].sort((a,b)=>a[k]-b[k]);
+  const tot=rows.reduce((s,d)=>s+d[k],0);
+  const data={labels:rows.map(d=>d.n),datasets:[{data:rows.map(d=>d[k]),
+    backgroundColor:rows.map(d=>d.col),borderRadius:3,barThickness:20}]};
+  const opts={indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>
+      [`€${c.parsed.x.toFixed(2)} bn`,`${(c.parsed.x/tot*100).toFixed(1)}% of reported ${rvCatYear} revenue`]}}},
+    scales:{x:{title:{display:true,text:`€ billion, ${rvCatYear}`},grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:11}}}}};
+  if(rvCatChart){rvCatChart.data=data;rvCatChart.options=opts;rvCatChart.update();}
+  else rvCatChart=new Chart(document.getElementById("rvCatChart"),{type:"bar",data,options:opts});
+}
+document.getElementById("rv24").onclick=()=>{rvCatYear=2024;rvToggle();};
+document.getElementById("rv23").onclick=()=>{rvCatYear=2023;rvToggle();};
+function rvToggle(){
+  document.getElementById("rv24").classList.toggle("on",rvCatYear===2024);
+  document.getElementById("rv23").classList.toggle("on",rvCatYear===2023);
+  drawRvCat();
+}
+drawRvCat();
+
+new Chart(document.getElementById("rvTimeChart"),{type:"bar",
+  data:{labels:RV_Y.map(String),datasets:[{label:"Auction revenue",data:RV_T,
+    backgroundColor:RV_Y.map(y=>y>=2023?"rgba(11,61,145,.85)":"rgba(11,61,145,.55)"),borderRadius:3}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`€${c.parsed.y.toFixed(2)} bn`}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"€ billion per year"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById("rvMsChart"),{type:"bar",
+  data:{labels:RV_MS.map(d=>d.c),datasets:[
+    {label:"Revenue due to be spent on climate and energy",data:RV_MS.map(d=>d.due),
+     backgroundColor:"rgba(184,192,204,.9)",borderRadius:2},
+    {label:"Reported as actually spent",data:RV_MS.map(d=>d.spent),
+     backgroundColor:"rgba(31,138,95,.9)",borderRadius:2}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{afterBody:c=>{const d=RV_MS[c[0].dataIndex];
+        return [`${d.due?(d.spent/d.due*100).toFixed(0):0}% of the year's revenue reported as spent`,
+                d.aid?`Plus €${d.aid.toFixed(0)} m to industry for indirect carbon costs`:""].filter(Boolean);}}}},
+    scales:{x:{title:{display:true,text:"€ million, 2024"},grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:10.5}}}}}});
+
 // ---------------------------------------------------------------- allowance price
 const PM_L=["2010-01", "2010-02", "2010-03", "2010-04", "2010-05", "2010-06", "2010-07", "2010-08", "2010-09", "2010-10", "2010-11", "2011-01", "2011-02", "2011-03", "2011-04", "2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12", "2012-01", "2012-02", "2012-03", "2012-04", "2012-05", "2012-06", "2012-07", "2012-08", "2012-09", "2012-10", "2012-11", "2012-12", "2013-01", "2013-02", "2013-03", "2013-04", "2013-05", "2013-06", "2013-07", "2013-08", "2013-09", "2013-10", "2013-11", "2013-12", "2014-01", "2014-02", "2014-03", "2014-04", "2014-05", "2014-06", "2014-07", "2014-08", "2014-09", "2014-10", "2014-11", "2014-12", "2015-01", "2015-02", "2015-03", "2015-04", "2015-05", "2015-06", "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12", "2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06", "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2017-06", "2017-07", "2017-08", "2017-09", "2017-10", "2017-11", "2017-12", "2018-01", "2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"];
 const PM=[13.02,12.89,12.86,14.07,15.17,15.27,14.17,14.56,15.14,15.28,14.63,14.14,14.56,15.92,16.45,16.62,15.12,12.49,11.94,11.62,10.23,9.36,7.13,6.97,8.52,7.5,6.72,6.55,6.96,7.49,7.64,7.61,7.69,7.2,6.44,5.01,4.4,4.03,3.81,3.42,4.22,4.19,4.4,5.18,4.85,4.52,4.65,4.97,6.44,6.17,5.18,5.03,5.54,5.9,6.24,5.98,6.05,6.79,6.74,6.89,7.19,6.72,7.04,7.4,7.43,7.69,8.06,8.06,8.33,8.47,8.27,6.49,5.17,4.88,5.66,5.88,5.6,4.62,4.67,4.3,5.68,5.63,4.48,5.11,5.13,5.06,4.75,4.58,4.96,5.24,5.63,6.71,7.26,7.54,7.28,8.39,9.39,11.38,13.23,14.82,15.11,16.21,18.77,21.6,19.58,18.69,20.68,22.97,20.84,21.81,25.59,25.54,24.93,27.91,27.06,25.7,24.44,24.54,24.6,24.35,23.89,19.87,20.12,19.64,23.19,27.35,26.62,27.55,25.14,26.31,29.76,33.53,37.66,40.52,44.87,51.83,52.7,53.38,56.5,61.31,59.58,65.6,80.64,83.46,90.33,74.61,80.63,85.39,82.72,81.58,87.66,69.54,69.48,75.48,86.04,79.97,91.98,89.31,89.79,84.12,85.03,86.25,84.78,81.88,80.76,75.88,68.82,63.2,55.35,57.48,63.6,71.07,68.61,66.9,70.17,65.04,63.15,66.96,68.08,75.78,75.72,68.76,64.31,70.59,72.25,69.99,70.96,75.46,77.92,80.7,82.74,86.51,73.77,68.17,72.81,74.95,77.82];
@@ -613,6 +814,44 @@ function togglePrice(){
   drawPrice();
 }
 drawPrice();
+
+const AL_Y=[2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+const AL_A=[1887.5,1862.7,1933.8,1748.5,1761.4,1782.0,1797.9,1993.1,825.1,779.5,742.3,719.3,692.6,665.4,649.6,627.4,569.5,565.3,559.1,512.8,491.5];
+const AL_E=[1776.9,1790.4,1912.8,1859.4,1651.4,1705.4,1687.3,1714.2,1734.2,1668.1,1681.5,1661.8,1678.2,1620.5,1481.6,1278.2,1364.7,1361.9,1150.2,1210.4,1169.5];
+const E2_C=["DE", "FR", "IT", "NL", "BE", "ES", "CZ", "AT", "GR", "SE", "IE", "FI", "DK", "NO", "HR", "SI", "LU", "LV"];
+const E2_V=[273.0,178.3,167.0,56.6,46.3,38.8,33.4,30.9,24.4,21.0,20.0,14.9,14.5,11.1,10.0,7.2,5.7,4.1];
+const E2_N=18;
+const E2_TOT=957.0;
+
+new Chart(document.getElementById("allocChart"),{type:"line",
+  data:{labels:AL_Y.map(String),datasets:[
+    {label:"Verified emissions",data:AL_E,borderColor:"#14181f",borderWidth:2.5,
+     pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:false},
+    {label:"Free allocation",data:AL_A,borderColor:"#1f8a5f",backgroundColor:"rgba(31,138,95,.16)",
+     borderWidth:2.5,pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:"origin"}]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{afterBody:c=>{
+        const i=c[0].dataIndex, a=AL_A[i], e=AL_E[i];
+        return [`Free allocation covers ${(a/e*100).toFixed(0)}% of emissions`,
+                a>e?`Surplus of ${(a-e).toFixed(0)} Mt handed out`:`Shortfall of ${(e-a).toFixed(0)} Mt to buy`];}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Mt CO₂e / million allowances"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false},ticks:{maxRotation:0,autoSkipPadding:14}}}}});
+document.getElementById("allocCards").innerHTML=[
+  ["1 993 Mt","free allowances in 2012 — more than the 1 714 Mt actually emitted"],
+  ["−59%","fall in free allocation in 2013, when auctioning became the default"],
+  ["492 Mt","free allowances in 2025"],
+  ["42%","share of verified emissions covered by free allocation today"]
+].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+
+new Chart(document.getElementById("ets2Chart"),{type:"bar",
+  data:{labels:E2_C,datasets:[{data:E2_V,backgroundColor:"rgba(107,91,210,.85)",borderRadius:3}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>[`${c.parsed.y.toFixed(1)} Mt CO₂e reported for 2024`,
+        `${(c.parsed.y/E2_TOT*100).toFixed(1)}% of the ${E2_TOT.toFixed(0)} Mt total`]}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Reported ETS 2 emissions 2024, Mt CO₂e"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}}});
 
 // ---------------------------------------------------------------- timeline
 document.getElementById("timeline").innerHTML=TIMELINE.map(([y,cls,txt])=>

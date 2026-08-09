@@ -95,6 +95,7 @@
   .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
       font-size:14px;line-height:1.9}
   footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .dim{color:var(--muted)}
   .hide{display:none}
 </style>
 </head>
@@ -123,6 +124,7 @@
     <button data-tab="scope">Scope</button>
     <button data-tab="time">Timeline</button>
     <button data-tab="comply">Compliance</button>
+    <button data-tab="countries">Countries</button>
     <button data-tab="calc">Cost calculator</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
@@ -166,6 +168,76 @@
   </div>
 
   <div class="panel">
+    <h2>Article 9: the carbon price already paid abroad</h2>
+    <p class="sub">If a producer has already paid a carbon price in its own country, the importer may deduct it
+       from the CBAM obligation. That is the provision which decides whether CBAM is a tariff or a genuine
+       equalisation — and as of mid-2026 <strong>no country's scheme has been formally recognised</strong>.</p>
+    <div class="grid2">
+      <div>
+        <h3>Three conditions</h3>
+        <p style="font-size:13.5px;color:#39414d">The price must be legally binding, actually paid rather than
+           rebated, and evidenced. Crucially the deduction is assessed <strong>at installation level, not country
+           level</strong>: two producers in the same country can end up with different deductions, and a national
+           scheme existing on paper is not enough.</p>
+      </div>
+      <div>
+        <h3>Still not operational</h3>
+        <p style="font-size:13.5px;color:#39414d">The Commission published a draft implementing regulation setting
+           out recognition pathways and the calculation method on 13 May 2026, with consultation closing
+           10 June 2026. It had not been adopted as of July 2026. South Korea's K-ETS, running since 2015, is
+           generally regarded as the most advanced candidate — but it has no formal recognition either.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px">Until that regulation is adopted, the deduction field in any
+      calculator — including the one on this page — is hypothetical. Importers can record a carbon price paid,
+      but there is not yet an approved method for converting it into a reduced obligation.</div>
+  </div>
+
+  <div class="panel">
+    <h2>The third leakage instrument, and the one nobody phases out</h2>
+    <p class="sub">Free allocation and CBAM are the two carbon leakage instruments this site has covered so far.
+       There is a third, and it works differently from both: <strong>indirect cost compensation</strong>. Power
+       generators pass their allowance costs into wholesale electricity prices, so an electricity-intensive
+       manufacturer pays for carbon twice over — once on its own emissions, and again in its power bill. Member
+       states may reimburse part of that second cost under EU State aid rules.</p>
+    <div class="grid2">
+      <div>
+        <h3>How big it is</h3>
+        <p style="font-size:13.5px;color:#39414d">In 2024, fifteen member states paid roughly <strong>€5.52 bn</strong>
+           in compensation for indirect costs incurred in 2023 — up 40% on the €3.95 bn paid the year before. On
+           the EEA's narrower measure of what came specifically out of 2024 auction revenue, the figure is
+           €3.17 bn. Either way it is now one of the largest single uses of carbon revenue in the EU.</p>
+      </div>
+      <div>
+        <h3>It was just widened, not narrowed</h3>
+        <p style="font-size:13.5px;color:#39414d">In December 2025 the Commission amended the State aid guidelines
+           to add <strong>20 sectors and two subsectors</strong> — including organic chemicals and parts of
+           ceramics, glass and battery manufacturing — and raised the maximum share of indirect costs that may be
+           compensated from <strong>75% to 80%</strong>. Large recipients must now invest part of the aid in
+           reducing electricity system costs, and the CO₂ factors used in the formula were updated for 2026–2030.</p>
+      </div>
+    </div>
+    <div class="eq" style="margin-top:18px">
+      <strong>Free allocation</strong> → falling to zero by 2034, replaced one-for-one by CBAM<br>
+      <strong>CBAM</strong> → rising to 100% over the same period, charged at the border<br>
+      <strong>Indirect cost compensation</strong> → <span style="color:var(--up);font-weight:600">no phase-out
+      date, and expanded in December 2025</span>
+    </div>
+    <div class="warn"><strong>This is why it matters for CBAM.</strong> The free allocation phase-out and the CBAM
+      phase-in are locked together by design — as one falls the other rises, and the importer's obligation is
+      reduced by exactly the protection the domestic producer still enjoys. Indirect cost compensation sits
+      entirely outside that interlock. It has no phase-out schedule, no CBAM factor, and no equivalent adjustment
+      at the border. So as free allocation disappears through 2034, compensation for indirect costs becomes the
+      main remaining form of carbon leakage protection for electricity-intensive industry — and the one form CBAM
+      does not mirror.</div>
+    <p class="sub" style="margin:16px 0 0">The disagreement runs in both directions. Industry associations argue
+       that electricity costs are where European manufacturing is genuinely uncompetitive, and that the ETS should
+       not penalise firms for electrifying. Analysts including Sandbag argue that widening the scheme diverts
+       carbon revenue away from decarbonisation into untargeted support. Both are arguments about the same number,
+       and it is now growing at 40% a year.</p>
+  </div>
+
+  <div class="panel">
     <h2>What a certificate costs</h2>
     <div class="grid2">
       <div>
@@ -179,8 +251,20 @@
         <h3>Quarterly now, weekly from 2027</h3>
         <p style="font-size:13.5px;color:#39414d">For 2026 one price is set per calendar quarter, published in the
            week after the quarter ends. From 2027 it moves to a weekly average, which tracks the market more
-           closely and reduces the timing arbitrage a quarterly figure creates. The first published price, for
-           Q1 2026, was <strong>€75.36</strong>.</p>
+           closely and reduces the timing arbitrage a quarterly figure creates. The methodology is set by
+           Implementing Regulation (EU) 2025/2548.</p>
+        <table style="margin-top:10px">
+          <thead><tr><th class="l">Quarter</th><th class="l">Published</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Q1 2026</td><td class="l">7 April 2026</td><td><strong>€75.36</strong></td></tr>
+            <tr><td class="l">Q2 2026</td><td class="l">6 July 2026</td><td><strong>€75.28</strong></td></tr>
+            <tr><td class="l dim">Q3 2026</td><td class="l dim">5 October 2026</td><td class="dim">awaited</td></tr>
+            <tr><td class="l dim">Q4 2026</td><td class="l dim">4 January 2027</td><td class="dim">awaited</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">The first two quarters came in eight cents
+           apart, which is a reminder that the certificate price is a lagging average of ETS auctions, not a market
+           in its own right.</p>
       </div>
     </div>
   </div>
@@ -193,6 +277,52 @@
     <p class="sub">Six sectors, chosen for high carbon intensity and high trade exposure. Together they account for
        the bulk of the free allocation the ETS still hands out.</p>
     <div class="sectors" id="sectors"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Default values, and the penalty for using them</h2>
+    <p class="sub">If an importer cannot obtain verified emissions data from its supplier, it may use official
+       default values — published per country and per CN code in Annex I to Implementing Regulation (EU) 2025/2621, in the
+       version adopted on 4 February 2026. They are deliberately unattractive. A <strong>mark-up</strong> is added on top,
+       rising each year, so the longer an importer relies on defaults the more it pays. The scheme is designed to
+       make real supplier data the cheaper option.</p>
+    <div class="eq">
+      Cement, aluminium, hydrogen, iron and steel: &nbsp;
+      <strong>+10%</strong> in 2026 &nbsp;→&nbsp; <strong>+20%</strong> in 2027 &nbsp;→&nbsp;
+      <strong>+30%</strong> from 2028<br>
+      Fertilisers: &nbsp;<strong>+1%</strong> throughout
+    </div>
+    <p class="sub" style="margin-bottom:14px">Defaults also vary sharply by origin, which is the whole point —
+       the same product carries a different carbon charge depending on where it was made. Compare a good across
+       countries below.</p>
+    <div class="controls">
+      <select id="dvGood"></select>
+      <label class="chk"><input type="checkbox" id="dvMk"> Show the 2026 value including mark-up</label>
+    </div>
+    <div class="chartbox" style="height:420px"><canvas id="dvChart"></canvas></div>
+    <div class="warn" style="margin-top:16px"><strong>Defaults carry both direct and indirect emissions.</strong>
+      The annex publishes a direct, an indirect and a total figure for every good, and the indirect component is
+      the electricity used in production. That is the mirror image of the indirect cost compensation EU producers
+      receive — and it is why the treatment of indirect emissions is the hinge on which the whole level-playing-field
+      argument turns. This chart shows the total. Whether the indirect part is charged for a given good depends on
+      the Regulation, so check it for the goods you actually import.</div>
+  </div>
+
+  <div class="panel">
+    <h2>What the transitional period actually showed</h2>
+    <p class="sub">CBAM ran as a reporting-only exercise from October 2023 to the end of 2025, and that produced
+       the first hard evidence of what the mechanism covers. The Commission's review report of December 2025 puts
+       roughly <strong>156 million tonnes</strong> of CBAM goods imported between Q4 2023 and Q2 2025, and
+       <strong>167 million tonnes of CO₂e</strong> of embedded emissions accumulated in 2024 alone.</p>
+    <div class="chartbox" style="height:330px"><canvas id="trChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>Aluminium is 5% of the tonnage and 23% of the emissions.</strong>
+      Iron and steel dominate by weight — roughly 69% of everything imported — but aluminium carries more than four
+      times its share of embedded carbon, because primary smelting runs on electricity. Cement is the mirror image:
+      11% of the mass, about 5% of the emissions. This is the clearest available argument for why the treatment of
+      indirect emissions decides how much CBAM actually bites, and on which goods.</div>
+    <p class="sub" style="margin:14px 0 0">By volume the largest origins over the transitional period were
+       <strong>Ukraine at about 14%</strong> and <strong>Türkiye at about 12%</strong> — a reminder that CBAM's
+       first-order effects land on near neighbours and candidate countries rather than on distant economies.</p>
   </div>
 
   <div class="panel">
@@ -247,6 +377,66 @@
   </div>
 
   <div class="panel">
+    <h2>Certificates are not allowances</h2>
+    <p class="sub">The word "certificate" invites the assumption that CBAM works like the ETS. It does not, and
+       the differences are the things that catch importers out.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Feature</th><th class="l">EU ETS allowance</th><th class="l">CBAM certificate</th></tr></thead>
+        <tbody>
+          <tr><td class="l">Traded</td><td class="l">Yes, on exchanges and OTC</td><td class="l"><strong>No secondary market at all</strong></td></tr>
+          <tr><td class="l">Transferable between companies</td><td class="l">Yes</td><td class="l"><strong>No</strong></td></tr>
+          <tr><td class="l">Price</td><td class="l">Set by the market</td><td class="l">Set administratively from ETS auction averages</td></tr>
+          <tr><td class="l">Bankable</td><td class="l">Indefinitely</td><td class="l">Roughly a two-year window, then cancelled</td></tr>
+          <tr><td class="l">Sold by</td><td class="l">Auction platforms</td><td class="l">National competent authorities only</td></tr>
+          <tr><td class="l">Refundable</td><td class="l">No</td><td class="l">Up to 50% of a year's purchases, at the price paid</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:14px">There is no way to hedge a CBAM position within the system. Importers
+       wanting price certainty have to use ETS instruments in the financial markets instead — which is available
+       to large traders and effectively not to small ones.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Penalties</h2>
+    <div class="cards" style="margin-top:0">
+      <div class="card"><div class="k" style="color:var(--up)">€100 / t</div>
+        <div class="l">for failing to surrender enough certificates — and the certificates must still be bought and surrendered on top</div></div>
+      <div class="card"><div class="k" style="color:var(--up)">€300–500 / t</div>
+        <div class="l">for importing CBAM goods without authorisation: three to five times the standard rate</div></div>
+      <div class="card"><div class="k">31 Mar 2026</div>
+        <div class="l">authorisation application deadline, now passed</div></div>
+      <div class="card"><div class="k">50%</div>
+        <div class="l">of cumulative embedded emissions that must be held in certificates at each quarter end, from 2027</div></div>
+    </div>
+    <div class="warn" style="margin-top:6px"><strong>The penalty does not discharge the obligation.</strong> An
+      importer short by 500 tonnes pays €50 000 and still has to buy and surrender the 500 certificates. At a
+      €75 certificate price that is roughly €175 per tonne all in — more than twice the carbon cost avoided. The
+      €100 rate is deliberately identical to the ETS excess emissions penalty.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Holding, buying back and cancellation</h2>
+    <div class="grid2">
+      <div>
+        <h3>The 50% quarterly minimum</h3>
+        <p style="font-size:13.5px;color:#39414d">From 2027, at the end of every quarter an authorised declarant
+           must hold certificates covering at least half of the embedded emissions accumulated <em>since 1 January
+           of that year</em> — not since the start of the quarter. The base grows through the year. The Omnibus
+           simplification cut this from 80% to 50% to ease the cash flow burden.</p>
+      </div>
+      <div>
+        <h3>Buyback and expiry</h3>
+        <p style="font-size:13.5px;color:#39414d">Up to 50% of a year's purchases can be sold back to the national
+           authority at the price originally paid, with a 31 October deadline. Anything beyond that must be
+           surrendered or left to be cancelled — certificates expire on a roughly two-year cycle, so no importer
+           can stockpile them as a hedge against a rising price.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
     <h2>The compliance year</h2>
     <p class="sub">The rhythm is retrospective: you import throughout a year, then buy and surrender certificates
        for those imports during the following year.</p>
@@ -263,6 +453,56 @@
   </div>
 </section>
 
+<!-- ===================== COUNTRIES ===================== -->
+<section id="tab-countries" class="hide">
+  <div class="panel">
+    <h2>Exposure by country of production</h2>
+    <p class="sub">CBAM's legal obligation sits with the EU importer, but its commercial weight lands on
+       exporters — through renegotiated contracts and supplier switching. Two things determine how hard: the
+       carbon intensity of a country's production, and whether it has a carbon price that might one day be
+       deductible under Article 9. Select a good to compare the official default value across origins, and read
+       the carbon pricing status alongside.</p>
+    <div class="controls">
+      <select id="ctGood"></select>
+    </div>
+    <div class="tblscroll">
+      <table id="ctTbl">
+        <thead><tr><th class="l">Country</th><th class="l">Main CBAM exports</th>
+          <th>Default value</th><th>Direct</th><th>Indirect</th>
+          <th class="l">Carbon pricing</th><th class="l">Article 9 prospect</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:18px"><strong>Two different kinds of information in one table.</strong>
+      The default values are official, from Annex I to Implementing Regulation (EU) 2025/2621. The carbon pricing
+      and Article 9 columns are a third-party assessment compiled by
+      <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a> as of April 2026,
+      not a Commission determination — and since no scheme has been formally recognised, every entry in the last
+      column is a prospect rather than a status. Blank default cells mean that good has no published default for
+      that origin.</div>
+  </div>
+
+  <div class="panel">
+    <h2>CBAM is being copied</h2>
+    <p class="sub">The mechanism is no longer unique to the EU, which changes the trade politics considerably.</p>
+    <div class="grid2">
+      <div>
+        <h3>Norway — first mover</h3>
+        <p style="font-size:13.5px;color:#39414d">Passed its own CBAM legislation in June 2026, adopting the EU
+           mechanism into domestic law with a target start of 1 January 2027 — the first non-EU country to do so.
+           As an EEA member already inside the ETS, alignment was the path of least resistance.</p>
+      </div>
+      <div>
+        <h3>United Kingdom and Australia</h3>
+        <p style="font-size:13.5px;color:#39414d">The UK has its own CBAM scheduled for 2027, raising unresolved
+           questions about mutual recognition between two linked-but-separate carbon markets. In Australia a
+           government-commissioned Carbon Leakage Review recommended a staged border adjustment beginning with
+           cement and clinker, with a decision due by mid-2027.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== CALCULATOR ===================== -->
 <section id="tab-calc" class="hide">
   <div class="panel">
@@ -271,6 +511,11 @@
        emissions intensity of the goods; the free allocation adjustment and certificate count follow from the
        CBAM factor for each year.</p>
     <div class="form">
+      <div class="fld">
+        <label for="cCountry">Country of production</label>
+        <select id="cCountry"></select>
+        <div class="hint">Loads the official default value for that origin.</div>
+      </div>
       <div class="fld">
         <label for="cGood">Good</label>
         <select id="cGood"></select>
@@ -288,8 +533,8 @@
       </div>
       <div class="fld">
         <label for="cPrice">CBAM certificate price</label>
-        <input type="number" id="cPrice" value="75.36" min="0" step="any">
-        <div class="hint">€ per certificate. Q1 2026 was €75.36; held flat across all years here.</div>
+        <input type="number" id="cPrice" value="75.28" min="0" step="any">
+        <div class="hint">€ per certificate. Q2 2026 was €75.28; held flat across all years here.</div>
       </div>
       <div class="fld">
         <label for="cForeign">Carbon price already paid abroad</label>
@@ -334,7 +579,11 @@
     <ul>
       <li><strong>CBAM Regulation</strong> — <a href="http://data.europa.eu/eli/reg/2023/956/oj" target="_blank" rel="noopener">Regulation (EU) 2023/956</a>, as amended by Regulation (EU) 2025/2083 (the October 2025 Omnibus simplification).</li>
       <li><strong>CBAM factor and the free allocation interlock</strong> — Article 10a(1a) of Directive 2003/87/EC as amended by Directive (EU) 2023/959.</li>
-      <li><strong>Certificate price</strong> — <a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en" target="_blank" rel="noopener">Commission page on the price of CBAM certificates</a>; the Q1 2026 price of €75.36 was the first published.</li>
+      <li><strong>Country carbon pricing and Article 9 assessments</strong> — compiled by <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a>, April 2026. Third-party analysis, not official. Penalty, holding, buyback and cancellation rules cross-read against Regulation (EU) 2023/956 as amended by Regulation (EU) 2025/2083.</li>
+      <li><strong>Transitional period data</strong> — <a href="https://taxation-customs.ec.europa.eu/document/download/3903da9d-44fd-4508-8915-f27ef25fe033_en?filename=Review+Report_0.pdf" target="_blank" rel="noopener">Commission CBAM review report, COM(2025) 783 final</a>, 16 December 2025. Cement emissions shown as the residual of the reported 167 Mt total.</li>
+      <li><strong>Default values</strong> — Annex I to <a href="http://data.europa.eu/eli/reg_impl/2025/2621/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2621</a>, version adopted 4 February 2026.</li>
+      <li><strong>Certificate price</strong> — <a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en" target="_blank" rel="noopener">Commission page on the price of CBAM certificates</a>; the Q1 2026 price of €75.36 was the first published, Q2 followed at €75.28. Methodology: <a href="http://data.europa.eu/eli/reg_impl/2025/2548/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2548</a>.</li>
+      <li><strong>Indirect cost compensation</strong> — Commission State aid guidelines for certain measures in the context of the EU ETS, as amended December 2025 (20 additional sectors, aid intensity raised from 75% to 80%, updated CO\u2082 factors for 2026\u20132030); Commission report on the functioning of the European carbon market, COM(2025) 735, for disbursement totals.</li>
       <li><strong>Proposals</strong> — the December 2025 scope-extension proposal, and the ETS review COM(2026) 616 of 17 July 2026.</li>
     </ul>
   </div>
@@ -342,28 +591,32 @@
   <details open>
     <summary>Where this simplifies</summary>
     <ul>
-      <li><strong>The free allocation adjustment is not exactly one minus the CBAM factor.</strong> In the
-          Regulation it is derived from the free allocation an equivalent EU installation would receive for that
-          good — which depends on the relevant benchmark, not only on the year. The calculator uses the CBAM factor
-          as a proxy, which is right in shape and approximately right in level, but not a substitute for the actual
-          determination.</li>
+      <li><strong>The free allocation adjustment is not exactly one minus the CBAM factor.</strong> The real
+          mechanism is the Specific Embedded Free Allocation, set out in Implementing Regulation (EU) 2025/2620,
+          which derives the reduction from the free allocation an equivalent EU installation would receive for that
+          good — so it depends on the relevant benchmark, not only on the year. The calculator uses the CBAM factor
+          as a proxy: right in shape, approximately right in level, not a substitute for the SEFA calculation.</li>
       <li><strong>Embedded emissions are more complicated than one number.</strong> They cover direct emissions and,
           for some goods, indirect emissions from electricity, plus emissions embedded in relevant precursors.
           Default values apply where actual data is not available, and they are deliberately conservative.</li>
-      <li><strong>The carbon price deduction has conditions.</strong> It must be genuinely paid and not rebated, and
-          is subject to verification. Entering a figure here does not mean it would be accepted.</li>
+      <li><strong>The Article 9 carbon price deduction is not yet operational.</strong> The implementing
+          regulation setting out recognition pathways was still in draft as of July 2026 and no third-country
+          scheme has been formally recognised. The deduction field is therefore hypothetical — useful for modelling
+          a future in which a scheme is recognised, not for a 2026 obligation.</li>
       <li><strong>The certificate price is held flat.</strong> It follows the EU ETS, so in practice it moves. All
           cost figures scale linearly with it — halve the price and halve every number.</li>
     </ul>
   </details>
 
   <details>
-    <summary>The intensity defaults used in the calculator</summary>
-    <p>The per-good intensities offered are indicative order-of-magnitude figures for orientation, drawn from the
-       typical carbon intensity of each product category rather than from the Commission's published default values.
-       They are there so the calculator gives a plausible answer before you enter your own data. <strong>For any
-       real calculation, use your supplier's verified figures or the official defaults</strong>, which are published
-       by the Commission and updated periodically.</p>
+    <summary>The default values used here</summary>
+    <p>The calculator and the default value explorer both use the <strong>official CBAM default values</strong> from
+       Annex I to the implementing regulation, version 1 as adopted on 4 February 2026. Twenty origin countries and
+       seven representative goods are included here; the full annex covers around 120 countries and every CN code in
+       scope, and should be consulted for anything you actually import.</p>
+    <p>The calculator loads the <em>total</em> default (direct plus indirect) as a starting intensity, without the
+       mark-up. If you are genuinely relying on defaults rather than supplier data, add the mark-up for the year in
+       question — 10% in 2026 rising to 30% from 2028 for most goods, 1% throughout for fertilisers.</p>
   </details>
 
   <details>
@@ -384,6 +637,11 @@
 
 <script>
 // ---------------------------------------------------------------- data
+// Official CBAM default values, Annex I as adopted 4 February 2026 (direct, indirect, total, 2026 with mark-up)
+const DV_G=["Cement::Grey clinker", "Cement::Grey Portland cement", "Fertilisers::Anhydrous ammonia", "Fertilisers::Urea, whether or not in aqueous solution, cont", "Fertilisers::Nitric acid; sulphonitric acids", "Hydrogen::Hydrogen", "Iron and steel::Agglomerated iron ores and concentrates (excl."];
+const DV_L=["Grey cement clinker", "Grey Portland cement", "Anhydrous ammonia", "Urea", "Nitric acid", "Hydrogen", "Agglomerated iron ore"];
+const DV_D={"China": {"Cement::Grey clinker": [1.35, 0.04, 1.39, 1.529], "Cement::Grey Portland cement": [1.35, 0.07, 1.42, 1.562], "Fertilisers::Anhydrous ammonia": [4.17, 0.19, 4.36, 4.4036], "Fertilisers::Urea, whether or not in aqueous solution, cont": [2.64, 0.14, 2.78, 2.8078], "Fertilisers::Nitric acid; sulphonitric acids": [3.02, 0.06, 3.08, 3.1108000000000002], "Hydrogen::Hydrogen": [26.64, null, 26.64, 29.304000000000002], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.2, 0.06, 0.26, 0.28600000000000003]}, "India": {"Cement::Grey clinker": [1.39, 0.05, 1.44, 1.584], "Cement::Grey Portland cement": [1.39, 0.09, 1.48, 1.6280000000000001], "Fertilisers::Anhydrous ammonia": [3.06, 0.22, 3.28, 3.3127999999999997], "Fertilisers::Urea, whether or not in aqueous solution, cont": [2, 0.16, 2.17, 2.1917], "Fertilisers::Nitric acid; sulphonitric acids": [1.94, 0.07, 2.01, 2.0301], "Hydrogen::Hydrogen": [14.03, null, 14.03, 15.433], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.29, 0.05, 0.34, 0.37400000000000005]}, "T\u00fcrkiye": {"Fertilisers::Anhydrous ammonia": [2.17, 0.1, 2.27, 2.2927], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.4, 0.08, 1.48, 1.4948], "Fertilisers::Nitric acid; sulphonitric acids": [2.68, 0.03, 2.72, 2.7472000000000003], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.18, 0.03, 0.21, 0.231]}, "Russia": {"Cement::Grey clinker": [1.33, 0.03, 1.36, 1.4960000000000002], "Cement::Grey Portland cement": [1.33, 0.05, 1.38, 1.518], "Fertilisers::Anhydrous ammonia": [2.16, 0.1, 2.26, 2.2826], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.37, 0.07, 1.44, 1.4544], "Fertilisers::Nitric acid; sulphonitric acids": [2.7, 0.03, 2.73, 2.7573], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [1.57, 0.04, 1.61, 1.7710000000000004]}, "United Kingdom": {"Cement::Grey clinker": [0.93, 0.02, 0.95, 1.045], "Cement::Grey Portland cement": [0.94, 0.04, 0.98, 1.078], "Fertilisers::Anhydrous ammonia": [1.97, 0.09, 2.05, 2.0705], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.16, 0.06, 1.23, 1.2423], "Fertilisers::Nitric acid; sulphonitric acids": [0.72, 0.03, 0.75, 0.7575000000000001], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.27, 0.01, 0.28, 0.30800000000000005]}, "United States": {"Cement::Grey clinker": [1.16, 0.03, 1.19, 1.309], "Cement::Grey Portland cement": [1.16, 0.06, 1.21, 1.331], "Fertilisers::Anhydrous ammonia": [3.32, 0.09, 3.41, 3.4441], "Fertilisers::Urea, whether or not in aqueous solution, cont": [2.17, 0.07, 2.24, 2.2624000000000004], "Fertilisers::Nitric acid; sulphonitric acids": [1.87, 0.03, 1.9, 1.9189999999999998], "Hydrogen::Hydrogen": [26.64, null, 26.64, 29.304000000000002], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.66, 0.02, 0.68, 0.7480000000000001]}, "South Korea": {"Cement::Grey clinker": [0.88, 0.03, 0.92, 1.0120000000000002], "Cement::Grey Portland cement": [0.89, 0.06, 0.94, 1.034], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.38, 0.13, 1.51, 1.5251000000000001], "Fertilisers::Nitric acid; sulphonitric acids": [2.13, 0.06, 2.19, 2.2119], "Hydrogen::Hydrogen": [14.03, null, 14.03, 15.433], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.1, 0.04, 0.13, 0.14300000000000002]}, "Ukraine": {"Cement::Grey clinker": [1.34, 0.03, 1.37, 1.5070000000000003], "Cement::Grey Portland cement": [1.34, 0.05, 1.38, 1.518], "Fertilisers::Anhydrous ammonia": [2.16, 0.09, 2.25, 2.2725], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.35, 0.07, 1.42, 1.4342], "Fertilisers::Nitric acid; sulphonitric acids": [2.7, 0.03, 2.73, 2.7573], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.08, 0.05, 0.12, 0.132]}, "Brazil": {"Fertilisers::Anhydrous ammonia": [3.12, 0.08, 3.21, 3.2421], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.97, 0.05, 2.03, 2.0503], "Fertilisers::Nitric acid; sulphonitric acids": [2.04, 0.02, 2.07, 2.0907], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.19, 0.01, 0.2, 0.22000000000000003]}, "Japan": {"Cement::Grey clinker": [0.82, 0.03, 0.85, 0.935], "Cement::Grey Portland cement": [0.83, 0.06, 0.89, 0.9790000000000001], "Fertilisers::Anhydrous ammonia": [2.05, 0.14, 2.19, 2.2119], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.38, 0.11, 1.48, 1.4948], "Fertilisers::Nitric acid; sulphonitric acids": [2.13, 0.06, 2.19, 2.2119], "Hydrogen::Hydrogen": [14.03, null, 14.03, 15.433], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.16, 0.04, 0.2, 0.22000000000000003]}, "Egypt": {"Cement::Grey clinker": [1.24, 0.03, 1.27, 1.3970000000000002], "Cement::Grey Portland cement": [1.24, 0.05, 1.29, 1.4190000000000003], "Fertilisers::Anhydrous ammonia": [1.96, 0.1, 2.05, 2.0705], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.29, 0.07, 1.36, 1.3736000000000002], "Fertilisers::Nitric acid; sulphonitric acids": [2.46, 0.03, 2.49, 2.5149000000000004], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001]}, "Serbia": {"Cement::Grey clinker": [1.33, 0.06, 1.38, 1.518], "Cement::Grey Portland cement": [1.31, 0.1, 1.41, 1.551], "Fertilisers::Anhydrous ammonia": [2.16, 0.1, 2.26, 2.2826], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.36, 0.07, 1.43, 1.4443], "Fertilisers::Nitric acid; sulphonitric acids": [2.7, 0.03, 2.73, 2.7573], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.12, 0.11, 0.22, 0.24200000000000002]}, "Bosnia and Herzegovina": {"Cement::Grey clinker": [0.86, 0.06, 0.92, 1.0120000000000002], "Cement::Grey Portland cement": [0.88, 0.1, 0.98, 1.078], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.44, 0.15, 1.59, 1.6059], "Fertilisers::Nitric acid; sulphonitric acids": [2.67, 0.06, 2.73, 2.7573], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.09, 0.09, 0.19, 0.20900000000000002]}, "Taiwan": {"Cement::Grey clinker": [0.83, 0.04, 0.86, 0.9460000000000001], "Cement::Grey Portland cement": [0.83, 0.07, 0.89, 0.9790000000000001], "Fertilisers::Anhydrous ammonia": [2.05, 0.15, 2.2, 2.2220000000000004], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.24, 0.12, 1.36, 1.3736000000000002], "Fertilisers::Nitric acid; sulphonitric acids": [2.11, 0.05, 2.16, 2.1816], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.18, 0.04, 0.22, 0.24200000000000002]}, "Vietnam": {"Fertilisers::Anhydrous ammonia": [3.46, 0.15, 3.61, 3.6461], "Fertilisers::Urea, whether or not in aqueous solution, cont": [2.26, 0.12, 2.38, 2.4038], "Fertilisers::Nitric acid; sulphonitric acids": [2.41, 0.05, 2.46, 2.4846], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [1.04, 0.07, 1.11, 1.2210000000000003]}, "Algeria": {"Cement::Grey clinker": [1.24, 0.04, 1.28, 1.4080000000000001], "Cement::Grey Portland cement": [1.23, 0.06, 1.3, 1.4300000000000002], "Fertilisers::Anhydrous ammonia": [1.96, 0.12, 2.08, 2.1008], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.29, 0.09, 1.38, 1.3938], "Fertilisers::Nitric acid; sulphonitric acids": [2.49, 0.04, 2.53, 2.5553], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.18, 0.03, 0.21, 0.231]}, "Kazakhstan": {"Cement::Grey clinker": [1.35, 0.04, 1.39, 1.529], "Cement::Grey Portland cement": [1.35, 0.07, 1.42, 1.562], "Fertilisers::Anhydrous ammonia": [2.16, 0.14, 2.3, 2.323], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.44, 0.11, 1.54, 1.5554000000000001], "Fertilisers::Nitric acid; sulphonitric acids": [2.73, 0.04, 2.77, 2.7977], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001], "Iron and steel::Agglomerated iron ores and concentrates (excl.": [0.17, 0.17, 0.34, 0.37400000000000005]}, "Morocco": {"Cement::Grey clinker": [0.85, 0.06, 0.9, 0.9900000000000001], "Cement::Grey Portland cement": [0.86, 0.1, 0.95, 1.045], "Fertilisers::Anhydrous ammonia": [2.03, 0.18, 2.2, 2.2220000000000004], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.33, 0.14, 1.46, 1.4746], "Fertilisers::Nitric acid; sulphonitric acids": [2.48, 0.06, 2.54, 2.5654], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001]}, "South Africa": {"Fertilisers::Anhydrous ammonia": [3.39, 0.25, 3.64, 3.6764], "Fertilisers::Urea, whether or not in aqueous solution, cont": [2.12, 0.19, 2.31, 2.3331], "Fertilisers::Nitric acid; sulphonitric acids": [2.02, 0.08, 2.1, 2.121], "Hydrogen::Hydrogen": [25.94, null, 25.94, 28.534000000000002]}, "Indonesia": {"Fertilisers::Anhydrous ammonia": [2.05, 0.23, 2.28, 2.3028], "Fertilisers::Urea, whether or not in aqueous solution, cont": [1.37, 0.18, 1.54, 1.5554000000000001], "Fertilisers::Nitric acid; sulphonitric acids": [2.06, 0.07, 2.13, 2.1513], "Hydrogen::Hydrogen": [10.82, null, 10.82, 11.902000000000001]}};
+
 const CBAMF={2026:0.975,2027:0.95,2028:0.90,2029:0.775,2030:0.515,2031:0.39,2032:0.265,2033:0.14,2034:0};
 const YEARS=Object.keys(CBAMF).map(Number);
 const prop=y=>y<2028?CBAMF[y]:CBAMF[y]+0.15*(1-CBAMF[y]);
@@ -391,18 +649,12 @@ const prop=y=>y<2028?CBAMF[y]:CBAMF[y]+0.15*(1-CBAMF[y]);
 const SECTORS=[
   ["Cement","2523, 2507 00 80","Clinker, cements and kaolinic clays. Process emissions from calcining limestone are chemically unavoidable, which makes cement the hardest case in the whole scheme."],
   ["Iron & steel","72, 7301–7326","From pig iron and DRI through to a wide range of steel products. The largest sector by trade volume."],
-  ["Aluminium","7601, 7603–7609","Unwrought aluminium and semi-finished products. Emissions are dominated by the electricity used in electrolysis, so the indirect component matters most here."],
+  ["Aluminium","7601, 7603–7609","Unwrought aluminium and semi-finished products. Emissions are dominated by the electricity used in electrolysis, which makes the treatment of indirect emissions the decisive question for this sector \u2014 CBAM covers embedded indirect emissions for some goods and not others, so check the Regulation for the good you import."],
   ["Fertilisers","2808, 2814, 2834 21, 3102, 3105","Nitric acid, ammonia and nitrogen fertilisers. Ammonia production is hydrogen-intensive, which ties this sector directly to the hydrogen transition."],
   ["Hydrogen","2804 10 00","Included from the start, in anticipation of a traded hydrogen market rather than in response to one."],
   ["Electricity","2716 00 00","Imported power. Conceptually the simplest and administratively the most contested, given the difficulty of tracing electrons to a generator."]
 ];
 
-const GOODS=[
-  ["Cement clinker",0.85],["Cement",0.60],["Pig iron / hot metal",1.90],["Crude steel, blast furnace route",2.00],
-  ["Steel, electric arc route",0.40],["Steel products, flat rolled",1.80],["Unwrought aluminium, primary",8.00],
-  ["Aluminium, semi-finished",6.00],["Ammonia",2.00],["Nitric acid",0.30],["Nitrogen fertiliser",1.20],
-  ["Hydrogen, unabated fossil",9.00],["Electricity (per MWh)",0.35]
-];
 
 const TIMELINE=[
   [2023,"past","Transitional regime begins on 1 October. Quarterly reports on embedded emissions only — no financial obligation, no certificates. Designed to build the data before the money starts."],
@@ -436,7 +688,7 @@ const eur=v=>"€"+f0(v);
 
 document.getElementById("kpis").innerHTML=[
   ["1 Jan 2026","the definitive regime began — imports now carry a real cost"],
-  ["€75.36","first published certificate price, Q1 2026"],
+  ["€75.28","certificate price for Q2 2026"],
   ["50 t","annual import threshold below which CBAM does not apply"],
   ["6","sectors covered, with ~180 downstream products proposed from 2028"],
   ["2034","free allocation reaches zero — 2038 if the July 2026 proposal passes"]
@@ -474,11 +726,115 @@ document.getElementById("timeline").innerHTML=TIMELINE.map(([y,cls,txt])=>
 document.querySelector("#calTbl tbody").innerHTML=CAL.map(r=>
   `<tr><td class="l" style="font-weight:600">${r[0]}</td><td class="l" style="color:#4b5563">${r[1]}</td></tr>`).join("");
 
+
+
+// ---------------------------------------------------------------- transitional period evidence
+// Commission CBAM review report, COM(2025) 783 final, 16 December 2025.
+const TR_S=["Iron and steel","Aluminium","Fertilisers","Cement"];
+const TR_MASS=[69,5,15,11];                    // % of imported mass, Q4 2023 - Q2 2025
+const TR_EM_MT=[102.5,38.4,18.0,8.1];          // Mt CO2e embedded, 2024 (cement = residual of the 167 Mt total)
+const TR_TOT=TR_EM_MT.reduce((a,b)=>a+b,0);
+const TR_EM=TR_EM_MT.map(v=>v/TR_TOT*100);
+new Chart(document.getElementById("trChart"),{type:"bar",
+  data:{labels:TR_S,datasets:[
+    {label:"Share of imported mass",data:TR_MASS,backgroundColor:"rgba(184,192,204,.95)",borderRadius:3},
+    {label:"Share of embedded emissions",data:TR_EM,backgroundColor:"rgba(192,57,43,.85)",borderRadius:3}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.datasetIndex===0
+        ? `${c.parsed.y}% of tonnes imported`
+        : `${c.parsed.y.toFixed(1)}% of embedded emissions (${TR_EM_MT[c.dataIndex]} Mt CO\u2082e in 2024)`,
+        afterBody:c=>{const i=c[0].dataIndex;
+          return [`Emissions intensity relative to mass share: ${(TR_EM[i]/TR_MASS[i]).toFixed(1)}\u00d7`];}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"% of total"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- default value explorer
+const dvSel=document.getElementById("dvGood");
+dvSel.innerHTML=DV_G.map((g,i)=>`<option value="${i}">${DV_L[i]}</option>`).join("");
+let dvChart;
+function drawDv(){
+  const gi=+dvSel.value, g=DV_G[gi], mk=document.getElementById("dvMk").checked;
+  const rows=Object.entries(DV_D).filter(([,v])=>v[g]).map(([c,v])=>({c,d:v[g][0],i:v[g][1],t:v[g][2],m:v[g][3]}))
+    .sort((a,b)=>(mk?b.m-a.m:b.t-a.t));
+  const data={labels:rows.map(r=>r.c),datasets: mk
+    ? [{label:"2026 default incl. mark-up",data:rows.map(r=>r.m),backgroundColor:"rgba(192,57,43,.85)",borderRadius:3}]
+    : [{label:"Direct",data:rows.map(r=>r.d),backgroundColor:"rgba(11,61,145,.85)",borderRadius:3,stack:"s"},
+       {label:"Indirect (electricity)",data:rows.map(r=>r.i),backgroundColor:"rgba(107,91,210,.8)",borderRadius:3,stack:"s"}]};
+  const opts={indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:!mk,position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{afterBody:c=>{const r=rows[c[0].dataIndex];
+        return mk?[`Total before mark-up: ${r.t}`]
+                 :[`Total ${r.t} t CO\u2082e/t`,`With the 2026 mark-up: ${(+r.m).toFixed(3)}`];}}}},
+    scales:{x:{stacked:!mk,title:{display:true,text:"t CO\u2082e per tonne of product"},grid:{color:"#eef1f5"}},
+            y:{stacked:!mk,grid:{display:false},ticks:{font:{size:11}}}}};
+  if(dvChart){dvChart.data=data;dvChart.options=opts;dvChart.update();}
+  else dvChart=new Chart(document.getElementById("dvChart"),{type:"bar",data,options:opts});
+}
+dvSel.onchange=drawDv; document.getElementById("dvMk").onchange=drawDv;
+drawDv();
+
+
+// ---------------------------------------------------------------- country exposure
+// Default values: official (IR (EU) 2025/2621 Annex I). Carbon pricing / Article 9 columns:
+// third-party compilation by cbamguide.com, April 2026 — not a Commission determination.
+const CT=[
+ {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        cp:"None; ETS in development",            a9:"Not eligible"},
+ {c:"India",       dv:"India",          s:"Steel, aluminium, fertilisers", cp:"CCTS, pilot phase",                    a9:"Not eligible"},
+ {c:"China",       dv:"China",          s:"Steel, aluminium",              cp:"National ETS, electricity only",       a9:"Not eligible"},
+ {c:"Russia",      dv:"Russia",         s:"Steel, aluminium, fertilisers", cp:"Token levy",                           a9:"Not eligible"},
+ {c:"Ukraine",     dv:"Ukraine",        s:"Steel",                         cp:"ETS in development",                   a9:"Special status as accession candidate"},
+ {c:"South Korea", dv:"South Korea",    s:"Steel, aluminium",              cp:"K-ETS, active since 2015",             a9:"Most advanced candidate; unrecognised"},
+ {c:"United States",dv:"United States", s:"Steel, aluminium",              cp:"No federal carbon price",              a9:"Not eligible"},
+ {c:"Brazil",      dv:"Brazil",         s:"Steel, aluminium",              cp:"National market, 2024 legislation",    a9:"Possible from 2027"},
+ {c:"South Africa",dv:"South Africa",   s:"Steel, aluminium, fertilisers", cp:"Carbon Tax Act 2019",                  a9:"Possible; pending assessment"},
+ {c:"Morocco",     dv:"Morocco",        s:"Cement, steel, electricity",    cp:"None",                                 a9:"Not eligible"},
+ {c:"Egypt",       dv:"Egypt",          s:"Cement, fertilisers, steel",    cp:"None",                                 a9:"Not eligible"},
+ {c:"Vietnam",     dv:"Vietnam",        s:"Steel, aluminium",              cp:"In development, 2025\u20132028",           a9:"Not eligible"},
+ {c:"Indonesia",   dv:"Indonesia",      s:"Aluminium, steel",              cp:"Voluntary phase since 2023",           a9:"Not eligible"},
+ {c:"Taiwan",      dv:"Taiwan",         s:"Steel",                         cp:"Carbon fee since 2024",                a9:"Not eligible"},
+ {c:"Japan",       dv:"Japan",          s:"Steel, aluminium",              cp:"GX-ETS since 2023, transitional",      a9:"Not yet mature enough"},
+ {c:"United Kingdom",dv:"United Kingdom",s:"Steel, aluminium",             cp:"UK ETS; own CBAM from 2027",           a9:"Linked market; treatment unresolved"}
+];
+const ctSel=document.getElementById("ctGood");
+ctSel.innerHTML=DV_G.map((g,i)=>`<option value="${i}">${DV_L[i]}</option>`).join("");
+function drawCt(){
+  const g=DV_G[+ctSel.value];
+  const rows=CT.map(r=>({...r,v:(DV_D[r.dv]||{})[g]}))
+    .sort((a,b)=>((b.v?b.v[2]:-1)-(a.v?a.v[2]:-1)));
+  document.querySelector("#ctTbl tbody").innerHTML=rows.map(r=>`<tr>
+    <td class="l"><strong>${r.c}</strong></td>
+    <td class="l" style="font-size:12.5px;color:#4b5563">${r.s}</td>
+    <td>${r.v?`<strong>${r.v[2]}</strong>`:'<span class="dim">—</span>'}</td>
+    <td class="dim">${r.v?r.v[0]:"—"}</td>
+    <td class="dim">${r.v?r.v[1]:"—"}</td>
+    <td class="l" style="font-size:12.5px">${r.cp}</td>
+    <td class="l" style="font-size:12.5px;color:${/Not eligible|Not yet/.test(r.a9)?"var(--muted)":"var(--accent)"}">${r.a9}</td></tr>`).join("");
+}
+ctSel.onchange=drawCt; drawCt();
+
 // ---------------------------------------------------------------- calculator
-const gsel=document.getElementById("cGood");
-gsel.innerHTML=GOODS.map(g=>`<option value="${g[1]}">${g[0]}</option>`).join("");
-gsel.value="1.9";
-gsel.onchange=()=>{document.getElementById("cInt").value=gsel.value; run();};
+const gsel=document.getElementById("cGood"), csel=document.getElementById("cCountry");
+const DV_COUNTRIES=Object.keys(DV_D).sort();
+csel.innerHTML=DV_COUNTRIES.map(c=>`<option>${c}</option>`).join("");
+csel.value=DV_COUNTRIES.includes("China")?"China":DV_COUNTRIES[0];
+function fillGoods(){
+  const av=DV_D[csel.value]||{};
+  gsel.innerHTML=DV_G.map((g,i)=>av[g]?`<option value="${i}">${DV_L[i]}</option>`:"").join("");
+}
+function applyDefault(){
+  const av=DV_D[csel.value]||{}, g=DV_G[+gsel.value];
+  const v=av[g];
+  if(v){
+    document.getElementById("cInt").value=v[2];        // total embedded emissions
+    document.getElementById("cGoodHint").innerHTML=
+      `Official default: <strong>${v[2]}</strong> t CO\u2082e/t &nbsp;(direct ${v[0]}, indirect ${v[1]})` +
+      (v[3]?` \u00b7 with the 2026 mark-up: <strong>${(+v[3]).toFixed(3)}</strong>`:"");
+  }
+}
+csel.onchange=()=>{fillGoods();applyDefault();run();};
+gsel.onchange=()=>{applyDefault();run();};
+fillGoods(); applyDefault();
 
 let calcChart;
 function run(){
@@ -490,8 +846,6 @@ function run(){
   const emis=qty*inten;
   const netPrice=Math.max(0, price-foreign);
 
-  document.getElementById("cGoodHint").textContent=
-    `Default intensity ${gsel.value} t CO₂e per tonne — replace with your supplier's figure.`;
   document.getElementById("cSummary").textContent=
     qty>0 && qty<=50 ? "Below the 50-tonne annual threshold — CBAM obligations would not apply."
     : `${f0(emis)} t CO₂e embedded per year · net certificate price ${eur(netPrice)}`;
