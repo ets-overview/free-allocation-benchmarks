@@ -95,6 +95,10 @@
   .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
       font-size:14px;line-height:1.9}
   footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .badge{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .badge.yes{background:#e6f5ee;color:#14663f}
+  .badge.no{background:#fbeae8;color:#96291d}
+  .badge.na{background:#eef2f7;color:#4a5567}
   .dim{color:var(--muted)}
   .hide{display:none}
 </style>
@@ -110,6 +114,7 @@
         <a href="ets.html">EU ETS</a>
         <a href="benchmarks.html">Benchmarks</a>
         <a href="cbam.html" aria-current="page">CBAM</a>
+        <a href="indirect-costs.html">Indirect costs</a>
         <a href="legislation.html">Legislation map</a>
       </div>
     </div>
@@ -125,6 +130,7 @@
     <button data-tab="time">Timeline</button>
     <button data-tab="comply">Compliance</button>
     <button data-tab="countries">Countries</button>
+    <button data-tab="calcmech">How it is calculated</button>
     <button data-tab="calc">Cost calculator</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
@@ -194,47 +200,14 @@
   </div>
 
   <div class="panel">
-    <h2>The third leakage instrument, and the one nobody phases out</h2>
-    <p class="sub">Free allocation and CBAM are the two carbon leakage instruments this site has covered so far.
-       There is a third, and it works differently from both: <strong>indirect cost compensation</strong>. Power
-       generators pass their allowance costs into wholesale electricity prices, so an electricity-intensive
-       manufacturer pays for carbon twice over — once on its own emissions, and again in its power bill. Member
-       states may reimburse part of that second cost under EU State aid rules.</p>
-    <div class="grid2">
-      <div>
-        <h3>How big it is</h3>
-        <p style="font-size:13.5px;color:#39414d">In 2024, fifteen member states paid roughly <strong>€5.52 bn</strong>
-           in compensation for indirect costs incurred in 2023 — up 40% on the €3.95 bn paid the year before. On
-           the EEA's narrower measure of what came specifically out of 2024 auction revenue, the figure is
-           €3.17 bn. Either way it is now one of the largest single uses of carbon revenue in the EU.</p>
-      </div>
-      <div>
-        <h3>It was just widened, not narrowed</h3>
-        <p style="font-size:13.5px;color:#39414d">In December 2025 the Commission amended the State aid guidelines
-           to add <strong>20 sectors and two subsectors</strong> — including organic chemicals and parts of
-           ceramics, glass and battery manufacturing — and raised the maximum share of indirect costs that may be
-           compensated from <strong>75% to 80%</strong>. Large recipients must now invest part of the aid in
-           reducing electricity system costs, and the CO₂ factors used in the formula were updated for 2026–2030.</p>
-      </div>
-    </div>
-    <div class="eq" style="margin-top:18px">
-      <strong>Free allocation</strong> → falling to zero by 2034, replaced one-for-one by CBAM<br>
-      <strong>CBAM</strong> → rising to 100% over the same period, charged at the border<br>
-      <strong>Indirect cost compensation</strong> → <span style="color:var(--up);font-weight:600">no phase-out
-      date, and expanded in December 2025</span>
-    </div>
-    <div class="warn"><strong>This is why it matters for CBAM.</strong> The free allocation phase-out and the CBAM
-      phase-in are locked together by design — as one falls the other rises, and the importer's obligation is
-      reduced by exactly the protection the domestic producer still enjoys. Indirect cost compensation sits
-      entirely outside that interlock. It has no phase-out schedule, no CBAM factor, and no equivalent adjustment
-      at the border. So as free allocation disappears through 2034, compensation for indirect costs becomes the
-      main remaining form of carbon leakage protection for electricity-intensive industry — and the one form CBAM
-      does not mirror.</div>
-    <p class="sub" style="margin:16px 0 0">The disagreement runs in both directions. Industry associations argue
-       that electricity costs are where European manufacturing is genuinely uncompetitive, and that the ETS should
-       not penalise firms for electrifying. Analysts including Sandbag argue that widening the scheme diverts
-       carbon revenue away from decarbonisation into untargeted support. Both are arguments about the same number,
-       and it is now growing at 40% a year.</p>
+    <h2>The third leakage instrument</h2>
+    <p class="sub" style="margin-bottom:0">Free allocation and CBAM are locked together — as one falls the other
+       rises. There is a third instrument that is not: <strong>compensation for indirect carbon costs</strong>,
+       paid by member states to electricity-intensive industry for the carbon embedded in power prices. It has no
+       phase-out date, no CBAM factor and no equivalent at the border, and it was widened in December 2025. It also
+       explains CBAM's scope: indirect emissions are excluded from the border charge for exactly the goods whose EU
+       producers receive that compensation. Full detail on
+       <a href="indirect-costs.html">compensation for indirect carbon costs</a>.</p>
   </div>
 
   <div class="panel">
@@ -273,10 +246,31 @@
 <!-- ===================== SCOPE ===================== -->
 <section id="tab-scope" class="hide">
   <div class="panel">
-    <h2>Goods currently covered</h2>
-    <p class="sub">Six sectors, chosen for high carbon intensity and high trade exposure. Together they account for
-       the bulk of the free allocation the ETS still hands out.</p>
-    <div class="sectors" id="sectors"></div>
+    <h2>Goods covered, and which emissions are counted</h2>
+    <p class="sub">Six sectors, chosen for high carbon intensity and high trade exposure. The column that matters
+       most is the third one. CBAM does <strong>not</strong> count indirect emissions — the carbon in the
+       electricity used to make the goods — for every sector. Under Article 7 and Annex II of the Regulation,
+       indirect emissions are excluded for the goods whose EU producers receive compensation for indirect carbon
+       costs. The border charge mirrors the domestic treatment, sector by sector.</p>
+    <div class="tblscroll">
+      <table id="scopeTbl">
+        <thead><tr>
+          <th class="l">Sector</th><th class="l">CN codes</th>
+          <th class="l">Emissions counted</th><th class="l">Why</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:18px"><strong>This is the single largest gap in the mechanism.</strong>
+      Primary aluminium's emissions are dominated by the electricity used in electrolysis, and steel's electric-arc
+      route is almost entirely electrical — yet for both, CBAM counts only direct emissions. The transitional data
+      shows aluminium at 5% of imported tonnage but 23% of embedded emissions; the part of that driven by
+      electricity is currently outside the charge. The exclusion is explicitly framed as initial, and the
+      Regulation obliges the Commission to gather what it needs to extend coverage to Annex II goods.</div>
+    <p class="sub" style="margin:16px 0 0">The symmetry is exact and worth stating plainly: the goods excluded from
+       indirect coverage at the border are the goods whose EU producers are compensated for indirect costs at home.
+       Change one and the case for the other changes with it — which is why the December 2025 widening of the state
+       aid scheme matters for CBAM's scope, not just for industry's balance sheet.</p>
   </div>
 
   <div class="panel">
@@ -304,8 +298,7 @@
       The annex publishes a direct, an indirect and a total figure for every good, and the indirect component is
       the electricity used in production. That is the mirror image of the indirect cost compensation EU producers
       receive — and it is why the treatment of indirect emissions is the hinge on which the whole level-playing-field
-      argument turns. This chart shows the total. Whether the indirect part is charged for a given good depends on
-      the Regulation, so check it for the goods you actually import.</div>
+      argument turns. For cement and fertilisers both parts are charged. For iron and steel, aluminium and hydrogen only the direct part is \u2014 the indirect segment is drawn hollow to show that it is published but not chargeable. See the Scope tab.</div>
   </div>
 
   <div class="panel">
@@ -465,10 +458,11 @@
     <div class="controls">
       <select id="ctGood"></select>
     </div>
+    <p class="sub" id="ctNote" style="margin:-6px 0 14px"></p>
     <div class="tblscroll">
       <table id="ctTbl">
         <thead><tr><th class="l">Country</th><th class="l">Main CBAM exports</th>
-          <th>Default value</th><th>Direct</th><th>Indirect</th>
+          <th>Chargeable default</th><th>Direct</th><th>Indirect</th>
           <th class="l">Carbon pricing</th><th class="l">Article 9 prospect</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -500,6 +494,123 @@
            cement and clinker, with a decision due by mid-2027.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===================== CALCULATION MECHANICS ===================== -->
+<section id="tab-calcmech" class="hide">
+  <div class="panel">
+    <h2>The free allocation adjustment, as the Regulation actually defines it</h2>
+    <p class="sub">Implementing Regulation (EU) 2025/2620 of 16 December 2025 sets out the calculation. It applies
+       from 1 January 2026. What follows is its structure, taken from the text rather than reconstructed.</p>
+    <div class="eq">
+      <strong>FAA<sub>g</sub> = SEFA<sub>g,y</sub> × M<sub>g</sub></strong> &nbsp;&nbsp;<span class="dim">(Equation 1)</span><br>
+      <span style="font-size:13px;color:#4b5563">the free allocation adjustment for a good is its specific embedded
+      free allocation, times the mass imported</span>
+    </div>
+    <div class="eq">
+      <strong>SEFA<sub>g,y</sub> = CBAM<sub>y</sub> × CSCF<sub>y</sub> × BM<sub>g</sub></strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 6, default values)</span><br>
+      <strong>SFAProc<sub>g,y</sub> = CBAM<sub>y</sub> × CSCF<sub>y</sub> × BM*<sub>g</sub></strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 2, actual data, per production process)</span>
+    </div>
+    <p class="sub" style="margin-bottom:0">Three multiplied terms, and one of them is a benchmark that did not
+       exist until December 2025. Note what is <em>not</em> in the equation: the importer's own emissions. The
+       adjustment depends on the good, the year and the EU's allocation rules — not on how clean the exporting
+       producer is. That is deliberate, and it is why a low-carbon producer keeps the full benefit of being
+       low-carbon: the adjustment subtracts the same amount either way.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The three terms</h2>
+    <div class="tblscroll">
+      <table id="ingTbl">
+        <thead><tr><th class="l">Term</th><th class="l">What it is</th>
+          <th class="l">Set by</th><th class="l">Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:18px"><strong>The CSCF is a real multiplier, not a footnote.</strong> The
+      cross-sectoral correction factor is determined under Article 14(6) of Delegated Regulation (EU) 2019/331 and
+      published under Article 10a(5) of the ETS Directive. If EU industry's benchmark entitlements exceed the free
+      allocation cap, every EU installation is cut back — and because it sits directly in this equation, importers
+      are cut back with them. A CSCF below 1 shrinks the adjustment and <em>raises</em> the CBAM bill. The July 2026
+      proposal to widen the CSCF buffer to 4% is therefore an importer question as much as an EU industry one.</div>
+  </div>
+
+  <div class="panel">
+    <h2>CBAM benchmarks are not EU ETS benchmarks</h2>
+    <p class="sub">This is the part most easily got wrong. ETS benchmarks apply to <em>sub-installations</em> —
+       hot metal, cement clinker, ammonia. CBAM benchmarks apply to <em>goods</em>, identified by CN code, and each
+       one combines the relevant ETS product benchmarks with the heat, fuel and process-emissions fallbacks into a
+       single figure for that commodity code. Sometimes the result is identical to the ETS value. Often it is not.</p>
+    <div class="controls">
+      <label class="chk"><input type="checkbox" id="bmDiff"> Show only goods where the two columns differ</label>
+    </div>
+    <div class="tblscroll">
+      <table id="bmTbl">
+        <thead><tr><th class="l">CN code</th><th class="l">Good</th><th class="l">Route / period</th>
+          <th>BM* actual data</th><th>BM default values</th><th class="l">ETS benchmark for comparison</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:18px"><strong>Why there are two columns.</strong> BM* is used when actual
+      emissions are declared, and covers only the process at that installation — the allocation embedded in
+      precursors is added separately up the chain. BM is used with default values and is all-in. Portland cement is
+      the clearest case: <strong>BM* is 0.000</strong>, because grinding clinker into cement earns no allocation of
+      its own, while <strong>BM is 0.666</strong>, because the default figure carries the clinker with it. Reading
+      the wrong column would understate or overstate the adjustment by the entire precursor.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Three things worth knowing about these values</h2>
+    <div class="grid2">
+      <div>
+        <h3>Production route changes everything</h3>
+        <p style="font-size:13.5px;color:#39414d">Primary aluminium carries a benchmark of <strong>1.423</strong>;
+           secondary, scrap-based aluminium carries <strong>0.091</strong> — a factor of fifteen. Steel is split
+           six ways across BF/BOF, DRI/EAF and scrap/EAF routes for carbon, low-alloy and high-alloy grades. Where
+           several alloy grades share a CN code, the Regulation directs use of the highest benchmark value.</p>
+      </div>
+      <div>
+        <h3>Some values change in 2028</h3>
+        <p style="font-size:13.5px;color:#39414d">The factor used for process-emissions sub-installations under the
+           ETS changes from 1 January 2028, so benchmarks resting on that fallback have one value for 2026–27 and
+           another for 2028–30. Aluminous cement, for instance, moves from 0.717 to 0.686 — a smaller adjustment,
+           and so a marginally larger obligation.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px"><strong>These figures are provisional and a review is overdue.</strong>
+      The final ETS benchmarks for 2026–2030 were not available when this Regulation was drafted, so the CBAM
+      benchmarks were built on <em>estimates</em> of them, with a commitment to review within one month of the real
+      values appearing. Those arrived in June 2026 as Regulation (EU) 2026/1412 — the values on the
+      <a href="benchmarks.html">benchmarks page</a>. Check for a revised CBAM benchmark table before relying on
+      anything here.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Imported electricity gets no adjustment at all</h2>
+    <p class="sub" style="margin-bottom:0">Article 1(2) is one line long and easy to miss: the free allocation
+       adjustment for electrical energy under CN code 2716 00 00 <strong>shall be zero</strong>. Electricity
+       generators in the EU receive no free allocation, so there is nothing to mirror — which means imported
+       electricity has faced the full, undiscounted carbon price from 1 January 2026, while every other CBAM good
+       is still 97.5% shielded. It is the only sector where CBAM is already operating at full strength.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Worked example: one tonne of imported steel</h2>
+    <p class="sub">Blast-furnace steel at 2.0 t CO₂e/t and a €75 certificate price, with CSCF assumed at 1.0 and
+       no Article 9 deduction, using the default-value route.</p>
+    <div class="tblscroll">
+      <table id="wkTbl">
+        <thead><tr><th class="l">Year</th><th>Gross carbon cost</th><th>CBAM factor</th>
+          <th>Adjustment applied</th><th>Net cost per tonne</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:18px">The gross figure never moves — €150 of carbon in a tonne of steel at
+      €75. What changes is how much survives the adjustment: <strong>€3.75 in 2026, €72.75 in 2030, €150 in
+      2034</strong>. The steepest single jump is 2029 to 2030, when the applied share more than doubles.</div>
   </div>
 </section>
 
@@ -581,6 +692,7 @@
       <li><strong>CBAM factor and the free allocation interlock</strong> — Article 10a(1a) of Directive 2003/87/EC as amended by Directive (EU) 2023/959.</li>
       <li><strong>Country carbon pricing and Article 9 assessments</strong> — compiled by <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a>, April 2026. Third-party analysis, not official. Penalty, holding, buyback and cancellation rules cross-read against Regulation (EU) 2023/956 as amended by Regulation (EU) 2025/2083.</li>
       <li><strong>Transitional period data</strong> — <a href="https://taxation-customs.ec.europa.eu/document/download/3903da9d-44fd-4508-8915-f27ef25fe033_en?filename=Review+Report_0.pdf" target="_blank" rel="noopener">Commission CBAM review report, COM(2025) 783 final</a>, 16 December 2025. Cement emissions shown as the residual of the reported 167 Mt total.</li>
+      <li><strong>Free allocation adjustment, SEFA and CBAM benchmarks</strong> — <a href="http://data.europa.eu/eli/reg_impl/2025/2620/oj" target="_blank" rel="noopener">Commission Implementing Regulation (EU) 2025/2620</a> of 16 December 2025, Annex points 2\u20135. Benchmark values read from the Official Journal text; the table on this site is a representative extract, not the full annex.</li>
       <li><strong>Default values</strong> — Annex I to <a href="http://data.europa.eu/eli/reg_impl/2025/2621/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2621</a>, version adopted 4 February 2026.</li>
       <li><strong>Certificate price</strong> — <a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en" target="_blank" rel="noopener">Commission page on the price of CBAM certificates</a>; the Q1 2026 price of €75.36 was the first published, Q2 followed at €75.28. Methodology: <a href="http://data.europa.eu/eli/reg_impl/2025/2548/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2548</a>.</li>
       <li><strong>Indirect cost compensation</strong> — Commission State aid guidelines for certain measures in the context of the EU ETS, as amended December 2025 (20 additional sectors, aid intensity raised from 75% to 80%, updated CO\u2082 factors for 2026\u20132030); Commission report on the functioning of the European carbon market, COM(2025) 735, for disbursement totals.</li>
@@ -646,14 +758,6 @@ const CBAMF={2026:0.975,2027:0.95,2028:0.90,2029:0.775,2030:0.515,2031:0.39,2032
 const YEARS=Object.keys(CBAMF).map(Number);
 const prop=y=>y<2028?CBAMF[y]:CBAMF[y]+0.15*(1-CBAMF[y]);
 
-const SECTORS=[
-  ["Cement","2523, 2507 00 80","Clinker, cements and kaolinic clays. Process emissions from calcining limestone are chemically unavoidable, which makes cement the hardest case in the whole scheme."],
-  ["Iron & steel","72, 7301–7326","From pig iron and DRI through to a wide range of steel products. The largest sector by trade volume."],
-  ["Aluminium","7601, 7603–7609","Unwrought aluminium and semi-finished products. Emissions are dominated by the electricity used in electrolysis, which makes the treatment of indirect emissions the decisive question for this sector \u2014 CBAM covers embedded indirect emissions for some goods and not others, so check the Regulation for the good you import."],
-  ["Fertilisers","2808, 2814, 2834 21, 3102, 3105","Nitric acid, ammonia and nitrogen fertilisers. Ammonia production is hydrogen-intensive, which ties this sector directly to the hydrogen transition."],
-  ["Hydrogen","2804 10 00","Included from the start, in anticipation of a traded hydrogen market rather than in response to one."],
-  ["Electricity","2716 00 00","Imported power. Conceptually the simplest and administratively the most contested, given the difficulty of tracing electrons to a generator."]
-];
 
 
 const TIMELINE=[
@@ -684,6 +788,15 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
 });
 
 const f0=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
+// one number formatter for every axis and tooltip on this page, so the decimal mark never varies
+// Annex II of Reg. (EU) 2023/956: indirect emissions are counted only for cement and fertilisers.
+const IND_COUNTED={Cement:true,Fertilisers:true,Electricity:true,"Iron and steel":false,Aluminium:false,Hydrogen:false};
+const catOf=g=>g.split("::")[0];
+const indCounted=g=>IND_COUNTED[catOf(g)]!==false;
+// the figure CBAM actually charges: total where indirect is counted, direct only where it is not
+const chargeable=(g,v)=>indCounted(g)?v[2]:v[0];
+const nd=(v,d=2)=>Number(v).toFixed(d).replace(/\.?0+$/,"")||"0";
+const TICKNUM={callback(v){return nd(v,2);}};
 const eur=v=>"€"+f0(v);
 
 document.getElementById("kpis").innerHTML=[
@@ -719,8 +832,32 @@ document.getElementById("showProp").onchange=drawLock;
 drawLock();
 
 // ---------------------------------------------------------------- scope + timelines
-document.getElementById("sectors").innerHTML=SECTORS.map(s=>
-  `<div class="sec"><div class="nm">${s[0]}</div><div class="cn">CN ${s[1]}</div><div class="ds">${s[2]}</div></div>`).join("");
+// ---------------------------------------------------------------- scope table
+// Article 7 + Annex II, Regulation (EU) 2023/956: indirect emissions are excluded for the goods whose
+// EU producers receive compensation for indirect carbon costs.
+const SCOPE=[
+ {s:"Cement",         cn:"2507 00 80, 2523",           ind:true,
+  why:"Process emissions from calcining limestone dominate; the sector is not electricity-intensive enough for indirect cost compensation."},
+ {s:"Fertilisers",    cn:"2808, 2814, 2834 21, 3102, 3105", ind:true,
+  why:"Ammonia and nitric acid production is fuel- and feedstock-driven rather than electricity-driven."},
+ {s:"Electricity",    cn:"2716 00 00",                 ind:"na",
+  why:"The good is electricity, so its generation emissions are the direct emissions. The distinction does not arise."},
+ {s:"Iron and steel", cn:"72, 7301–7326, 2601 12 00",  ind:false,
+  why:"Listed in Annex II. EU producers receive compensation for indirect carbon costs, so the border charge mirrors that."},
+ {s:"Aluminium",      cn:"7601, 7603–7609",            ind:false,
+  why:"Listed in Annex II. The most electricity-intensive sector in scope, and the one where the exclusion bites hardest."},
+ {s:"Hydrogen",       cn:"2804 10 00",                 ind:false,
+  why:"Listed in Annex II. Matters increasingly as electrolytic hydrogen displaces steam methane reforming."}
+];
+const indCell=v=> v===true
+  ? '<span class="badge yes">Direct + indirect</span>'
+  : v===false ? '<span class="badge no">Direct only</span>'
+              : '<span class="badge na">Direct (not applicable)</span>';
+document.querySelector("#scopeTbl tbody").innerHTML=SCOPE.map(r=>`<tr>
+  <td class="l"><strong>${r.s}</strong></td>
+  <td class="l" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)">CN ${r.cn}</td>
+  <td class="l">${indCell(r.ind)}</td>
+  <td class="l" style="font-size:12.5px;color:#4b5563">${r.why}</td></tr>`).join("");
 document.getElementById("timeline").innerHTML=TIMELINE.map(([y,cls,txt])=>
   `<li class="${cls==='now'?'':cls}"><span class="yr">${y}</span><span class="txt">${txt}</span></li>`).join("");
 document.querySelector("#calTbl tbody").innerHTML=CAL.map(r=>
@@ -757,16 +894,27 @@ function drawDv(){
   const gi=+dvSel.value, g=DV_G[gi], mk=document.getElementById("dvMk").checked;
   const rows=Object.entries(DV_D).filter(([,v])=>v[g]).map(([c,v])=>({c,d:v[g][0],i:v[g][1],t:v[g][2],m:v[g][3]}))
     .sort((a,b)=>(mk?b.m-a.m:b.t-a.t));
+  const ic=indCounted(g);
   const data={labels:rows.map(r=>r.c),datasets: mk
     ? [{label:"2026 default incl. mark-up",data:rows.map(r=>r.m),backgroundColor:"rgba(192,57,43,.85)",borderRadius:3}]
-    : [{label:"Direct",data:rows.map(r=>r.d),backgroundColor:"rgba(11,61,145,.85)",borderRadius:3,stack:"s"},
-       {label:"Indirect (electricity)",data:rows.map(r=>r.i),backgroundColor:"rgba(107,91,210,.8)",borderRadius:3,stack:"s"}]};
+    : [{label:"Direct — charged",data:rows.map(r=>r.d),backgroundColor:"rgba(11,61,145,.85)",borderRadius:3,stack:"s"},
+       {label:ic?"Indirect (electricity) — charged":"Indirect (electricity) — NOT charged",
+        data:rows.map(r=>r.i),
+        backgroundColor:ic?"rgba(107,91,210,.8)":"rgba(154,164,176,.35)",
+        borderColor:ic?"transparent":"rgba(154,164,176,.9)",borderWidth:ic?0:1,
+        borderRadius:3,stack:"s"}]};
   const opts={indexAxis:"y",responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:!mk,position:"bottom",labels:{boxWidth:12,font:{size:11}}},
-      tooltip:{callbacks:{afterBody:c=>{const r=rows[c[0].dataIndex];
-        return mk?[`Total before mark-up: ${r.t}`]
-                 :[`Total ${r.t} t CO\u2082e/t`,`With the 2026 mark-up: ${(+r.m).toFixed(3)}`];}}}},
-    scales:{x:{stacked:!mk,title:{display:true,text:"t CO\u2082e per tonne of product"},grid:{color:"#eef1f5"}},
+      tooltip:{callbacks:{
+        label:c=>`${c.dataset.label}: ${nd(c.parsed.x,3)}`,
+        afterBody:c=>{const r=rows[c[0].dataIndex];
+        if(mk) return [`Total before mark-up: ${nd(r.t,3)}`];
+        return ic
+          ? [`Total ${nd(r.t,3)} t CO\u2082e/t, all of it charged`,`With the 2026 mark-up: ${nd(r.m,3)}`]
+          : [`Published total ${nd(r.t,3)}, but only ${nd(r.d,3)} is charged`,
+             `${nd(r.i,3)} of indirect emissions falls outside CBAM for this good`];}}}},
+    scales:{x:{stacked:!mk,title:{display:true,text:"t CO\u2082e per tonne of product"},grid:{color:"#eef1f5"},
+               ticks:{callback(v){return nd(v,2);}}},
             y:{stacked:!mk,grid:{display:false},ticks:{font:{size:11}}}}};
   if(dvChart){dvChart.data=data;dvChart.options=opts;dvChart.update();}
   else dvChart=new Chart(document.getElementById("dvChart"),{type:"bar",data,options:opts});
@@ -799,19 +947,85 @@ const CT=[
 const ctSel=document.getElementById("ctGood");
 ctSel.innerHTML=DV_G.map((g,i)=>`<option value="${i}">${DV_L[i]}</option>`).join("");
 function drawCt(){
-  const g=DV_G[+ctSel.value];
+  const g=DV_G[+ctSel.value], ic=indCounted(g);
+  document.getElementById("ctNote").innerHTML= ic
+    ? `Indirect emissions <strong>are</strong> charged for ${catOf(g).toLowerCase()}, so the chargeable figure is direct plus indirect.`
+    : `Indirect emissions are <strong>not</strong> charged for ${catOf(g).toLowerCase()} \u2014 an Annex II good \u2014 so the chargeable figure is the direct column alone. The indirect column is shown struck through: it is published in the default values annex but does not enter the obligation.`;
   const rows=CT.map(r=>({...r,v:(DV_D[r.dv]||{})[g]}))
-    .sort((a,b)=>((b.v?b.v[2]:-1)-(a.v?a.v[2]:-1)));
+    .sort((a,b)=>((b.v?chargeable(g,b.v):-1)-(a.v?chargeable(g,a.v):-1)));
   document.querySelector("#ctTbl tbody").innerHTML=rows.map(r=>`<tr>
     <td class="l"><strong>${r.c}</strong></td>
     <td class="l" style="font-size:12.5px;color:#4b5563">${r.s}</td>
-    <td>${r.v?`<strong>${r.v[2]}</strong>`:'<span class="dim">—</span>'}</td>
-    <td class="dim">${r.v?r.v[0]:"—"}</td>
-    <td class="dim">${r.v?r.v[1]:"—"}</td>
+    <td>${r.v?`<strong>${nd(chargeable(g,r.v),3)}</strong>`:'<span class="dim">—</span>'}</td>
+    <td class="dim">${r.v?nd(r.v[0],3):"—"}</td>
+    <td class="dim"${ic?"":' style="text-decoration:line-through;opacity:.55"'}>${r.v?nd(r.v[1],3):"—"}</td>
     <td class="l" style="font-size:12.5px">${r.cp}</td>
     <td class="l" style="font-size:12.5px;color:${/Not eligible|Not yet/.test(r.a9)?"var(--muted)":"var(--accent)"}">${r.a9}</td></tr>`).join("");
 }
 ctSel.onchange=drawCt; drawCt();
+
+
+// ---------------------------------------------------------------- calculation mechanics
+// Implementing Regulation (EU) 2025/2620, Annex points 2-5. Values read from the Official Journal text.
+const ING=[
+ {n:"CBAM<sub>y</sub> — CBAM factor", w:"How much free allocation EU producers still keep in year y, and so how much of the gross obligation is waived: 97.5% in 2026, 51.5% in 2030, zero in 2034.",
+  b:"Art. 10a(1a), Directive 2003/87/EC", s:"In force; the July 2026 ETS review would stretch it to 2038"},
+ {n:"CSCF<sub>y</sub> — cross-sectoral correction factor", w:"Cuts every EU installation's free allocation proportionally if the total would breach the cap. Because it multiplies directly into SEFA, a cut to EU producers is a cut to importers' adjustment too.",
+  b:"Art. 14(6), Del. Reg. (EU) 2019/331; published under Art. 10a(5) of Dir. 2003/87/EC", s:"In force; buffer proposed to rise to 4%"},
+ {n:"BM<sub>g</sub> / BM*<sub>g</sub> — CBAM benchmark", w:"A per-CN-code value combining the relevant ETS product benchmarks with the heat, fuel and process-emissions fallbacks. BM* for actual data, BM for default values.",
+  b:"IR (EU) 2025/2620, Annex point 5", s:"In force, but built on estimated 2026\u201330 ETS benchmarks and due for review"},
+ {n:"M<sub>g</sub> — mass imported", w:"Tonnes of the good imported in the declaration year. The only term the importer directly controls.",
+  b:"Reg. (EU) 2023/956, Art. 6", s:"In force"}
+];
+document.querySelector("#ingTbl tbody").innerHTML=ING.map(r=>`<tr>
+  <td class="l"><strong>${r.n}</strong></td>
+  <td class="l" style="font-size:12.5px;color:#4b5563">${r.w}</td>
+  <td class="l" style="font-size:12px;color:var(--muted)">${r.b}</td>
+  <td class="l" style="font-size:12px;color:${/review|proposed/.test(r.s)?"var(--up)":"var(--muted)"}">${r.s}</td></tr>`).join("");
+
+// CBAM benchmark values, IR (EU) 2025/2620 Annex point 5.3. ets = comparable EU ETS 2026-30 benchmark, where one exists.
+const BM=[
+ {cn:"2507 00 80", d:"Kaolinic clays",              r:"—",                    a:0.666, b:0.666, ets:"—"},
+ {cn:"2523 10 00", d:"Cement clinker",              r:"(A) grey",             a:0.666, b:0.666, ets:"0.656 grey clinker"},
+ {cn:"2523 10 00", d:"Cement clinker",              r:"(B) white",            a:0.859, b:0.859, ets:"0.890 white clinker"},
+ {cn:"2523 29 00", d:"Portland cement",             r:"—",                    a:0.000, b:0.666, ets:"no ETS benchmark for cement"},
+ {cn:"2523 21 00", d:"White portland cement",       r:"—",                    a:0.000, b:0.859, ets:"no ETS benchmark for cement"},
+ {cn:"2523 30 00", d:"Aluminous cement",            r:"(1) 2026\u201327",         a:0.717, b:0.717, ets:"—"},
+ {cn:"2523 30 00", d:"Aluminous cement",            r:"(2) 2028\u201330",         a:0.686, b:0.686, ets:"—"},
+ {cn:"2804 10 00", d:"Hydrogen",                    r:"—",                    a:5.089, b:5.089, ets:"7.98 hydrogen"},
+ {cn:"2808 00 00", d:"Nitric acid",                 r:"—",                    a:0.151, b:0.582, ets:"0.151 nitric acid"},
+ {cn:"2814 10 00", d:"Anhydrous ammonia",           r:"—",                    a:1.522, b:1.522, ets:"1.522 ammonia"},
+ {cn:"2814 20 00", d:"Ammonia in aqueous solution", r:"—",                    a:0.457, b:0.457, ets:"—"},
+ {cn:"2834 21 00", d:"Nitrate of potassium",        r:"—",                    a:0.019, b:0.626, ets:"—"},
+ {cn:"3102 10 12", d:"Urea in aqueous solution",    r:"—",                    a:0.018, b:0.304, ets:"—"},
+ {cn:"3102 10 15", d:"Urea in aqueous solution",    r:"—",                    a:0.029, b:0.503, ets:"—"},
+ {cn:"2601 12 00", d:"Agglomerated iron ores",      r:"—",                    a:0.086, b:0.086, ets:"0.086 agglomerated iron ore"},
+ {cn:"7201 10 90", d:"Non-alloy pig iron",          r:"—",                    a:1.089, b:1.210, ets:"1.248 hot metal"},
+ {cn:"7601 10 90", d:"Aluminium, unwrought",        r:"(K) primary",          a:1.423, b:1.423, ets:"1.423 aluminium"},
+ {cn:"7601 10 90", d:"Aluminium, unwrought",        r:"(L) secondary",        a:0.091, b:0.091, ets:"no ETS benchmark"},
+ {cn:"7603 10 00", d:"Aluminium powders",           r:"—",                    a:0.046, b:1.506, ets:"—"}
+];
+function drawBm(){
+  const only=document.getElementById("bmDiff").checked;
+  const rows=BM.filter(r=>!only||r.a!==r.b);
+  document.querySelector("#bmTbl tbody").innerHTML=rows.map(r=>`<tr>
+    <td class="l" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px">${r.cn}</td>
+    <td class="l">${r.d}</td>
+    <td class="l" style="font-size:12px;color:var(--muted)">${r.r}</td>
+    <td${r.a!==r.b?' style="color:var(--up);font-weight:600"':''}>${nd(r.a,3)}</td>
+    <td${r.a!==r.b?' style="color:var(--up);font-weight:600"':''}>${nd(r.b,3)}</td>
+    <td class="l" style="font-size:12px;color:var(--muted)">${r.ets}</td></tr>`).join("");
+}
+document.getElementById("bmDiff").onchange=drawBm; drawBm();
+
+(function(){
+  const inten=2.0, price=75;
+  document.querySelector("#wkTbl tbody").innerHTML=Object.keys(CBAMF).map(Number).sort((a,b)=>a-b).map(y=>{
+    const cf=CBAMF[y], gross=inten*price, net=gross*(1-cf);
+    return `<tr><td class="l"><strong>${y}</strong></td><td>\u20ac${nd(gross,2)}</td>
+      <td>${nd(cf*100,1)}%</td><td>${nd((1-cf)*100,1)}%</td>
+      <td style="font-weight:600">\u20ac${nd(net,2)}</td></tr>`;}).join("");
+})();
 
 // ---------------------------------------------------------------- calculator
 const gsel=document.getElementById("cGood"), csel=document.getElementById("cCountry");
@@ -826,10 +1040,11 @@ function applyDefault(){
   const av=DV_D[csel.value]||{}, g=DV_G[+gsel.value];
   const v=av[g];
   if(v){
-    document.getElementById("cInt").value=v[2];        // total embedded emissions
-    document.getElementById("cGoodHint").innerHTML=
-      `Official default: <strong>${v[2]}</strong> t CO\u2082e/t &nbsp;(direct ${v[0]}, indirect ${v[1]})` +
-      (v[3]?` \u00b7 with the 2026 mark-up: <strong>${(+v[3]).toFixed(3)}</strong>`:"");
+    document.getElementById("cInt").value=chargeable(g,v);   // only what CBAM charges for this good
+    const ic=indCounted(g);
+    document.getElementById("cGoodHint").innerHTML= ic
+      ? `Chargeable default: <strong>${nd(v[2],3)}</strong> t CO\u2082e/t \u2014 direct ${nd(v[0],3)} + indirect ${nd(v[1],3)}, both counted for ${catOf(g).toLowerCase()}.`
+      : `Chargeable default: <strong>${nd(v[0],3)}</strong> t CO\u2082e/t \u2014 direct only. The published indirect figure of ${nd(v[1],3)} is <em>not</em> charged: ${catOf(g).toLowerCase()} is an Annex II good.`;
   }
 }
 csel.onchange=()=>{fillGoods();applyDefault();run();};

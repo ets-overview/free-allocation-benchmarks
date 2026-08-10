@@ -60,15 +60,6 @@
   a.card .go{font-size:14px;font-weight:600;color:var(--accent)}
   a.card .go::after{content:" →";transition:margin .16s ease}
   a.card:hover .go::after{margin-left:3px}
-  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-  .tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 9px;border-radius:20px;
-       background:#eef2f7;color:#4a5567}
-
-  .card.soon{opacity:.72;cursor:default;border-style:dashed}
-  .card.soon:hover{transform:none;box-shadow:none;border-color:var(--line)}
-  .card.soon .go{color:var(--muted)}
-  .card.soon .go::after{content:""}
-
   .note{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
   .note h3{margin:0 0 10px;font-size:16px}
   .note p{margin:0 0 12px;font-size:14.5px;color:#4b5563}
@@ -94,6 +85,7 @@
     <a class="lnk" href="ets.html">EU ETS</a>
     <a class="lnk" href="benchmarks.html">Benchmarks</a>
     <a class="lnk" href="cbam.html">CBAM</a>
+    <a class="lnk" href="indirect-costs.html">Indirect costs</a>
     <a class="lnk" href="legislation.html">Legislation map</a>
   </div>
 </nav>
@@ -127,7 +119,6 @@
           <polyline points="150,46 306,74" fill="none" stroke="#6b5bd2" stroke-width="2" stroke-dasharray="6 4"/>
         </svg>
       </div>
-      <div class="tags"><span class="tag">Cap</span><span class="tag">MSR</span><span class="tag">Outcomes</span></div>
       <h3>The EU ETS</h3>
       <p>How many allowances exist, how fast that number is falling and why the trajectory bends in 2024 and again
          after 2030 — plus the Market Stability Reserve, and an honest look at where the emission reductions have
@@ -145,7 +136,6 @@
           <circle cx="160" cy="55" r="5.5" fill="#fff" stroke="#5f6b7a" stroke-width="1.8"/>
         </svg>
       </div>
-      <div class="tags"><span class="tag">Border price</span><span class="tag">Live since 2026</span><span class="tag">Calculator</span></div>
       <h3>CBAM</h3>
       <p>The carbon price at the EU border, and the interlock that makes it rise exactly as free allocation falls
          away. Scope, the compliance calendar, and a calculator that turns a shipment into a year-by-year cost
@@ -173,7 +163,6 @@
           </g>
         </svg>
       </div>
-      <div class="tags"><span class="tag">EU ETS</span><span class="tag">Free allocation</span><span class="tag">CBAM</span></div>
       <h3>Free allocation benchmarks</h3>
       <p>All 54 benchmark values across the three allocation periods, 2013 to 2030 — with the Article 10a(2)
          derivation behind each number, the CBAM phase-out overlay, and a calculator that turns any benchmark
@@ -202,7 +191,6 @@
           </g>
         </svg>
       </div>
-      <div class="tags"><span class="tag">Fit for 55</span><span class="tag">Green Deal</span><span class="tag">103 acts</span></div>
       <h3>Climate legislation map</h3>
       <p>An interactive network of 103 acts and their amendment chains, colour-coded by whether each is in force,
          amended, repealed or still a proposal. Switch between a timeline and a free-floating graph, and click
@@ -210,24 +198,21 @@
       <span class="go">Open the map</span>
     </a>
 
-    <div class="card soon">
+    <a class="card" href="indirect-costs.html">
       <div class="thumb">
         <svg viewBox="0 0 320 104" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">
           <rect width="320" height="104" fill="#f4f7fb"/>
-          <g stroke="#c3ccd8" stroke-width="1.6" stroke-dasharray="6 6" fill="none">
-            <path d="M28 78 C 90 70, 120 40, 170 44 S 250 34, 292 22"/>
-          </g>
-          <g fill="#c3ccd8">
-            <circle cx="28" cy="78" r="4"/><circle cx="170" cy="44" r="4"/><circle cx="292" cy="22" r="4"/>
-          </g>
+          <polyline points="20,30 300,30" fill="none" stroke="#1f8a5f" stroke-width="3" stroke-dasharray="7 5"/>
+          <polyline points="20,58 300,58" fill="none" stroke="#c0392b" stroke-width="3" stroke-dasharray="7 5"/>
+          <polyline points="20,86 300,86" fill="none" stroke="#6b5bd2" stroke-width="3"/>
+          <circle cx="300" cy="86" r="5" fill="#6b5bd2"/>
         </svg>
       </div>
-      <div class="tags"><span class="tag">In progress</span></div>
-      <h3>More to come</h3>
-      <p>Further views are planned — candidates include carbon price and auction revenue over time, national
-         implementation across member states, and the CBAM definitive regime. Suggestions are welcome.</p>
-      <span class="go">Not yet available</span>
-    </div>
+      <h3>Indirect cost compensation</h3>
+      <p>The third carbon leakage instrument, and the only one with no phase-out date. Why it exists, how it grew
+         40% in a year, and why it decides which emissions CBAM charges at the border.</p>
+      <span class="go">Open the overview</span>
+    </a>
 
   </div>
 </section>

@@ -107,6 +107,7 @@
         <a href="ets.html" aria-current="page">EU ETS</a>
         <a href="benchmarks.html">Benchmarks</a>
         <a href="cbam.html">CBAM</a>
+        <a href="indirect-costs.html">Indirect costs</a>
         <a href="legislation.html">Legislation map</a>
       </div>
     </div>
@@ -121,6 +122,7 @@
     <button data-tab="msr">Market Stability Reserve</button>
     <button data-tab="out">Outcomes</button>
     <button data-tab="rev">Revenue &amp; spending</button>
+    <button data-tab="price">Allowance price</button>
     <button data-tab="scope">Timeline &amp; scope</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
@@ -200,22 +202,47 @@
       rather than a 100% gross one.</div>
   </div>
 
+
   <div class="panel">
-    <h2>Free allocation against verified emissions, 2005–2025</h2>
-    <p class="sub">The cap says how many allowances exist. This says how many were given away rather than sold —
-       and for the whole of phase 2, industry received more allowances than it emitted. The cliff in 2013 is the
-       moment auctioning became the default: free allocation fell 59% in a single year, from 1 993 Mt to 825 Mt,
-       while emissions barely moved.</p>
-    <div class="chartbox" style="height:400px"><canvas id="allocChart"></canvas></div>
-    <div class="cards" id="allocCards" style="margin:18px 0 0"></div>
-    <div class="warn" style="margin-top:18px">Free allocation is now about <strong>42%</strong> of verified
-      emissions and still falling. That average hides the thing that matters: power generation receives almost
-      nothing, while carbon-leakage industry receives close to its full benchmark entitlement. The
-      <a href="benchmarks.html">benchmarks page</a> is where that split is set, one product at a time.<br><br>
-      The value of a free allowance is whatever an allowance is worth, so this chart and the
-      <a href="#" data-goto="scope">allowance price since 2005</a> are two halves of the same question: free
-      allocation was worth little when carbon traded at €5 and is worth a great deal at €75, even as the volume
-      handed out has fallen by three quarters.</div>
+    <h2>Where the allowances go: auctioning and free allocation</h2>
+    <p class="sub">The cap decides how many allowances exist. A separate set of rules decides who gets them, and
+       on what terms. Every allowance issued leaves by one of two doors.</p>
+    <div class="eq">
+      <strong>Cap</strong> &nbsp;=&nbsp; <span style="color:#0b3d91"><strong>auctioned</strong></span>
+      &nbsp;(sold; the buyer pays the market price)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp; <span style="color:#1f8a5f"><strong>freely allocated</strong></span>
+      &nbsp;(given away; benchmark × activity level × carbon leakage factor)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp; <span class="dim">set-asides</span>
+      &nbsp;(Innovation and Modernisation Funds, market stability reserve, new entrants)
+    </div>
+    <p class="sub">The split is not a policy dial someone turns each year. Free allocation is calculated
+       bottom-up: each eligible installation's entitlement is its benchmark value times its historical activity
+       level, adjusted for carbon leakage status. Auctioning is simply <em>what is left</em>. So when benchmarks
+       tighten, free allocation falls and the auctioned share rises automatically — the two move as a seesaw
+       inside a shrinking total.</p>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Who gets nothing</h3>
+        <p style="font-size:13.5px;color:#39414d">Power generation receives essentially no free allocation and
+           has bought its allowances since 2013. That is why the carbon price passes straight into electricity
+           prices — and why electricity-intensive manufacturers are compensated separately for that pass-through
+           through <a href="indirect-costs.html">indirect cost compensation</a>.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Who gets close to everything</h3>
+        <p style="font-size:13.5px;color:#39414d">Industry judged at risk of carbon leakage receives up to its
+           full benchmark entitlement. That protection is now being withdrawn on a fixed schedule and replaced at
+           the border by <a href="cbam.html">CBAM</a>, reaching zero for CBAM goods in 2034.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px">Two limits sit on top. If all entitlements together would exceed the
+      share of the cap available for free allocation, every installation is cut back proportionally by the
+      <strong>cross-sectoral correction factor</strong>. And free allocation is not guaranteed for the life of an
+      installation: it is adjusted when activity levels change materially, and surrendered if a plant closes.</div>
+    <p class="sub" style="margin:16px 0 0"><strong>The numbers behind this</strong> — free allocation against
+      verified emissions from 2005, including the phase 2 years when industry received more allowances than it
+      emitted, and the 59% cliff in 2013 when auctioning became the default — are on the
+      <a href="benchmarks.html#freealloc">benchmarks page</a>, next to the benchmark values that determine them.</p>
   </div>
 
   <div class="panel">
@@ -328,6 +355,12 @@
       in 2024 and is being measured in its very first compliance year.</div>
   </div>
 
+</section>
+
+<!-- ===================== REVENUE ===================== -->
+<section id="tab-rev" class="hide">
+  <div class="cards" id="rvKpis"></div>
+
   <div class="panel">
     <h2>Auction revenue</h2>
     <p class="sub">Allowances not given away free are auctioned. Revenue fell between 2023 and 2024 despite a
@@ -336,11 +369,6 @@
        policy success. Where the money goes is on the <strong>Revenue &amp; spending</strong> tab.</p>
     <div class="cards" id="revKpis" style="margin-top:0"></div>
   </div>
-</section>
-
-<!-- ===================== REVENUE ===================== -->
-<section id="tab-rev" class="hide">
-  <div class="cards" id="rvKpis"></div>
 
   <div class="panel">
     <h2>Auction revenue, 2013–2024</h2>
@@ -366,33 +394,14 @@
       considerably faster than governments spend it.</div>
   </div>
 
+
   <div class="panel">
-    <h2>Indirect cost compensation, and why the figures differ</h2>
-    <p class="sub">Power generators pass their allowance costs into wholesale electricity prices, so an
-       electricity-intensive manufacturer pays for carbon twice: once on its own emissions, once in its power bill.
-       Member states may reimburse part of that second cost under EU State aid rules. It is the third carbon
-       leakage instrument alongside free allocation and CBAM — and the only one with no phase-out date.</p>
-    <div class="grid2">
-      <div>
-        <h3 style="font-size:14.5px;margin:0 0 8px">€3.17 bn — the EEA figure</h3>
-        <p style="font-size:13.5px;color:#39414d">What member states reported spending <em>out of 2024 auction
-           revenue</em> on indirect cost compensation. This is the figure in the chart above, on the same basis as
-           every other category there.</p>
-      </div>
-      <div>
-        <h3 style="font-size:14.5px;margin:0 0 8px">€5.52 bn — the carbon market report figure</h3>
-        <p style="font-size:13.5px;color:#39414d">Total compensation <em>paid out during 2024</em> by fifteen
-           member states, for costs incurred in 2023, from whatever source. Up 40% on the €3.95 bn paid in 2023.
-           Larger because it is not limited to ETS revenue and runs on a different year basis.</p>
-      </div>
-    </div>
-    <div class="warn" style="margin-top:18px">Both numbers are correct and they are not comparable. Whenever you
-      see a figure for indirect cost compensation, check whether it means money drawn from auction revenue in a
-      given year or total aid disbursed in that year — the two differ by roughly three quarters.
-      In December 2025 the Commission widened the scheme: 20 more sectors and two subsectors became eligible, and
-      the maximum share of indirect costs that may be compensated rose from 75% to 80%. The
-      <a href="cbam.html">CBAM page</a> sets out why an expanding, unphased instrument sits awkwardly beside a
-      free allocation phase-out that CBAM is designed to mirror exactly.</div>
+    <h2>Indirect cost compensation</h2>
+    <p class="sub" style="margin-bottom:0">€3.17 bn of 2024 auction revenue went back to industry as compensation
+       for the carbon cost embedded in electricity prices — more than twice what was spent on social support and
+       just transition combined. It is the third carbon leakage instrument alongside free allocation and CBAM, and
+       the only one with no phase-out date. It now has its own page:
+       <a href="indirect-costs.html">compensation for indirect carbon costs</a>.</p>
   </div>
 
   <div class="panel">
@@ -410,8 +419,8 @@
   </div>
 </section>
 
-<!-- ===================== SCOPE ===================== -->
-<section id="tab-scope" class="hide">
+<!-- ===================== PRICE ===================== -->
+<section id="tab-price" class="hide">
   <div class="panel">
     <h2 id="pricePanel">The allowance price since 2005</h2>
     <p class="sub">The price is the whole mechanism: everything the ETS does, it does by making emissions
@@ -435,6 +444,10 @@
       <div class="card"><div class="k">−22%</div><div class="l">fall in the annual average from 2023 to 2024</div></div>
     </div>
   </div>
+</section>
+
+<!-- ===================== SCOPE ===================== -->
+<section id="tab-scope" class="hide">
 
   <div class="panel">
     <h2>Twenty years of scope changes</h2>
@@ -920,34 +933,11 @@ function togglePrice(){
 }
 drawPrice();
 
-const AL_Y=[2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
-const AL_A=[1887.5,1862.7,1933.8,1748.5,1761.4,1782.0,1797.9,1993.1,825.1,779.5,742.3,719.3,692.6,665.4,649.6,627.4,569.5,565.3,559.1,512.8,491.5];
-const AL_E=[1776.9,1790.4,1912.8,1859.4,1651.4,1705.4,1687.3,1714.2,1734.2,1668.1,1681.5,1661.8,1678.2,1620.5,1481.6,1278.2,1364.7,1361.9,1150.2,1210.4,1169.5];
+
 const E2_C=["DE", "FR", "IT", "NL", "BE", "ES", "CZ", "AT", "GR", "SE", "IE", "FI", "DK", "NO", "HR", "SI", "LU", "LV"];
 const E2_V=[273.0,178.3,167.0,56.6,46.3,38.8,33.4,30.9,24.4,21.0,20.0,14.9,14.5,11.1,10.0,7.2,5.7,4.1];
 const E2_N=18;
 const E2_TOT=957.0;
-
-new Chart(document.getElementById("allocChart"),{type:"line",
-  data:{labels:AL_Y.map(String),datasets:[
-    {label:"Verified emissions",data:AL_E,borderColor:"#14181f",borderWidth:2.5,
-     pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:false},
-    {label:"Free allocation",data:AL_A,borderColor:"#1f8a5f",backgroundColor:"rgba(31,138,95,.16)",
-     borderWidth:2.5,pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:"origin"}]},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
-      tooltip:{callbacks:{afterBody:c=>{
-        const i=c[0].dataIndex, a=AL_A[i], e=AL_E[i];
-        return [`Free allocation covers ${(a/e*100).toFixed(0)}% of emissions`,
-                a>e?`Surplus of ${(a-e).toFixed(0)} Mt handed out`:`Shortfall of ${(e-a).toFixed(0)} Mt to buy`];}}}},
-    scales:{y:{beginAtZero:true,title:{display:true,text:"Mt CO₂e / million allowances"},grid:{color:"#eef1f5"}},
-            x:{grid:{display:false},ticks:{maxRotation:0,autoSkipPadding:14}}}}});
-document.getElementById("allocCards").innerHTML=[
-  ["1 993 Mt","free allowances in 2012 — more than the 1 714 Mt actually emitted"],
-  ["−59%","fall in free allocation in 2013, when auctioning became the default"],
-  ["492 Mt","free allowances in 2025"],
-  ["42%","share of verified emissions covered by free allocation today"]
-].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 
 new Chart(document.getElementById("ets2Chart"),{type:"bar",
   data:{labels:E2_C,datasets:[{data:E2_V,backgroundColor:"rgba(107,91,210,.85)",borderRadius:3}]},

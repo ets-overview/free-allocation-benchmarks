@@ -126,6 +126,7 @@
         <a href="ets.html">EU ETS</a>
         <a href="benchmarks.html" aria-current="page">Benchmarks</a>
         <a href="cbam.html">CBAM</a>
+        <a href="indirect-costs.html">Indirect costs</a>
         <a href="legislation.html">Legislation map</a>
       </div>
     </div>
@@ -152,6 +153,23 @@
 <!-- ================= OVERVIEW ================= -->
 <section id="tab-overview">
   <div class="cards" id="kpis"></div>
+
+  <div class="panel" id="freealloc">
+    <h2>Free allocation against verified emissions, 2005–2025</h2>
+    <p class="sub">The benchmark values on this page set the rate. This is the resulting volume — how many
+       allowances were actually handed out, against what the covered installations actually emitted. For the whole
+       of phase 2 industry received more allowances than it emitted. The cliff in 2013 is the moment auctioning
+       became the default: free allocation fell 59% in a single year, from 1 993 Mt to 825 Mt, while emissions
+       barely moved.</p>
+    <div class="chartbox" style="height:400px"><canvas id="allocChart"></canvas></div>
+    <div class="cards" id="allocCards" style="margin:18px 0 0"></div>
+    <div class="warn" style="margin-top:18px">Free allocation is now about <strong>42%</strong> of verified
+      emissions and still falling. That average hides the thing that matters: power generation receives almost
+      nothing, while carbon-leakage industry receives close to its full benchmark entitlement — which is what the
+      benchmark values on this page determine, one product at a time. The
+      <a href="ets.html#tab-price">allowance price</a> is the other half of the question: free allocation was worth
+      little at €5 a tonne and is worth a great deal at €75, even as the volume has fallen by three quarters.</div>
+  </div>
 
   <div class="panel">
     <h2>Change from 2021–2025 to 2026–2030</h2>
@@ -627,6 +645,33 @@ D.forEach(d=>{
   d.c1=(d.b-d.a)/d.a*100; d.c2=(d.c-d.b)/d.b*100; d.c3=(d.c-d.a)/d.a*100;
 });
 const REF = D.find(d=>d.n==="Refinery products");
+
+// ---------------------------------------------------------------- free allocation
+const f1=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
+const AL_Y=[2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+const AL_A=[1887.5,1862.7,1933.8,1748.5,1761.4,1782.0,1797.9,1993.1,825.1,779.5,742.3,719.3,692.6,665.4,649.6,627.4,569.5,565.3,559.1,512.8,491.5];
+const AL_E=[1776.9,1790.4,1912.8,1859.4,1651.4,1705.4,1687.3,1714.2,1734.2,1668.1,1681.5,1661.8,1678.2,1620.5,1481.6,1278.2,1364.7,1361.9,1150.2,1210.4,1169.5];
+
+new Chart(document.getElementById("allocChart"),{type:"line",
+  data:{labels:AL_Y.map(String),datasets:[
+    {label:"Verified emissions",data:AL_E,borderColor:"#14181f",borderWidth:2.5,
+     pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:false},
+    {label:"Free allocation",data:AL_A,borderColor:"#1f8a5f",backgroundColor:"rgba(31,138,95,.16)",
+     borderWidth:2.5,pointRadius:2.5,pointHoverRadius:6,tension:.2,fill:"origin"}]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{afterBody:c=>{
+        const i=c[0].dataIndex, a=AL_A[i], e=AL_E[i];
+        return [`Free allocation covers ${(a/e*100).toFixed(0)}% of emissions`,
+                a>e?`Surplus of ${(a-e).toFixed(0)} Mt handed out`:`Shortfall of ${(e-a).toFixed(0)} Mt to buy`];}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Mt CO₂e / million allowances"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false},ticks:{maxRotation:0,autoSkipPadding:14}}}}});
+document.getElementById("allocCards").innerHTML=[
+  ["1 993 Mt","free allowances in 2012 — more than the 1 714 Mt actually emitted"],
+  ["−59%","fall in free allocation in 2013, when auctioning became the default"],
+  ["492 Mt","free allowances in 2025"],
+  ["42%","share of verified emissions covered by free allocation today"]
+].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 
 // ---------------------------------------------------------------- helpers
 const fmt = (v,d)=> v.toFixed(typeof d==="number"?d:(d&&d.dp)||3);
