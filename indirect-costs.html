@@ -60,6 +60,13 @@
   summary{cursor:pointer;font-weight:600;font-size:14px}
   details p,details li{font-size:13.5px;color:#39414d}
   footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+  .hide{display:none}
   .dim{color:var(--muted)}
 </style>
 </head>
@@ -79,15 +86,28 @@
       </div>
     </div>
     <p>The third carbon leakage instrument, alongside free allocation and CBAM — and the only one with no
-       phase-out date. Growing at 40% a year, and widened again in December 2025.</p>
+       phase-out date. Eight times larger than in 2017, and widened again in December 2025.</p>
   </div>
 </header>
 
+<nav class="tabs">
+  <div class="headerinner">
+    <button data-tab="what" class="on">What it is</button>
+    <button data-tab="traj">Trajectory</button>
+    <button data-tab="who">Who pays</button>
+    <button data-tab="fund">Where the money comes from</button>
+    <button data-tab="cbam">Interaction with CBAM</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
 <div class="wrap">
 
+<!-- ============ WHAT ============ -->
+<section id="tab-what">
   <div class="cards">
     <div class="card"><div class="k">€5.52 bn</div><div class="l">paid out in 2024 by fifteen member states, for costs incurred in 2023</div></div>
-    <div class="card"><div class="k">+40%</div><div class="l">increase on the €3.95 bn disbursed in 2023</div></div>
+    <div class="card"><div class="k">8×</div><div class="l">growth since 2017, when ten member states paid €694 m</div></div>
     <div class="card"><div class="k">80%</div><div class="l">maximum share of indirect costs that may now be compensated, raised from 75%</div></div>
     <div class="card"><div class="k">+20</div><div class="l">sectors added to the eligibility list in December 2025, plus two subsectors</div></div>
     <div class="card"><div class="k">None</div><div class="l">phase-out date, unlike free allocation and CBAM</div></div>
@@ -100,11 +120,9 @@
        twice: once on its own emissions, and again in its power bill. The second cost is invisible in the ETS
        accounts and falls hardest on exactly the sectors — aluminium, some chemicals, electric-arc steel — whose
        competitors abroad face no equivalent.</p>
-    <p class="sub" style="margin-bottom:0">Member states may reimburse part of that second cost from national
-       budgets, under Commission State aid guidelines that set who qualifies and how much may be paid. It is
-       therefore not an EU instrument in the way the ETS is: Brussels sets the ceiling, capitals decide whether to
-       pay at all. That asymmetry is itself contested, because a member state with fiscal room can shield its
-       industry and one without cannot.</p>
+    <p class="sub" style="margin-bottom:0">Member states may reimburse part of that second cost, under Commission
+       State aid guidelines that set who qualifies and how much may be paid. It is therefore not an EU instrument
+       in the way the ETS is: Brussels sets the ceiling, capitals decide whether to pay at all.</p>
   </div>
 
   <div class="panel">
@@ -115,21 +133,102 @@
       <strong>Indirect cost compensation</strong> → <span style="color:var(--up);font-weight:600">no phase-out
       date, and expanded in December 2025</span>
     </div>
-    <p class="sub">The first two are locked together by design. The free allocation phase-out and the CBAM phase-in
-       are the same schedule read from opposite ends, and the importer's obligation is reduced by exactly the
-       protection the domestic producer still enjoys — the mechanics are on the
-       <a href="cbam.html">CBAM page</a>.</p>
-    <div class="warn"><strong>Indirect cost compensation sits entirely outside that interlock.</strong> It has no
-      phase-out schedule, no CBAM factor, and no equivalent adjustment at the border. So as free allocation
-      disappears through 2034, compensation for indirect costs becomes the main remaining form of carbon leakage
-      protection for electricity-intensive industry — and the one form CBAM does not mirror.</div>
+    <div class="warn">The first two are locked together by design — the same schedule read from opposite ends.
+      <strong>Indirect cost compensation sits entirely outside that interlock.</strong> It has no phase-out
+      schedule, no CBAM factor and no equivalent at the border. So as free allocation disappears through 2034, it
+      becomes the main remaining form of carbon leakage protection for electricity-intensive industry, and the one
+      form CBAM does not mirror.</div>
   </div>
 
   <div class="panel">
+    <h2>What changed in December 2025</h2>
+    <div class="grid2">
+      <div>
+        <h3>Wider and more generous</h3>
+        <p style="font-size:13.5px;color:#39414d">The Commission amended the State aid guidelines to add
+           <strong>20 sectors and two subsectors</strong> — including organic chemicals and parts of ceramics,
+           glass and battery manufacturing — and raised the maximum compensable share of indirect costs from
+           <strong>75% to 80%</strong>. Member states may notify further sectors if they can show a genuine
+           leakage risk.</p>
+      </div>
+      <div>
+        <h3>With conditions attached</h3>
+        <p style="font-size:13.5px;color:#39414d">Large recipients must now contribute to the green transition,
+           including by investing a share of the aid in projects that reduce electricity system costs. The CO₂
+           factors and geographic zones used in the compensation formula were updated for 2026–2030.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAJECTORY ============ -->
+<section id="tab-traj" class="hide">
+  <div class="panel">
+    <h2>The trajectory, 2017 to 2024</h2>
+    <p class="sub">Compiled from eight successive Commission reports on the functioning of the European carbon
+       market. Each figure is the total aid <em>paid out</em> in that year, for indirect costs incurred the year
+       before.</p>
+    <div class="chartbox" style="height:360px"><canvas id="trajChart"></canvas></div>
+    <div class="cards" id="trajCards" style="margin:18px 0 0"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The driver is the carbon price, not policy generosity</h2>
+    <p class="sub">Compensation is calculated from the allowance price of the previous year, so the curve is a
+       lagged echo of the ETS price. The Commission attributes the 2020 doubling and the 2021 jump directly to
+       that: the carbon price used for 2021 compensation was €25.20, against €16.15 for 2019. The single dip, in
+       2022, followed a year when the price barely moved.</p>
+    <div class="warn" style="margin-bottom:0">Most schemes have no fixed budget. They reimburse incurred costs up
+      to a ceiling, so the bill rises automatically with the very price signal the ETS exists to create. A
+      successful carbon price and a growing compensation bill are the same phenomenon — which is why this
+      instrument cannot be assumed to shrink on its own.</div>
+  </div>
+</section>
+
+<!-- ============ WHO PAYS ============ -->
+<section id="tab-who" class="hide">
+  <div class="panel">
+    <h2>Who pays it</h2>
+    <p class="sub">Payments made in 2024 for costs incurred in 2023, by member state. Hover for the share of that
+       state's 2023 auction revenue the compensation represents.</p>
+    <div class="chartbox" style="height:420px"><canvas id="msChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>Three countries account for 71% of it.</strong> Germany paid
+      €2.40 bn, France €0.91 bn and Poland €0.61 bn. But the sharper measure is compensation as a share of auction
+      revenue: <strong>Luxembourg paid 492%</strong> of its ETS auction revenue, France 44% and Germany 32%, while
+      Italy paid under 5% and Portugal 3%. Because the schemes are national and voluntary, a member state with
+      fiscal room can shield its industry and one without cannot — inside a single market the ETS is meant to keep
+      level.</div>
+  </div>
+</section>
+
+<!-- ============ FUNDING ============ -->
+<section id="tab-fund" class="hide">
+  <div class="panel">
+    <h2>Where the money comes from, and why it is hard to see</h2>
+    <p class="sub">Member states report annually, under the Governance Regulation, how they spend ETS auction
+       revenue — 677 named projects across 27 countries for 2024. Searching that dataset for indirect cost
+       compensation returns only <strong>five countries and about €1.04 bn</strong>, against €5.52 bn actually
+       paid out.</p>
+    <div class="chartbox" style="height:300px"><canvas id="fundChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>The gap is structural, not an error.</strong> Compensation
+      is deducted from auction revenue <em>before</em> the Article 10(3) spending obligation applies — €3.2 bn of
+      2024 revenue, 13% of the total, was set aside this way — so for most member states it never appears as a
+      reported use of revenue at all. The rest is paid from general budgets. The result is that the EU's own
+      revenue-reporting dataset shows less than a fifth of the money.</div>
+    <p class="sub" style="margin:16px 0 0"><strong>There is no category for it either.</strong> Of the five
+       countries that do report it as a project, four book it under "15. Other" and Slovenia books it under
+       "14. Administrative expenses". The reporting taxonomy has fourteen substantive categories — energy
+       efficiency, public transport, industry decarbonisation, adaptation and so on — and none of them fits the
+       single largest transfer back to industry.</p>
+  </div>
+</section>
+
+<!-- ============ CBAM ============ -->
+<section id="tab-cbam" class="hide">
+  <div class="panel">
     <h2>The symmetry with CBAM scope</h2>
-    <p class="sub">This is the part that is easy to miss and hard to unsee. Under Article 7 and Annex II of the
-       CBAM Regulation, indirect emissions are excluded from the border charge for precisely the goods whose EU
-       producers receive compensation for indirect costs.</p>
+    <p class="sub">Under Article 7 and Annex II of the CBAM Regulation, indirect emissions are excluded from the
+       border charge for precisely the goods whose EU producers receive compensation for indirect costs.</p>
     <div class="tblscroll">
       <table>
         <thead><tr><th class="l">Sector</th><th class="l">Indirect emissions charged at the border?</th>
@@ -143,84 +242,11 @@
         </tbody>
       </table>
     </div>
-    <p class="sub" style="margin-top:14px;margin-bottom:0">The two columns are mirror images, and that is
-       deliberate: the Regulation's recitals say indirect emissions should not initially be counted for goods in
-       respect of which financial measures apply in the Union that compensate for indirect emission costs. Change
-       one and the case for the other changes with it — which is why December 2025's widening of the state aid
-       scheme is a CBAM scope question, not only an industrial subsidy question.</p>
-  </div>
-
-  <div class="panel">
-    <h2>The trajectory, 2017 to 2024</h2>
-    <p class="sub">Compiled from eight successive Commission reports on the functioning of the European carbon
-       market. Each figure is the total aid <em>paid out</em> in that year, for indirect costs incurred the year
-       before. It has grown roughly eightfold in seven years.</p>
-    <div class="chartbox" style="height:360px"><canvas id="trajChart"></canvas></div>
-    <div class="cards" id="trajCards" style="margin:18px 0 0"></div>
-    <div class="warn" style="margin-top:18px"><strong>The driver is the carbon price, not policy generosity.</strong>
-      Compensation is calculated from the allowance price of the previous year, so the curve is a lagged echo of
-      the ETS price. The Commission attributes the 2020 doubling and the 2021 jump directly to that: the carbon
-      price used for 2021 compensation was €25.20, against €16.15 for 2019. The single dip, in 2022, came after a
-      year when the price barely moved. Since most schemes have no fixed budget and simply reimburse incurred
-      costs up to a ceiling, the bill rises automatically with the very price signal the ETS exists to create.</div>
-  </div>
-
-  <div class="panel">
-    <h2>Who pays it</h2>
-    <p class="sub">Payments made in 2024 for costs incurred in 2023, by member state, against that state's 2023
-       auction revenue. The right-hand figure is the share of auction revenue the compensation represents.</p>
-    <div class="chartbox" style="height:420px"><canvas id="msChart"></canvas></div>
-    <div class="warn" style="margin-top:18px"><strong>Three countries account for well over half of it.</strong>
-      Germany alone paid €2.40 bn, France €0.91 bn and Poland €0.61 bn. But the more revealing column is the
-      share of auction revenue: <strong>Luxembourg paid 492% of its ETS auction revenue</strong> in compensation,
-      France 44% and Germany 32%, while Italy paid under 5% and Portugal 3%. Because schemes are national and
-      voluntary, a member state with fiscal room can shield its industry and one without cannot — inside a single
-      market that the ETS is meant to keep level.</div>
-  </div>
-
-  <div class="panel">
-    <h2>What changed in December 2025</h2>
-    <div class="grid2">
-      <div>
-        <h3>Wider and more generous</h3>
-        <p style="font-size:13.5px;color:#39414d">The Commission amended the State aid guidelines to add
-           <strong>20 sectors and two subsectors</strong> — including organic chemicals and parts of ceramics,
-           glass and battery manufacturing — and raised the maximum share of indirect costs that may be
-           compensated from <strong>75% to 80%</strong>. Member states may also notify further sectors for
-           approval if they can show a genuine leakage risk.</p>
-      </div>
-      <div>
-        <h3>With conditions attached</h3>
-        <p style="font-size:13.5px;color:#39414d">Large recipients must now contribute to the green transition,
-           including by investing a share of the aid in projects that reduce electricity system costs. The CO₂
-           emission factors and geographic zones used in the compensation formula were also updated for
-           2026–2030.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <h2>Two figures, both correct, not comparable</h2>
-    <p class="sub">Reporting on this topic mixes two different measures, which is worth knowing before quoting
-       either.</p>
-    <div class="grid2">
-      <div>
-        <h3>€3.17 bn — the EEA figure</h3>
-        <p style="font-size:13.5px;color:#39414d">What member states reported spending <em>out of 2024 ETS auction
-           revenue</em> on indirect cost compensation. That is the basis used in the revenue breakdown on the
-           <a href="ets.html">EU ETS page</a>, where it sits alongside every other spending category on the same
-           footing.</p>
-      </div>
-      <div>
-        <h3>€5.52 bn — the carbon market report figure</h3>
-        <p style="font-size:13.5px;color:#39414d">Total compensation <em>paid out during 2024</em> by fifteen
-           member states, for costs incurred in 2023, from whatever source. Larger because it is not limited to
-           ETS revenue and runs on a different year basis.</p>
-      </div>
-    </div>
-    <div class="warn" style="margin-top:16px">The two differ by roughly three quarters. Whenever you see a figure
-      for indirect cost compensation, check whether it means money drawn from auction revenue in a given year, or
-      total aid disbursed in that year.</div>
+    <p class="sub" style="margin-top:14px;margin-bottom:0">The two columns are mirror images, and deliberately so:
+       the Regulation's recitals say indirect emissions should not initially be counted for goods in respect of
+       which financial measures apply in the Union that compensate for indirect emission costs. Change one and the
+       case for the other changes with it — which is why December 2025's widening is a
+       <a href="cbam.html">CBAM scope</a> question, not only an industrial subsidy question.</p>
   </div>
 
   <div class="panel">
@@ -241,72 +267,94 @@
            exceeded what member states spent on social support and just transition combined.</p>
       </div>
     </div>
-    <p class="sub" style="margin:16px 0 0">Both are arguments about the same number, and it is now growing at
-       40% a year while every other leakage instrument is on a declining path.</p>
+  </div>
+</section>
+
+<!-- ============ NOTES ============ -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <h2>Two figures, both correct, not comparable</h2>
+    <div class="grid2">
+      <div>
+        <h3>€3.2 bn — the revenue basis</h3>
+        <p style="font-size:13.5px;color:#39414d">What member states reported financing <em>out of 2024 ETS
+           auction revenue</em>, 13% of the total collected. This is the basis used in the revenue breakdown on
+           the <a href="ets.html">EU ETS page</a>, where it sits alongside every other spending category.</p>
+      </div>
+      <div>
+        <h3>€5.52 bn — the disbursement basis</h3>
+        <p style="font-size:13.5px;color:#39414d">Total compensation <em>paid out during 2024</em> by fifteen
+           member states, for costs incurred in 2023, from whatever source. Larger because it is not limited to
+           ETS revenue and runs on a different year basis.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px">The two differ by roughly three quarters. Whenever you see a figure
+      for indirect cost compensation, check which basis it uses. The trajectory chart on this site uses the
+      disbursement basis throughout, so its years are comparable with each other.</div>
   </div>
 
-  <details>
-    <summary>Sources</summary>
+  <div class="panel">
+    <h2>Sources</h2>
     <ul>
-      <li>Commission State aid guidelines for certain measures in the context of the EU ETS, as amended December 2025 — 20 additional sectors, aid intensity raised from 75% to 80%, updated CO₂ factors and zones for 2026–2030.</li>
-      <li>Commission reports on the functioning of the European carbon market — COM(2017) 693, COM(2018) 842, COM(2019) 557, COM(2020) 740, COM(2021) 962, COM(2022) 516, COM(2023) 654, COM(2024) 538 and COM(2025) 735 — for the annual disbursement totals and the member state tables.</li>
-      <li><a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA indicator: use of auctioning revenues generated under the EU ETS</a>, for the auction-revenue basis.</li>
-      <li>Regulation (EU) 2023/956, Article 7 and Annex II, for the CBAM indirect emissions scope.</li>
+      <li><strong>Trajectory and member state tables</strong> — Commission reports on the functioning of the European carbon market: COM(2017) 693, COM(2018) 842, COM(2019) 557, COM(2020) 740, COM(2021) 962, COM(2022) 516, COM(2023) 654, COM(2024) 538 and COM(2025) 735.</li>
+      <li><strong>Funding route</strong> — <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA dataset on member states' use of revenues from auctioning EU ETS allowances, 2020–2024</a>, project-level table, 2024 reporting year.</li>
+      <li><strong>State aid rules</strong> — Commission guidelines on certain State aid measures in the context of the EU ETS, as amended December 2025.</li>
+      <li><strong>CBAM interaction</strong> — Regulation (EU) 2023/956, Article 7 and Annex II.</li>
     </ul>
-  </details>
+  </div>
 
   <details>
     <summary>What this page still needs</summary>
     <p>The sector-level breakdown of who receives the aid. Member states must publish a breakdown per recipient
-       sector and subsector within three months of each year's end, so the data exists but is scattered across
-       national publications rather than consolidated. A per-installation view would show how concentrated the
-       benefit is within each country — the 2024 total went to roughly 1 850 installations across fifteen states,
-       but the distribution inside that is not visible from the Commission reports alone.</p>
+       sector and subsector within three months of each year's end, but it sits in national publications rather
+       than consolidated anywhere. The 2024 total went to roughly 1 850 installations across fifteen states; the
+       distribution inside that is not visible from the Commission reports alone.</p>
   </details>
 
   <footer>
     Compiled from Commission and EEA sources, August 2026. Orientation only, not legal or state aid advice.
   </footer>
+</section>
+
 </div>
 
 <script>
-// Commission reports on the functioning of the European carbon market, COM(2017) 693 through COM(2025) 735.
-// Aid paid out in each year, for indirect costs incurred the year before.
-const TR_Y=[2017,2018,2019,2020,2021,2022,2023,2024];
-const TR_V=[694,462,656,1358,2380,2160,3950,5520];          // EUR million
-const TR_N=[10,11,11,13,14,13,15,15];                        // member states paying
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hide");
+  window.scrollTo(0,0);
+});
 const nf=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
+
+// Commission carbon market reports COM(2017) 693 - COM(2025) 735. Aid paid out per year, for costs incurred the year before.
+const TR_Y=[2017,2018,2019,2020,2021,2022,2023,2024];
+const TR_V=[694,462,656,1358,2380,2160,3950,5520];
+const TR_N=[10,11,11,13,14,13,15,15];
 new Chart(document.getElementById("trajChart"),{type:"bar",
   data:{labels:TR_Y.map(String),datasets:[{data:TR_V,
     backgroundColor:TR_Y.map(y=>y===2022?"rgba(217,165,32,.85)":"rgba(107,91,210,.85)"),borderRadius:3}]},
   options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},
-      tooltip:{callbacks:{
-        label:c=>`€${nf(c.parsed.y)} million`,
-        afterBody:c=>{const i=c[0].dataIndex;
-          const prev=i?((TR_V[i]/TR_V[i-1]-1)*100):null;
-          return [`${TR_N[i]} member states paying`,
-                  `for indirect costs incurred in ${TR_Y[i]-1}`,
+      tooltip:{callbacks:{label:c=>`€${nf(c.parsed.y)} million`,
+        afterBody:c=>{const i=c[0].dataIndex, prev=i?((TR_V[i]/TR_V[i-1]-1)*100):null;
+          return [`${TR_N[i]} member states paying`,`for costs incurred in ${TR_Y[i]-1}`,
                   prev===null?"":`${prev>0?"+":""}${prev.toFixed(0)}% on the previous year`].filter(Boolean);}}}},
     scales:{y:{beginAtZero:true,title:{display:true,text:"€ million paid out"},grid:{color:"#eef1f5"}},
             x:{grid:{display:false}}}}});
 document.getElementById("trajCards").innerHTML=[
   ["€694 m","paid out in 2017, by ten member states"],
   ["€5.52 bn","paid out in 2024, by fifteen"],
-  ["8×","growth over seven years"],
+  ["+107%","the largest single-year jump, 2020"],
   ["~1 850","installations receiving aid in 2024"]
 ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 
-// Payments in 2024 for costs incurred in 2023, by member state (EUR million), with share of 2023 auction revenue.
 const MS=[
- {c:"Germany",     v:2395.0, s:31.6},{c:"France",      v:908.8, s:44.1},
- {c:"Poland",      v:614.6, s:11.4},{c:"Greece",      v:287.0, s:19.9},
- {c:"Spain",       v:282.0, s:null},{c:"Belgium",     v:249.9, s:33.8},
- {c:"Italy",       v:165.5, s:4.7},{c:"Netherlands", v:147.3, s:11.7},
- {c:"Finland",     v:143.2, s:25.1},{c:"Romania",     v:116.7, s:20.4},
- {c:"Czechia",     v:60.4, s:7.8},{c:"Slovakia",    v:58.3, s:null},
- {c:"Luxembourg",  v:37.6, s:492.0},{c:"Portugal",    v:25.0, s:3.4}
-];
+ {c:"Germany",v:2395.0,s:31.6},{c:"France",v:908.8,s:44.1},{c:"Poland",v:614.6,s:11.4},
+ {c:"Greece",v:287.0,s:19.9},{c:"Spain",v:282.0,s:null},{c:"Belgium",v:249.9,s:33.8},
+ {c:"Italy",v:165.5,s:4.7},{c:"Netherlands",v:147.3,s:11.7},{c:"Finland",v:143.2,s:25.1},
+ {c:"Romania",v:116.7,s:20.4},{c:"Czechia",v:60.4,s:7.8},{c:"Slovakia",v:58.3,s:null},
+ {c:"Luxembourg",v:37.6,s:492.0},{c:"Portugal",v:25.0,s:3.4}];
 new Chart(document.getElementById("msChart"),{type:"bar",
   data:{labels:MS.map(d=>d.c),datasets:[{data:MS.map(d=>d.v),
     backgroundColor:MS.map(d=>d.s!==null&&d.s>40?"rgba(192,57,43,.85)":"rgba(107,91,210,.8)"),
@@ -319,7 +367,23 @@ new Chart(document.getElementById("msChart"),{type:"bar",
                            :[`${d.s}% of that state's 2023 auction revenue`];}}}},
     scales:{x:{title:{display:true,text:"€ million paid in 2024 for costs incurred in 2023"},grid:{color:"#eef1f5"}},
             y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
-</script>
 
+// EEA use-of-revenues dataset, 2024 reporting year: the only member states booking compensation as a reported use of auction revenue.
+const FUND=[{c:"France",v:833.8},{c:"Slovakia",v:93.8},{c:"Czechia",v:58.0},
+            {c:"Slovenia",v:25.4},{c:"Portugal",v:25.0}];
+const FUND_TOT=FUND.reduce((s,d)=>s+d.v,0);
+new Chart(document.getElementById("fundChart"),{type:"bar",
+  data:{labels:FUND.map(d=>d.c).concat(["Everything else,\nnot in the dataset"]),
+    datasets:[{data:FUND.map(d=>d.v).concat([5520-FUND_TOT]),
+      backgroundColor:FUND.map(()=>"rgba(107,91,210,.85)").concat(["rgba(184,192,204,.75)"]),borderRadius:3}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>`€${nf(c.parsed.y)} million`,
+        afterBody:c=>c[0].dataIndex===FUND.length
+          ? ["paid out but not reported as a use of auction revenue"]
+          : ["reported as a named project funded from auction revenue"]}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"€ million, 2024"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+</script>
 </body>
 </html>
