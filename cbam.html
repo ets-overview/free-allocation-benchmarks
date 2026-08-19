@@ -55,6 +55,13 @@
   .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:950px}
   .chartbox{position:relative;height:400px}
   .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  /* hover glossary: the tooltip is fixed-positioned and appended to <body>, so it is not
+     clipped by the overflow:auto on .tblscroll that contains the term it belongs to */
+  .gterm{border-bottom:1px dotted currentColor;cursor:help}
+  .gtip{position:fixed;display:none;z-index:200;background:#14181f;color:#fff;font-size:12.5px;
+        line-height:1.55;font-weight:400;text-transform:none;letter-spacing:normal;padding:12px 14px;
+        border-radius:9px;box-shadow:0 10px 30px rgba(20,24,31,.28);pointer-events:none}
+  .gtip strong{color:#fff}
   label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
   .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px 18px}
   .fld label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
@@ -131,6 +138,7 @@
     <button data-tab="time">Timeline</button>
     <button data-tab="comply">Compliance</button>
     <button data-tab="countries">Countries</button>
+    <button data-tab="leakage">Carbon leakage</button>
     <button data-tab="calcmech">How it is calculated</button>
     <button data-tab="calc">Cost calculator</button>
     <button data-tab="notes">Data &amp; caveats</button>
@@ -253,17 +261,11 @@
        electricity used to make the goods — for every sector. Under Article 7 and Annex II of the Regulation,
        indirect emissions are excluded for the goods whose EU producers receive compensation for indirect carbon
        costs. The border charge mirrors the domestic treatment, sector by sector.</p>
-    <div class="eq" style="margin-bottom:18px"><strong>What a CN code is.</strong> The Combined Nomenclature is
-      the EU's customs classification: an eight-digit code identifying exactly what a shipment contains, declared
-      on every import. <span class="dim">7208 51 20</span>, for instance, is hot-rolled steel plate of a
-      particular thickness. CBAM's scope is defined entirely by these codes rather than by sector names — if a
-      good's CN code is in Annex I of the Regulation it is covered, and if it is not, it is not. That makes the
-      boundary precise but also arbitrary at the edges: two similar products can fall on opposite sides of it
-      because of a customs distinction drawn long before CBAM existed.</div>
     <div class="tblscroll">
       <table id="scopeTbl">
         <thead><tr>
-          <th class="l">Sector</th><th class="l">CN codes</th>
+          <th class="l">Sector</th>
+          <th class="l"><span class="gterm" tabindex="0" data-tip="<strong>Combined Nomenclature</strong> — the EU's customs classification. An eight-digit code identifying exactly what a shipment contains, declared on every import: 7208 51 20, for instance, is hot-rolled steel plate of a particular thickness.<br><br>CBAM's scope is defined entirely by these codes rather than by sector names. If a good's CN code is listed in Annex I of the Regulation it is covered; if not, it is not. Precise, but arbitrary at the edges — two similar products can fall on opposite sides of the boundary because of a customs distinction drawn long before CBAM existed.">CN codes</span></th>
           <th class="l">Emissions counted</th><th class="l">Why</th>
         </tr></thead>
         <tbody></tbody>
@@ -504,6 +506,161 @@
     </div>
   </div>
 </section>
+
+<section id="tab-leakage" class="hide">
+  <div class="panel">
+    <h2>The carbon leakage list</h2>
+    <p class="sub"><strong>Carbon leakage</strong> is the risk that pricing carbon in the EU moves production
+       abroad rather than reducing it — the plant closes here, reopens somewhere without a carbon price, and
+       global emissions do not fall. Rather than assume every industry faces that risk equally, the ETS Directive
+       makes the Commission decide which ones do, and publishes the answer as a list.</p>
+    <p class="sub">Being on it is worth a great deal. A listed sector receives <strong>100%</strong> of the free
+       allocation its benchmarks entitle it to. A sector that is not listed receives 30% today, falling in equal
+       steps to <strong>nothing in 2030</strong>. Nothing else in the allocation rules turns on a single binary
+       classification to that extent.</p>
+    <div class="eq" style="line-height:1.8">
+      <strong>On the list</strong> → 100% of the benchmark entitlement<br>
+      <strong>Not on the list</strong> → 30% now, zero from 2030 <span class="dim">(district heating excepted)</span><br>
+      <strong>On the list <em>and</em> a CBAM good</strong> → 100% today, but withdrawn on the CBAM schedule to zero in 2034
+    </div>
+    <p class="sub" style="margin-bottom:0">The list was fixed once, for the whole of 2021 to 2030, so it is not
+       revisited annually as market conditions change. That stability was deliberate — it lets industry plan — but
+       it also means the classification is now being applied to a decade that looks very different from the
+       2013–2015 data it was built on.</p>
+  </div>
+
+  <div class="panel">
+    <h2>How a sector gets on the list</h2>
+    <p class="sub">"At risk of carbon leakage" is not a judgement call. Article 10b of the ETS Directive sets a
+       threshold test, and two quantities are multiplied together to apply it.</p>
+    <div class="eq" style="line-height:1.85">
+      <strong>Carbon leakage indicator = trade intensity × emission intensity</strong><br>
+      <span class="dim">trade intensity</span> — exports to third countries plus imports from them, divided by the
+        total EEA market size (annual turnover plus imports)<br>
+      <span class="dim">emission intensity</span> — direct <em>and</em> indirect emissions per euro of gross value
+        added, in kg CO₂ per euro<br>
+      <span style="color:var(--navy);font-weight:600">Indicator above 0.2 → deemed at risk</span>
+    </div>
+    <p class="sub">Multiplying the two is the essential design choice. A sector that is heavily traded but barely
+       emits does not qualify, and neither does a heavy emitter facing no foreign competition. You need both at
+       once — which is precisely the combination under which relocating would be both attractive and worth the
+       trouble.</p>
+
+    <div style="margin:18px 0 6px">
+      <svg viewBox="0 0 620 300" width="100%" style="max-width:620px;display:block" role="img"
+           aria-label="Diagram: the carbon leakage threshold is a curve where trade intensity times emission intensity equals 0.2">
+        <rect width="620" height="300" fill="#f8fafc"/>
+        <path d="M90 40 C 200 40, 250 90, 280 150 C 305 205, 330 240, 520 258 L 520 40 Z"
+              fill="#0b3d91" opacity=".10"/>
+        <path d="M90 40 C 200 40, 250 90, 280 150 C 305 205, 330 240, 520 258"
+              fill="none" stroke="#0b3d91" stroke-width="2.2"/>
+        <line x1="70" y1="262" x2="560" y2="262" stroke="#9aa7b8" stroke-width="1.4"/>
+        <line x1="70" y1="262" x2="70" y2="26" stroke="#9aa7b8" stroke-width="1.4"/>
+        <text x="300" y="288" text-anchor="middle" font-size="13" fill="#5f6b7a"
+              font-family="system-ui,sans-serif">Trade intensity &#8594;</text>
+        <text x="20" y="150" font-size="13" fill="#5f6b7a" font-family="system-ui,sans-serif"
+              transform="rotate(-90 20 150)" text-anchor="middle">Emission intensity &#8594;</text>
+        <text x="415" y="105" font-size="14" font-weight="600" fill="#0b3d91"
+              font-family="system-ui,sans-serif">Deemed at risk</text>
+        <text x="415" y="126" font-size="12" fill="#4b5563" font-family="system-ui,sans-serif">
+          indicator above 0.2 &#8212; full free allocation</text>
+        <text x="120" y="222" font-size="14" font-weight="600" fill="#5f6b7a"
+              font-family="system-ui,sans-serif">Not at risk</text>
+        <text x="120" y="242" font-size="12" fill="#5f6b7a" font-family="system-ui,sans-serif">
+          30% now, nothing from 2030</text>
+        <text x="286" y="176" font-size="11.5" fill="#0b3d91" font-family="system-ui,sans-serif"
+              font-style="italic">indicator = 0.2</text>
+      </svg>
+    </div>
+    <p class="sub"><span class="dim">Schematic. The threshold is a curve rather than a box: a sector can qualify
+       on extreme trade exposure, on extreme emission intensity, or on a moderate amount of both.</span></p>
+
+    <h3>If the test is failed</h3>
+    <p class="sub" style="margin-bottom:0">Missing the threshold is not always final. A sector scoring between
+       <strong>0.15 and 0.2</strong> could request a qualitative assessment, judged on abatement potential, market
+       characteristics and profit margins. A sector with an emission intensity above <strong>1.5</strong> could ask
+       for either a qualitative assessment or a quantitative one at a more disaggregated product level, where a
+       narrow product line might qualify even though the sector as a whole does not. Both routes had to be applied
+       for; neither was automatic. Fourteen of the sixty-three entries arrived by one of them.</p>
+  </div>
+
+  <div class="panel">
+    <h2>What the test produced</h2>
+    <div class="cards" style="margin:0 0 18px">
+      <div class="card"><div class="k">245</div><div class="l">industrial sectors assessed across mining, quarrying and manufacturing</div></div>
+      <div class="card"><div class="k">63</div><div class="l">sectors and subsectors found at risk, and placed on the list</div></div>
+      <div class="card"><div class="k">94%</div><div class="l">of industrial emissions covered by those 63 entries</div></div>
+      <div class="card"><div class="k">376 g</div><div class="l">CO₂ per kWh — the electricity factor used to convert power use into indirect emissions</div></div>
+    </div>
+    <p class="sub">Roughly a quarter of the sectors examined qualify, and they account for almost all of the
+       emissions. That is the pattern the threshold was built to produce: a short list carrying nearly the entire
+       industrial footprint. The assessment ran on data from <strong>2013 to 2015</strong> — direct emissions from
+       the EU Transaction Log, trade from Eurostat Comext, value added from structural business statistics.</p>
+    <div class="warn" style="margin-bottom:0"><strong>Being on the list is no longer the end of the story.</strong>
+      All six CBAM sectors are on it, and every one of them loses its free allocation between 2026 and 2034
+      regardless. For CBAM goods the list now decides almost nothing about how much protection a sector keeps —
+      only the border charge does. For everything else, it remains the difference between full allocation and
+      none.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Has carbon leakage actually happened?</h2>
+    <p class="sub">This is where an honest account has to slow down. Two decades of ex-post studies looking for
+       carbon leakage from the EU ETS have found little convincing evidence of it: production and investment have
+       generally not moved abroad in the way the theory predicts, and energy prices, labour costs and market access
+       appear to dominate the carbon price by a wide margin.</p>
+    <div class="grid2">
+      <div>
+        <h3>The case that protection is unnecessary</h3>
+        <p class="sub">If leakage cannot be detected after twenty years, these instruments are transferring a great
+           deal of value to industry against a risk that has not materialised — while weakening the price signal in
+           exactly the sectors where abatement is hardest. On this reading, free allocation is why industrial
+           emissions have fallen 18% since 2005 while power sector emissions have fallen 54%.</p>
+      </div>
+      <div>
+        <h3>The case that protection is why</h3>
+        <p class="sub">The counter-argument is that the absence of leakage is evidence the protection worked, not
+           that it was unnecessary — the counterfactual cannot be observed. It also notes that the carbon price sat
+           below €10 for most of the period studied, so the theory was barely tested. At €75, with free allocation
+           now being withdrawn, the real experiment is only starting.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0">Both readings are held by serious people and neither is settled by the
+       available evidence. What is not in dispute is the scale of what rests on the answer: this list governs free
+       allocation worth tens of billions of euros a year.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The list in full</h2>
+    <p class="sub">All 63 sectors and subsectors deemed at risk of carbon leakage for 2021 to 2030, exactly as
+       they appear in the Annex to the Delegated Decision. Sectors are identified by NACE-4 code; the entries added
+       through a disaggregated assessment are narrower product lines, identified by Prodcom code instead.</p>
+    <div class="controls">
+      <input type="search" id="lkQ" placeholder="Search sector or code…"
+             style="font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;min-width:240px">
+      <select id="lkB" style="font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px">
+        <option value="">All routes onto the list</option>
+        <option value="1">Art. 10b(1) — passed the 0.2 threshold</option>
+        <option value="2">Art. 10b(2) — qualitative assessment</option>
+        <option value="3">Art. 10b(3) — qualitative, on application</option>
+        <option value="4">Art. 10b(3) — disaggregated, Prodcom level</option>
+      </select>
+      <span class="dim" id="lkCount" style="font-size:13px"></span>
+    </div>
+    <div class="tblscroll" style="max-height:560px">
+      <table id="lkTbl">
+        <thead><tr><th class="l">Code</th><th class="l">Sector or subsector</th><th class="l">How it qualified</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:16px 0 0">Source:
+      <a href="http://data.europa.eu/eli/dec_del/2019/708/oj" target="_blank" rel="noopener">Commission Delegated
+      Decision (EU) 2019/708</a> of 15 February 2019, Annex, transcribed in full. The threshold test is
+      Article 10b of Directive 2003/87/EC; the withdrawal of free allocation for CBAM goods is Article 10a(1a),
+      inserted by Directive (EU) 2023/959.</p>
+  </div>
+</section>
+
 
 <!-- ===================== CALCULATION MECHANICS ===================== -->
 <section id="tab-calcmech" class="hide">
@@ -839,6 +996,33 @@ const CAL=[
   ["Ongoing","Excess certificates can be repurchased by the Commission, within limits. Holdings must be kept above a minimum proportion of accrued obligations during the year."]
 ];
 
+// ---------------------------------------------------------------- hover glossary
+// One shared tooltip element on <body>, positioned against the term's bounding box.
+// Keyboard-reachable: terms carry tabindex, so focus shows the tooltip too.
+(function(){
+  const tip=document.createElement("div");
+  tip.className="gtip"; document.body.appendChild(tip);
+  const show=el=>{
+    tip.innerHTML=el.dataset.tip;
+    tip.style.display="block";
+    const w=Math.min(380, window.innerWidth-24);
+    tip.style.width=w+"px";
+    const r=el.getBoundingClientRect();
+    let left=r.left; if(left+w>window.innerWidth-12) left=window.innerWidth-w-12;
+    tip.style.left=Math.max(12,left)+"px";
+    const below=r.bottom+8, h=tip.offsetHeight;
+    tip.style.top=(below+h>window.innerHeight-12 ? Math.max(12,r.top-h-8) : below)+"px";
+  };
+  const hide=()=>{tip.style.display="none";};
+  document.querySelectorAll("[data-tip]").forEach(el=>{
+    el.addEventListener("mouseenter",()=>show(el));
+    el.addEventListener("mouseleave",hide);
+    el.addEventListener("focus",()=>show(el));
+    el.addEventListener("blur",hide);
+  });
+  window.addEventListener("scroll",hide,true);
+})();
+
 // ---------------------------------------------------------------- tabs
 document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
@@ -1170,6 +1354,27 @@ function run(){
   const el=document.getElementById(id); el.oninput=run; el.onchange=run;
 });
 run();
+
+// ---------------------------------------------------------------- carbon leakage list
+// Annex to Commission Delegated Decision (EU) 2019/708, transcribed in full: 63 entries.
+const LEAK=[{"c": "0510", "d": "Mining of hard coal", "b": 1}, {"c": "0610", "d": "Extraction of crude petroleum", "b": 1}, {"c": "0710", "d": "Mining of iron ores", "b": 1}, {"c": "0729", "d": "Mining of other non-ferrous metal ores", "b": 1}, {"c": "0891", "d": "Mining of chemical and fertiliser minerals", "b": 1}, {"c": "0899", "d": "Other mining and quarrying n.e.c.", "b": 1}, {"c": "1041", "d": "Manufacture of oils and fats", "b": 1}, {"c": "1062", "d": "Manufacture of starches and starch products", "b": 1}, {"c": "1081", "d": "Manufacture of sugar", "b": 1}, {"c": "1106", "d": "Manufacture of malt", "b": 1}, {"c": "1310", "d": "Preparation and spinning of textile fibres", "b": 1}, {"c": "1395", "d": "Manufacture of non-wovens and articles made from non-wovens, except apparel", "b": 1}, {"c": "1411", "d": "Manufacture of leather clothes", "b": 1}, {"c": "1621", "d": "Manufacture of veneer sheets and wood-based panels", "b": 1}, {"c": "1711", "d": "Manufacture of pulp", "b": 1}, {"c": "1712", "d": "Manufacture of paper and paperboard", "b": 1}, {"c": "1910", "d": "Manufacture of coke oven products", "b": 1}, {"c": "1920", "d": "Manufacture of refined petroleum products", "b": 1}, {"c": "2011", "d": "Manufacture of industrial gases", "b": 1}, {"c": "2012", "d": "Manufacture of dyes and pigments", "b": 1}, {"c": "2013", "d": "Manufacture of other inorganic basic chemicals", "b": 1}, {"c": "2014", "d": "Manufacture of other organic basic chemicals", "b": 1}, {"c": "2015", "d": "Manufacture of fertilisers and nitrogen compounds", "b": 1}, {"c": "2016", "d": "Manufacture of plastics in primary forms", "b": 1}, {"c": "2017", "d": "Manufacture of synthetic rubber in primary forms", "b": 1}, {"c": "2060", "d": "Manufacture of man-made fibres", "b": 1}, {"c": "2311", "d": "Manufacture of flat glass", "b": 1}, {"c": "2313", "d": "Manufacture of hollow glass", "b": 1}, {"c": "2314", "d": "Manufacture of glass fibres", "b": 1}, {"c": "2319", "d": "Manufacture and processing of other glass, including technical glassware", "b": 1}, {"c": "2320", "d": "Manufacture of refractory products", "b": 1}, {"c": "2331", "d": "Manufacture of ceramic tiles and flags", "b": 1}, {"c": "2351", "d": "Manufacture of cement", "b": 1}, {"c": "2352", "d": "Manufacture of lime and plaster", "b": 1}, {"c": "2399", "d": "Manufacture of other non-metallic mineral products n.e.c.", "b": 1}, {"c": "2410", "d": "Manufacture of basic iron and steel and of ferro-alloys", "b": 1}, {"c": "2420", "d": "Manufacture of tubes, pipes, hollow profiles and related fittings, of steel", "b": 1}, {"c": "2431", "d": "Cold drawing of bars", "b": 1}, {"c": "2442", "d": "Aluminium production", "b": 1}, {"c": "2443", "d": "Lead, zinc and tin production", "b": 1}, {"c": "2444", "d": "Copper production", "b": 1}, {"c": "2445", "d": "Other non-ferrous metal production", "b": 1}, {"c": "2446", "d": "Processing of nuclear fuel", "b": 1}, {"c": "2451", "d": "Casting of iron", "b": 1}, {"c": "0893", "d": "Extraction of salt", "b": 2}, {"c": "1330", "d": "Finishing of textiles", "b": 2}, {"c": "2110", "d": "Manufacture of basic pharmaceutical products", "b": 2}, {"c": "2341", "d": "Manufacture of ceramic household and ornamental articles", "b": 2}, {"c": "2342", "d": "Manufacture of ceramic sanitary fixtures", "b": 2}, {"c": "2332", "d": "Manufacture of bricks, tiles and construction products, in baked clay", "b": 3}, {"c": "081221", "d": "Kaolin and other kaolinic clays", "b": 4}, {"c": "10311130", "d": "Frozen potatoes, prepared or preserved (including potatoes cooked or partly cooked in oil and then frozen; excluding by vinegar or acetic acid)", "b": 4}, {"c": "10311300", "d": "Dried potatoes in the form of flour, meal, flakes, granules and pellets", "b": 4}, {"c": "10391725", "d": "Concentrated tomato puree and paste", "b": 4}, {"c": "105121", "d": "Skimmed milk powder", "b": 4}, {"c": "105122", "d": "Whole milk powder", "b": 4}, {"c": "105153", "d": "Casein", "b": 4}, {"c": "105154", "d": "Lactose and lactose syrup", "b": 4}, {"c": "10515530", "d": "Whey and modified whey in powder, granules or other solid forms, whether or not concentrated or containing added sweetening matter", "b": 4}, {"c": "10891334", "d": "Bakers' yeast", "b": 4}, {"c": "20302150", "d": "Vitrifiable enamels and glazes, engobes (slips) and similar preparations for ceramics, enamelling or glass", "b": 4}, {"c": "20302170", "d": "Liquid lustres and similar preparations; glass frit and other glass in powder; granules or flakes", "b": 4}, {"c": "25501134", "d": "Open die forged ferrous parts for transmission shafts, camshafts, crankshafts and cranks etc.", "b": 4}];
+const LKB={1:"Art. 10b(1) — 0.2 threshold",2:"Art. 10b(2) — qualitative",
+  3:"Art. 10b(3) — qualitative, on application",4:"Art. 10b(3) — disaggregated (Prodcom)"};
+function drawLeak(){
+  const q=(document.getElementById("lkQ").value||"").toLowerCase().trim();
+  const b=document.getElementById("lkB").value;
+  const rows=LEAK.filter(r=>(!b||String(r.b)===b)&&
+    (!q||r.d.toLowerCase().includes(q)||r.c.includes(q)));
+  document.querySelector("#lkTbl tbody").innerHTML=rows.map(r=>
+    `<tr><td class="l" style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${r.c}</td>`+
+    `<td class="l">${r.d}</td>`+
+    `<td class="l dim" style="font-size:12.5px">${LKB[r.b]}</td></tr>`).join("");
+  document.getElementById("lkCount").textContent=
+    rows.length===LEAK.length?`${LEAK.length} entries`:`${rows.length} of ${LEAK.length} entries`;
+}
+document.getElementById("lkQ").addEventListener("input",drawLeak);
+document.getElementById("lkB").addEventListener("change",drawLeak);
+drawLeak();
 </script>
 </body>
 </html>

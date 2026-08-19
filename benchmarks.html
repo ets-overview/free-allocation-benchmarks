@@ -145,7 +145,6 @@
     <button data-tab="rates">Reduction rates</button>
     <button data-tab="cbam">CBAM overlay</button>
     <button data-tab="table">Full table</button>
-    <button data-tab="sectors">By sector</button>
     <button data-tab="alloc">How allocation is calculated</button>
     <button data-tab="calc">Calculator</button>
     <button data-tab="freealloc">Free allocation</button>
@@ -161,11 +160,18 @@
 
   
   <div class="panel">
-    <h2>What a benchmark is</h2>
-    <p class="sub">A benchmark is a rate: <strong>tonnes of CO₂e allowed per tonne of product</strong>. It is not
-       a target and not a cap. It is the yardstick used to decide how many free allowances an installation
-       receives — and it is set by what the cleanest producers in Europe actually achieve, not by what is
-       comfortable for the average one.</p>
+    <h2>What a benchmark is, and where it sits in the EU ETS</h2>
+    <p class="sub">These values belong to one instrument: the <a href="ets.html">EU Emissions Trading System</a>.
+       The ETS issues a fixed number of allowances each year and requires every covered installation to surrender
+       one for each tonne of CO₂e it emits. Most of those allowances are sold at auction — power generators have
+       bought theirs since 2013. A minority are handed out free of charge to industry, and
+       <strong>benchmarks are the rule that decides how many each installation gets for nothing</strong>. They
+       determine nothing else: not the cap, not the price, not who is covered.</p>
+    <p class="sub">A benchmark itself is a rate: <strong>tonnes of CO₂e allowed per tonne of product</strong>. It
+       is not a target, not a cap and not an emissions limit — an installation may emit as much as it likes
+       provided it holds allowances to cover it. It is the yardstick for free allocation, and it is set by what
+       the cleanest producers in Europe actually achieve rather than by what is comfortable for the average
+       one.</p>
     <div class="eq">
       An installation making 1 Mt of grey cement clinker in 2026 receives<br>
       1 000 000 t &times; <strong>0.656</strong> = <strong>656 000 allowances</strong>, free of charge
@@ -206,12 +212,12 @@
         <thead><tr><th class="l">Tab</th><th class="l">Answers</th></tr></thead>
         <tbody>
           <tr><td class="l"><strong>Overview</strong></td><td class="l">What changed between periods, and how the values compare with what the cleanest installations actually achieve.</td></tr>
-          <tr><td class="l"><strong>Free allocation</strong></td><td class="l">What the benchmarks translate into: allowances handed out, against emissions.</td></tr>
-          <tr><td class="l"><strong>Reduction rates</strong></td><td class="l">How each value is derived under Article 10a(2), and how often the statutory bounds override the data.</td></tr>
+          <tr><td class="l"><strong>Reduction rates</strong></td><td class="l">Where the 2026–2030 values came from under Article 10a(2), how often the statutory bounds override the data, and how far each sector moved.</td></tr>
           <tr><td class="l"><strong>CBAM overlay</strong></td><td class="l">What the benchmark is worth once the CBAM phase-out is applied to it.</td></tr>
           <tr><td class="l"><strong>Full table</strong></td><td class="l">Every value, every period, sortable and searchable.</td></tr>
-          <tr><td class="l"><strong>By sector</strong></td><td class="l">The same values grouped, so sector patterns are visible.</td></tr>
+          <tr><td class="l"><strong>How allocation is calculated</strong></td><td class="l">How a benchmark becomes a number of allowances for one plant, factor by factor.</td></tr>
           <tr><td class="l"><strong>Calculator</strong></td><td class="l">What all of it means for one installation's allowance gap.</td></tr>
+          <tr><td class="l"><strong>Free allocation</strong></td><td class="l">The historical record: allowances actually handed out since 2005, against emissions.</td></tr>
         </tbody>
       </table>
     </div>
@@ -266,6 +272,47 @@
 <!-- ================= REDUCTION RATES ================= -->
 <section id="tab-rates" class="hide">
   <div class="panel">
+    <h2>Implementing Regulation (EU) 2026/1412 revised every benchmark under Article 10a(2)</h2>
+    <p class="sub">On 26 June 2026 the Commission adopted
+       <a href="http://data.europa.eu/eli/reg_impl/2026/1412/oj" target="_blank" rel="noopener">Implementing
+       Regulation (EU) 2026/1412</a>, replacing all 54 benchmark values for the 2026–2030 allocation period. It
+       applies retroactively from 1 January 2026, so it already governs what industry receives this year. These
+       are values in force, not a proposal.</p>
+    <p class="sub">What matters is that the Commission did not choose the new numbers. Article 10a(2) of the ETS
+       Directive prescribes an arithmetic procedure and the Regulation is its output. For each benchmark: measure
+       the greenhouse gas intensity of the 10% most efficient installations in 2021 and 2022; compare that against
+       the original 2007/08-based value to derive an annual rate of improvement; extrapolate that rate across a
+       20-year window; then clamp the total reduction between <strong>6% and 50%</strong>. Whatever comes out is
+       the benchmark.</p>
+    <p class="sub">That design has a consequence worth stating plainly, because it is where most of the
+       interesting results come from. Each period is computed afresh from the <em>2007/08</em> reference and the
+       latest measured performance — never from the value it replaces. So the update is not a ratchet. Where the
+       cleanest installations were measured as performing worse than in the previous window, the recomputed
+       benchmark can land <em>above</em> the one it supersedes.</p>
+    <div class="eq" style="font-size:13.5px;line-height:1.85">
+      <strong>45</strong> of the 54 benchmarks fell against 2021–2025 — agglomerated iron ore hardest, by 45%.<br>
+      <strong>9</strong> rose. Vinyl chloride monomer by 23%, S-PVC by 21%, hydrogen by 17%.<br>
+      <span class="dim">Neither direction reflects a policy decision about the sector. Both fall out of the same
+      formula applied to different measurements.</span>
+    </div>
+    <p class="sub">Hydrogen is the clearest illustration: the 10% most efficient installations were measured at
+       8.24 t CO₂e per tonne in 2021/22 against 4.09 in the earlier window. Measured performance went backwards,
+       so the derived reduction came out at only <strong>9.8%</strong> against the 2007/08 base — where the
+       2021–2025 exercise had already applied <strong>22.7%</strong>. Recomputing from the same base with a
+       weaker rate lifts the benchmark from 6.84 to 7.98. No clamp was involved; the arithmetic simply produced a
+       higher number. Soda
+       ash rose furthest of all, by 49%, but for a different reason — it is the one benchmark whose scope changed,
+       with relevant intermediate emissions added as a final step under Reg. (EU) 2026/389. Its measured
+       performance actually improved.</p>
+    <p class="sub" style="margin-bottom:0">Three things are worth tracking as you read down.
+       <strong>How fast each sector actually improved</strong> — the annual rate is measured, not assumed.
+       <strong>Whether the clamp bound</strong> — where it did, the benchmark reflects a statutory limit rather
+       than anything observed in a plant, and 22 of the 54 sit at the 50% ceiling. And
+       <strong>how far each value moved</strong> against the two earlier periods, which the sector charts at the
+       foot of this tab show side by side.</p>
+  </div>
+
+  <div class="panel">
     <h2>How each 2026–2030 value is actually derived</h2>
     <p class="sub">Article 10a(2) does not simply adopt observed best practice. It computes an
        <strong>annual reduction rate</strong> by comparing the measured 2021/22 average of the 10% most efficient
@@ -316,6 +363,19 @@
       </table>
     </div>
   </div>
+
+  <div class="panel">
+    <h2>The same values, grouped by sector</h2>
+    <p class="sub">The derivation above works one benchmark at a time. This is the result seen from a distance:
+       all 54 values grouped by industry, with the three allocation periods side by side, so the size of the
+       2026–2030 change is visible against what came before. Patterns show up here that the alphabetical table
+       hides.</p>
+    <p class="sub" style="margin-bottom:0">Each panel has its own scale, because the units are not comparable — a
+       tonne of hydrogen and a tonne of plaster are not the same kind of thing. Look for sectors where all three
+       bars fall together, which means consistent measured improvement, against those where the 2026–2030 bar
+       barely moves — usually a sign the clamp is doing the work rather than the data.</p>
+  </div>
+  <div class="grid2" id="secGrid"></div>
 </section>
 
 <!-- ================= CBAM ================= -->
@@ -651,16 +711,6 @@
 </section>
 
 <!-- ================= SECTORS ================= -->
-<section id="tab-sectors" class="hide">
-  <div class="panel">
-    <h2>Benchmarks by sector</h2>
-    <p class="sub">The same 54 values grouped by industry, so patterns within a sector become visible that the
-       alphabetical table hides. Each panel has its own scale because the units are not comparable — a tonne of
-       hydrogen and a tonne of plaster are not the same kind of thing. Look for sectors where all three bars fall
-       together, which means consistent measured improvement, against those where the 2026–2030 bar barely moves.</p>
-  </div>
-  <div class="grid2" id="secGrid"></div>
-</section>
 
 <!-- ================= NOTES ================= -->
 <section id="tab-notes" class="hide">
@@ -950,8 +1000,7 @@ document.querySelectorAll("nav button").forEach(btn=>{
     document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b===btn));
     document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
     document.getElementById("tab-"+btn.dataset.tab).classList.remove("hide");
-    if(btn.dataset.tab==="sectors") buildSectors();
-    if(btn.dataset.tab==="rates") drawRates();
+    if(btn.dataset.tab==="rates"){ drawRates(); buildSectors(); }
     if(btn.dataset.tab==="cbam") drawCbam();
     if(btn.dataset.tab==="calc") runCalc();
     window.scrollTo(0,0);
