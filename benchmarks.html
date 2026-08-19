@@ -142,12 +142,13 @@
 <nav>
   <div class="headerinner">
     <button data-tab="overview" class="on">Overview</button>
-    <button data-tab="freealloc">Free allocation</button>
     <button data-tab="rates">Reduction rates</button>
     <button data-tab="cbam">CBAM overlay</button>
     <button data-tab="table">Full table</button>
     <button data-tab="sectors">By sector</button>
+    <button data-tab="alloc">How allocation is calculated</button>
     <button data-tab="calc">Calculator</button>
+    <button data-tab="freealloc">Free allocation</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
 </nav>
@@ -444,21 +445,150 @@
   </div>
 </section>
 
+<!-- ================= HOW ALLOCATION IS CALCULATED ================= -->
+<section id="tab-alloc" class="hide">
+  <div class="panel">
+    <h2>A benchmark is one term in a five-term product</h2>
+    <p class="sub">The values elsewhere on this page are rates: tonnes of CO₂e permitted per tonne of product. On
+       their own they allocate nothing. Turning a rate into a number of allowances for a specific plant takes four
+       further steps, each set by a different provision, and each capable of changing the answer by more than the
+       benchmark itself does.</p>
+    <div class="eq">
+      <strong>Allocation</strong> = benchmark &times; historical activity level &times; carbon leakage exposure
+      factor &times; CBAM factor &times; cross-sectoral correction factor
+    </div>
+    <p class="sub" style="margin-bottom:0">Read it as a chain of multipliers running from 1.0 downwards. The
+       benchmark sets the ceiling of what an installation could receive; every term after it can only reduce that
+       figure, never raise it.</p>
+  </div>
+
+  <div class="panel">
+    <h2>First, the plant is divided up</h2>
+    <p class="sub">Allocation is not calculated for an installation. It is calculated for each
+       <strong>sub-installation</strong> — a notional slice of the plant defined by what it produces and how. A
+       single refinery or steelworks routinely has several, each with its own rule, and the plant's entitlement is
+       the sum. This is why two sites with identical output can receive very different allocations.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Sub-installation type</th><th class="l">Applies to</th>
+          <th class="l">How its entitlement is set</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>Product benchmark</strong></td>
+            <td class="l">Output covered by one of the defined product benchmarks — clinker, hot metal, ammonia and the rest.</td>
+            <td class="l">Benchmark value × historical output. This is the case the tables on this page describe.</td></tr>
+          <tr><td class="l"><strong>Heat benchmark</strong></td>
+            <td class="l">Measurable heat produced or consumed that no product benchmark covers.</td>
+            <td class="l">A single fallback rate per terajoule of heat, applied regardless of sector.</td></tr>
+          <tr><td class="l"><strong>Fuel benchmark</strong></td>
+            <td class="l">Fuel burned for non-measurable heat — direct firing, where no heat medium is metered.</td>
+            <td class="l">A single fallback rate per terajoule of fuel input.</td></tr>
+          <tr><td class="l"><strong>Process emissions</strong></td>
+            <td class="l">CO₂ released by the chemistry itself rather than by combustion, where no product benchmark applies.</td>
+            <td class="l">97% of historical process emissions — the only branch not driven by a benchmark rate at all.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:16px">The two fallback rates matter more than their obscurity suggests.
+      For 2026–2030 the heat and fuel benchmarks each fall by roughly a third — a far steeper cut than most product
+      benchmarks — so installations that sit largely outside the product benchmark system take the hardest hit from
+      this update.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Then the four multipliers</h2>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Term</th><th class="l">What it represents</th><th class="l">Value in force</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>Historical activity level</strong></td>
+            <td class="l">How much the sub-installation actually produced, so that allocation tracks real output rather than capacity. Fixed from a baseline period, not from current production.</td>
+            <td class="l">Median annual output over <strong>2019–2023</strong> for the 2026–2030 period; 2014–2018 for 2021–2025.</td></tr>
+          <tr><td class="l"><strong>Carbon leakage exposure factor</strong></td>
+            <td class="l">Whether the sector is judged at genuine risk of relocating production outside the EU. Sectors that are not lose their allocation on a timetable.</td>
+            <td class="l"><strong>100%</strong> for sectors on the carbon leakage list. <strong>30%</strong> through 2026 for everything else, then falling in equal steps to <strong>0% in 2030</strong> — district heating excepted.</td></tr>
+          <tr><td class="l"><strong>CBAM factor</strong></td>
+            <td class="l">Withdraws free allocation from the goods CBAM covers, so that border charge and domestic protection never apply to the same tonne.</td>
+            <td class="l">CBAM goods only: <strong>97.5%</strong> in 2026, 51.5% in 2030, <strong>zero from 2034</strong>. 100% for everything else.</td></tr>
+          <tr><td class="l"><strong>Cross-sectoral correction factor</strong></td>
+            <td class="l">A uniform haircut applied to every installation if the sum of all entitlements would exceed the share of the cap reserved for free allocation.</td>
+            <td class="l"><strong>100%</strong> for 2021–2025 — the ceiling was not breached, so no cut was applied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:16px 0 0">Note the asymmetry in how these are decided. The benchmark and the
+       activity level are measured from data. The leakage factor and the CBAM factor are political timetables
+       written into the Directive. The correction factor is whatever arithmetic requires once everything else is
+       fixed. Only the first two say anything about how the plant performs.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Worked example: a cement plant making 1 Mt of clinker</h2>
+    <p class="sub">Grey cement clinker is on the carbon leakage list and is a CBAM good, so it runs through every
+       term. Its 2026–2030 benchmark is 0.656 t CO₂e per tonne.</p>
+    <div class="eq">
+      <strong>2026:</strong> 0.656 × 1 000 000 × 1.00 × 0.975 × 1.00 =
+        <strong>639 600 allowances</strong><br>
+      <strong>2030:</strong> 0.656 × 1 000 000 × 1.00 × 0.515 × 1.00 =
+        <strong>337 840 allowances</strong><br>
+      <strong>2034:</strong> 0.656 × 1 000 000 × 1.00 × 0.00 × 1.00 = <strong>nothing</strong>
+    </div>
+    <p class="sub" style="margin-bottom:0">The benchmark does not move across those years. The allocation falls by
+       47% and then to zero entirely, driven by a single multiplier that has nothing to do with how the plant is
+       run. For a sector <em>not</em> on the carbon leakage list the same plant would already be on 30% and heading
+       to nothing by 2030 by a different route. The rate is the part everyone argues about; the multipliers are
+       where most of the money is.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Two things that can cut it further</h2>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Conditionality</h3>
+        <p class="sub">Since the 2023 revision, free allocation is no longer unconditional. Installations whose
+           emissions intensity places them among the worst performers for their benchmark must act on the
+           recommendations of an energy audit or a climate neutrality plan. Failing to do so costs
+           <strong>20%</strong> of the allocation. It is the first mechanism that ties an individual plant's
+           allocation to its own behaviour rather than to its sector's classification.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Activity level changes</h3>
+        <p class="sub">Because the activity level is fixed from a historical baseline, a plant that cuts output
+           would otherwise keep allowances it no longer needs. So allocation is recalculated when the two-year
+           average activity level moves more than <strong>15%</strong> from the baseline, with further adjustments
+           at each 5% step beyond that. Small movements are ignored, and changes worth fewer than 100 allowances
+           are not processed at all.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Where these rules are written</h2>
+    <ul style="margin:0;font-size:13.5px;color:#39414d">
+      <li>Sub-installation types, historical activity levels and the 97% process-emissions factor —
+        <a href="http://data.europa.eu/eli/reg_del/2019/331/oj" target="_blank" rel="noopener">Delegated Regulation (EU) 2019/331</a>, the Free Allocation Rules.</li>
+      <li>Carbon leakage exposure factor — Article 10b of Directive 2003/87/EC.</li>
+      <li>CBAM factor — Article 10a(1a) of Directive 2003/87/EC, inserted by Directive (EU) 2023/959.</li>
+      <li>Cross-sectoral correction factor — Article 10a(5) and 10a(5a) of Directive 2003/87/EC.</li>
+      <li>Conditionality — Article 10a(1) of Directive 2003/87/EC as amended by Directive (EU) 2023/959.</li>
+      <li>Activity level changes —
+        <a href="http://data.europa.eu/eli/reg_impl/2019/1842/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2019/1842</a>.</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ===================== FREE ALLOCATION ===================== -->
 <section id="tab-freealloc" class="hide">
   <div class="panel">
-    <h2>From benchmark to allowances</h2>
-    <p class="sub">A benchmark is a rate. This tab is about the resulting volume — how many allowances were
-       actually handed out, and how that compares with what the covered installations actually emitted.</p>
-    <div class="eq">
-      <strong>Free allocation</strong> = benchmark &times; historical activity level &times; carbon leakage
-      exposure factor &times; CBAM factor &times; cross-sectoral correction factor
-    </div>
-    <p class="sub" style="margin-bottom:0">Only the first term is on this page. The others scale it: activity
-       level is how much the installation actually produced, the leakage factor is 100% for listed sectors and
-       falling to zero for everything else, the CBAM factor withdraws allocation for
-       <a href="cbam.html">CBAM goods</a> through 2034, and the correction factor cuts everyone back
-       proportionally if the total would breach the cap.</p>
+    <h2>The historical record: what was actually given away</h2>
+    <p class="sub">Every other tab on this page deals with the <em>rate</em> — what a benchmark is worth per tonne
+       of product, how it was derived, how fast it is tightening. This tab is the only one that deals with the
+       <em>volume</em>: how many allowances were handed to industry in each year from 2005 onwards, and how that
+       compares with what those same installations actually emitted. It is a record of outcomes, not of rules.</p>
+    <p class="sub" style="margin-bottom:0">A benchmark alone tells you nothing about volume, because the rate is
+       multiplied by output and then by three policy factors before anything is issued. If you want the mechanics
+       — what those factors are and how a single plant's entitlement is built up — they are on the
+       <a href="#" data-goto="alloc">How allocation is calculated</a> tab. What follows here is simply what came
+       out the other end.</p>
   </div>
 
 <div class="panel">
@@ -827,6 +957,18 @@ document.querySelectorAll("nav button").forEach(btn=>{
     window.scrollTo(0,0);
   };
 });
+
+// Open a tab by name — used by in-page links and by a #hash on arrival,
+// so links such as benchmarks.html#freealloc from other pages land correctly.
+function goTab(name){
+  const b=document.querySelector('nav button[data-tab="'+name+'"]');
+  if(b){ b.onclick(); return true; }
+  return false;
+}
+document.querySelectorAll("[data-goto]").forEach(a=>{
+  a.addEventListener("click",e=>{ e.preventDefault(); goTab(a.dataset.goto); });
+});
+if(location.hash) goTab(location.hash.slice(1));
 
 // ================================================================ KPIs
 (function(){

@@ -253,6 +253,13 @@
        electricity used to make the goods — for every sector. Under Article 7 and Annex II of the Regulation,
        indirect emissions are excluded for the goods whose EU producers receive compensation for indirect carbon
        costs. The border charge mirrors the domestic treatment, sector by sector.</p>
+    <div class="eq" style="margin-bottom:18px"><strong>What a CN code is.</strong> The Combined Nomenclature is
+      the EU's customs classification: an eight-digit code identifying exactly what a shipment contains, declared
+      on every import. <span class="dim">7208 51 20</span>, for instance, is hot-rolled steel plate of a
+      particular thickness. CBAM's scope is defined entirely by these codes rather than by sector names — if a
+      good's CN code is in Annex I of the Regulation it is covered, and if it is not, it is not. That makes the
+      boundary precise but also arbitrary at the edges: two similar products can fall on opposite sides of it
+      because of a customs distinction drawn long before CBAM existed.</div>
     <div class="tblscroll">
       <table id="scopeTbl">
         <thead><tr>
@@ -501,6 +508,28 @@
 <!-- ===================== CALCULATION MECHANICS ===================== -->
 <section id="tab-calcmech" class="hide">
   <div class="panel">
+    <h2>Why free allocation is in the formula at all</h2>
+    <p class="sub">Before any of the equations make sense, one thing has to be settled: why an importer's bill
+       depends on what the EU gives away to its own producers. The answer is that CBAM is not a tariff. It is a
+       device for putting imported goods on the same carbon footing as EU goods — and EU goods are not currently
+       paying the full carbon price either.</p>
+    <div class="eq" style="line-height:1.75">
+      An EU cement plant pays the ETS price on its emissions <strong>minus its free allocation</strong>.<br>
+      So an importer must pay the CBAM price on its emissions <strong>minus the same free allocation</strong>.<br>
+      <span class="dim">Otherwise the import would be charged for tonnes the domestic producer gets for nothing.</span>
+    </div>
+    <p class="sub">That subtraction is the <strong>free allocation adjustment</strong>. It is not a discount or a
+       concession — it is the correction that keeps the two sides comparable. And because free allocation for CBAM
+       goods is being withdrawn on a fixed schedule between 2026 and 2034, the adjustment shrinks every year. That
+       is the entire mechanism by which CBAM ramps up: the border charge does not rise, the deduction falls.</p>
+    <p class="sub" style="margin-bottom:0">Two consequences follow, and both surprise people. First, the
+       adjustment is calculated from <strong>EU</strong> data — a benchmark reflecting EU production, not the
+       exporter's. Second, when EU industry's free allocation is cut for reasons that have nothing to do with
+       trade, importers' bills rise automatically alongside. The equations below are just that idea made
+       arithmetic.</p>
+  </div>
+
+  <div class="panel">
     <h2>The free allocation adjustment, as the Regulation actually defines it</h2>
     <p class="sub">Implementing Regulation (EU) 2025/2620 of 16 December 2025 sets out the calculation. It applies
        from 1 January 2026. What follows is its structure, taken from the text rather than reconstructed.</p>
@@ -534,9 +563,39 @@
     <div class="warn" style="margin-top:18px"><strong>The CSCF is a real multiplier, not a footnote.</strong> The
       cross-sectoral correction factor is determined under Article 14(6) of Delegated Regulation (EU) 2019/331 and
       published under Article 10a(5) of the ETS Directive. If EU industry's benchmark entitlements exceed the free
-      allocation cap, every EU installation is cut back — and because it sits directly in this equation, importers
-      are cut back with them. A CSCF below 1 shrinks the adjustment and <em>raises</em> the CBAM bill. The July 2026
-      proposal to widen the CSCF buffer to 4% is therefore an importer question as much as an EU industry one.</div>
+      allocation ceiling, every EU installation is cut back — and because it sits directly in this equation,
+      importers are cut back with them. A CSCF below 1 shrinks the adjustment and <em>raises</em> the CBAM
+      bill.</div>
+  </div>
+
+  <div class="panel">
+    <h2>The correction factor and its buffer</h2>
+    <p class="sub">Only a fixed share of the cap may be given away free; the rest must be auctioned. Each period
+       the Commission adds up what every installation is entitled to under its benchmarks. If that total comes in
+       under the ceiling, everyone receives their full entitlement and the correction factor is 100% — which is
+       what happened for 2021–2025. If it comes in over, the factor drops below 100% and every installation is
+       scaled back by the same proportion, regardless of how efficient it is.</p>
+
+    <h3>What the buffer actually does</h3>
+    <p class="sub">Cutting everyone uniformly is a crude instrument, so the Directive provides a release valve
+       before it has to be used. Under Article 10a(5a), an additional quantity — currently <strong>up to 3% of the
+       total allowances issued</strong> — may be moved into the free allocation pot to close the gap. Those
+       allowances come out of the auction share, so the buffer is paid for in forgone auction revenue rather than
+       in cuts to industry.</p>
+    <div class="eq" style="line-height:1.8">
+      Entitlements <span class="dim">under</span> the ceiling → everyone paid in full, factor = 100%<br>
+      Entitlements over by <span class="dim">less than the buffer</span> → buffer drawn down, factor still 100%<br>
+      Entitlements over by <span class="dim">more than the buffer</span> → buffer exhausted, factor falls below 100%
+    </div>
+    <p class="sub">So the percentage is a headroom figure, not a cut. A 3% buffer means the ceiling can be
+       overshot by up to 3% of total allowances before anyone loses anything. Widen it to <strong>4%</strong>, as
+       the July 2026 proposal would, and the overshoot has to be a quarter larger again before the correction
+       factor bites. In practice the buffer has never been needed: for 2021–2025 demand for free allowances stayed
+       below the ceiling, so none of the 3% was drawn and the factor stayed at 100%.</p>
+    <div class="warn" style="margin-bottom:0"><strong>Why an importer should care.</strong> A wider buffer makes a
+      sub-100% correction factor less likely. Since the factor multiplies straight into the equations above, that
+      keeps the free allocation adjustment larger and the CBAM bill correspondingly smaller. A change usually
+      discussed as protection for EU industry lands on importers too — in the same direction, for once.</div>
   </div>
 
   <div class="panel">

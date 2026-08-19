@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU Climate Policy Explorer</title>
-<meta name="description" content="Interactive visualisations of EU climate legislation — the free allocation benchmarks under the EU ETS, and a map of how the acts connect.">
+<meta name="description" content="Explaining and visualising EU climate policy: the emissions trading system, CBAM, free allocation benchmarks, effort sharing, indirect cost compensation, and a map of how the legislation connects.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Policy Explorer">
-<meta property="og:description" content="Interactive visualisations of EU climate legislation — the free allocation benchmarks under the EU ETS, and a map of how the acts connect.">
+<meta property="og:description" content="Explaining and visualising EU climate policy: the emissions trading system, CBAM, free allocation benchmarks, effort sharing, indirect cost compensation, and a map of how the legislation connects.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Policy Explorer">
-<meta name="twitter:description" content="Interactive visualisations of EU climate legislation — the free allocation benchmarks under the EU ETS, and a map of how the acts connect.">
+<meta name="twitter:description" content="Explaining and visualising EU climate policy: the emissions trading system, CBAM, free allocation benchmarks, effort sharing, indirect cost compensation, and a map of how the legislation connects.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -38,9 +38,9 @@
   nav.top a.lnk[aria-current]{color:var(--accent);font-weight:600;background:#eef4fd}
 
   header.hero{background:var(--navy);color:#fff;padding:64px 0 58px}
-  header.hero h1{margin:0 0 18px;font-size:38px;line-height:1.18;letter-spacing:-.022em;max-width:19ch}
-  header.hero p{margin:0;font-size:17.5px;line-height:1.6;color:#cfdcf1;max-width:62ch}
-  header.hero p + p{margin-top:14px}
+  header.hero h1{margin:0 0 20px;font-size:38px;line-height:1.18;letter-spacing:-.022em;max-width:24ch}
+  header.hero p{margin:0;font-size:17px;line-height:1.62;color:#cfdcf1}
+  header.hero .lede{display:grid;grid-template-columns:1fr 1fr;gap:18px 40px}
   header.hero .kicker{font-size:12.5px;text-transform:uppercase;letter-spacing:.14em;
                       color:#8fb0e4;margin:0 0 14px;font-weight:600}
 
@@ -69,6 +69,9 @@
   footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:13.5px}
   footer a{color:var(--accent)}
 
+  @media (max-width:820px){
+    header.hero .lede{grid-template-columns:1fr;gap:14px}
+  }
   @media (max-width:640px){
     header.hero{padding:44px 0 40px}
     header.hero h1{font-size:29px}
@@ -94,14 +97,17 @@
 <header class="hero">
   <div class="wrap">
     <p class="kicker">An open, non-commercial resource</p>
-    <h1>EU climate law, made legible</h1>
-    <p>EU climate legislation is a dense network of directives, regulations, delegated acts and amendments
-       layered over two decades. It is genuinely hard to see through — not only for newcomers, but for anyone
-       working outside their own corner of it.</p>
-    <p>This site visualises core features of that system: what the rules actually say, how the individual acts
-       connect to one another, and how both have changed over time. It is meant as an orientation tool and a
-       starting point for your own research, not a substitute for the legal texts. Every figure and every act
-       links back to its official source.</p>
+    <h1>EU climate policy, explained and visualised</h1>
+    <div class="lede">
+      <p>EU climate policy is not one law but a system — directives, regulations, delegated acts and amendments
+         layered over two decades, each written on the assumption that you already know the rest. It is genuinely
+         hard to see through, and not only for newcomers: most people working on it know one corner well and the
+         rest by reputation.</p>
+      <p>This site does two things. It <strong>explains</strong> how each instrument actually works, in plain
+         language and from the legal text. And it <strong>visualises</strong> them, so the numbers a rule produces
+         sit next to the rule itself. An orientation tool and a starting point for your own research, not a
+         substitute for the legislation — every figure and every act links back to its official source.</p>
+    </div>
   </div>
 </header>
 
