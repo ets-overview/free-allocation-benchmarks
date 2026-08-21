@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maritime in the EU ETS — EU Climate Policy Explorer</title>
+<meta name="description" content="Shipping in the EU ETS since 2024: which voyages count, the 40/70/100% phase-in, who actually surrenders the allowances, FuelEU Maritime, and the IMO framework that has not yet been adopted.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Maritime in the EU ETS">
+<meta property="og:description" content="Shipping in the EU ETS since 2024: which voyages count, the phase-in, who surrenders the allowances, and the IMO framework that has not yet been adopted.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/maritime.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maritime in the EU ETS">
+<meta name="twitter:description" content="Shipping in the EU ETS since 2024: which voyages count, the phase-in, and who surrenders the allowances.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5f6b7a;--line:#e3e7ec;--accent:#1f5fbf;
+        --down:#1f8a5f;--up:#c0392b;--violet:#6b5bd2;--navy:#0b3d91;--teal:#16a085}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--navy);color:#fff;padding:26px 28px 22px}
+  .headerinner{max-width:1240px;margin:0 auto;padding:0 20px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:900px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+           padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:var(--navy);border-color:#fff;font-weight:600}
+  /* ETS section strip: the EU ETS page and its sub-pages. Sits above the sticky
+     tab bar, so it scrolls away and leaves the tabs pinned. Deliberately a plain div,
+     not a nav element, so it cannot collide with the tab-bar selectors. */
+  .subnav{background:#0f4bb0}
+  .subnav .headerinner{display:flex;align-items:center;gap:2px;overflow-x:auto}
+  .subnav .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#9dbcea;
+               font-weight:700;margin-right:14px;white-space:nowrap;flex-shrink:0}
+  .subnav a{color:#d7e3f7;font-size:13.5px;text-decoration:none;padding:11px 13px;
+            white-space:nowrap;border-bottom:3px solid transparent}
+  .subnav a:hover{color:#fff}
+  .subnav a[aria-current]{color:#fff;font-weight:600;border-bottom-color:#fff}
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 20px 60px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:0 0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:25px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel h3{font-size:14.5px;margin:0 0 8px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:960px}
+  .chartbox{position:relative;height:400px}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  a{color:var(--accent)}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
+      font-size:14px;line-height:1.9}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th.l,td.l{text-align:left;white-space:normal}
+  thead th{background:#fafbfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tbody tr:hover{background:#f4f8ff}
+  .tblscroll{border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:560px}
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p,details li{font-size:13.5px;color:#39414d}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .dim{color:var(--muted)}
+  .hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>Maritime transport in the EU ETS</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <a href="ets.html" aria-current="true">EU ETS</a>
+        <a href="cbam.html">CBAM</a>
+        <a href="effort-sharing.html">Effort sharing</a>
+        <a href="indirect-costs.html">Indirect costs</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>Shipping joined the carbon market in 2024 — the newest sector, the largest single addition of coverage in
+       the system's history, and the one where a global alternative is still being negotiated.</p>
+  </div>
+</header>
+
+<div class="subnav" role="navigation" aria-label="EU ETS sections">
+  <div class="headerinner">
+    <span class="lbl">EU ETS</span>
+    <a href="ets.html">Overview</a>
+    <a href="benchmarks.html">Free allocation benchmarks</a>
+    <a href="maritime.html" aria-current="page">Maritime</a>
+    <a href="aviation.html">Aviation</a>
+  </div>
+</div>
+
+<nav class="tabs">
+  <div class="headerinner">
+    <button data-tab="scope" class="on">What is covered</button>
+    <button data-tab="phase">The phase-in</button>
+    <button data-tab="liable">Who pays</button>
+    <button data-tab="emissions">Emissions</button>
+    <button data-tab="fueleu">FuelEU Maritime</button>
+    <button data-tab="imo">The IMO question</button>
+    <button data-tab="comply">Compliance</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= SCOPE ================= -->
+<section id="tab-scope">
+  <div class="cards">
+    <div class="card"><div class="k">2024</div><div class="l">first year of coverage — the newest sector in the system</div></div>
+    <div class="card"><div class="k">5 000 GT</div><div class="l">the size threshold: cargo and passenger ships at or above it are in scope</div></div>
+    <div class="card"><div class="k">50%</div><div class="l">of emissions counted on voyages that begin or end outside the EEA</div></div>
+    <div class="card"><div class="k">90.6 Mt</div><div class="l">verified CO₂ in 2024, the first reporting year</div></div>
+    <div class="card"><div class="k">3 316</div><div class="l">shipping companies assessed for compliance in 2024</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Flag-neutral and route-based</h2>
+    <p class="sub">Shipping presented the EU with the same problem as aviation: most of a voyage happens outside
+       anyone's territory, and the ship may be registered anywhere. The answer was to ignore the flag entirely and
+       charge according to the route. A vessel flying any flag, owned anywhere, is covered by the same rule if it
+       calls at a European port.</p>
+    <div class="eq" style="line-height:1.9">
+      <strong>100%</strong> — voyages between two EEA ports <span class="dim">(Hamburg to Marseille)</span><br>
+      <strong>100%</strong> — emissions inside an EEA port: at berth and manoeuvring<br>
+      <strong>50%</strong> — voyages departing an EEA port for outside <span class="dim">(Rotterdam to Shanghai)</span><br>
+      <strong>50%</strong> — voyages arriving at an EEA port from outside <span class="dim">(Shanghai to Rotterdam)</span>
+    </div>
+    <p class="sub">Charging half of an international voyage is the compromise that made the extension defensible:
+       the EU claims the leg it can plausibly connect to its own territory and leaves the rest. It also means a
+       long-haul container route pays the same absolute amount whichever direction it runs, and that a ship cannot
+       escape the charge by arranging its schedule differently.</p>
+    <p class="sub" style="margin-bottom:0">Compare this with <a href="aviation.html">aviation</a>, where the EU
+       took the opposite approach and simply dropped extra-European flights altogether. Shipping got the half-rule;
+       aviation got an exemption. The difference is largely one of diplomatic timing rather than principle.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Which ships, and which gases</h2>
+    <div class="grid2">
+      <div>
+        <h3>Ships</h3>
+        <p class="sub"><strong>Since 2024</strong> — cargo and passenger ships of 5 000 gross tonnage and
+           above.<br>
+           <strong>From 2027</strong> — offshore ships of 5 000 GT and above.<br>
+           <strong>Reporting only</strong> — since 2025, offshore and general cargo ships between 400 and
+           5 000 GT must monitor and report, without yet surrendering allowances. That is how the ETS usually
+           expands: measurement first, obligation later.</p>
+      </div>
+      <div>
+        <h3>Gases</h3>
+        <p class="sub"><strong>CO₂</strong> from 2024.<br>
+           <strong>Methane and nitrous oxide</strong> from 2026.<br>
+           The monitoring regulation has covered all three since 2024, so the data existed for two years before
+           the obligation attached to it. Methane matters more here than the two-year gap suggests: LNG-fuelled
+           ships slip unburned methane through the engine, and until 2026 that escaped the price entirely while
+           counting as a cleaner fuel.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin:16px 0 0"><strong>Derogations exist and they are not trivial.</strong>
+      Voyages to outermost regions, certain small-island routes, transnational public service contracts, and
+      stops at listed neighbouring container transhipment ports fall partly or wholly outside the surrender
+      obligation. The transhipment carve-out exists to stop cargo being routed through a nearby non-EU port to
+      shed the European leg — a real avoidance route rather than a theoretical one.</div>
+  </div>
+</section>
+
+<!-- ================= PHASE ================= -->
+<section id="tab-phase" class="hide">
+  <div class="panel">
+    <h2>Three years to full liability</h2>
+    <p class="sub">Shipping was not asked to surrender allowances against all its covered emissions immediately.
+       The obligation phases in, and it is expressed by <em>surrender year</em> rather than emissions year, which
+       is where most of the confusion about this sector comes from.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Emissions year</th><th class="l">Surrender deadline</th>
+          <th>Share that must be covered</th></tr></thead>
+        <tbody>
+          <tr><td class="l">2024</td><td class="l">30 September 2025</td><td><strong>40%</strong></td></tr>
+          <tr><td class="l">2025</td><td class="l">30 September 2026</td><td><strong>70%</strong></td></tr>
+          <tr><td class="l">2026 onwards</td><td class="l">30 September each following year</td><td><strong>100%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">The first surrender in the sector's history fell due on
+       30 September 2025, covering 40% of 2024 emissions. The obligation reaches full strength for emissions from
+       2026, surrendered in 2027.</p>
+  </div>
+
+  <div class="panel">
+    <h2>What a voyage actually pays</h2>
+    <p class="sub">The two rules compound. A route's geographic share is multiplied by the phase-in percentage for
+       the year, so the effective share of a voyage's emissions that carries a carbon cost has been well below
+       what either rule suggests on its own. This is the chart that answers "so what is actually charged".</p>
+    <div class="chartbox" style="height:340px"><canvas id="phaseChart"></canvas></div>
+    <p class="sub" style="margin:16px 0 0">An intra-European voyage went from 40% priced in 2024 to fully priced
+       from 2026. An international voyage went from <strong>20%</strong> to <strong>50%</strong> — and 50% is
+       where it stays. There is no year in which a Shanghai–Rotterdam sailing pays for all of its emissions.</p>
+    <div class="warn" style="margin-bottom:0"><strong>Why this design was chosen.</strong> A phase-in gives an
+      industry with long asset lives and thin margins time to build the cost into charter rates and contracts, and
+      it gave national administrators time to build a registry for thousands of companies that had never touched
+      the ETS. The counter-argument is that a discounted carbon price in the years when fleet renewal decisions
+      are being made is precisely the wrong time to discount it.</div>
+  </div>
+</section>
+
+<!-- ================= LIABLE ================= -->
+<section id="tab-liable" class="hide">
+  <div class="panel">
+    <h2>The hardest question in the sector: who is "the company"?</h2>
+    <p class="sub">For a power station the answer is obvious. For a ship it is not. A vessel may be owned by a
+       single-ship company in one jurisdiction, technically managed by a second firm in another, and commercially
+       operated by a charterer in a third — with the fuel bought by whichever of them the charter contract says.
+       The ETS had to pick one.</p>
+    <div class="eq" style="line-height:1.85">
+      The default is the <strong>registered owner</strong>.<br>
+      Responsibility may be assumed by the <strong>ISM company</strong> — the entity holding safety-management
+        responsibility under the International Safety Management Code — where the owner has mandated it in
+        writing.<br>
+      <span class="dim">A bareboat charterer can take it on, but only where it has itself assumed ISM
+      responsibilities for the ship.</span>
+    </div>
+    <p class="sub" style="margin-bottom:0">Whoever holds it, the obligation is company-level rather than
+       ship-level: the shipping company surrenders allowances for the whole fleet under its responsibility, from a
+       Maritime Operator Holding Account in the Union Registry. And the shipping company <strong>always remains
+       the responsible entity for surrendering</strong>, whatever commercial arrangement sits behind it.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Who administers it, and who pays in practice</h2>
+    <div class="grid2">
+      <div>
+        <h3>One member state per company</h3>
+        <p class="sub">Every shipping company is attributed to a single administering authority: the state where
+           it is registered, or — for a company registered outside the EU — the state where it made most port
+           calls over the preceding four monitoring years. Being absent from the published attribution list is not
+           an exemption; a company that finds itself missing must ask to be added.</p>
+      </div>
+      <div>
+        <h3>The charterer usually bears the cost</h3>
+        <p class="sub">Regulatory liability and commercial cost are different things. Where the charterer buys the
+           bunkers and directs the voyage, standard charterparty clauses now pass the allowance cost to them. The
+           ETS deliberately does not regulate this: it fixes a single accountable entity and leaves the industry to
+           allocate the money by contract.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">This is the part of the maritime extension that
+       generated most of the implementation work, and none of it is visible in an emissions chart. Thousands of
+       companies, many with no previous European regulatory footprint, had to be identified, attributed to an
+       administrator and given registry accounts before a single allowance could change hands.</p>
+  </div>
+</section>
+
+<!-- ================= EMISSIONS ================= -->
+<section id="tab-emissions" class="hide">
+  <div class="panel">
+    <h2>Verified emissions, 2024–2025</h2>
+    <p class="sub">Two years of data, so this is a starting point rather than a trend. What it does establish is
+       scale: at 90.6 Mt in its first year, maritime immediately became one of the larger activities in the
+       system — roughly a fifth of everything the industrial installations emit, added to the ETS in a single
+       step.</p>
+    <div class="chartbox" style="height:320px"><canvas id="emChart"></canvas></div>
+    <p class="sub" style="margin:16px 0 0">The fall to 80.7 Mt in 2025 should be read cautiously. A first
+       reporting year in a sector with thousands of newly-regulated companies is exactly where you would expect
+       both over- and under-reporting, and the 2025 figure may still be revised. It is far too early to call this
+       a reduction.</p>
+    <div class="warn" style="margin-bottom:0"><strong>This is new coverage, not new emissions.</strong> Ships were
+      burning this fuel before 2024; they simply were not counted. When maritime appears in the ETS totals it
+      makes the system's emissions look as though they jumped — a scope change dressed as a trend. The same caveat
+      applies to every chart on this site that shows total ETS emissions across 2023 and 2024.</div>
+  </div>
+</section>
+
+<!-- ================= FUELEU ================= -->
+<section id="tab-fueleu" class="hide">
+  <div class="panel">
+    <h2>The carbon price is not the binding constraint</h2>
+    <p class="sub">The ETS charges a ship for the carbon it emits. It does nothing to make cleaner fuel exist, and
+       for shipping the alternatives — green methanol, ammonia, e-fuels — are barely in production and cost several
+       times what heavy fuel oil does. A parallel regulation attacks that directly.</p>
+    <div class="grid2">
+      <div>
+        <h3>What FuelEU Maritime requires</h3>
+        <p class="sub">Regulation (EU) 2023/1805, applying from 1 January 2025, sets a declining limit on the
+           <strong>greenhouse gas intensity of the energy used on board</strong>, measured well-to-wake against a
+           2020 baseline of 91.16 gCO₂e per megajoule. The reduction is <strong>2% from 2025</strong>, tightening
+           in steps to <strong>80% by 2050</strong>.</p>
+      </div>
+      <div>
+        <h3>And at berth</h3>
+        <p class="sub">From <strong>1 January 2030</strong>, container and passenger ships at berth in the major
+           ports designated under the alternative fuels infrastructure rules must connect to onshore power or an
+           equivalent zero-emission technology, rather than running auxiliary engines. This is the measure aimed
+           at port-city air quality as much as at climate.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">Note what makes FuelEU different from the ETS: it
+       regulates the <em>intensity</em> of the energy, not the quantity of emissions, and it is well-to-wake, so it
+       counts the emissions from producing the fuel as well as burning it. A ship can comply with the ETS by
+       buying allowances. It cannot comply with FuelEU by buying anything — it has to change what is in the
+       tank.</p>
+  </div>
+</section>
+
+<!-- ================= IMO ================= -->
+<section id="tab-imo" class="hide">
+  <div class="panel">
+    <h2>The global measure that has not arrived</h2>
+    <p class="sub">Shipping is the most international industry there is, and the obvious place to price its
+       emissions is the International Maritime Organization rather than one region. The IMO has been working on a
+       <strong>Net-Zero Framework</strong> — a global fuel-intensity standard combined with a price on emissions
+       above it, which would be the first mandatory greenhouse gas pricing measure applied to an entire global
+       sector.</p>
+    <p class="sub">It has not been adopted. At an extraordinary session of the Marine Environment Protection
+       Committee in October 2025, called specifically to adopt the framework, the meeting instead voted to adjourn
+       for a year — <strong>57 votes to 49, with 21 abstentions</strong> — under significant diplomatic pressure
+       against the measure. Negotiations resume in October 2026.</p>
+    <div class="warn" style="margin-bottom:0"><strong>This is a live and genuinely open question, not a settled
+      one.</strong> Anything written about the outcome is speculation. What can be said is that the vote was close,
+      the abstentions were numerous, and the delay was procedural rather than a rejection on the merits.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Why the delay matters for the EU scheme</h2>
+    <div class="grid2">
+      <div>
+        <h3>The aviation precedent</h3>
+        <p class="sub">The EU has done this before. It priced international aviation, met a diplomatic backlash,
+           and suspended its extra-European scope pending a global scheme — which arrived as CORSIA, an offsetting
+           mechanism far weaker than the ETS, and the suspension is still in force fourteen years later. Shipping
+           is the same situation with the sequence reversed: the EU acted first and has not backed down.</p>
+      </div>
+      <div>
+        <h3>What an IMO deal would mean here</h3>
+        <p class="sub">A global measure raises the obvious question of what happens to the regional one. The EU
+           has consistently said it prefers a multilateral solution, which implies some adjustment if a credible
+           one materialises. Whether that means narrowing the ETS scope, crediting IMO payments against it, or
+           leaving both in place is undecided — and undecidable until there is a framework to respond to.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">For now a shipping company faces the EU ETS, FuelEU
+       Maritime, the EU monitoring regulation, and the IMO's existing efficiency rules simultaneously — with the
+       possibility of a fifth instrument from 2027 or later.</p>
+  </div>
+</section>
+
+<!-- ================= COMPLY ================= -->
+<section id="tab-comply" class="hide">
+  <div class="panel">
+    <h2>A first compliance year that went better than expected</h2>
+    <p class="sub">For the 2024 compliance year — the sector's first — the Union Registry recorded
+       <strong>3 195</strong> shipping companies meeting the surrender obligation against <strong>121</strong>
+       that did not: a compliance rate of <strong>96.4%</strong>.</p>
+    <div class="chartbox" style="height:300px"><canvas id="cmpChart"></canvas></div>
+    <p class="sub" style="margin:16px 0 0">That is below the 98–100% recorded by sectors regulated since 2005, and
+       above <a href="aviation.html">aviation</a> at 91.2%. For a sector in its first ever compliance cycle,
+       covering thousands of companies with no prior ETS experience and many based outside the EU, 96.4% is a
+       stronger result than the extension's critics predicted.</p>
+    <div class="warn" style="margin-bottom:0"><strong>Read it as a floor, not a verdict.</strong> The 2024
+      obligation covered only 40% of emissions, so the financial stake in the first cycle was proportionally
+      small. The real test of enforceability against a non-EU shipping company arrives with the 100% obligation
+      for 2026 emissions — and, in the meantime, nothing here shows what happened to the 121 that did not
+      comply.</div>
+  </div>
+</section>
+
+<!-- ================= NOTES ================= -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <h2>Sources</h2>
+    <ul>
+      <li><strong>The rules</strong> — <a href="http://data.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive 2003/87/EC</a>
+        as amended by <a href="http://data.europa.eu/eli/dir/2023/959/oj" target="_blank" rel="noopener">Directive (EU) 2023/959</a>,
+        which extended the system to maritime transport from 1 January 2024.</li>
+      <li><strong>Monitoring and reporting</strong> — Regulation (EU) 2015/757 as amended by Regulation (EU) 2023/957.</li>
+      <li><strong>Scope, phase-in, liable entity and derogations</strong> —
+        <a href="https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector/faq-maritime-transport-eu-emissions-trading-system-ets_en" target="_blank" rel="noopener">Commission FAQ on maritime transport in the EU ETS</a>.</li>
+      <li><strong>Fuel intensity and onshore power</strong> —
+        <a href="http://data.europa.eu/eli/reg/2023/1805/oj" target="_blank" rel="noopener">Regulation (EU) 2023/1805</a> (FuelEU Maritime).</li>
+      <li><strong>Emissions</strong> — European Environment Agency EU ETS data viewer, July 2026 release, main
+        activity code 50 (maritime transport), EEA scope excluding the United Kingdom. Same extraction as the
+        <a href="ets.html">ETS overview</a> page.</li>
+      <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2024 compliance year.</li>
+      <li><strong>IMO</strong> — outcome of the extraordinary session of the Marine Environment Protection
+        Committee, October 2025, and the IMO's own statement that talks resume in 2026.</li>
+    </ul>
+  </div>
+
+  <details open>
+    <summary>Why there is no long time series here</summary>
+    <p>Maritime entered the ETS in 2024, so verified emissions exist for 2024 and 2025 only. Emissions from
+       shipping calling at EU ports were monitored under the MRV Regulation from 2018, but on a different basis
+       and without a surrender obligation, so those figures are not directly comparable with the ETS series and
+       are not shown. Any chart on this site that appears to show maritime emissions rising sharply in 2024 is
+       showing a change in coverage.</p>
+  </details>
+
+  <details>
+    <summary>On the 2025 figure</summary>
+    <p>The 2025 value of 80.7 Mt comes from the July 2026 data release and reflects reporting as it stood at that
+       point. Compliance reporting for a given year continues to be corrected after first publication, and this is
+       only the sector's second cycle. Treat the 2024–2025 difference as provisional; it is not yet evidence of
+       abatement.</p>
+  </details>
+
+  <details>
+    <summary>What this page does not cover</summary>
+    <p>Not covered: the detailed monitoring methods and emission factors; the treatment of biofuels and other
+       alternative fuels, which can zero-rate part of a voyage; the ice-class and winter navigation provisions;
+       the full list of derogated islands and transhipment ports, which is set by implementing acts and revised
+       periodically; and the maritime provisions of the July 2026 ETS revision proposal, which is in negotiation
+       and not law.</p>
+  </details>
+
+  <footer>Compiled from Commission, EMSA and EEA sources, August 2026. An orientation tool, not an official
+    publication — verify against the primary sources before relying on any figure.</footer>
+</section>
+
+</div>
+
+<script>
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hide");
+  window.scrollTo(0,0);
+});
+
+// one number formatter for every axis and tooltip, so the decimal mark never varies
+const nd=(v,d=1)=>v==null?"—":v.toLocaleString("en-GB",{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// ---------------------------------------------------------------- effective coverage
+// Geographic share (100% intra-EEA, 50% international) multiplied by the surrender
+// phase-in for the emissions year: 40% for 2024, 70% for 2025, 100% from 2026.
+const PH_Y=["2024","2025","2026 onwards"];
+const PH_IN=[40,70,100];            // intra-EEA voyage: 100% of emissions x phase-in
+const PH_EX=[20,35,50];             // international voyage: 50% of emissions x phase-in
+new Chart(document.getElementById("phaseChart"),{type:"bar",
+  data:{labels:PH_Y,datasets:[
+    {label:"Voyage between two EEA ports",data:PH_IN,
+     backgroundColor:"rgba(22,160,133,.88)",borderRadius:3,maxBarThickness:56},
+    {label:"Voyage to or from outside the EEA",data:PH_EX,
+     backgroundColor:"rgba(11,61,145,.65)",borderRadius:3,maxBarThickness:56}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:12}}},
+      tooltip:{callbacks:{
+        label:c=>c.dataset.label+": "+nd(c.parsed.y,0)+"% of the voyage's emissions priced"}}},
+    scales:{y:{beginAtZero:true,max:100,
+               title:{display:true,text:"Share of a voyage's emissions requiring allowances"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)+"%"}},
+            x:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- emissions
+// EEA EU ETS data viewer, July 2026 release, main activity 50 (maritime transport).
+const EM_Y=[2024,2025];
+const EM_V=[90.6,80.7];
+new Chart(document.getElementById("emChart"),{type:"bar",
+  data:{labels:EM_Y,datasets:[{data:EM_V,
+    backgroundColor:["rgba(22,160,133,.88)","rgba(22,160,133,.6)"],
+    borderRadius:3,maxBarThickness:96}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>nd(c.parsed.y)+" Mt CO₂ verified",
+        afterBody:c=>[c[0].dataIndex===0?"first year of coverage":"provisional — second reporting cycle"]}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Mt CO₂"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
+            x:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- compliance
+// Union Registry, 2024 compliance year: operators coded A against coded B.
+const CMP=[["Aircraft operators",91.2],["Paper & cardboard",96.3],["Maritime operators",96.4],
+           ["Combustion of fuels",98.6],["Cement clinker",100.0],["Refining of mineral oil",100.0]];
+new Chart(document.getElementById("cmpChart"),{type:"bar",
+  data:{labels:CMP.map(d=>d[0]),datasets:[{data:CMP.map(d=>d[1]),
+    backgroundColor:CMP.map(d=>d[0]==="Maritime operators"?"rgba(22,160,133,.9)"
+      :(d[1]<95?"rgba(192,57,43,.8)":(d[1]<99?"rgba(217,165,32,.8)":"rgba(31,138,95,.8)"))),
+    borderRadius:3,maxBarThickness:20}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>nd(c.parsed.x)+"% of operators compliant"}}},
+    scales:{x:{min:85,max:100,title:{display:true,text:"% of operators meeting the surrender obligation, 2024"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)+"%"}},
+            y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
+</script>
+</body>
+</html>

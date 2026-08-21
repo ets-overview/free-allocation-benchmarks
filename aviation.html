@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviation in the EU ETS — EU Climate Policy Explorer</title>
+<meta name="description" content="Aviation in the EU ETS: why only intra-European flights are priced, the end of free allocation in 2026, CORSIA, and the two thirds of aviation's climate effect that is not CO₂.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Aviation in the EU ETS">
+<meta property="og:description" content="Why only intra-European flights are priced, the end of free allocation in 2026, CORSIA, and the two thirds of aviation's climate effect that is not CO₂.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/aviation.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aviation in the EU ETS">
+<meta name="twitter:description" content="Why only intra-European flights are priced, the end of free allocation in 2026, and the two thirds of aviation's climate effect that is not CO₂.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5f6b7a;--line:#e3e7ec;--accent:#1f5fbf;
+        --down:#1f8a5f;--up:#c0392b;--violet:#6b5bd2;--navy:#0b3d91}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--navy);color:#fff;padding:26px 28px 22px}
+  .headerinner{max-width:1240px;margin:0 auto;padding:0 20px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:900px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+           padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:var(--navy);border-color:#fff;font-weight:600}
+  /* ETS section strip: the EU ETS page and its sub-pages. Sits above the sticky
+     tab bar, so it scrolls away and leaves the tabs pinned. Deliberately a plain div,
+     not a nav element, so it cannot collide with the tab-bar selectors. */
+  .subnav{background:#0f4bb0}
+  .subnav .headerinner{display:flex;align-items:center;gap:2px;overflow-x:auto}
+  .subnav .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#9dbcea;
+               font-weight:700;margin-right:14px;white-space:nowrap;flex-shrink:0}
+  .subnav a{color:#d7e3f7;font-size:13.5px;text-decoration:none;padding:11px 13px;
+            white-space:nowrap;border-bottom:3px solid transparent}
+  .subnav a:hover{color:#fff}
+  .subnav a[aria-current]{color:#fff;font-weight:600;border-bottom-color:#fff}
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 20px 60px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:0 0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:25px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel h3{font-size:14.5px;margin:0 0 8px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:960px}
+  .chartbox{position:relative;height:400px}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  a{color:var(--accent)}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
+      font-size:14px;line-height:1.9}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th.l,td.l{text-align:left;white-space:normal}
+  thead th{background:#fafbfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tbody tr:hover{background:#f4f8ff}
+  .tblscroll{border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:560px}
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p,details li{font-size:13.5px;color:#39414d}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .dim{color:var(--muted)}
+  .hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>Aviation in the EU ETS</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <a href="ets.html" aria-current="true">EU ETS</a>
+        <a href="cbam.html">CBAM</a>
+        <a href="effort-sharing.html">Effort sharing</a>
+        <a href="indirect-costs.html">Indirect costs</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>The first sector the carbon market ever reached beyond fixed installations — and still the one where
+       most of the emissions, and most of the warming, sit outside the price.</p>
+  </div>
+</header>
+
+<div class="subnav" role="navigation" aria-label="EU ETS sections">
+  <div class="headerinner">
+    <span class="lbl">EU ETS</span>
+    <a href="ets.html">Overview</a>
+    <a href="benchmarks.html">Free allocation benchmarks</a>
+    <a href="maritime.html">Maritime</a>
+    <a href="aviation.html" aria-current="page">Aviation</a>
+  </div>
+</div>
+
+<nav class="tabs">
+  <div class="headerinner">
+    <button data-tab="scope" class="on">What is covered</button>
+    <button data-tab="cap">Allowances &amp; allocation</button>
+    <button data-tab="emissions">Emissions</button>
+    <button data-tab="corsia">CORSIA</button>
+    <button data-tab="nonco2">Non-CO₂ effects</button>
+    <button data-tab="fuels">Fuels</button>
+    <button data-tab="comply">Compliance</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= SCOPE ================= -->
+<section id="tab-scope">
+  <div class="cards">
+    <div class="card"><div class="k">2012</div><div class="l">the year aviation entered the ETS — the first sector beyond fixed installations</div></div>
+    <div class="card"><div class="k">~4%</div><div class="l">of total EU greenhouse gas emissions come from aviation</div></div>
+    <div class="card"><div class="k">58.2 Mt</div><div class="l">verified CO₂ under the ETS in 2025, from intra-European flights only</div></div>
+    <div class="card"><div class="k">2026</div><div class="l">free allocation to airlines ends entirely; the sector moves to full auctioning</div></div>
+    <div class="card"><div class="k">66%</div><div class="l">of aviation's net climate forcing comes from effects other than CO₂</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>A carbon price that stops at the border</h2>
+    <p class="sub">Aviation is covered by the EU ETS, but only partly, and the reason is diplomatic rather than
+       technical. When the sector was brought in from 2012 the rules covered every flight arriving at or departing
+       from a European airport, including long-haul. Third countries objected forcefully that Europe was pricing
+       emissions occurring in their airspace and over the high seas. Facing a trade dispute, the EU suspended the
+       extra-European part of the scope — the measure known as <strong>"stop the clock"</strong> — pending a global
+       scheme through the International Civil Aviation Organization.</p>
+    <p class="sub">That suspension has been extended repeatedly and is still in place. The result is a system that
+       prices a Berlin–Madrid flight in full and a Berlin–Singapore flight not at all.</p>
+    <div class="eq" style="line-height:1.85">
+      <strong>Covered</strong> — flights between airports in the European Economic Area, plus departures to the
+        United Kingdom and Switzerland<br>
+      <strong>Not covered by the ETS</strong> — flights departing the EEA for anywhere else, however long<br>
+      <span class="dim">Those departing flights are instead subject to CORSIA, a fundamentally weaker
+      instrument — see the CORSIA tab.</span>
+    </div>
+    <p class="sub" style="margin-bottom:0">The 2023 revision extended the geographic restriction to the start of
+       <strong>2027</strong>. From that point, departing flights to states <em>not</em> implementing CORSIA would
+       come back into the ETS — a deliberate lever to push third countries into the global scheme rather than a
+       settled policy.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Why this matters more than it sounds</h2>
+    <div class="grid2">
+      <div>
+        <h3>The excluded flights are the emitting ones</h3>
+        <p class="sub">Long-haul flights burn far more fuel per passenger than short hops, and it is precisely
+           long-haul that sits outside the ETS. So the sector's coverage figure — around 58 Mt priced in 2025 —
+           is not a measure of aviation's climate impact but of the portion Europe felt able to price without
+           provoking a trade fight.</p>
+      </div>
+      <div>
+        <h3>And CO₂ is only a third of the problem</h3>
+        <p class="sub">Contrails, nitrogen oxides and water vapour at altitude do more warming than the CO₂ does.
+           The EU's own analysis puts non-CO₂ effects at <strong>66%</strong> of aviation's net climate forcing.
+           None of it is priced anywhere in the world. Monitoring began in 2025; that is all.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin:16px 0 0"><strong>Two exclusions compounding.</strong> Roughly speaking, the
+      ETS prices the CO₂ from the shorter flights. Put the geographic restriction and the non-CO₂ gap together and
+      the priced share of aviation's actual contribution to warming is a small fraction of the whole — which is
+      the single most important thing to understand about this sector.</div>
+  </div>
+</section>
+
+<!-- ================= CAP ================= -->
+<section id="tab-cap" class="hide">
+  <div class="panel">
+    <h2>Aviation has its own allowances, and its own trajectory</h2>
+    <p class="sub">Aviation allowances are a separate quantity from the main
+       <a href="ets.html">ETS cap</a> for stationary installations, calculated bottom-up rather than from the
+       reduction factor applied to industry. Aircraft operators may use general allowances to comply, but the
+       allowances issued for aviation are their own pool. From 2024 that pool shrinks by a linear reduction factor
+       of <strong>4.3% a year</strong>.</p>
+    <p class="sub" style="margin-bottom:0">This is worth holding onto when reading the charts on the ETS overview
+       page: the headline cap figure quoted there is for electricity, heat, industry and maritime. Aviation sits
+       alongside it, not inside it.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The end of free allocation</h2>
+    <p class="sub">Airlines received most of their allowances free of charge from 2012. The 2023 revision ended
+       that on a three-year timetable, and 2026 is the first year in which the sector buys every allowance it
+       needs. Aviation is therefore the first ETS sector to reach full auctioning — ahead of industry, which is
+       still being weaned off free allocation through the <a href="cbam.html">CBAM</a> phase-out to 2034.</p>
+    <div class="chartbox" style="height:320px"><canvas id="allocChart"></canvas></div>
+    <p class="sub" style="margin:16px 0 0">The 2024 and 2025 allocations were shared out in proportion to each
+       operator's <strong>verified 2023 emissions</strong> — a backward-looking distribution key that rewards the
+       airlines that flew most in the recovery year, and one that no longer matters from 2026 because there is
+       nothing left to distribute.</p>
+    <div class="warn" style="margin:16px 0 0"><strong>What this actually costs.</strong> Free allocation was worth
+      little when allowances traded at €5 and a great deal at €75. Ending it does not change the number of tonnes
+      the sector may emit — the allowances still exist and are still sold — but it moves the entire carbon bill
+      onto the operator's income statement in three years.</div>
+  </div>
+</section>
+
+<!-- ================= EMISSIONS ================= -->
+<section id="tab-emissions" class="hide">
+  <div class="panel">
+    <h2>Verified emissions, 2012–2025</h2>
+    <p class="sub">The clearest shock-and-recovery series anywhere in the ETS. Aviation entered in 2012 at
+       74.4 Mt under the original full geographic scope; the drop to 47.4 Mt in 2013 is not abatement but the
+       "stop the clock" narrowing of coverage. From there, steady growth to 2019, collapse in 2020, and a recovery
+       that is now essentially complete.</p>
+    <div class="chartbox"><canvas id="emChart"></canvas></div>
+    <div class="cards" id="emCards" style="margin:18px 0 0"></div>
+  </div>
+
+  <div class="panel">
+    <h2>What the shape tells you</h2>
+    <div class="grid2">
+      <div>
+        <h3>2020 was not a policy success</h3>
+        <p class="sub">Emissions fell <strong>63%</strong> in a single year, from 67.1 Mt to 24.7 Mt. Nothing
+           about the instrument caused that, and nothing about it persisted. It is a useful reminder when reading
+           any emissions chart covering 2020: the carbon price did not do this.</p>
+      </div>
+      <div>
+        <h3>The recovery is the real result</h3>
+        <p class="sub">By 2024 emissions were back to 61.5 Mt, easing to 58.2 Mt in 2025 — about 13% below the
+           2019 peak, measured on the same restricted scope. Aviation is the only ETS activity whose low point is
+           behind it rather than at the end of the series. Every other sector's chart trends down.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">A carbon price of €75 a tonne adds roughly €3 to the
+       cost of a short-haul seat. That is not nothing across an airline's fleet, but it is small against fuel,
+       crew and airport charges — which is the honest explanation for why a decade of carbon pricing has not bent
+       this line.</p>
+  </div>
+</section>
+
+<!-- ================= CORSIA ================= -->
+<section id="tab-corsia" class="hide">
+  <div class="panel">
+    <h2>What CORSIA is</h2>
+    <p class="sub">The Carbon Offsetting and Reduction Scheme for International Aviation is the global measure
+       agreed at ICAO in 2016 and the reason the EU suspended its extra-European scope. It is not a carbon market
+       and not a cap. It requires airlines to <strong>offset growth in emissions above a 2020 baseline</strong> by
+       buying credits from projects elsewhere — leaving the baseline itself entirely unpriced.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Phase</th><th class="l">Years</th><th class="l">Who it applies to</th></tr></thead>
+        <tbody>
+          <tr><td class="l">Pilot</td><td class="l">2021–2023</td>
+            <td class="l">Routes between volunteering states only — 115 had volunteered by 2023</td></tr>
+          <tr><td class="l">First</td><td class="l">2024–2026</td>
+            <td class="l">Still only routes between volunteering states</td></tr>
+          <tr><td class="l">Second</td><td class="l">2027–2035</td>
+            <td class="l">All ICAO contracting states, with exemptions</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">EEA countries implement CORSIA for their own airlines
+       through the ETS Directive itself, so for a European carrier the two schemes are administered as one system
+       with two different rulebooks depending on where the aircraft is going.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The two instruments are not comparable</h2>
+    <div class="eq" style="line-height:1.9">
+      <strong>EU ETS</strong> — a cap. Every tonne needs an allowance. Allowances are finite and shrinking.<br>
+      <strong>CORSIA</strong> — an offsetting obligation. Only growth above 2020 is covered, and it is met by
+        buying credits, not by reducing.
+    </div>
+    <p class="sub">The practical difference is the price. An EU allowance has traded around €75; eligible CORSIA
+       credits have generally been available for a small fraction of that. A tonne of CO₂ from a flight to Madrid
+       and a tonne from a flight to Singapore therefore carry entirely different costs, for reasons that have
+       nothing to do with the atmosphere.</p>
+    <p class="sub" style="margin-bottom:0">The Commission is required to assess whether CORSIA is delivering
+       genuine climate benefit, and that assessment governs what happens to the geographic restriction from 2027.
+       If CORSIA is judged inadequate, departing flights to non-participating states return to the ETS. This is
+       the live question in the sector, and it is not yet resolved.</p>
+  </div>
+</section>
+
+<!-- ================= NON-CO2 ================= -->
+<section id="tab-nonco2" class="hide">
+  <div class="panel">
+    <h2>The two thirds nobody prices</h2>
+    <p class="sub">Burning kerosene at altitude does more than release CO₂. Contrails and the cirrus cloud they
+       seed trap outgoing heat; nitrogen oxides alter ozone and methane concentrations; water vapour is injected
+       directly into the upper troposphere. Taken together, the European Aviation Safety Agency assessed these
+       non-CO₂ effects at <strong>66% of aviation's net climate forcing</strong> in 2018 — twice the contribution
+       of the CO₂ that the ETS actually charges for.</p>
+    <div class="warn"><strong>Nothing in the world prices any of this.</strong> Not the ETS, not CORSIA, not any
+      national scheme. The entire regulatory response so far is a measurement exercise.</div>
+    <p class="sub" style="margin-bottom:0">That is less feeble than it sounds. Contrail formation depends on
+       atmospheric conditions along a specific flight path at a specific moment, so the warming caused by two
+       identical aircraft flying the same route on different days can differ by orders of magnitude. Any pricing
+       instrument needs a per-flight measurement method that did not exist.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The monitoring framework</h2>
+    <div class="grid2">
+      <div>
+        <h3>What operators must do</h3>
+        <p class="sub">From <strong>1 January 2025</strong>, aircraft operators monitor the non-CO₂ effects of
+           their flights and report annually. The method computes a CO₂-equivalent figure per flight from flight
+           trajectory, aircraft and engine characteristics, fuel properties and meteorological data supplied by
+           national weather services. Coverage is phased, beginning with flights involving an EEA airport.</p>
+      </div>
+      <div>
+        <h3>What happens next</h3>
+        <p class="sub">By the end of <strong>2027</strong> the Commission must report on the results and, if
+           appropriate, propose legislation. That is the decision point at which non-CO₂ effects either enter a
+           pricing instrument or do not. Until then the obligation creates data and nothing else.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">It is worth being clear about the sequencing, because
+       it is unusual. The EU has legislated a measurement system for an effect it has not decided how to regulate,
+       on the reasoning that the science cannot mature without the data. Whether that is prudence or delay is a
+       fair question, and both answers are argued seriously.</p>
+  </div>
+</section>
+
+<!-- ================= FUELS ================= -->
+<section id="tab-fuels" class="hide">
+  <div class="panel">
+    <h2>Two instruments pushing the same fuel</h2>
+    <p class="sub">The carbon price makes flying more expensive but does little to make sustainable aviation fuel
+       available, because SAF costs several times what fossil kerosene does and no airline can buy what refiners
+       do not make. Two separate measures address that directly.</p>
+    <div class="grid2">
+      <div>
+        <h3>ReFuelEU Aviation — the mandate</h3>
+        <p class="sub">Regulation (EU) 2023/2405 obliges fuel suppliers at EU airports handling at least
+           800 000 passengers or 100 000 tonnes of freight a year to blend a rising share of SAF:
+           <strong>2% from 2025</strong>, <strong>6% by 2030</strong>, reaching <strong>70% by 2050</strong>.
+           A separate sub-mandate for synthetic e-fuels starts at 0.7% in 2030 and climbs to 35% by 2050. This is
+           a supply-side obligation: it binds the fuel supplier, not the airline.</p>
+      </div>
+      <div>
+        <h3>The ETS SAF reserve — the subsidy</h3>
+        <p class="sub"><strong>20 million allowances</strong> — about €1.6 bn at €80 a tonne — are set aside from
+           2024 to 2030 to cover part or all of the price gap between SAF and fossil kerosene for fuel actually
+           uplifted. Support reaches <strong>100%</strong> of the difference for fuel uplifted at small airports,
+           small islands and outermost regions, where the cost penalty would otherwise be prohibitive.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">The design is deliberate: a mandate to create demand, a
+       subsidy to blunt the cost, and a carbon price to make the alternative less attractive. It is also a rare
+       case of ETS revenue being recycled straight back into the sector that generated it — the same criticism
+       levelled at <a href="indirect-costs.html">indirect cost compensation</a> applies here, and the same defence
+       is offered.</p>
+  </div>
+</section>
+
+<!-- ================= COMPLY ================= -->
+<section id="tab-comply" class="hide">
+  <div class="panel">
+    <h2>Aviation has the worst compliance rate in the ETS</h2>
+    <p class="sub">For the 2024 compliance year the Union Registry assigns each operator a code: A if it
+       surrendered at least as many allowances as it emitted, B if it did not. Aircraft operators come in at
+       <strong>91.2%</strong> — 436 compliant against 42 that were not — the lowest of any activity in the system,
+       where the long-established stationary sectors sit between 98% and 100%.</p>
+    <div class="chartbox" style="height:300px"><canvas id="cmpChart"></canvas></div>
+    <div class="warn" style="margin-top:18px"><strong>Two very different figures, both correct.</strong> The
+      Commission reports that over 99.5% of aviation <em>emissions</em> are covered by surrendered allowances. The
+      91.2% here counts <em>operators</em>. Both are true: the non-compliant operators are overwhelmingly small
+      ones — business jets, charter operators, occasional visitors to EEA airspace — and between them they account
+      for a negligible share of the tonnes. Which number is the right one depends entirely on whether you are
+      asking about environmental integrity or about administrative reach.</div>
+    <p class="sub" style="margin:16px 0 0;margin-bottom:0">The pattern across the system is that compliance tracks
+       how long a sector has been regulated and how concentrated it is, rather than how hard its abatement is.
+       Cement clinker and refining record no failures at all. Aviation, with hundreds of small operators
+       administered across 30 states, records the most.</p>
+  </div>
+</section>
+
+<!-- ================= NOTES ================= -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <h2>Sources</h2>
+    <ul>
+      <li><strong>The rules</strong> — <a href="http://data.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive 2003/87/EC</a>,
+        as amended for aviation by <a href="http://data.europa.eu/eli/dir/2023/958/oj" target="_blank" rel="noopener">Directive (EU) 2023/958</a>.
+        Aviation entered the system through Directive 2008/101/EC; the geographic restriction originates in
+        Decision No 377/2013/EU and has been extended since.</li>
+      <li><strong>Scope, free allocation, SAF reserve and non-CO₂ MRV</strong> —
+        <a href="https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-aviation_en" target="_blank" rel="noopener">Commission page on reducing emissions from aviation</a>.</li>
+      <li><strong>Non-CO₂ climate forcing</strong> — European Aviation Safety Agency analysis, reported in
+        COM(2020) 747, updated analysis of the non-CO₂ climate impacts of aviation.</li>
+      <li><strong>SAF blending mandates</strong> —
+        <a href="http://data.europa.eu/eli/reg/2023/2405/oj" target="_blank" rel="noopener">Regulation (EU) 2023/2405</a> (ReFuelEU Aviation).</li>
+      <li><strong>Emissions</strong> — European Environment Agency EU ETS data viewer, July 2026 release, main
+        activity code 10 (aviation), EEA scope excluding the United Kingdom. The same extraction as the
+        <a href="ets.html">ETS overview</a> page, so the two are consistent.</li>
+      <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2024 compliance year.</li>
+    </ul>
+  </div>
+
+  <details open>
+    <summary>Why the 2012 figure is not comparable with the rest</summary>
+    <p>2012 is the only year in the series measured under the original full geographic scope, covering flights to
+       and from third countries. The fall to 2013 is a change in what was counted, not a change in what was
+       emitted. Any percentage change computed from a 2012 baseline will overstate the reduction substantially —
+       which is why the comparisons on this page use 2013 onwards, or state the scope change explicitly.</p>
+  </details>
+
+  <details>
+    <summary>What this page does not cover</summary>
+    <p>Not covered here: the detailed rules on small-emitter exemptions and the de minimis thresholds below which
+       an operator falls out of scope; the treatment of flights to the outermost regions; the interaction with
+       national aviation taxes, which several member states levy alongside the ETS; and the aviation provisions of
+       the July 2026 ETS revision proposal, which is in negotiation and not law.</p>
+  </details>
+
+  <details>
+    <summary>On the €3 a seat figure</summary>
+    <p>An order-of-magnitude illustration, not a computed fare impact. A short-haul flight emits roughly
+       80–130 kg CO₂ per passenger depending on aircraft, load factor and distance; at €75 a tonne that is
+       €6–10 of carbon cost per seat, of which airlines historically passed on part while receiving the rest of
+       their allowances free. With free allocation ending in 2026 the full amount is now a real cost. Treat the
+       figure as indicating scale rather than as a price.</p>
+  </details>
+
+  <footer>Compiled from Commission, EASA and EEA sources, August 2026. An orientation tool, not an official
+    publication — verify against the primary sources before relying on any figure.</footer>
+</section>
+
+</div>
+
+<script>
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hide");
+  window.scrollTo(0,0);
+});
+
+// one number formatter for every axis and tooltip, so the decimal mark never varies
+const nd=(v,d=1)=>v==null?"—":v.toLocaleString("en-GB",{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// ---------------------------------------------------------------- emissions
+// EEA EU ETS data viewer, July 2026 release, main activity 10 (aviation),
+// EEA scope excluding the UK. Identical extraction to the ETS overview page.
+const AV_Y=[2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const AV_E=[74.4,47.4,48.6,50.8,54.6,57.1,63.4,67.1,24.7,27.7,48.7,53.5,61.5,58.2];
+
+new Chart(document.getElementById("emChart"),{type:"line",
+  data:{labels:AV_Y,datasets:[{
+    label:"Verified aviation emissions",data:AV_E,
+    borderColor:"#8e44ad",backgroundColor:"rgba(142,68,173,.14)",
+    fill:true,tension:.25,pointRadius:3,pointHoverRadius:5,borderWidth:2.4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{
+        label:c=>nd(c.parsed.y)+" Mt CO₂",
+        afterBody:c=>c[0].label==="2012"
+          ?["full geographic scope — not comparable with later years"]
+          :(c[0].label==="2013"?["first year of the restricted intra-EEA scope"]:[])}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Mt CO₂"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
+            x:{grid:{display:false}}}}});
+
+(function(){
+  const peak=Math.max(...AV_E.slice(1)), low=Math.min(...AV_E), last=AV_E[AV_E.length-1];
+  const cards=[
+    [nd(AV_E[7])+" Mt","pre-pandemic peak, in 2019"],
+    ["−63%","fall in 2020, from 67.1 Mt to 24.7 Mt"],
+    [nd(last)+" Mt","2025, 13% below the 2019 peak on the same scope"],
+    ["+136%","recovery from the 2020 low to 2025"]
+  ];
+  document.getElementById("emCards").innerHTML=cards.map(c=>
+    `<div class="card"><div class="k">${c[0]}</div><div class="l">${c[1]}</div></div>`).join("");
+})();
+
+// ---------------------------------------------------------------- free allocation phase-out
+// Art. 3d and 10a of Dir. 2003/87/EC as amended by Dir. (EU) 2023/958:
+// free allocation cut 25% in 2024, 50% in 2025, and ended entirely from 2026.
+const FA_Y=[2024,2025,2026];
+const FA_V=[16.1,10.7,0];
+new Chart(document.getElementById("allocChart"),{type:"bar",
+  data:{labels:FA_Y,datasets:[{data:FA_V,
+    backgroundColor:["rgba(31,95,191,.85)","rgba(31,95,191,.6)","rgba(192,57,43,.8)"],
+    borderRadius:3,maxBarThickness:78}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{
+        label:c=>c.parsed.y===0?"no free allocation — full auctioning":nd(c.parsed.y)+" million allowances",
+        afterBody:c=>[["entitlement cut by 25%","entitlement cut by 50%","free allocation ends entirely"][c[0].dataIndex]]}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances allocated free"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
+            x:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- compliance
+// Union Registry, 2024 compliance year: operators coded A against coded B.
+const CMP=[["Aircraft operators",91.2],["Maritime operators",96.4],["Paper & cardboard",96.3],
+           ["Combustion of fuels",98.6],["Cement clinker",100.0],["Refining of mineral oil",100.0]];
+new Chart(document.getElementById("cmpChart"),{type:"bar",
+  data:{labels:CMP.map(d=>d[0]),datasets:[{data:CMP.map(d=>d[1]),
+    backgroundColor:CMP.map(d=>d[1]<95?"rgba(192,57,43,.85)":(d[1]<99?"rgba(217,165,32,.85)":"rgba(31,138,95,.85)")),
+    borderRadius:3,maxBarThickness:20}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>nd(c.parsed.x)+"% of operators compliant"}}},
+    scales:{x:{min:85,max:100,title:{display:true,text:"% of operators meeting the surrender obligation, 2024"},
+               grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)+"%"}},
+            y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
+</script>
+</body>
+</html>

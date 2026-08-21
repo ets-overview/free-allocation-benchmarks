@@ -41,6 +41,18 @@
   .headerinner{max-width:1320px;margin:0 auto;padding:0 20px}
   .wrap{max-width:1320px;margin:0 auto;padding:0 20px 60px}
 
+
+  /* ETS section strip: the EU ETS page and its sub-pages. Sits above the sticky
+     tab bar, so it scrolls away and leaves the tabs pinned. Deliberately a plain div,
+     not a nav element, so it cannot collide with the tab-bar selectors. */
+  .subnav{background:#0f4bb0}
+  .subnav .headerinner{display:flex;align-items:center;gap:2px;overflow-x:auto}
+  .subnav .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#9dbcea;
+               font-weight:700;margin-right:14px;white-space:nowrap;flex-shrink:0}
+  .subnav a{color:#d7e3f7;font-size:13.5px;text-decoration:none;padding:11px 13px;
+            white-space:nowrap;border-bottom:3px solid transparent}
+  .subnav a:hover{color:#fff}
+  .subnav a[aria-current]{color:#fff;font-weight:600;border-bottom-color:#fff}
   nav{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
   nav .headerinner{display:flex;gap:2px;overflow-x:auto}
   nav button{background:none;border:0;padding:14px 15px;font:inherit;font-weight:600;color:var(--muted);
@@ -125,8 +137,7 @@
       <h1>EU ETS free allocation benchmarks</h1>
       <div class="links">
         <a href="index.html">← Home</a>
-        <a href="ets.html">EU ETS</a>
-        <a href="benchmarks.html" aria-current="page">Benchmarks</a>
+        <a href="ets.html" aria-current="true">EU ETS</a>
         <a href="cbam.html">CBAM</a>
         <a href="effort-sharing.html">Effort sharing</a>
         <a href="indirect-costs.html">Indirect costs</a>
@@ -138,6 +149,16 @@
        the CBAM phase-out overlay, and an installation-level allocation calculator.</p>
   </div>
 </header>
+
+<div class="subnav" role="navigation" aria-label="EU ETS sections">
+  <div class="headerinner">
+    <span class="lbl">EU ETS</span>
+    <a href="ets.html">Overview</a>
+    <a href="benchmarks.html" aria-current="page">Free allocation benchmarks</a>
+    <a href="maritime.html">Maritime</a>
+    <a href="aviation.html">Aviation</a>
+  </div>
+</div>
 
 <nav>
   <div class="headerinner">

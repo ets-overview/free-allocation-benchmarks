@@ -54,7 +54,8 @@
   .chartbox{position:relative;height:520px}
   .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
   label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
   a{color:var(--accent)}
   .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
   .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
@@ -82,7 +83,6 @@
       <div class="links">
         <a href="index.html">← Home</a>
         <a href="ets.html">EU ETS</a>
-        <a href="benchmarks.html">Benchmarks</a>
         <a href="cbam.html">CBAM</a>
         <a href="effort-sharing.html" aria-current="page">Effort sharing</a>
         <a href="indirect-costs.html">Indirect costs</a>
@@ -248,30 +248,110 @@
   </div>
 
   <div class="panel">
-    <h2>The ETS flexibility, and who actually uses it</h2>
-    <p class="sub">Nine member states plus Iceland and Norway may cancel ETS allowances in exchange for effort
-       sharing allocations — a one-way bridge between the two systems, available to states with targets well above
-       their cost-effective potential, or which gave no free allocation to industry in 2013. Each notifies the
-       percentage of its 2005 effort sharing emissions it intends to use.</p>
-    <div class="chartbox" style="height:340px"><canvas id="flexChart"></canvas></div>
-    <div class="warn" style="margin-top:18px"><strong>Being eligible is not the same as using it.</strong> The
-      Netherlands notified 0% for every year and will take nothing. Denmark and Luxembourg front-loaded theirs,
-      using the flexibility to 2025 and then dropping to zero. Sweden did the opposite, taking nothing until 2025
-      and 2% thereafter. Across all nine the total is about <strong>64.5 million allocations</strong> over the
-      decade — real, but small against a collective target measured in billions of tonnes.</div>
-    <p class="sub" style="margin:16px 0 0">Note what this flexibility does to the ETS: the allowances are
-       <em>cancelled</em> rather than moved, so the ETS cap tightens by exactly the amount the effort sharing
-       target loosens. It is one of the few mechanisms that transfers ambition between the two pillars without
-       leaking it.</p>
+    <h2>The ETS flexibility, step by step</h2>
+    <p class="sub">This is the only flexibility that reaches outside the effort sharing system altogether, and it
+       is the one most often described loosely. It runs in three stages, and each stage is a different thing.</p>
+
+    <div class="eq">
+      <strong>1. Cancel.</strong> The member state cancels EU ETS allowances that it would otherwise have
+        auctioned.<br>
+      <strong>2. Receive.</strong> It receives an equal quantity of effort sharing allocations, tonne for
+        tonne.<br>
+      <strong>3. Use.</strong> It may use those allocations towards its effort sharing target.
+    </div>
+
+    <h3 style="margin-top:20px">Who may use it, and up to how much</h3>
+    <p class="sub">Nine member states qualify — those with targets well above their cost-effective potential, or
+       which gave industry no free allocation in 2013 — plus Iceland and Norway, which implement the Regulation on
+       the same terms. Each has a ceiling written into the Regulation, expressed as a percentage of its
+       <em>2005</em> effort sharing emissions, applied <strong>in every single year</strong> from 2021 to 2030.
+       That last point is the one most easily misread: a 2% state may take 2% of its 2005 emissions each year, so
+       roughly 20% of one year's emissions across the full decade, not 2%.</p>
+    <div class="eq" style="font-size:13.5px">
+      <strong>4% ceiling</strong> — Ireland, Luxembourg, Iceland<br>
+      <strong>2% ceiling</strong> — Belgium, Denmark, the Netherlands, Austria, Finland, Sweden, Norway<br>
+      <strong>2% then 7%</strong> — Malta, whose ceiling itself rises from 2025
+    </div>
+
+    <div class="warn" style="margin-top:18px"><strong>Within that ceiling, each state chooses its own
+      percentage — and the published figures are what it chose, not what it has spent.</strong> The Commission
+      describes the totals below as the <em>maximum quantity a member state is allowed to use</em> for effort
+      sharing compliance. A state can notify 4%, forgo the auction revenue every year, and still never need to
+      draw on the allocations. Whether any of it was actually required will only be visible at the five-yearly
+      compliance checks.</div>
   </div>
 
   <div class="panel">
-    <h2>The last time these flexibilities existed, almost nobody used them</h2>
-    <p class="sub">The 2013–2020 Effort Sharing <em>Decision</em> offered a nearly identical menu: bank a surplus,
-       borrow from next year, buy from another member state, or use international credits. Because every one of
-       those moves is a registry transaction, we can count them exactly. The Union Registry's complete effort
-       sharing ledger contains <strong>930 transactions</strong> covering the whole period, and every one of the
-       224 member-state-year accounts balances to zero — so nothing is missing.</p>
+    <h2>What each state notified, year by year</h2>
+    <p class="sub">Percentages of 2005 effort sharing emissions, as notified to the Commission. Three states
+       changed course partway through the decade, and the two dates on which they did so are not the same — which
+       is why the blocks below break where they do.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Member state</th><th>Ceiling</th><th>2021–2024</th><th>2025</th>
+          <th>2026–2030</th><th>Maximum allocations, 2021–2030</th></tr></thead>
+        <tbody>
+          <tr><td class="l">Ireland</td><td>4%</td><td>4%</td><td>4%</td><td>4%</td><td>19,075,035</td></tr>
+          <tr><td class="l">Belgium</td><td>2%</td><td>1.89%</td><td>1.89%</td><td>1.89%</td><td>15,423,456</td></tr>
+          <tr><td class="l">Austria</td><td>2%</td><td>2%</td><td>2%</td><td>2%</td><td>11,398,397</td></tr>
+          <tr><td class="l">Finland</td><td>2%</td><td>2%</td><td>2%</td><td>2%</td><td>6,887,972</td></tr>
+          <tr><td class="l">Sweden</td><td>2%</td><td><strong>0%</strong></td><td>2%</td><td>2%</td><td>5,187,421</td></tr>
+          <tr><td class="l">Denmark</td><td>2%</td><td>2%</td><td>2%</td><td><strong>0%</strong></td><td>4,036,809</td></tr>
+          <tr><td class="l">Luxembourg</td><td>4%</td><td>4%</td><td>4%</td><td><strong>0%</strong></td><td>2,023,237</td></tr>
+          <tr><td class="l">Malta</td><td>2% → 7%</td><td>2%</td><td>7%</td><td>7%</td><td>510,300</td></tr>
+          <tr><td class="l">Netherlands</td><td>2%</td><td><strong>0%</strong></td><td><strong>0%</strong></td><td><strong>0%</strong></td><td>0</td></tr>
+          <tr style="font-weight:600;background:#fafbfc"><td class="l">All nine</td><td>—</td><td>—</td>
+            <td>—</td><td>—</td><td>64,542,627</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chartbox" style="height:340px;margin-top:22px"><canvas id="flexChart"></canvas></div>
+
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <h3>The Netherlands took nothing</h3>
+        <p class="sub">Eligible for 2% in every year, it notified zero throughout. Because its effort sharing
+           sectors are the largest of the nine, its full entitlement would have been the biggest allocation in the
+           group — larger than Ireland's 19.1 million, which is the largest anyone claimed. The Commission
+           publishes the percentages, not the reasoning, so why is inference: the flexibility costs auction
+           revenue every year, and a state expecting to meet its target domestically has no reason to pay.</p>
+      </div>
+      <div>
+        <h3>Two changed their minds, in opposite directions</h3>
+        <p class="sub">Denmark and Luxembourg used the 2024 revision window to cut their 2026–2030 percentages to
+           zero. Sweden went the other way, but did so in its original 2019 notification, stepping up at 2025.
+           Malta also steps at 2025 — but because its statutory ceiling rises then, not because it changed its
+           mind. Hence the two different break points.</p>
+      </div>
+    </div>
+
+    <p class="sub" style="margin:18px 0 0">Two smaller things. <strong>Belgium's 1.89%</strong> is the only
+       fraction in the table: every other participant either took its round ceiling or took nothing, which makes
+       the ETS flexibility close to a binary choice in practice. And <strong>none of this is final</strong> — the
+       nine have one last revision due by 31 December 2027, fixing the quantities for 2028–2030, and the
+       Commission marks the totals above as subject to amendment on that basis.</p>
+
+    <p class="sub" style="margin:14px 0 0">What this does to the ETS is worth holding onto: the allowances are
+       <em>cancelled</em>, not moved, so the ETS cap tightens by exactly the amount the effort sharing target
+       loosens. It is one of the few mechanisms that shifts ambition between the two pillars without leaking any
+       of it — which is also why choosing not to use it, as the Netherlands did, leaves the ETS looser than it
+       would otherwise have been.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Do any of these flexibilities actually get used?</h2>
+    <p class="sub">Everything above is a design, not a record. The current Regulation's first real compliance
+       check has not happened, so nothing here has been tested. Its predecessor, the 2013–2020 Effort Sharing
+       <em>Decision</em>, is finished — and it shared three of the mechanisms just described: banking, borrowing,
+       and transfers between member states. It also had one the current Regulation does not, international
+       credits. It did <strong>not</strong> have the ETS flexibility, which is genuinely new in 2021 and therefore
+       has no track record at all.</p>
+    <p class="sub">For the other three, there is a complete record. Every bank, borrow, transfer and cancellation
+       is a registry transaction, so they can be counted exactly. The Union Registry's effort sharing ledger holds
+       <strong>930 transactions</strong> covering the whole period, and all 224 member-state-year accounts balance
+       to zero — nothing is missing. The answer it gives is not encouraging for anyone who expects flexibility to
+       be where the action is.</p>
 
     <div class="cards" style="margin-bottom:20px">
       <div class="card"><div class="k">0.08%</div><div class="l">of the 21.6 billion allocations issued were ever transferred between member states</div></div>
@@ -315,7 +395,7 @@
   </div>
 
   <div class="panel">
-    <h2>What the registry shows about the other three</h2>
+    <h2>What the registry shows about the rest</h2>
     <div class="grid2">
       <div>
         <h3>Banking did all the work</h3>
@@ -603,9 +683,9 @@ new Chart(document.getElementById("flexChart"),{type:"bar",
     backgroundColor:F.map(d=>d.v?"rgba(107,91,210,.85)":"rgba(192,57,43,.5)"),borderRadius:3,maxBarThickness:22}]},
   options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},
-      tooltip:{callbacks:{label:c=>`${c.parsed.x.toFixed(2)} million allocations, 2021–2030`,
-        afterBody:c=>[F[c[0].dataIndex].p]}}},
-    scales:{x:{title:{display:true,text:"Million annual emission allocations available via ETS flexibility, 2021–2030"},
+      tooltip:{callbacks:{label:c=>`maximum ${c.parsed.x.toFixed(2)} million allocations over 2021–2030`,
+        afterBody:c=>[F[c[0].dataIndex].p,"a ceiling, not a record of use"]}}},
+    scales:{x:{title:{display:true,text:"Maximum allocations obtainable via the ETS flexibility, 2021–2030 (million)"},
                grid:{color:"#eef1f5"}},
             y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
 </script>
