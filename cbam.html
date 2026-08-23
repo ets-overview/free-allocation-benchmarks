@@ -694,21 +694,30 @@
       <span style="font-size:13px;color:#4b5563">the free allocation adjustment for a good is its specific embedded
       free allocation, times the mass imported</span>
     </div>
+    <h3 style="margin-top:18px">Route A — default values: one equation and you are done</h3>
     <div class="eq">
       <strong>SEFA<sub>g,y</sub> = CBAM<sub>y</sub> × CSCF<sub>y</sub> × BM<sub>g</sub></strong>
-      &nbsp;&nbsp;<span class="dim">(Equation 6, default values)</span><br>
-      <strong>SFAProc<sub>g,y</sub> = CBAM<sub>y</sub> × CSCF<sub>y</sub> × BM*<sub>g</sub></strong>
-      &nbsp;&nbsp;<span class="dim">(Equation 2, actual data, per production process)</span>
+      &nbsp;&nbsp;<span class="dim">(Equation 6)</span><br>
+      <span style="font-size:13px;color:#4b5563">BM is an all-in figure per CN code: it already contains whatever
+      allocation is embedded in the good's precursors.</span>
     </div>
-    <p class="sub" style="margin-bottom:0">Three multiplied terms, and one of them is a benchmark that did not
-       exist until December 2025. Note what is <em>not</em> in the equation: the importer's own emissions. The
-       adjustment depends on the good, the year and the EU's allocation rules — not on how clean the exporting
-       producer is. That is deliberate, and it is why a low-carbon producer keeps the full benefit of being
-       low-carbon: the adjustment subtracts the same amount either way.</p>
-  </div>
 
-  <div class="panel">
-    <h2>The three terms</h2>
+    <h3 style="margin-top:20px">Route B — actual data: process first, then precursors</h3>
+    <p class="sub">This is where it gets misread. Declaring actual data does not give you a single benchmark. It
+       builds the adjustment up the supply chain, one production step at a time.</p>
+    <div class="eq" style="line-height:2">
+      <strong>SFAProc<sub>g,y</sub> = CBAM<sub>y</sub> × CSCF<sub>y</sub> × BM*<sub>g</sub></strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 2 — the good's <em>own</em> production step only)</span><br>
+      <strong>SEFA<sub>g,y</sub> = SFAProc<sub>g,y</sub></strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 3 — simple good, no precursors)</span><br>
+      <strong>SEFA<sub>g,y</sub> = SFAProc<sub>g,y</sub> + Σ<sub>i</sub> ( m<sub>i,y</sub> × SEFA<sub>i,y′</sub> )</strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 4 — complex good, plus each precursor)</span><br>
+      <span style="font-size:13px;color:#4b5563">m<sub>i</sub> is tonnes of precursor <em>i</em> per tonne of the
+      good. Where a precursor is itself complex, Equations 2 to 4 repeat recursively until nothing is left.</span>
+    </div>
+    <h3 style="margin-top:22px">What each term is</h3>
+    <p class="sub">Four terms across both routes. Three of them are fixed by EU policy and move for
+       reasons that have nothing to do with the shipment; only the last is yours.</p>
     <div class="tblscroll">
       <table id="ingTbl">
         <thead><tr><th class="l">Term</th><th class="l">What it is</th>
@@ -716,16 +725,71 @@
         <tbody></tbody>
       </table>
     </div>
-    <div class="warn" style="margin-top:18px"><strong>The CSCF is a real multiplier, not a footnote.</strong> The
+
+    <p class="sub" style="margin-bottom:0"><strong>BM* is therefore not comparable with BM.</strong> BM* covers
+       one production step; BM covers the whole chain. A BM* of zero does not mean an adjustment of zero — it means
+       that step earns nothing and everything comes through the precursor sum in Equation 4.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Worked example: Portland cement with actual data</h2>
+    <p class="sub">Portland cement is the case that makes people think the adjustment vanishes, because
+       <strong>BM* for cement is 0.000</strong>. Grinding clinker into cement is a milling operation: it earns no
+       free allocation in the EU either, because there is no ETS benchmark for cement — only for clinker. Follow
+       Equation 4 and the allocation reappears, in full, through the precursor.</p>
+    <div class="eq" style="line-height:2">
+      <span class="dim">Step 1 — the cement's own process:</span><br>
+      SFAProc<sub>cement</sub> = CBAM × CSCF × <strong>0.000</strong> = <strong>0</strong><br><br>
+      <span class="dim">Step 2 — the clinker precursor, at roughly 0.8 t clinker per t cement:</span><br>
+      SEFA<sub>clinker</sub> = CBAM × CSCF × <strong>0.666</strong><br><br>
+      <span class="dim">Step 3 — Equation 4 adds them:</span><br>
+      SEFA<sub>cement</sub> = 0 + ( 0.8 × CBAM × CSCF × 0.666 )
+        = <strong>CBAM × CSCF × 0.533</strong>
+    </div>
+    <p class="sub">With the 2026 CBAM factor of 0.975 and a correction factor of 1.0, that is an adjustment of
+       about <strong>0.52 t CO₂e deducted per tonne of cement imported</strong>. Not zero, and not far from what
+       the default route would give you: the all-in default BM for Portland cement is 0.666, which assumes a
+       clinker content of 100%.</p>
+    <div class="warn" style="margin-bottom:0"><strong>Which is why the clinker ratio is worth getting right.</strong>
+      Under actual data your adjustment scales with the clinker you actually used. A blended cement at 65% clinker
+      gets a smaller deduction than a pure CEM I at 95% — correctly, because it also has lower embedded emissions
+      to be charged on in the first place. The default route ignores the distinction and applies one figure to
+      everything under the CN code. <span class="dim">The 0.8 ratio above is illustrative; the real value comes
+      from Equation 5, the mass of precursor consumed divided by the activity level.</span></div>
+  </div>
+
+  <div class="panel">
+    <h2>So where do the measured emissions go?</h2>
+    <p class="sub">Nowhere in the equations above — and that is not an oversight. The free allocation adjustment
+       is a <em>deduction</em>, benchmarked on what an EU producer would have received for nothing. It answers
+       "how much would Europe have given away here?", which has nothing to do with how the imported good was
+       actually made. Your measured emissions govern the other half of the calculation.</p>
+    <div class="eq" style="line-height:2">
+      <span class="dim">certificates to surrender =</span><br>
+      &nbsp;&nbsp;<strong>embedded emissions × mass imported</strong>
+        &nbsp;<span class="dim">← your actual verified figure, or the default</span><br>
+      &nbsp;&nbsp;<strong>− free allocation adjustment</strong>
+        &nbsp;<span class="dim">← everything above; independent of your emissions</span><br>
+      &nbsp;&nbsp;<strong>− carbon price already paid in the country of origin</strong>
+        &nbsp;<span class="dim">← Article 9</span>
+    </div>
+    <p class="sub" style="margin-bottom:0">This is the whole point of the design. Because the deduction is fixed
+       by the benchmark rather than by your performance, every tonne you abate is a tonne off the first line with
+       nothing clawed back from the second. A producer half as carbon-intensive as the benchmark pays for half the
+       emissions and receives the <em>same</em> adjustment — so being clean is worth exactly what it should be. If
+       the adjustment tracked your own emissions instead, cleaning up your process would shrink your deduction
+       too, and the incentive would partly cancel itself out.</p>
+  </div>
+
+
+  <div class="panel">
+    <h2>The correction factor and its buffer</h2>
+    <div class="warn" style="margin:0 0 16px"><strong>The CSCF is a real multiplier, not a footnote.</strong> The
       cross-sectoral correction factor is determined under Article 14(6) of Delegated Regulation (EU) 2019/331 and
       published under Article 10a(5) of the ETS Directive. If EU industry's benchmark entitlements exceed the free
       allocation ceiling, every EU installation is cut back — and because it sits directly in this equation,
       importers are cut back with them. A CSCF below 1 shrinks the adjustment and <em>raises</em> the CBAM
       bill.</div>
-  </div>
-
-  <div class="panel">
-    <h2>The correction factor and its buffer</h2>
     <p class="sub">Only a fixed share of the cap may be given away free; the rest must be auctioned. Each period
        the Commission adds up what every installation is entitled to under its benchmarks. If that total comes in
        under the ceiling, everyone receives their full entitlement and the correction factor is 100% — which is
@@ -770,12 +834,13 @@
         <tbody></tbody>
       </table>
     </div>
-    <div class="warn" style="margin-top:18px"><strong>Why there are two columns.</strong> BM* is used when actual
-      emissions are declared, and covers only the process at that installation — the allocation embedded in
-      precursors is added separately up the chain. BM is used with default values and is all-in. Portland cement is
-      the clearest case: <strong>BM* is 0.000</strong>, because grinding clinker into cement earns no allocation of
-      its own, while <strong>BM is 0.666</strong>, because the default figure carries the clinker with it. Reading
-      the wrong column would understate or overstate the adjustment by the entire precursor.</div>
+    <div class="warn" style="margin-top:18px"><strong>The two columns are not alternatives to compare.</strong>
+      BM* covers a single production step and is used with actual data, where the precursors are then added
+      separately through Equation 4. BM is all-in and is used with default values. Portland cement is the case
+      that trips everyone: <strong>BM* is 0.000</strong> because grinding clinker into cement earns no allocation
+      of its own, while <strong>BM is 0.666</strong> because the default figure carries the clinker with it. A
+      zero in the BM* column does <em>not</em> mean no adjustment — it means the adjustment arrives entirely
+      through the precursor. There is a worked example of exactly this case further up the tab.</div>
   </div>
 
   <div class="panel">
