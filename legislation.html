@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Legislation Map — EU Climate Policy Explorer</title>
-<meta name="description" content="An interactive map of 103 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="description" content="An interactive map of 107 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Legislation Map">
-<meta property="og:description" content="An interactive map of 103 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:description" content="An interactive map of 107 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Legislation Map">
-<meta name="twitter:description" content="An interactive map of 103 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:description" content="An interactive map of 107 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -169,6 +169,14 @@
        pieces of legislation serve as starting points. The main objective at this stage is to present the current
        landscape of climate legislation. Older legislation may be added in the future to better illustrate the
        historical development of climate policy over time.</p>
+    <p><strong>On adaptation.</strong> Adaptation is included, but only where it is carried by binding law. The
+       EU strategy on adaptation to climate change is a Commission communication rather than a legal act, and so
+       does not appear here despite being the document most often cited on the subject. What does appear is the
+       binding layer beneath it: the duty in Article 5 of the Climate Law to adopt and implement national
+       adaptation strategies, the Floods Directive, the resilience obligations on critical entities, and the risk
+       assessment duties under the Civil Protection Mechanism. Water policy proper — the Water Framework
+       Directive and its river basin planning — sits outside the map, on the same reasoning that keeps most
+       energy law out of it, though the Floods Directive is coordinated with it.</p>
     <p>If you believe that important legislation is missing, please feel free to get in touch at
        <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
     <div class="foot">
@@ -212,14 +220,15 @@ const DOMS = {
   tr:  {label:"Transport",              col:"#8e44ad"},
   en:  {label:"Energy",                 col:"#d68910"},
   ip:  {label:"Industry & products",    col:"#16a085"},
-  rf:  {label:"Reporting & finance",    col:"#34495e"}
+  rf:  {label:"Reporting & finance",    col:"#34495e"},
+  ad:  {label:"Adaptation & resilience",col:"#8a5a2b"}
 };
 
 const L = [
 // ---------- Framework & governance
 {id:"climatelaw", num:"Reg. (EU) 2021/1119", title:"European Climate Law", yr:2021, dom:"fw", st:"y",
  eli:"reg/2021/1119",
- sum:"Makes climate neutrality by 2050 legally binding and sets the 2030 target of at least −55% net emissions versus 1990. Establishes the European Scientific Advisory Board on Climate Change and a framework for indicative GHG budgets. Amended in 2026 to add the 2040 target.",
+ sum:"Makes climate neutrality by 2050 legally binding and sets the 2030 target of at least −55% net emissions versus 1990. Establishes the European Scientific Advisory Board on Climate Change and a framework for indicative GHG budgets. Amended in 2026 to add the 2040 target. Article 5 is the adaptation half of the act, and is easily overlooked: member states must adopt and implement national adaptation strategies and plans, take account of the particular vulnerability of agriculture and of water and food systems, promote nature-based and ecosystem-based adaptation, and update the strategies regularly.",
  rel:[["am","gov"]]},
 {id:"cl2040", num:"Reg. (EU) 2026/667", title:"2040 target amendment to the Climate Law", yr:2026, dom:"fw", st:"g",
  eli:"reg/2026/667",
@@ -227,7 +236,7 @@ const L = [
  rel:[["am","climatelaw"],["am","ets"]]},
 {id:"gov", num:"Reg. (EU) 2018/1999", title:"Governance of the Energy Union", yr:2018, dom:"fw", st:"y",
  eli:"reg/2018/1999",
- sum:"The planning and reporting backbone: National Energy and Climate Plans, long-term strategies, biennial progress reports and the GHG inventory system. Nearly every later climate act plugs its reporting obligations into this regulation.",
+ sum:"The planning and reporting backbone: National Energy and Climate Plans, long-term strategies, biennial progress reports and the GHG inventory system. Nearly every later climate act plugs its reporting obligations into this regulation — including adaptation, since the national adaptation strategies required by Article 5 of the Climate Law are reported through Article 19 of this act rather than through any adaptation instrument of their own.",
  rel:[["rp","mmr"]]},
 {id:"eap8", num:"Decision (EU) 2022/591", title:"8th Environment Action Programme", yr:2022, dom:"fw", st:"g",
  eli:"dec/2022/591",
@@ -500,7 +509,7 @@ const L = [
 // ---------- Industry & products
 {id:"nzia", num:"Reg. (EU) 2024/1735", title:"Net-Zero Industry Act", yr:2024, dom:"ip", st:"g",
  eli:"reg/2024/1735",
- sum:"Targets 40% domestic manufacturing capacity for net-zero technologies by 2030, with faster permitting and non-price criteria in public procurement and renewables auctions. It also carries the EU's only binding carbon storage obligation: 50 Mt of annual CO₂ injection capacity operational by 2030, and — unusually — the duty to build it falls on oil and gas producers individually, each contributing in proportion to its share of EU crude oil and natural gas production between 2020 and 2023. This is what turns the CCS Directive's dormant permitting framework into actual capacity, and what the ETS's removal provisions and CBAM-exposed industry both ultimately depend on.",
+ sum:"Targets 40% domestic manufacturing capacity for net-zero technologies by 2030, with faster permitting and non-price criteria in public procurement and renewables auctions. It also carries the EU's only binding carbon storage obligation: 50 Mt of annual CO₂ injection capacity operational by 2030, and — unusually — the duty to build it falls on oil and gas producers individually, each contributing in proportion to its share of EU crude oil and natural gas production between 2020 and 2023. This is what turns the CCS Directive's dormant permitting framework into actual capacity, and what the ETS's removal provisions and CBAM-exposed industry both ultimately depend on. It is also the most contested provision on this map: by the end of 2025 fifteen actions had been brought before the General Court by twelve groupings of obligated producers across eight member states, together accounting for more than 65% of the injection capacity obligation, challenging Article 23 itself, the delegated act setting the calculation methodology, and the Commission decision naming the obligated entities. The obligation remains in force while those cases are pending.",
  rel:[["rl","ets"]]},
 {id:"crma", num:"Reg. (EU) 2024/1252", title:"Critical Raw Materials Act", yr:2024, dom:"ip", st:"g",
  eli:"reg/2024/1252",
@@ -664,6 +673,23 @@ const L = [
  eli:"dec/2002/358",
  sum:"The act by which the European Community approved the Kyoto Protocol, together with the burden-sharing arrangement distributing its target among member states. The direct reason the EU ETS exists: an internationally binding target created the need for a compliance instrument, and the ETS was the answer.",
  rel:[["rl","ets"]]},
+// ---------- Adaptation & resilience
+{id:"floods", num:"Dir. 2007/60/EC", title:"Floods Directive", yr:2007, dom:"ad", st:"g",
+ eli:"dir/2007/60/oj",
+ sum:"The EU's only binding instrument built around a single climate hazard. Member states must complete preliminary flood risk assessments, produce flood hazard and flood risk maps, and adopt flood risk management plans, each on a rolling six-year cycle coordinated with river basin planning under the Water Framework Directive. Note what it does and does not require: the obligations are procedural — assess, map, plan, review — and set no substantive level of protection. That is the reason implementation quality varies so widely between member states, and the main criticism of it as an adaptation instrument.",
+ rel:[["rl","climatelaw"]]},
+{id:"ucpm", num:"Dec. No 1313/2013/EU", title:"Union Civil Protection Mechanism", yr:2013, dom:"ad", st:"y",
+ eli:"dec/2013/1313/oj",
+ sum:"The EU's disaster response system, and the instrument under which member states must assess their national disaster risks and their risk-management capability and report a summary to the Commission. It is response and preparedness rather than adaptation in the strict sense, but it is where the legal duty to understand a country's exposure to climate-driven hazards actually sits.",
+ rel:[["rl","climatelaw"]]},
+{id:"ucpm21", num:"Reg. (EU) 2021/836", title:"Civil Protection Mechanism amendment", yr:2021, dom:"ad", st:"g",
+ eli:"reg/2021/836",
+ sum:"Strengthens the Mechanism after the pandemic: an expanded rescEU reserve of shared response capacity, and Union disaster resilience goals to be developed on scenarios that expressly take account of how climate change alters disaster risk. This is the clearest point at which climate projection enters civil protection law as a binding input rather than as advice.",
+ rel:[["am","ucpm"]]},
+{id:"cer", num:"Dir. (EU) 2022/2557", title:"Critical Entities Resilience Directive", yr:2022, dom:"ad", st:"g",
+ eli:"dir/2022/2557/oj",
+ sum:"Requires member states to identify critical entities across eleven sectors — energy, transport, water, health, digital infrastructure and others — and to ensure those entities assess and manage the risks to their operations, explicitly including risks from natural hazards and climate change. Adaptation enters EU law here as an infrastructure resilience duty rather than a climate one, which is why it is rarely counted as climate legislation despite carrying a large share of the actual obligation.",
+ rel:[["rl","climatelaw"]]},
 {id:"cbamprice", num:"Impl. Reg. (EU) 2025/2548", title:"CBAM certificate price methodology", yr:2025, dom:"cp", st:"g",
  eli:"reg_impl/2025/2548",
  sum:"Lays down how the Commission calculates and publishes the price of CBAM certificates \u2014 the weighted average of EU ETS auction clearing prices, quarterly through 2026 and weekly from 2027. The instrument that pins the border price to the domestic one, so that imported and EU-made goods face the same carbon cost.",
