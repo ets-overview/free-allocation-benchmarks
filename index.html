@@ -79,6 +79,61 @@
     header.hero h1{font-size:29px}
     header.hero p{font-size:16px}
   }
+
+/* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
+.ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
+.ddwrap>.ddtog{background:none;border:0;color:inherit;font:inherit;font-size:11px;line-height:1;
+  cursor:pointer;padding:6px 5px;opacity:.75;border-radius:6px}
+.ddwrap>.ddtog:hover,.ddwrap>.ddtog:focus-visible{opacity:1;background:rgba(127,127,127,.18)}
+.ddmenu{position:absolute;top:calc(100% + 7px);left:0;min-width:242px;display:none;flex-direction:column;
+  background:#fff;border:1px solid rgba(20,24,31,.14);border-radius:10px;
+  box-shadow:0 14px 34px rgba(20,24,31,.24);padding:6px;z-index:140}
+.ddwrap.open>.ddmenu{display:flex}
+.ddwrap .ddmenu a{display:block;padding:8px 11px;margin:0;border:0 !important;border-radius:7px;
+  background:none !important;color:#14181f !important;text-decoration:none;font-size:13.5px;
+  font-weight:500 !important;white-space:nowrap;letter-spacing:normal}
+.ddwrap .ddmenu a:hover{background:#eef3fb !important;color:#0b3d91 !important}
+.ddwrap .ddmenu a[aria-current]{color:#0b3d91 !important;font-weight:700 !important;background:#eef4fd !important}
+.ddmenu .ddhead{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7686;
+  padding:6px 11px 4px;font-weight:700}
+/* ===== shared: narrow-viewport pass (added Sept 2026) ===== */
+@media (max-width:860px){
+  header{padding-left:18px !important;padding-right:18px !important}
+  header .top{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  header .links,header .top .links,header span.links{flex-wrap:wrap !important;flex-shrink:1 !important;row-gap:6px}
+  header .top{flex-wrap:wrap !important}
+  nav.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:9px;row-gap:4px}
+  .grid2{grid-template-columns:1fr !important}
+  nav.tabs .headerinner,.subnav .headerinner,.tabs .headerinner{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  nav.tabs button,.subnav a,.tabs button{flex:0 0 auto}
+  .bar{row-gap:8px}
+}
+@media (max-width:600px){
+  .wrap{padding-left:16px !important;padding-right:16px !important}
+  .headerinner{padding-left:16px !important;padding-right:16px !important}
+  header{padding-left:16px !important;padding-right:16px !important}
+  .cards{grid-template-columns:1fr !important}
+  .form{grid-template-columns:1fr !important}
+  header h1{font-size:21px;line-height:1.25}
+  .ddmenu{min-width:0;width:max-content;max-width:78vw}
+  .ddwrap .ddmenu a{white-space:normal}
+  table{font-size:12.5px}
+  th,td{padding:7px 8px}
+}
+
+.stamp{display:inline-block;margin-top:8px}
+.stamp a{text-decoration:none}
+.stamp a:hover{text-decoration:underline}
+
+/* ===== shared: chart data download + focus visibility (added Sept 2026) ===== */
+.charttools{display:flex;justify-content:flex-end;margin:8px 0 0}
+.csvbtn{font:inherit;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.csvbtn:hover{color:var(--ink);border-color:var(--muted);background:#fafbfc}
+.csvbtn[disabled]{opacity:.45;cursor:default}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -87,7 +142,14 @@
   <div class="wrap">
     <a class="brand" href="index.html">EU Climate Policy Explorer</a>
     <a class="lnk" href="index.html" aria-current="page">Home</a>
-    <a class="lnk" href="ets.html">EU ETS</a>
+    <span class="ddwrap"><a href="ets.html" class="lnk">EU ETS</a><button class="ddtog" type="button" aria-expanded="false" aria-haspopup="true" aria-label="EU ETS sub-pages">&#9662;</button><span class="ddmenu">
+        <span class="ddhead">EU ETS</span>
+        <a href="ets.html">Overview</a>
+        <a href="benchmarks.html">Free allocation benchmarks</a>
+        <a href="ets2.html">ETS 2 — buildings &amp; transport</a>
+        <a href="maritime.html">Maritime</a>
+        <a href="aviation.html">Aviation</a>
+      </span></span>
     <a class="lnk" href="cbam.html">CBAM</a>
     <a class="lnk" href="effort-sharing.html">Effort sharing</a>
     <a class="lnk" href="indirect-costs.html">Indirect costs</a>
@@ -107,7 +169,8 @@
       <p>This site does two things. It <strong>explains</strong> how each instrument actually works, in plain
          language and from the legal text. And it <strong>visualises</strong> them, so the numbers a rule produces
          sit next to the rule itself. An orientation tool and a starting point for your own research, not a
-         substitute for the legislation — every figure and every act links back to its official source.</p>
+         substitute for the legislation — every act links to its text on EUR-Lex, every chart names the dataset
+         it was built from, and the plotted figures can be downloaded as CSV.</p>
     </div>
   </div>
 </header>
@@ -128,10 +191,10 @@
         </svg>
       </div>
       <h3>The EU ETS</h3>
-      <p>THe core instrument of EU climate policy. This page lays out the basics, looking at the emissions trajectory 
+      <p>The core instrument of EU climate policy. This page lays out the basics, looking at the emissions trajectory 
          instruments such as the Market Stability Reserve, and has a look at where the emission reductions have
-         actually come from. Free allocation benchmarks, maritime and aviation each have their own page under this
-         section.</p>
+         actually come from. Free allocation benchmarks, ETS 2, maritime and aviation each have their own page under
+         this section.</p>
       <span class="go">Open the ETS overview</span>
     </a>
 
@@ -174,10 +237,35 @@
       </div>
       <div class="parent">EU ETS · sub-page</div>
       <h3>Free allocation benchmarks</h3>
-      <p>One of 3 carbon leackage instruments. All 54 benchmark values across the three allocation periods,
+      <p>One of the three carbon leakage instruments. All 54 benchmark values across the three allocation periods,
          with the derivation of each number, the CBAM phase-out overlay, and a calculator that turns any benchmark
          into a year-by-year allowance gap.</p>
       <span class="go">Open the benchmarks</span>
+    </a>
+
+    <a class="card" href="ets2.html">
+      <div class="thumb">
+        <svg viewBox="0 0 320 104" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">
+          <rect width="320" height="104" fill="#f4f7fb"/>
+          <g fill="#6b5bd2">
+            <path d="M40 78 L40 46 L64 30 L88 46 L88 78 Z" opacity=".75"/>
+            <rect x="56" y="58" width="16" height="20" rx="1.5" opacity=".45"/>
+            <path d="M126 78 L126 40 L150 24 L174 40 L174 78 Z" opacity=".5"/>
+            <rect x="142" y="54" width="16" height="24" rx="1.5" opacity=".3"/>
+            <rect x="208" y="60" width="62" height="18" rx="5" opacity=".8"/>
+            <circle cx="222" cy="80" r="6" opacity=".8"/>
+            <circle cx="256" cy="80" r="6" opacity=".8"/>
+            <path d="M216 60 L226 50 L252 50 L262 60 Z" opacity=".55"/>
+          </g>
+          <path d="M0 88 L320 88" stroke="#6b5bd2" stroke-width="2" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="parent">EU ETS · sub-page</div>
+      <h3>EU ETS 2</h3>
+      <p>A second carbon market for the fuels burned in homes, cars and small industry, pricing from 2028. Who
+         actually holds the obligation and who actually pays, the cap, the €45 price safeguard, the Social Climate
+         Fund, and the 957 Mt already reported before the system charges anyone.</p>
+      <span class="go">Open the ETS 2 overview</span>
     </a>
 
     <a class="card" href="maritime.html">
@@ -241,7 +329,7 @@
         </svg>
       </div>
       <h3>Climate legislation map</h3>
-      <p>An interactive network of 107 acts giving an overview of the curent status and the trajecotry of EU Climate policy. Short explanantions, visualised amendment chains, 
+      <p>An interactive network of 107 acts giving an overview of the current status and the trajectory of EU climate policy. Short explanations, visualised amendment chains, 
          with indication whether they are repealed or still a proposal.</p>
       <span class="go">Open the map</span>
     </a>
@@ -291,22 +379,63 @@
   <h2>How to use this</h2>
   <div class="note">
     <h3>Orientation, not legal advice</h3>
-    <p>Everything here is compiled from the Official Journal and Commission sources, and each figure and act
-       links back to its original text on EUR-Lex. The visualisations necessarily simplify: they group, round and
-       summarise. Where a judgement call was needed — how to classify an amending act, which acts fall inside the
-       scope, how to read an ambiguous provision — the reasoning is set out on the page itself.</p>
+    <p>Everything here is compiled from the Official Journal, Commission publications and the EEA and Union
+       Registry datasets. Sourcing works at two levels, and it is worth being precise about which: every legal
+       act links to its own text on EUR-Lex, while figures are sourced at dataset level — each page's "data and
+       caveats" tab names the release, the extract date and the field used, rather than footnoting each number
+       individually. The visualisations necessarily simplify: they group, round and summarise. Where a judgement
+       call was needed — how to classify an amending act, which acts fall inside the scope, how to read an
+       ambiguous provision — the reasoning is set out on the page itself.</p>
+    <p>Every chart has a <strong>download button</strong> underneath it that gives you the plotted series as a
+       CSV, reflecting whatever toggles you have set, and the legislation map exports all 107 acts with their
+       relations. That is the series as drawn, not the source dataset — for the underlying data, go to the source
+       named in the caveats tab.</p>
     <p>Before relying on anything here for compliance, filings or contracts, check the consolidated text on
        <a href="https://eur-lex.europa.eu/" target="_blank" rel="noopener">EUR-Lex</a>. Legislation moves quickly,
        and several of the acts shown are under active revision.</p>
+    <h3 style="margin-top:18px">Dates, and what has changed</h3>
+    <p>Because it moves quickly, every page carries its own last-updated date rather than a single site-wide one,
+       and the <a href="changelog.html">changelog</a> records what changed and when — including corrections, so
+       that anything cited from here can be checked against what it says now. Tabs are addressable too: a link
+       like <code>ets.html#price</code> or <code>benchmarks.html#table</code> opens that tab directly, and the
+       address bar follows whichever tab you are reading.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     Built as an independent, non-commercial resource. Sources: EUR-Lex, the European Commission's climate pages,
-    and the Publications Office of the EU. Last reviewed August 2026.
+    and the Publications Office of the EU.
+    <br><span class="stamp"><strong>Last updated 21 September 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
   </div>
 </footer>
 
+<script>
+
+/* ===== shared: EU ETS dropdown behaviour (added Sept 2026) ===== */
+(function(){
+  var wraps=[].slice.call(document.querySelectorAll('.ddwrap'));
+  if(!wraps.length) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  function close(w){ w.classList.remove('open'); w.dataset.pinned=''; var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','false'); }
+  function open(w){ w.classList.add('open'); var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','true'); }
+  wraps.forEach(function(w){
+    var t=w.querySelector('.ddtog');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var pinned = w.dataset.pinned==='1';
+      wraps.forEach(close);
+      if(!pinned){ open(w); w.dataset.pinned='1'; }
+    });
+    if(canHover){
+      w.addEventListener('mouseenter',function(){ open(w); });
+      w.addEventListener('mouseleave',function(){ if(w.dataset.pinned!=='1') close(w); });
+    }
+    var m=w.querySelector('.ddmenu'); if(m) m.addEventListener('click',function(e){ e.stopPropagation(); });
+  });
+  document.addEventListener('click',function(){ wraps.forEach(close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') wraps.forEach(close); });
+})();
+</script>
 </body>
 </html>

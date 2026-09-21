@@ -108,6 +108,61 @@
   .badge.na{background:#eef2f7;color:#4a5567}
   .dim{color:var(--muted)}
   .hide{display:none}
+
+/* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
+.ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
+.ddwrap>.ddtog{background:none;border:0;color:inherit;font:inherit;font-size:11px;line-height:1;
+  cursor:pointer;padding:6px 5px;opacity:.75;border-radius:6px}
+.ddwrap>.ddtog:hover,.ddwrap>.ddtog:focus-visible{opacity:1;background:rgba(127,127,127,.18)}
+.ddmenu{position:absolute;top:calc(100% + 7px);left:0;min-width:242px;display:none;flex-direction:column;
+  background:#fff;border:1px solid rgba(20,24,31,.14);border-radius:10px;
+  box-shadow:0 14px 34px rgba(20,24,31,.24);padding:6px;z-index:140}
+.ddwrap.open>.ddmenu{display:flex}
+.ddwrap .ddmenu a{display:block;padding:8px 11px;margin:0;border:0 !important;border-radius:7px;
+  background:none !important;color:#14181f !important;text-decoration:none;font-size:13.5px;
+  font-weight:500 !important;white-space:nowrap;letter-spacing:normal}
+.ddwrap .ddmenu a:hover{background:#eef3fb !important;color:#0b3d91 !important}
+.ddwrap .ddmenu a[aria-current]{color:#0b3d91 !important;font-weight:700 !important;background:#eef4fd !important}
+.ddmenu .ddhead{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7686;
+  padding:6px 11px 4px;font-weight:700}
+/* ===== shared: narrow-viewport pass (added Sept 2026) ===== */
+@media (max-width:860px){
+  header{padding-left:18px !important;padding-right:18px !important}
+  header .top{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  header .links,header .top .links,header span.links{flex-wrap:wrap !important;flex-shrink:1 !important;row-gap:6px}
+  header .top{flex-wrap:wrap !important}
+  nav.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:9px;row-gap:4px}
+  .grid2{grid-template-columns:1fr !important}
+  nav.tabs .headerinner,.subnav .headerinner,.tabs .headerinner{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  nav.tabs button,.subnav a,.tabs button{flex:0 0 auto}
+  .bar{row-gap:8px}
+}
+@media (max-width:600px){
+  .wrap{padding-left:16px !important;padding-right:16px !important}
+  .headerinner{padding-left:16px !important;padding-right:16px !important}
+  header{padding-left:16px !important;padding-right:16px !important}
+  .cards{grid-template-columns:1fr !important}
+  .form{grid-template-columns:1fr !important}
+  header h1{font-size:21px;line-height:1.25}
+  .ddmenu{min-width:0;width:max-content;max-width:78vw}
+  .ddwrap .ddmenu a{white-space:normal}
+  table{font-size:12.5px}
+  th,td{padding:7px 8px}
+}
+
+.stamp{display:inline-block;margin-top:8px}
+.stamp a{text-decoration:none}
+.stamp a:hover{text-decoration:underline}
+
+/* ===== shared: chart data download + focus visibility (added Sept 2026) ===== */
+.charttools{display:flex;justify-content:flex-end;margin:8px 0 0}
+.csvbtn{font:inherit;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.csvbtn:hover{color:var(--ink);border-color:var(--muted);background:#fafbfc}
+.csvbtn[disabled]{opacity:.45;cursor:default}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -118,7 +173,14 @@
       <h1>The Carbon Border Adjustment Mechanism</h1>
       <div class="links">
         <a href="index.html">← Home</a>
-        <a href="ets.html">EU ETS</a>
+        <span class="ddwrap"><a href="ets.html">EU ETS</a><button class="ddtog" type="button" aria-expanded="false" aria-haspopup="true" aria-label="EU ETS sub-pages">&#9662;</button><span class="ddmenu">
+        <span class="ddhead">EU ETS</span>
+        <a href="ets.html">Overview</a>
+        <a href="benchmarks.html">Free allocation benchmarks</a>
+        <a href="ets2.html">ETS 2 — buildings &amp; transport</a>
+        <a href="maritime.html">Maritime</a>
+        <a href="aviation.html">Aviation</a>
+      </span></span>
         <a href="cbam.html" aria-current="page">CBAM</a>
         <a href="effort-sharing.html">Effort sharing</a>
         <a href="indirect-costs.html">Indirect costs</a>
@@ -175,10 +237,15 @@
       <label class="chk"><input type="checkbox" id="showProp" checked> Show the July 2026 proposal (indicative)</label>
     </div>
     <div class="chartbox"><canvas id="lockChart"></canvas></div>
-    <div class="warn" style="margin-top:16px">The proposal tabled on 17 July 2026 would reintroduce 15% of the
-      phased-out free allocation from 2028 and stretch the phase-out to 2038. It is not law — it is in the ordinary
-      legislative procedure, with agreement targeted for the first quarter of 2027. The dashed line is an
-      illustrative reading of the published summary, not the legislative text.</div>
+    <div class="warn" style="margin-top:16px">The ETS review proposal tabled on 17 July 2026,
+      <a href="https://climate.ec.europa.eu/document/download/c0b4ca8e-0e12-4b4e-9976-98c0b4224410_en" target="_blank" rel="noopener">COM(2026) 616</a>,
+      would reintroduce 15% of the phased-out free allocation from 2028 and stretch the phase-out to 2038. It is
+      not law — it is in the ordinary legislative procedure, with agreement targeted for the first quarter of 2027.
+      The dashed line is an illustrative reading of the published summary, not the legislative text.
+      <br><br>Note that this change travels in the ETS Directive, not in the CBAM Regulation: the CBAM factor sits
+      in Article 10a(1a) of Directive 2003/87/EC, so the instrument that slows CBAM down is an amendment to the
+      ETS. The separate proposal of the same day, COM(2026) 619, is the fall-back benchmark uplift and has nothing
+      to do with the CBAM factor.</div>
   </div>
 
   <div class="panel">
@@ -285,8 +352,8 @@
   <div class="panel">
     <h2>Default values, and the penalty for using them</h2>
     <p class="sub">If an importer cannot obtain verified emissions data from its supplier, it may use official
-       default values — published per country and per CN code in Annex I to Implementing Regulation (EU) 2025/2621, in the
-       version adopted on 4 February 2026. They are deliberately unattractive. A <strong>mark-up</strong> is added on top,
+       default values — published per country and per CN code in Annex I to Implementing Regulation (EU) 2025/2621, as corrected by
+       Implementing Regulation (EU) 2026/1740 with effect from 1 January 2026. They are deliberately unattractive. A <strong>mark-up</strong> is added on top,
        rising each year, so the longer an importer relies on defaults the more it pays. The scheme is designed to
        make real supplier data the cheaper option.</p>
     <div class="eq">
@@ -307,7 +374,7 @@
       The annex publishes a direct, an indirect and a total figure for every good, and the indirect component is
       the electricity used in production. That is the mirror image of the indirect cost compensation EU producers
       receive — and it is why the treatment of indirect emissions is the hinge on which the whole level-playing-field
-      argument turns. For cement and fertilisers both parts are charged. For iron and steel, aluminium and hydrogen only the direct part is \u2014 the indirect segment is drawn hollow to show that it is published but not chargeable. See the Scope tab.</div>
+      argument turns. For cement and fertilisers both parts are charged. For iron and steel, aluminium and hydrogen only the direct part is — the indirect segment is drawn hollow to show that it is published but not chargeable. See the Scope tab.</div>
   </div>
 
   <div class="panel">
@@ -331,17 +398,27 @@
     <h2>The direction of travel</h2>
     <div class="grid2">
       <div>
-        <h3>Downstream extension, proposed</h3>
+        <h3>Downstream extension, now through both institutions</h3>
         <p style="font-size:13.5px;color:#39414d">A December 2025 proposal would add roughly 180 steel- and
            aluminium-intensive downstream products from 1 January 2028. The logic is straightforward: charging
            carbon on imported steel but not on imported products made of steel simply moves the problem one step
            along the value chain.</p>
+        <p style="font-size:13.5px;color:#39414d">Both co-legislators have now taken positions, and both went
+           further than the Commission. The Council's general approach of 12 June 2026 covers around 200 goods and
+           adds an annual review from 2028. Parliament adopted its negotiating position on 15 September 2026 by
+           464 votes to 50, pushing the list towards 457 products and adding technical assistance for developing
+           countries and derogations for the outermost regions. Trilogues follow, so the final list will sit
+           somewhere above the original 180 rather than below it.</p>
       </div>
       <div>
         <h3>Anti-avoidance</h3>
         <p style="font-size:13.5px;color:#39414d">The same proposal targets misdeclared emission intensities and
            the 'scrap loophole' — the possibility of routing material through pre-consumer steel and aluminium scrap,
            which currently carries no embedded emissions, to strip the carbon content out of a shipment on paper.</p>
+        <p style="font-size:13.5px;color:#39414d">This is the part of the file least likely to be watered down.
+           Scope is contested because it decides who pays; anti-circumvention is contested by almost nobody, since
+           a mechanism that can be avoided on paper protects neither the climate nor the producers it was written
+           for.</p>
       </div>
     </div>
   </div>
@@ -974,11 +1051,16 @@
       <li><strong>Country carbon pricing and Article 9 assessments</strong> — compiled by <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a>, April 2026. Third-party analysis, not official. Penalty, holding, buyback and cancellation rules cross-read against Regulation (EU) 2023/956 as amended by Regulation (EU) 2025/2083.</li>
       <li><strong>Transitional period data</strong> — <a href="https://taxation-customs.ec.europa.eu/document/download/3903da9d-44fd-4508-8915-f27ef25fe033_en?filename=Review+Report_0.pdf" target="_blank" rel="noopener">Commission CBAM review report, COM(2025) 783 final</a>, 16 December 2025. Cement emissions shown as the residual of the reported 167 Mt total.</li>
       <li><strong>Free allocation adjustment, SEFA and CBAM benchmarks</strong> — <a href="http://data.europa.eu/eli/reg_impl/2025/2620/oj" target="_blank" rel="noopener">Commission Implementing Regulation (EU) 2025/2620</a> of 16 December 2025, Annex points 2\u20135. Benchmark values read from the Official Journal text; the table on this site is a representative extract, not the full annex.</li>
-      <li><strong>Default values</strong> — Annex I to <a href="http://data.europa.eu/eli/reg_impl/2025/2621/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2621</a>, version adopted 4 February 2026.</li>
+      <li><strong>Default values</strong> — Annex I to <a href="http://data.europa.eu/eli/reg_impl/2025/2621/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2621</a>, version adopted 4 February 2026, <strong>as corrected by <a href="http://data.europa.eu/eli/reg_impl/2026/1740/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2026/1740</a></strong> (published 31 July 2026, applying retroactively from 1 January 2026). The correction revises values for selected aluminium products and for precursors of unknown origin. The figures on this page are the 4 February version; the corrected values have not yet been transcribed, so check the consolidated annex for aluminium in particular.</li>
       <li><strong>Certificate price</strong> — <a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/price-cbam-certificates_en" target="_blank" rel="noopener">Commission page on the price of CBAM certificates</a>; the Q1 2026 price of €75.36 was the first published, Q2 followed at €75.28. Methodology: <a href="http://data.europa.eu/eli/reg_impl/2025/2548/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2548</a>.</li>
       <li><strong>Indirect cost compensation</strong> — Commission State aid guidelines for certain measures in the context of the EU ETS, as amended December 2025 (20 additional sectors, aid intensity raised from 75% to 80%, updated CO\u2082 factors for 2026\u20132030); Commission report on the functioning of the European carbon market, COM(2025) 735, for disbursement totals.</li>
       <li><strong>Proposals</strong> — the December 2025 scope-extension proposal, and the ETS review COM(2026) 616 of 17 July 2026.</li>
     </ul>
+    <p class="sub"><strong>Getting the data out.</strong> Every chart on this page has a download button
+       underneath it that exports the plotted series as CSV, reflecting whichever series toggles you have set.
+       That is the series as drawn — grouped and rounded — not the source dataset; for the underlying data, go
+       to the source named above.</p>
+
   </div>
 
   <details open>
@@ -1004,8 +1086,11 @@
   <details>
     <summary>The default values used here</summary>
     <p>The calculator and the default value explorer both use the <strong>official CBAM default values</strong> from
-       Annex I to the implementing regulation, version 1 as adopted on 4 February 2026. Twenty origin countries and
-       seven representative goods are included here; the full annex covers around 120 countries and every CN code in
+       Annex I to the implementing regulation, version 1 as adopted on 4 February 2026 — <strong>not</strong> the
+       corrected values issued by Implementing Regulation (EU) 2026/1740 on 31 July 2026, which revise selected
+       aluminium products and precursors of unknown origin with retroactive effect from 1 January 2026. For those
+       goods in particular, check the corrected annex before relying on a figure here. Twenty origin countries and
+       seven representative goods are included; the full annex covers around 120 countries and every CN code in
        scope, and should be consulted for anything you actually import.</p>
     <p>The calculator loads the <em>total</em> default (direct plus indirect) as a starting intensity, without the
        mark-up. If you are genuinely relying on defaults rather than supplier data, add the mark-up for the year in
@@ -1023,9 +1108,9 @@
 </section>
 
 <footer class="wrap" style="padding-bottom:30px">
-  Compiled from Commission sources, August 2026. Orientation only — not legal or compliance advice. Verify against
+  Compiled from Commission sources, August 2026; policy status reviewed 21 September 2026. Orientation only — not legal or compliance advice. Verify against
   the Regulation and the Commission's guidance before acting.
-</footer>
+<br><span class="stamp"><strong>Last updated 21 September 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1232,7 +1317,8 @@ drawDv();
 
 
 // ---------------------------------------------------------------- country exposure
-// Default values: official (IR (EU) 2025/2621 Annex I). Carbon pricing / Article 9 columns:
+// Default values: official (IR (EU) 2025/2621 Annex I, 4 Feb 2026 version;
+//   corrected by IR (EU) 2026/1740 of 31 July 2026 — aluminium and unknown-origin precursors pending). Carbon pricing / Article 9 columns:
 // third-party compilation by cbamguide.com, April 2026 — not a Commission determination.
 const CT=[
  {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        cp:"None; ETS in development",            a9:"Not eligible"},
@@ -1439,6 +1525,204 @@ function drawLeak(){
 document.getElementById("lkQ").addEventListener("input",drawLeak);
 document.getElementById("lkB").addEventListener("change",drawLeak);
 drawLeak();
+</script>
+<script>
+
+/* ===== shared: EU ETS dropdown behaviour (added Sept 2026) ===== */
+(function(){
+  var wraps=[].slice.call(document.querySelectorAll('.ddwrap'));
+  if(!wraps.length) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  function close(w){ w.classList.remove('open'); w.dataset.pinned=''; var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','false'); }
+  function open(w){ w.classList.add('open'); var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','true'); }
+  wraps.forEach(function(w){
+    var t=w.querySelector('.ddtog');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var pinned = w.dataset.pinned==='1';
+      wraps.forEach(close);
+      if(!pinned){ open(w); w.dataset.pinned='1'; }
+    });
+    if(canHover){
+      w.addEventListener('mouseenter',function(){ open(w); });
+      w.addEventListener('mouseleave',function(){ if(w.dataset.pinned!=='1') close(w); });
+    }
+    var m=w.querySelector('.ddmenu'); if(m) m.addEventListener('click',function(e){ e.stopPropagation(); });
+  });
+  document.addEventListener('click',function(){ wraps.forEach(close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') wraps.forEach(close); });
+})();
+
+/* ===== shared: tab deep links and tab accessibility (added Sept 2026) =====
+   #<tab> or #tab-<tab> opens that tab on load; the hash then follows the active tab,
+   so every tab on every page can be linked to and cited directly. The same pass wires
+   up the ARIA tab pattern, which the plain buttons did not implement: the strip is a
+   tablist, each button owns its panel, and left/right/home/end move between them. */
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('nav button[data-tab]'));
+  if(!btns.length) return;
+  var strip = btns[0].parentNode;
+  if(strip) strip.setAttribute('role','tablist');
+
+  btns.forEach(function(b){
+    var name=b.dataset.tab, panel=document.getElementById('tab-'+name);
+    b.setAttribute('role','tab');
+    b.id = b.id || ('tabbtn-'+name);
+    if(panel){
+      b.setAttribute('aria-controls', panel.id);
+      panel.setAttribute('role','tabpanel');
+      panel.setAttribute('aria-labelledby', b.id);
+      panel.setAttribute('tabindex','0');
+    }
+  });
+
+  function sync(){
+    btns.forEach(function(b){
+      var on=b.classList.contains('on');
+      b.setAttribute('aria-selected', on?'true':'false');
+      b.setAttribute('tabindex', on?'0':'-1');
+    });
+  }
+
+  function byName(n){ for(var i=0;i<btns.length;i++){ if(btns[i].dataset.tab===n) return btns[i]; } return null; }
+  function fromHash(){
+    var raw=location.hash.replace(/^#/,''); if(!raw) return;
+    try{ raw=decodeURIComponent(raw); }catch(e){}
+    var b=byName(raw)||byName(raw.replace(/^tab-/,''));
+    if(b) b.click();
+  }
+
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      try{ history.replaceState(null,'','#'+b.dataset.tab); }catch(e){}
+      sync();
+    });
+    b.addEventListener('keydown',function(e){
+      var j=null;
+      if(e.key==='ArrowRight') j=(i+1)%btns.length;
+      else if(e.key==='ArrowLeft') j=(i-1+btns.length)%btns.length;
+      else if(e.key==='Home') j=0;
+      else if(e.key==='End') j=btns.length-1;
+      if(j===null) return;
+      e.preventDefault(); btns[j].click(); btns[j].focus();
+    });
+  });
+
+  window.addEventListener('hashchange',fromHash);
+  fromHash();
+  sync();
+})();
+</script>
+<script>
+/* ===== shared: chart data download + chart accessibility (added Sept 2026) =====
+   Every chart on this site is drawn from an array that is already in the page. These
+   buttons serialise whatever the chart is currently showing — including the toggles you
+   have set — so the figures can be checked or reused without scraping the page. The CSV
+   is the plotted series, not the source dataset: the sources tab says where each one
+   comes from. */
+(function(){
+  if(typeof Chart === "undefined") return;
+
+  function esc(v){ v = (v==null ? "" : String(v));
+    return /[",\n\r;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+
+  function slug(s){ return String(s||"chart").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,48) || "chart"; }
+
+  function isPointObj(v){ return v && typeof v === "object" && !Array.isArray(v); }
+
+  function toCsv(ch, fallbackName){
+    var d = ch.data || {};
+    var sets = (d.datasets||[]).filter(function(s,i){
+      try { return ch.isDatasetVisible(i); } catch(e){ return !s.hidden; }
+    });
+    if(!sets.length) return null;
+    var first = (sets[0].data||[])[0];
+    var rows = [];
+    /* A single unlabelled series is the common case here — the heading and the axis title
+       carry the meaning instead, so fall back to those rather than writing "series 1". */
+    var axisTitle = "";
+    try { var sc = ch.options.scales.y; axisTitle = (sc && sc.title && sc.title.text) || ""; } catch(e){}
+    function nameOf(s,i){
+      return s.label || (sets.length===1 ? (axisTitle || fallbackName) : ("series "+(i+1)));
+    }
+    if(isPointObj(first)){
+      var keys = [];
+      sets.forEach(function(s){ (s.data||[]).forEach(function(p){
+        if(isPointObj(p)) Object.keys(p).forEach(function(k){ if(keys.indexOf(k)<0) keys.push(k); });
+      });});
+      rows.push(["series"].concat(keys).join(","));
+      sets.forEach(function(s,i){
+        (s.data||[]).forEach(function(p){
+          rows.push([esc(nameOf(s,i))].concat(keys.map(function(k){
+            return esc(isPointObj(p)?p[k]:""); })).join(","));
+        });
+      });
+    } else {
+      var labels = d.labels || [];
+      rows.push(["label"].concat(sets.map(function(s,i){
+        return esc(nameOf(s,i)); })).join(","));
+      var n = labels.length || Math.max.apply(null, sets.map(function(s){ return (s.data||[]).length; }));
+      for(var i=0;i<n;i++){
+        rows.push([esc(labels[i]!=null?labels[i]:i)].concat(sets.map(function(s){
+          var v=(s.data||[])[i]; return esc(isPointObj(v)?v.y:v); })).join(","));
+      }
+    }
+    return rows.join("\r\n");
+  }
+
+  function save(name, text){
+    var blob = new Blob(["﻿"+text], {type:"text/csv;charset=utf-8;"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+
+  function headingFor(box){
+    var p = box.closest ? box.closest(".panel") : null;
+    var h = p && (p.querySelector("h2") || p.querySelector("h3"));
+    if(h) return h.textContent.trim();
+    var prev = box.previousElementSibling;
+    while(prev){ if(/^H[23]$/.test(prev.tagName)) return prev.textContent.trim(); prev = prev.previousElementSibling; }
+    return (document.title||"chart").split("—")[0].trim();
+  }
+
+  var page = slug((location.pathname.split("/").pop()||"page").replace(/\.html?$/,""));
+
+  document.querySelectorAll(".chartbox").forEach(function(box){
+    var cv = box.querySelector("canvas");
+    if(!cv) return;
+    var title = headingFor(box);
+
+    /* Accessibility: a bare <canvas> is invisible to a screen reader. Name it, and point
+       at the tabular form of the same data rather than pretending an image alt can carry
+       twenty years of series. */
+    cv.setAttribute("role","img");
+    cv.setAttribute("aria-label","Chart: "+title+". The plotted values can be downloaded as a CSV file using the button below the chart.");
+
+    var bar = document.createElement("div");
+    bar.className = "charttools";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "csvbtn";
+    btn.textContent = "Download data (CSV)";
+    btn.setAttribute("aria-label","Download the data behind the chart “"+title+"” as a CSV file");
+    btn.addEventListener("click", function(){
+      var ch = Chart.getChart(cv);
+      if(!ch){ btn.textContent = "No data available"; btn.disabled = true; return; }
+      var csv = toCsv(ch, title);
+      if(!csv){ btn.textContent = "No series selected"; return; }
+      save(page+"-"+slug(title)+".csv", csv);
+      var old = btn.textContent;
+      btn.textContent = "Downloaded ✓";
+      setTimeout(function(){ btn.textContent = old; }, 1600);
+    });
+    bar.appendChild(btn);
+    box.parentNode.insertBefore(bar, box.nextSibling);
+  });
+})();
 </script>
 </body>
 </html>

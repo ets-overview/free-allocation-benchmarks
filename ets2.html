@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU ETS 2 — EU Climate Policy Explorer</title>
+<meta name="description" content="The second EU emissions trading system: carbon pricing for fuels used in buildings, road transport and small industry from 2028. Scope, the obligation on fuel suppliers, the cap, the price stability mechanism, the Social Climate Fund, and what has already been reported.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="EU ETS 2 — buildings, road transport and small industry">
+<meta property="og:description" content="Carbon pricing for heating and transport fuels from 2028: who is obliged, how the cap works, the €45 price safeguard, and the 957 Mt already reported.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/ets2.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EU ETS 2 — buildings, road transport and small industry">
+<meta name="twitter:description" content="Carbon pricing for heating and transport fuels from 2028: who is obliged, how the cap works, and the €45 price safeguard.">
+<meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  :root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5f6b7a;--line:#e3e7ec;--accent:#1f5fbf;
+        --down:#1f8a5f;--up:#c0392b;--violet:#6b5bd2;--navy:#0b3d91;--teal:#16a085}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--navy);color:#fff;padding:26px 28px 22px}
+  .headerinner{max-width:1240px;margin:0 auto;padding:0 20px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:900px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+           padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:var(--navy);border-color:#fff;font-weight:600}
+  /* ETS section strip: the EU ETS page and its sub-pages. Sits above the sticky
+     tab bar, so it scrolls away and leaves the tabs pinned. Deliberately a plain div,
+     not a nav element, so it cannot collide with the tab-bar selectors. */
+  .subnav{background:#0f4bb0}
+  .subnav .headerinner{display:flex;align-items:center;gap:2px;overflow-x:auto}
+  .subnav .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#9dbcea;
+               font-weight:700;margin-right:14px;white-space:nowrap;flex-shrink:0}
+  .subnav a{color:#d7e3f7;font-size:13.5px;text-decoration:none;padding:11px 13px;
+            white-space:nowrap;border-bottom:3px solid transparent}
+  .subnav a:hover{color:#fff}
+  .subnav a[aria-current]{color:#fff;font-weight:600;border-bottom-color:#fff}
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 20px 60px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:0 0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:25px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel h3{font-size:14.5px;margin:0 0 8px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:960px}
+  .chartbox{position:relative;height:400px}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  a{color:var(--accent)}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
+      font-size:14px;line-height:1.9}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th.l,td.l{text-align:left;white-space:normal}
+  thead th{background:#fafbfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tbody tr:hover{background:#f4f8ff}
+  .tblscroll{border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:560px}
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p,details li{font-size:13.5px;color:#39414d}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .dim{color:var(--muted)}
+  .hide{display:none}
+
+/* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
+.ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
+.ddwrap>.ddtog{background:none;border:0;color:inherit;font:inherit;font-size:11px;line-height:1;
+  cursor:pointer;padding:6px 5px;opacity:.75;border-radius:6px}
+.ddwrap>.ddtog:hover,.ddwrap>.ddtog:focus-visible{opacity:1;background:rgba(127,127,127,.18)}
+.ddmenu{position:absolute;top:calc(100% + 7px);left:0;min-width:242px;display:none;flex-direction:column;
+  background:#fff;border:1px solid rgba(20,24,31,.14);border-radius:10px;
+  box-shadow:0 14px 34px rgba(20,24,31,.24);padding:6px;z-index:140}
+.ddwrap.open>.ddmenu{display:flex}
+.ddwrap .ddmenu a{display:block;padding:8px 11px;margin:0;border:0 !important;border-radius:7px;
+  background:none !important;color:#14181f !important;text-decoration:none;font-size:13.5px;
+  font-weight:500 !important;white-space:nowrap;letter-spacing:normal}
+.ddwrap .ddmenu a:hover{background:#eef3fb !important;color:#0b3d91 !important}
+.ddwrap .ddmenu a[aria-current]{color:#0b3d91 !important;font-weight:700 !important;background:#eef4fd !important}
+.ddmenu .ddhead{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7686;
+  padding:6px 11px 4px;font-weight:700}
+/* ===== shared: narrow-viewport pass (added Sept 2026) ===== */
+@media (max-width:860px){
+  header{padding-left:18px !important;padding-right:18px !important}
+  header .top{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  header .links,header .top .links,header span.links{flex-wrap:wrap !important;flex-shrink:1 !important;row-gap:6px}
+  header .top{flex-wrap:wrap !important}
+  nav.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:9px;row-gap:4px}
+  .grid2{grid-template-columns:1fr !important}
+  nav.tabs .headerinner,.subnav .headerinner,.tabs .headerinner{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  nav.tabs button,.subnav a,.tabs button{flex:0 0 auto}
+  .bar{row-gap:8px}
+}
+@media (max-width:600px){
+  .wrap{padding-left:16px !important;padding-right:16px !important}
+  .headerinner{padding-left:16px !important;padding-right:16px !important}
+  header{padding-left:16px !important;padding-right:16px !important}
+  .cards{grid-template-columns:1fr !important}
+  .form{grid-template-columns:1fr !important}
+  header h1{font-size:21px;line-height:1.25}
+  .ddmenu{min-width:0;width:max-content;max-width:78vw}
+  .ddwrap .ddmenu a{white-space:normal}
+  table{font-size:12.5px}
+  th,td{padding:7px 8px}
+}
+
+.stamp{display:inline-block;margin-top:8px}
+.stamp a{text-decoration:none}
+.stamp a:hover{text-decoration:underline}
+
+.sitefoot{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between;align-items:baseline;
+  margin:26px 0 0;padding:14px 0 0;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+.sitefoot a{color:var(--accent);text-decoration:none}
+.sitefoot a:hover{text-decoration:underline}
+
+/* ===== shared: chart data download + focus visibility (added Sept 2026) ===== */
+.charttools{display:flex;justify-content:flex-end;margin:8px 0 0}
+.csvbtn{font:inherit;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.csvbtn:hover{color:var(--ink);border-color:var(--muted);background:#fafbfc}
+.csvbtn[disabled]{opacity:.45;cursor:default}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style></head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>EU ETS 2 — buildings, road transport and small industry</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <span class="ddwrap"><a href="ets.html" aria-current="page">EU ETS</a><button class="ddtog" type="button" aria-expanded="false" aria-haspopup="true" aria-label="EU ETS sub-pages">&#9662;</button><span class="ddmenu">
+        <span class="ddhead">EU ETS</span>
+        <a href="ets.html">Overview</a>
+        <a href="benchmarks.html">Free allocation benchmarks</a>
+        <a href="ets2.html" aria-current="page">ETS 2 — buildings &amp; transport</a>
+        <a href="maritime.html">Maritime</a>
+        <a href="aviation.html">Aviation</a>
+      </span></span>
+        <a href="cbam.html">CBAM</a>
+        <a href="effort-sharing.html">Effort sharing</a>
+        <a href="indirect-costs.html">Indirect costs</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>A second, separate carbon market for the fuels burned in homes, cars and small industry. It starts pricing
+       in 2028, the obligation sits on fuel suppliers rather than on households, and on the emissions already
+       reported it is close to the size of the original ETS.</p>
+  </div>
+</header>
+
+<div class="subnav" role="navigation" aria-label="EU ETS sections">
+  <div class="headerinner">
+    <span class="lbl">EU ETS</span>
+    <a href="ets.html">Overview</a>
+    <a href="benchmarks.html">Free allocation benchmarks</a>
+    <a href="ets2.html" aria-current="page">ETS 2</a>
+    <a href="maritime.html">Maritime</a>
+    <a href="aviation.html">Aviation</a>
+  </div>
+</div>
+<nav class="tabs">
+  <div class="headerinner">
+    <button data-tab="what" class="on">What it is</button>
+    <button data-tab="scope">Scope &amp; obligation</button>
+    <button data-tab="size">How big it is</button>
+    <button data-tab="cap">Cap &amp; price safeguard</button>
+    <button data-tab="scf">Social Climate Fund</button>
+    <button data-tab="time">Timeline</button>
+    <button data-tab="notes">Data &amp; caveats</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ===================== WHAT IT IS ===================== -->
+<section id="tab-what">
+  <div class="cards">
+    <div class="card"><div class="k">2028</div><div class="l">first year of pricing — postponed by one year in March 2026</div></div>
+    <div class="card"><div class="k">957 Mt</div><div class="l">CO₂e reported for 2024 by eighteen national accounts</div></div>
+    <div class="card"><div class="k">~80%</div><div class="l">of what the original ETS covered in the same year</div></div>
+    <div class="card"><div class="k">−42%</div><div class="l">the cap's 2030 target against 2005</div></div>
+    <div class="card"><div class="k">€45</div><div class="l">price above which extra allowances are released (2020 prices)</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>A second system, not an extension of the first</h2>
+    <p class="sub">The EU ETS covers power stations, heavy industry, aviation and shipping — installations and
+       operators large enough to be individually regulated. It never covered the boiler in a house or the fuel in a
+       car, because there is no practical way to hand an allowance account to forty million households. ETS 2
+       solves that by moving the obligation upstream: it prices the same emissions, but charges the company that
+       releases the fuel for consumption rather than the person who burns it.</p>
+    <div class="eq">
+      <strong>EU ETS 1</strong> = the emitter surrenders &nbsp;·&nbsp; power, industry, aviation, maritime &nbsp;·&nbsp; since 2005<br>
+      <strong>EU ETS 2</strong> = the fuel supplier surrenders &nbsp;·&nbsp; buildings, road transport, small industry &nbsp;·&nbsp; from 2028
+    </div>
+    <p class="sub">The two systems have separate caps, separate allowances and separate registries. An ETS 2
+       allowance cannot be surrendered in ETS 1 and the prices are not linked. The Directive keeps them apart
+       deliberately: the abatement costs in heating and transport are very different from those in steel, and
+       merging them would let one sector's cheap reductions relieve pressure on the other.</p>
+
+    <div class="grid2">
+      <div>
+        <h3>Why upstream</h3>
+        <p class="sub">The regulated entity is the one that releases fuels for consumption — broadly, the point
+           at which excise duty falls due. That makes the population of regulated entities a few thousand fuel
+           suppliers rather than tens of millions of end users, and it reuses an accounting infrastructure that
+           already exists for tax purposes.</p>
+      </div>
+      <div>
+        <h3>But paid downstream</h3>
+        <p class="sub">The supplier buys the allowances and adds the cost to the price of heating oil, gas, petrol
+           and diesel. Households and small businesses never touch the carbon market, but they pay for it at the
+           pump and on the bill. That is the intended mechanism, and it is also the political problem the
+           <a href="#scf" data-goto="scf">Social Climate Fund</a> exists to answer.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Why it was postponed</h2>
+    <p class="sub">ETS 2 was legislated to start pricing in 2027. In March 2026, as part of the package that
+       adopted the 2040 climate target, the start was moved to 1 January 2028. The argument made for the delay was
+       cost-of-living exposure: a carbon price landing on heating and motor fuels in a single step, in states where
+       a large share of households heat with oil or gas, with the Social Climate Fund not yet fully disbursing.</p>
+    <div class="warn">
+      <strong>Auctioning still begins in 2027.</strong> Only the surrender obligation moved. Allowances are sold
+      from 2027 so that a market and a price exist before compliance starts, with the first surrender falling in
+      2029 for 2028 emissions. Monitoring and reporting have been running since 2024, and from 2026 the annual
+      emissions reports must be verified by an accredited third party.
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Where it sits against the rest of the framework</h2>
+    <p class="sub">The emissions ETS 2 prices are the same emissions that already sit under national targets in
+       the <a href="effort-sharing.html">Effort Sharing Regulation</a>. From 2028 a tonne of CO₂ from a German
+       boiler is simultaneously a tonne a fuel supplier must hold an allowance for and a tonne counting against
+       Germany's binding national target. That is deliberate — a price and a target pulling in the same direction —
+       but it means the two instruments have to be read together, and that the revenue from ETS 2 accrues to the
+       same government that owes the target.</p>
+  </div>
+</section>
+
+<!-- ===================== SCOPE ===================== -->
+<section id="tab-scope" class="hide">
+  <div class="panel">
+    <h2>What is covered</h2>
+    <p class="sub">Annex III to the ETS Directive defines the scope by activity rather than by sector name: the
+       release for consumption of fuels used for combustion in buildings, road transport and additional sectors —
+       in practice, small industrial installations below the ETS 1 thresholds.</p>
+    <div class="grid2">
+      <div>
+        <h3>In scope</h3>
+        <p class="sub">Heating fuels for residential and commercial buildings; petrol, diesel and other road
+           transport fuels; and fuel combustion in industry not already covered by ETS 1, including installations
+           under the 20 MW threshold.</p>
+      </div>
+      <div>
+        <h3>Out of scope</h3>
+        <p class="sub">Everything already in ETS 1, so no tonne is priced twice. Agriculture's non-energy emissions,
+           waste, and the non-CO₂ gases stay outside — they remain purely effort-sharing territory. Rail and inland
+           navigation are not part of road transport.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Who actually holds the obligation</h2>
+    <p class="sub">The regulated entity is the natural or legal person releasing the fuel for consumption, or in
+       some member states the person liable for the excise duty on it. Three consequences follow, and they are the
+       things most often misunderstood about this system.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Question</th><th class="l">ETS 1</th><th class="l">ETS 2</th></tr></thead>
+        <tbody>
+          <tr><td class="l">Who surrenders allowances?</td><td class="l">The installation or operator that emits</td><td class="l">The supplier that releases the fuel</td></tr>
+          <tr><td class="l">Who bears the cost?</td><td class="l">Largely the same entity</td><td class="l">The household, driver or small firm, through the fuel price</td></tr>
+          <tr><td class="l">How many regulated entities?</td><td class="l">Roughly 13 000 installations plus operators</td><td class="l">A few thousand fuel suppliers</td></tr>
+          <tr><td class="l">Can the cost be avoided by using less?</td><td class="l">Yes, directly</td><td class="l">Yes, but only through the price signal reaching the end user</td></tr>
+          <tr><td class="l">Free allocation?</td><td class="l">Yes, for industry at risk of leakage</td><td class="l">None — every allowance is auctioned</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub"><strong>No free allocation is the quiet structural difference.</strong> ETS 1 hands out a
+       large share of its allowances for nothing and auctions the rest. ETS 2 auctions all of them, which is why
+       a system covering fewer tonnes than ETS 1 is expected to raise revenue on a comparable scale — and why the
+       distributional question arrives immediately rather than in 2034.</p>
+  </div>
+</section>
+
+<!-- ===================== SIZE ===================== -->
+<section id="tab-size" class="hide">
+  <div class="panel">
+    <h2>How big is ETS 2 going to be?</h2>
+    <p class="sub">Pricing does not start until 2028, but the monitoring obligation started in 2024 and those
+       reports are already in the Union Registry. Eighteen national accounts reported
+       <strong>957 Mt CO₂e for 2024</strong>. For scale, that is roughly 80% of everything the original ETS
+       covered in the same year. ETS 2 is not a small addition to the carbon market; it is close to a second one.</p>
+    <div class="chartbox"><canvas id="ets2Chart"></canvas></div>
+    <p class="sub">Three member states — Germany, France and Italy — account for about two thirds of what has been
+       reported so far, which is roughly what their combined heating and road transport demand would suggest.
+       Germany alone reports more than the next two together, and it is also the state with an existing national
+       carbon price on the same fuels, which ETS 2 will replace.</p>
+    <div class="warn">
+      <strong>2024 only, and incomplete.</strong> The 2025 reporting is still coming in — 13 accounts and 307 Mt at
+      the last extract, which is incomplete rather than a collapse, so it is not shown. These are reported emissions
+      under the monitoring obligation, not a cap: the ETS 2 cap is set separately, and the first surrender
+      obligation falls in 2029 for 2028 emissions. Eighteen accounts is not twenty-seven member states, so the
+      total understates full coverage.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CAP ===================== -->
+<section id="tab-cap" class="hide">
+  <div class="panel">
+    <h2>The cap</h2>
+    <p class="sub">ETS 2 has its own cap, set to bring the emissions it covers down
+       <strong>42% below 2005 by 2030</strong>. Like the ETS 1 cap it declines by a fixed quantity each year
+       rather than by a percentage of the previous year, and it was built from reported effort-sharing data for
+       the covered sectors rather than from a bottom-up count of installations.</p>
+    <p class="sub">Because the start moved to 2028, the quantities in the original 2023 text no longer line up
+       with the years they were written for. The amending act rebases them. Anyone using these numbers for
+       modelling should read the current consolidated text rather than the 2023 version — this is exactly the
+       kind of detail a one-year postponement quietly breaks.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The price safeguard</h2>
+    <p class="sub">ETS 2 has a mechanism ETS 1 does not: an explicit trigger that releases extra allowances if
+       the price rises too far, too fast. It exists because the political tolerance for a carbon price on petrol
+       and heating is far narrower than for one on industrial output.</p>
+    <div class="eq">
+      If the average allowance price exceeds <strong>€45</strong> (in 2020 prices) over a defined reference
+      period, allowances are released from the ETS 2 market stability reserve.
+    </div>
+    <div class="grid2">
+      <div>
+        <h3>Strengthened in June 2026</h3>
+        <p class="sub">Council and Parliament reached a provisional agreement on 11 June 2026 that doubles the
+           volume released when the €45 trigger fires, from 20 million allowances to 40 million, extends the
+           reserve beyond 2030, and adds a more gradual release when the number of allowances in circulation falls
+           below 260 million. The stated aim is to reduce volatility before the system ever charges anyone.</p>
+      </div>
+      <div>
+        <h3>What it does not do</h3>
+        <p class="sub">It is not a price cap. Releasing allowances adds supply and dampens a spike; it does not
+           stop the price rising, and the released allowances come out of a finite reserve. A trigger set in 2020
+           prices also erodes in real terms if inflation runs ahead of the indexation, so the threshold is softer
+           in 2028 than it looked in 2023.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SCF ===================== -->
+<section id="tab-scf" class="hide">
+  <div class="panel">
+    <h2>The Social Climate Fund</h2>
+    <p class="sub">ETS 2 and the Social Climate Fund were negotiated as a pair: the price is the instrument, the
+       Fund is the condition on which it was politically possible. The Fund is financed from ETS 2 revenues and is
+       expected to mobilise at least <strong>€86.7 bn between 2026 and 2032</strong>, combining the EU
+       contribution with a mandatory 25% national co-financing share.</p>
+    <div class="grid2">
+      <div>
+        <h3>What it pays for</h3>
+        <p class="sub">Structural measures first — building renovation, heating system replacement, access to
+           zero-emission mobility — and temporary direct income support for vulnerable households and
+           micro-enterprises as a bridge while those investments are made. Member states set out both in national
+           Social Climate Plans.</p>
+      </div>
+      <div>
+        <h3>The timing problem</h3>
+        <p class="sub">Renovation and heating replacement take years; the fuel price moves the month the system
+           starts. A fund that disburses slowly against a price that bites immediately is the central design risk,
+           and the one-year postponement of ETS 2 buys the Fund exactly one more year of head start.</p>
+      </div>
+    </div>
+    <p class="sub">Whether the Fund is large enough is genuinely contested. Set against a system expected to raise
+       revenue on the scale of ETS 1 auctioning, €86.7 bn over seven years is a meaningful share but not the whole
+       of it, and the distribution between member states follows a formula based on exposure rather than on what
+       each state actually raises.</p>
+  </div>
+</section>
+
+<!-- ===================== TIMELINE ===================== -->
+<section id="tab-time" class="hide">
+  <div class="panel">
+    <h2>From reporting exercise to carbon price</h2>
+    <p class="sub">ETS 2 follows the pattern the ETS has used for every expansion: measure first, oblige later.</p>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">When</th><th class="l">What happens</th></tr></thead>
+        <tbody>
+          <tr><td class="l">2024</td><td class="l">Monitoring and reporting of emissions begins; first reports enter the Union Registry</td></tr>
+          <tr><td class="l">1 Jan 2025</td><td class="l">Regulated entities must hold a greenhouse gas emissions permit and an approved monitoring plan</td></tr>
+          <tr><td class="l">2026</td><td class="l">Annual emissions reports must be verified by an accredited third party</td></tr>
+          <tr><td class="l">2026–2032</td><td class="l">Social Climate Fund period</td></tr>
+          <tr><td class="l">2027</td><td class="l">Auctioning of ETS 2 allowances begins, ahead of the compliance obligation</td></tr>
+          <tr><td class="l">1 Jan 2028</td><td class="l">Pricing starts — emissions from this year carry a surrender obligation</td></tr>
+          <tr><td class="l">2029</td><td class="l">First surrender of allowances, for 2028 emissions</td></tr>
+          <tr><td class="l">2030</td><td class="l">Cap target: 42% below 2005 for the covered sectors</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NOTES ===================== -->
+<section id="tab-notes" class="hide">
+  <div class="panel">
+    <h2>Sources</h2>
+    <p class="sub"><strong>Legal basis.</strong> Chapter IVa of
+       <a href="https://eur-lex.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive 2003/87/EC</a>
+       as inserted by <a href="https://eur-lex.europa.eu/eli/dir/2023/959/oj" target="_blank" rel="noopener">Directive (EU) 2023/959</a>,
+       with Annex III defining the covered activity. The Social Climate Fund is
+       <a href="https://eur-lex.europa.eu/eli/reg/2023/955/oj" target="_blank" rel="noopener">Regulation (EU) 2023/955</a>.
+       Both acts, and the amendment chain, are on the <a href="legislation.html">legislation map</a>.</p>
+    <p class="sub"><strong>Reported emissions.</strong> EU Union Registry daily data extracts, ETS 2 national
+       accounts separated by account name, snapshot 7 August 2026. Eighteen accounts reported for 2024; the series
+       is reported emissions under the monitoring obligation, not verified compliance data, and not a cap.</p>
+    <p class="sub"><strong>Getting the data out.</strong> The chart on this page has a download button
+       underneath it that exports the plotted series as CSV. That is the series as drawn, not the source
+       dataset; for the underlying data, go to the Union Registry extract named above.</p>
+    <p class="sub"><strong>Postponement.</strong> The one-year delay to 1 January 2028 was adopted in March 2026
+       alongside the 2040 climate target; auctioning remains scheduled for 2027.</p>
+    <p class="sub"><strong>Price safeguard.</strong> Council and Parliament provisional agreement of 11 June 2026
+       on the ETS 2 market stability reserve — 40 million allowances released above the €45 trigger, reserve
+       extended beyond 2030, gradual release below 260 million in circulation. Provisionally agreed, pending
+       formal adoption by both institutions.</p>
+
+    <h2>What this page does not cover</h2>
+    <p class="sub">The detailed monitoring and reporting rules for fuel suppliers; the treatment of fuels used for
+       purposes outside the covered sectors and the associated rebate mechanisms; the interaction with national
+       carbon prices that ETS 2 replaces, particularly the German and Austrian schemes; and the per-member-state
+       allocation of the Social Climate Fund.</p>
+    <div class="warn">
+      <strong>The cap figures are the part to check.</strong> The quantities and reduction factors written in the
+      2023 Directive were drafted for a 2027 start. The postponement rebases them, so any figure quoted from the
+      original text against a calendar year after 2027 is likely to be wrong by one year's step. This page
+      therefore states the 2030 target and avoids reproducing annual cap quantities.
+    </div>
+
+    <footer>Compiled from Commission, Council and Union Registry sources, September 2026. An orientation tool,
+      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 21 September 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+  </div>
+</section>
+
+
+  <div class="sitefoot">
+    <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
+    <span><strong>Last updated 21 September 2026</strong> · <a href="changelog.html">what changed</a></span>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hide"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hide");
+  window.scrollTo(0,0);
+});
+
+// jump to another tab from an in-page link
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-goto]"); if(!a) return;
+  e.preventDefault();
+  const btn=document.querySelector(`nav.tabs button[data-tab="${a.dataset.goto}"]`);
+  if(btn) btn.click();
+});
+
+// ---------------------------------------------------------------- reported ETS 2 emissions, 2024
+const E2_C=["DE","FR","IT","NL","BE","ES","CZ","AT","GR","SE","IE","FI","DK","NO","HR","SI","LU","LV"];
+const E2_V=[273.0,178.3,167.0,56.6,46.3,38.8,33.4,30.9,24.4,21.0,20.0,14.9,14.5,11.1,10.0,7.2,5.7,4.1];
+const E2_TOT=957.0;
+new Chart(document.getElementById("ets2Chart"),{type:"bar",
+  data:{labels:E2_C,datasets:[{data:E2_V,backgroundColor:"rgba(107,91,210,.85)",borderRadius:3}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>[`${c.parsed.y.toFixed(1)} Mt CO₂e reported for 2024`,
+        `${(c.parsed.y/E2_TOT*100).toFixed(1)}% of the ${E2_TOT.toFixed(0)} Mt total`]}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Reported ETS 2 emissions 2024, Mt CO₂e"},
+      grid:{color:"#eef1f5"}},x:{grid:{display:false}}}}});
+</script>
+<script>
+
+/* ===== shared: EU ETS dropdown behaviour (added Sept 2026) ===== */
+(function(){
+  var wraps=[].slice.call(document.querySelectorAll('.ddwrap'));
+  if(!wraps.length) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  function close(w){ w.classList.remove('open'); w.dataset.pinned=''; var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','false'); }
+  function open(w){ w.classList.add('open'); var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','true'); }
+  wraps.forEach(function(w){
+    var t=w.querySelector('.ddtog');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var pinned = w.dataset.pinned==='1';
+      wraps.forEach(close);
+      if(!pinned){ open(w); w.dataset.pinned='1'; }
+    });
+    if(canHover){
+      w.addEventListener('mouseenter',function(){ open(w); });
+      w.addEventListener('mouseleave',function(){ if(w.dataset.pinned!=='1') close(w); });
+    }
+    var m=w.querySelector('.ddmenu'); if(m) m.addEventListener('click',function(e){ e.stopPropagation(); });
+  });
+  document.addEventListener('click',function(){ wraps.forEach(close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') wraps.forEach(close); });
+})();
+
+/* ===== shared: tab deep links and tab accessibility (added Sept 2026) =====
+   #<tab> or #tab-<tab> opens that tab on load; the hash then follows the active tab,
+   so every tab on every page can be linked to and cited directly. The same pass wires
+   up the ARIA tab pattern, which the plain buttons did not implement: the strip is a
+   tablist, each button owns its panel, and left/right/home/end move between them. */
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('nav button[data-tab]'));
+  if(!btns.length) return;
+  var strip = btns[0].parentNode;
+  if(strip) strip.setAttribute('role','tablist');
+
+  btns.forEach(function(b){
+    var name=b.dataset.tab, panel=document.getElementById('tab-'+name);
+    b.setAttribute('role','tab');
+    b.id = b.id || ('tabbtn-'+name);
+    if(panel){
+      b.setAttribute('aria-controls', panel.id);
+      panel.setAttribute('role','tabpanel');
+      panel.setAttribute('aria-labelledby', b.id);
+      panel.setAttribute('tabindex','0');
+    }
+  });
+
+  function sync(){
+    btns.forEach(function(b){
+      var on=b.classList.contains('on');
+      b.setAttribute('aria-selected', on?'true':'false');
+      b.setAttribute('tabindex', on?'0':'-1');
+    });
+  }
+
+  function byName(n){ for(var i=0;i<btns.length;i++){ if(btns[i].dataset.tab===n) return btns[i]; } return null; }
+  function fromHash(){
+    var raw=location.hash.replace(/^#/,''); if(!raw) return;
+    try{ raw=decodeURIComponent(raw); }catch(e){}
+    var b=byName(raw)||byName(raw.replace(/^tab-/,''));
+    if(b) b.click();
+  }
+
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      try{ history.replaceState(null,'','#'+b.dataset.tab); }catch(e){}
+      sync();
+    });
+    b.addEventListener('keydown',function(e){
+      var j=null;
+      if(e.key==='ArrowRight') j=(i+1)%btns.length;
+      else if(e.key==='ArrowLeft') j=(i-1+btns.length)%btns.length;
+      else if(e.key==='Home') j=0;
+      else if(e.key==='End') j=btns.length-1;
+      if(j===null) return;
+      e.preventDefault(); btns[j].click(); btns[j].focus();
+    });
+  });
+
+  window.addEventListener('hashchange',fromHash);
+  fromHash();
+  sync();
+})();
+</script>
+<script>
+/* ===== shared: chart data download + chart accessibility (added Sept 2026) =====
+   Every chart on this site is drawn from an array that is already in the page. These
+   buttons serialise whatever the chart is currently showing — including the toggles you
+   have set — so the figures can be checked or reused without scraping the page. The CSV
+   is the plotted series, not the source dataset: the sources tab says where each one
+   comes from. */
+(function(){
+  if(typeof Chart === "undefined") return;
+
+  function esc(v){ v = (v==null ? "" : String(v));
+    return /[",\n\r;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+
+  function slug(s){ return String(s||"chart").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,48) || "chart"; }
+
+  function isPointObj(v){ return v && typeof v === "object" && !Array.isArray(v); }
+
+  function toCsv(ch, fallbackName){
+    var d = ch.data || {};
+    var sets = (d.datasets||[]).filter(function(s,i){
+      try { return ch.isDatasetVisible(i); } catch(e){ return !s.hidden; }
+    });
+    if(!sets.length) return null;
+    var first = (sets[0].data||[])[0];
+    var rows = [];
+    /* A single unlabelled series is the common case here — the heading and the axis title
+       carry the meaning instead, so fall back to those rather than writing "series 1". */
+    var axisTitle = "";
+    try { var sc = ch.options.scales.y; axisTitle = (sc && sc.title && sc.title.text) || ""; } catch(e){}
+    function nameOf(s,i){
+      return s.label || (sets.length===1 ? (axisTitle || fallbackName) : ("series "+(i+1)));
+    }
+    if(isPointObj(first)){
+      var keys = [];
+      sets.forEach(function(s){ (s.data||[]).forEach(function(p){
+        if(isPointObj(p)) Object.keys(p).forEach(function(k){ if(keys.indexOf(k)<0) keys.push(k); });
+      });});
+      rows.push(["series"].concat(keys).join(","));
+      sets.forEach(function(s,i){
+        (s.data||[]).forEach(function(p){
+          rows.push([esc(nameOf(s,i))].concat(keys.map(function(k){
+            return esc(isPointObj(p)?p[k]:""); })).join(","));
+        });
+      });
+    } else {
+      var labels = d.labels || [];
+      rows.push(["label"].concat(sets.map(function(s,i){
+        return esc(nameOf(s,i)); })).join(","));
+      var n = labels.length || Math.max.apply(null, sets.map(function(s){ return (s.data||[]).length; }));
+      for(var i=0;i<n;i++){
+        rows.push([esc(labels[i]!=null?labels[i]:i)].concat(sets.map(function(s){
+          var v=(s.data||[])[i]; return esc(isPointObj(v)?v.y:v); })).join(","));
+      }
+    }
+    return rows.join("\r\n");
+  }
+
+  function save(name, text){
+    var blob = new Blob(["﻿"+text], {type:"text/csv;charset=utf-8;"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+
+  function headingFor(box){
+    var p = box.closest ? box.closest(".panel") : null;
+    var h = p && (p.querySelector("h2") || p.querySelector("h3"));
+    if(h) return h.textContent.trim();
+    var prev = box.previousElementSibling;
+    while(prev){ if(/^H[23]$/.test(prev.tagName)) return prev.textContent.trim(); prev = prev.previousElementSibling; }
+    return (document.title||"chart").split("—")[0].trim();
+  }
+
+  var page = slug((location.pathname.split("/").pop()||"page").replace(/\.html?$/,""));
+
+  document.querySelectorAll(".chartbox").forEach(function(box){
+    var cv = box.querySelector("canvas");
+    if(!cv) return;
+    var title = headingFor(box);
+
+    /* Accessibility: a bare <canvas> is invisible to a screen reader. Name it, and point
+       at the tabular form of the same data rather than pretending an image alt can carry
+       twenty years of series. */
+    cv.setAttribute("role","img");
+    cv.setAttribute("aria-label","Chart: "+title+". The plotted values can be downloaded as a CSV file using the button below the chart.");
+
+    var bar = document.createElement("div");
+    bar.className = "charttools";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "csvbtn";
+    btn.textContent = "Download data (CSV)";
+    btn.setAttribute("aria-label","Download the data behind the chart “"+title+"” as a CSV file");
+    btn.addEventListener("click", function(){
+      var ch = Chart.getChart(cv);
+      if(!ch){ btn.textContent = "No data available"; btn.disabled = true; return; }
+      var csv = toCsv(ch, title);
+      if(!csv){ btn.textContent = "No series selected"; return; }
+      save(page+"-"+slug(title)+".csv", csv);
+      var old = btn.textContent;
+      btn.textContent = "Downloaded ✓";
+      setTimeout(function(){ btn.textContent = old; }, 1600);
+    });
+    bar.appendChild(btn);
+    box.parentNode.insertBefore(bar, box.nextSibling);
+  });
+})();
+</script>
+</body>
+</html>

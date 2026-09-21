@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — EU Climate Policy Explorer</title>
+<meta name="description" content="What changed on this site and when — substantive corrections, data updates and new pages, most recent first.">
+<meta property="og:title" content="Changelog — EU Climate Policy Explorer">
+<meta property="og:description" content="What changed on this site and when, most recent first.">
+<meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
+<meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/changelog.html">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  :root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5f6b7a;--line:#e3e7ec;--accent:#1f5fbf;
+        --down:#1f8a5f;--up:#c0392b;--violet:#6b5bd2;--navy:#0b3d91;--teal:#16a085}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--navy);color:#fff;padding:26px 28px 22px}
+  .headerinner{max-width:1240px;margin:0 auto;padding:0 20px}
+  header .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}
+  header p{margin:0;color:#c2d3ef;font-size:14px;max-width:900px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#c2d3ef;font-size:13px;text-decoration:none;border:1px solid #3f6cb5;
+           padding:6px 12px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#174ba8;color:#fff}
+  header a[aria-current]{background:#fff;color:var(--navy);border-color:#fff;font-weight:600}
+  /* ETS section strip: the EU ETS page and its sub-pages. Sits above the sticky
+     tab bar, so it scrolls away and leaves the tabs pinned. Deliberately a plain div,
+     not a nav element, so it cannot collide with the tab-bar selectors. */
+  .subnav{background:#0f4bb0}
+  .subnav .headerinner{display:flex;align-items:center;gap:2px;overflow-x:auto}
+  .subnav .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#9dbcea;
+               font-weight:700;margin-right:14px;white-space:nowrap;flex-shrink:0}
+  .subnav a{color:#d7e3f7;font-size:13.5px;text-decoration:none;padding:11px 13px;
+            white-space:nowrap;border-bottom:3px solid transparent}
+  .subnav a:hover{color:#fff}
+  .subnav a[aria-current]{color:#fff;font-weight:600;border-bottom-color:#fff}
+  nav.tabs{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  nav.tabs .headerinner{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;padding:14px 16px;font:inherit;font-weight:600;color:var(--muted);
+                  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 20px 60px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:0 0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .k{font-size:25px;font-weight:700;letter-spacing:-.02em}
+  .card .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+  .panel h2{margin:0 0 4px;font-size:17px}
+  .panel h3{font-size:14.5px;margin:0 0 8px}
+  .panel .sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:960px}
+  .chartbox{position:relative;height:400px}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 26px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  a{color:var(--accent)}
+  .warn{background:#fdf3e2;border:1px solid #f2d9a8;color:#7a4d00;padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:16px}
+  .eq{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:14px 0;
+      font-size:14px;line-height:1.9}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th.l,td.l{text-align:left;white-space:normal}
+  thead th{background:#fafbfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tbody tr:hover{background:#f4f8ff}
+  .tblscroll{border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:560px}
+  details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p,details li{font-size:13.5px;color:#39414d}
+  footer{color:var(--muted);font-size:12.5px;padding-top:10px;border-top:1px solid var(--line)}
+  .dim{color:var(--muted)}
+  .hide{display:none}
+
+/* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
+.ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
+.ddwrap>.ddtog{background:none;border:0;color:inherit;font:inherit;font-size:11px;line-height:1;
+  cursor:pointer;padding:6px 5px;opacity:.75;border-radius:6px}
+.ddwrap>.ddtog:hover,.ddwrap>.ddtog:focus-visible{opacity:1;background:rgba(127,127,127,.18)}
+.ddmenu{position:absolute;top:calc(100% + 7px);left:0;min-width:242px;display:none;flex-direction:column;
+  background:#fff;border:1px solid rgba(20,24,31,.14);border-radius:10px;
+  box-shadow:0 14px 34px rgba(20,24,31,.24);padding:6px;z-index:140}
+.ddwrap.open>.ddmenu{display:flex}
+.ddwrap .ddmenu a{display:block;padding:8px 11px;margin:0;border:0 !important;border-radius:7px;
+  background:none !important;color:#14181f !important;text-decoration:none;font-size:13.5px;
+  font-weight:500 !important;white-space:nowrap;letter-spacing:normal}
+.ddwrap .ddmenu a:hover{background:#eef3fb !important;color:#0b3d91 !important}
+.ddwrap .ddmenu a[aria-current]{color:#0b3d91 !important;font-weight:700 !important;background:#eef4fd !important}
+.ddmenu .ddhead{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7686;
+  padding:6px 11px 4px;font-weight:700}
+/* ===== shared: narrow-viewport pass (added Sept 2026) ===== */
+@media (max-width:860px){
+  header{padding-left:18px !important;padding-right:18px !important}
+  header .top{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  header .links,header .top .links,header span.links{flex-wrap:wrap !important;flex-shrink:1 !important;row-gap:6px}
+  header .top{flex-wrap:wrap !important}
+  nav.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:9px;row-gap:4px}
+  .grid2{grid-template-columns:1fr !important}
+  nav.tabs .headerinner,.subnav .headerinner,.tabs .headerinner{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  nav.tabs button,.subnav a,.tabs button{flex:0 0 auto}
+  .bar{row-gap:8px}
+}
+@media (max-width:600px){
+  .wrap{padding-left:16px !important;padding-right:16px !important}
+  .headerinner{padding-left:16px !important;padding-right:16px !important}
+  header{padding-left:16px !important;padding-right:16px !important}
+  .cards{grid-template-columns:1fr !important}
+  .form{grid-template-columns:1fr !important}
+  header h1{font-size:21px;line-height:1.25}
+  .ddmenu{min-width:0;width:max-content;max-width:78vw}
+  .ddwrap .ddmenu a{white-space:normal}
+  table{font-size:12.5px}
+  th,td{padding:7px 8px}
+}
+
+.stamp{display:inline-block;margin-top:8px}
+.stamp a{text-decoration:none}
+.stamp a:hover{text-decoration:underline}
+
+/* ===== shared: chart data download + focus visibility (added Sept 2026) ===== */
+.charttools{display:flex;justify-content:flex-end;margin:8px 0 0}
+.csvbtn{font:inherit;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.csvbtn:hover{color:var(--ink);border-color:var(--muted);background:#fafbfc}
+.csvbtn[disabled]{opacity:.45;cursor:default}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style><style>
+  .log{max-width:820px}
+  .entry{border-left:3px solid var(--line);padding:0 0 4px 20px;margin:0 0 30px}
+  .entry.big{border-left-color:var(--accent)}
+  .entry .date{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+  .entry h2{margin:4px 0 10px;font-size:17px}
+  .entry ul{margin:0;padding-left:18px}
+  .entry li{font-size:14px;color:#39414d;margin-bottom:9px;line-height:1.55}
+  .entry li .where{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:7px;
+    vertical-align:1px;background:#fafbfc}
+  .policy{background:#f4f7fb;border:1px solid #dbe4f0;border-radius:9px;padding:15px 18px;margin:0 0 28px;
+    font-size:13.5px;color:#39414d;max-width:820px}
+</style></head>
+<body>
+
+<header>
+  <div class="headerinner">
+    <div class="top">
+      <h1>Changelog</h1>
+      <div class="links">
+        <a href="index.html">← Home</a>
+        <span class="ddwrap"><a href="ets.html">EU ETS</a><button class="ddtog" type="button" aria-expanded="false" aria-haspopup="true" aria-label="EU ETS sub-pages">&#9662;</button><span class="ddmenu">
+        <span class="ddhead">EU ETS</span>
+        <a href="ets.html">Overview</a>
+        <a href="benchmarks.html">Free allocation benchmarks</a>
+        <a href="ets2.html">ETS 2 — buildings &amp; transport</a>
+        <a href="maritime.html">Maritime</a>
+        <a href="aviation.html">Aviation</a>
+      </span></span>
+        <a href="cbam.html">CBAM</a>
+        <a href="effort-sharing.html">Effort sharing</a>
+        <a href="indirect-costs.html">Indirect costs</a>
+        <a href="legislation.html">Legislation map</a>
+      </div>
+    </div>
+    <p>What changed on this site, and when. Substantive corrections and data updates are listed; typographic
+       fixes are not.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="policy">
+    <strong>Why this page exists.</strong> Every page here carries a "last updated" date, and this is what sits
+    behind it. EU climate legislation moves monthly: a figure that was right in June can be superseded by an
+    implementing regulation in August and a Parliament vote in September. If you cited something from this site,
+    this page tells you whether the thing you cited has since changed. Where a change corrects something that was
+    wrong rather than merely out of date, it says so.
+  </div>
+
+  <div class="log">
+
+    <div class="entry big">
+      <div class="date">21 September 2026</div>
+      <h2>September policy update, a new ETS 2 page, and a navigation rebuild</h2>
+      <ul>
+        <li><span class="where">EU ETS</span><strong>Market Stability Reserve.</strong> Added Parliament's
+          position on COM(2026) 153. The Environment Committee rejected the Commission's approach on 10 September
+          and the plenary adopted its negotiating position on 15 September, 367–240 with 59 abstentions: keep
+          invalidation, but raise the threshold from 400 Mt to 650 Mt. Council remains divided; trilogues follow.
+          The page previously said only that the proposal was not law.</li>
+        <li><span class="where">EU ETS</span><strong>The rest of the July 2026 review.</strong> New panel covering
+          what COM(2026) 616 contains besides the cap trajectory: free allocation made conditional on verified
+          decarbonisation investment plans from 2031, 250 Mt of permanent removals integrated, international
+          credits from 2036, municipal waste incineration from 2031, and the Industrial Decarbonisation Bank.</li>
+        <li><span class="where">New page</span><strong>EU ETS 2 now has its own page.</strong> It was a box on the
+          ETS scope tab. At 957 Mt reported for 2024 it is larger than aviation and maritime combined and starts
+          pricing in 2028, so it now gets the same treatment as the other sectors: scope, the obligation on fuel
+          suppliers, the cap, the €45 price safeguard, the Social Climate Fund and the overlap with effort
+          sharing. The country breakdown chart moved there from the ETS page.</li>
+        <li><span class="where">CBAM</span><strong>Default values corrected.</strong> Implementing Regulation
+          (EU) 2026/1740 of 31 July 2026 corrects the Annex I default values with retroactive effect from
+          1 January 2026, affecting selected aluminium products and precursors of unknown origin. The calculator
+          and the default value explorer still use the 4 February 2026 version; both now say so explicitly. The
+          corrected values have not yet been transcribed.</li>
+        <li><span class="where">CBAM</span><strong>Downstream extension has moved.</strong> Council general
+          approach of 12 June 2026 (around 200 goods, annual review from 2028) and Parliament's negotiating
+          position of 15 September 2026, adopted 464–50, pushing towards 457 products. The page previously
+          described this only as a December 2025 proposal.</li>
+        <li><span class="where">Correction</span><strong>COM(2026) 619 was the wrong citation.</strong> The
+          benchmarks page attributed the reintroduction of 15% of phased-out free allocation and the 2038 CBAM
+          phase-out to COM(2026) 619. That change is in COM(2026) 616, the ETS review; COM(2026) 619 is the
+          separate fall-back benchmark uplift for the heat and fuel benchmarks. Both pages now say which is
+          which.</li>
+        <li><span class="where">Aviation</span><strong>The CORSIA question has been answered.</strong> The page
+          said the Commission's assessment of CORSIA was unresolved. It was published in July 2026 and was
+          negative. COM(2026) 616 proposes extending the ETS from 2029 to departing flights within 5 000 km of
+          Frankfurt, with a deduction for CORSIA costs and a further review in 2032. Added to the scope and CORSIA
+          tabs; the caveat saying the proposal was out of scope has been removed.</li>
+        <li><span class="where">Maritime</span><strong>July 2026 proposals added.</strong> Ships of 400–5 000 GT
+          would enter the pricing obligation from 2031 with monitoring from 2029; the ice-class and outermost
+          region derogations would run to 2035, as would a new derogation for containerships of 10 000 TEU and
+          above on voyages over 300 nautical miles. Also flagged that the adjourned IMO extraordinary session
+          reconvenes in October 2026.</li>
+        <li><span class="where">Site</span><strong>Navigation.</strong> The benchmarks, maritime, aviation and new
+          ETS 2 pages were reachable only from the home page and from cross-links. The EU ETS item in the top
+          navigation is now a dropdown listing all five, and the navigation is identical on every page.</li>
+        <li><span class="where">Site</span><strong>Narrow screens.</strong> Every page was wider than a phone
+          viewport — up to twice the width on the ETS, CBAM, benchmarks and legislation pages — forcing horizontal
+          scrolling and clipping content. Fixed: the header link row wraps, two-column blocks collapse to one,
+          the tab strips scroll horizontally, and the legislation map's detail panel no longer extends the
+          document.</li>
+        <li><span class="where">Site</span><strong>Tabs are now linkable.</strong> Any tab on any page can be
+          addressed directly — <code>ets.html#price</code>, <code>cbam.html#calc</code>,
+          <code>benchmarks.html#table</code> — and the address bar follows the tab you are on, so a citation
+          points at what you were reading. Previously only the benchmarks page did this, and the cross-link from
+          benchmarks to the ETS price tab silently landed on the overview.</li>
+        <li><span class="where">Site</span><strong>Dates.</strong> Every page now carries its own last-updated
+          date instead of one site-wide "reviewed August 2026", and this changelog sits behind them.</li>
+        <li><span class="where">Site</span><strong>Chart data is downloadable.</strong> Every chart now has a
+          button underneath it that exports the plotted series as CSV, reflecting whichever series toggles are
+          set. The legislation map exports all 107 acts with their number, title, year, policy area, status,
+          EUR-Lex link and relations. These are the series as drawn, not the source datasets, and each page's
+          caveats tab now says so.</li>
+        <li><span class="where">Accessibility</span><strong>Charts and tabs are now reachable without sight or a
+          mouse.</strong> Every chart canvas carries a name and points at the CSV as its text alternative, rather
+          than being an unlabelled blank to a screen reader. The tab strips implement the ARIA tab pattern —
+          tablist, tab, tabpanel, aria-selected — and respond to left, right, home and end keys. Focus outlines
+          are visible again. The legislation map, which is drawn on a canvas and cannot be made readable in
+          place, carries a description pointing at the CSV and the search field.</li>
+        <li><span class="where">Home</span><strong>The sourcing claim was overstated.</strong> The page said
+          "every figure and every act links back to its official source". Acts do link individually; figures are
+          sourced at dataset level, in each page's caveats tab. The claim now says which is which.</li>
+        <li><span class="where">Benchmarks</span>Removed the opening sentence pointing out that benchmarks belong
+          to the EU ETS — redundant now that the page sits inside the ETS section of the navigation.</li>
+        <li><span class="where">Repo</span><strong>README, licence and setup notes added.</strong> The repository
+          had no README and no licence, which left the "open resource" claim resting on nothing a visitor could
+          check. The README sets out scope, sources, the two-level sourcing convention, the update policy and how
+          to contribute; the licence is CC BY 4.0, with the EU's own texts and datasets carved out under their
+          publishers' terms.</li>
+        <li><span class="where">Fixes</span>A literal <code>\u2014</code> escape was rendering as text in the CBAM
+          scope tab. The opening sentence of the ETS page was ungrammatical. Four typos on the home page.
+          The aviation page's "around €75" for the allowance price is now given as a range, since the price
+          series on the ETS page ends in June 2026.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="date">August 2026</div>
+      <h2>Previous full review</h2>
+      <ul>
+        <li><span class="where">All pages</span>Sources and figures reviewed against Commission, EEA and Union
+          Registry releases available at the time: EEA ETS data viewer July 2026 release, Union Registry extract
+          of 7 August 2026, allowance price series to June 2026.</li>
+        <li><span class="where">EU ETS</span>July 2026 Phase 5 cap trajectory added to the cap chart alongside the
+          mechanical extension of current rules.</li>
+        <li><span class="where">Benchmarks</span>All 54 values for 2026–2030 from Implementing Regulation (EU)
+          2026/1412, with the Article 10a(2) derivation for each.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="date">Earlier</div>
+      <h2>Before this changelog</h2>
+      <ul>
+        <li>Changes made before September 2026 were not recorded individually. The site carried a single
+          site-wide review date; page-level dates and this log start from the September 2026 update.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>An independent, non-commercial resource. Corrections are welcome at
+    <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a> — if something here is wrong, saying
+    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 21 September 2026.</strong></span></footer>
+
+</div>
+
+<script>
+/* ===== shared: EU ETS dropdown behaviour (added Sept 2026) ===== */
+(function(){
+  var wraps=[].slice.call(document.querySelectorAll('.ddwrap'));
+  if(!wraps.length) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  function close(w){ w.classList.remove('open'); w.dataset.pinned=''; var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','false'); }
+  function open(w){ w.classList.add('open'); var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','true'); }
+  wraps.forEach(function(w){
+    var t=w.querySelector('.ddtog');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var pinned = w.dataset.pinned==='1';
+      wraps.forEach(close);
+      if(!pinned){ open(w); w.dataset.pinned='1'; }
+    });
+    if(canHover){
+      w.addEventListener('mouseenter',function(){ open(w); });
+      w.addEventListener('mouseleave',function(){ if(w.dataset.pinned!=='1') close(w); });
+    }
+    var m=w.querySelector('.ddmenu'); if(m) m.addEventListener('click',function(e){ e.stopPropagation(); });
+  });
+  document.addEventListener('click',function(){ wraps.forEach(close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') wraps.forEach(close); });
+})();
+</script>
+<script>
+/* ===== shared: chart data download + chart accessibility (added Sept 2026) =====
+   Every chart on this site is drawn from an array that is already in the page. These
+   buttons serialise whatever the chart is currently showing — including the toggles you
+   have set — so the figures can be checked or reused without scraping the page. The CSV
+   is the plotted series, not the source dataset: the sources tab says where each one
+   comes from. */
+(function(){
+  if(typeof Chart === "undefined") return;
+
+  function esc(v){ v = (v==null ? "" : String(v));
+    return /[",\n\r;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+
+  function slug(s){ return String(s||"chart").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,48) || "chart"; }
+
+  function isPointObj(v){ return v && typeof v === "object" && !Array.isArray(v); }
+
+  function toCsv(ch, fallbackName){
+    var d = ch.data || {};
+    var sets = (d.datasets||[]).filter(function(s,i){
+      try { return ch.isDatasetVisible(i); } catch(e){ return !s.hidden; }
+    });
+    if(!sets.length) return null;
+    var first = (sets[0].data||[])[0];
+    var rows = [];
+    /* A single unlabelled series is the common case here — the heading and the axis title
+       carry the meaning instead, so fall back to those rather than writing "series 1". */
+    var axisTitle = "";
+    try { var sc = ch.options.scales.y; axisTitle = (sc && sc.title && sc.title.text) || ""; } catch(e){}
+    function nameOf(s,i){
+      return s.label || (sets.length===1 ? (axisTitle || fallbackName) : ("series "+(i+1)));
+    }
+    if(isPointObj(first)){
+      var keys = [];
+      sets.forEach(function(s){ (s.data||[]).forEach(function(p){
+        if(isPointObj(p)) Object.keys(p).forEach(function(k){ if(keys.indexOf(k)<0) keys.push(k); });
+      });});
+      rows.push(["series"].concat(keys).join(","));
+      sets.forEach(function(s,i){
+        (s.data||[]).forEach(function(p){
+          rows.push([esc(nameOf(s,i))].concat(keys.map(function(k){
+            return esc(isPointObj(p)?p[k]:""); })).join(","));
+        });
+      });
+    } else {
+      var labels = d.labels || [];
+      rows.push(["label"].concat(sets.map(function(s,i){
+        return esc(nameOf(s,i)); })).join(","));
+      var n = labels.length || Math.max.apply(null, sets.map(function(s){ return (s.data||[]).length; }));
+      for(var i=0;i<n;i++){
+        rows.push([esc(labels[i]!=null?labels[i]:i)].concat(sets.map(function(s){
+          var v=(s.data||[])[i]; return esc(isPointObj(v)?v.y:v); })).join(","));
+      }
+    }
+    return rows.join("\r\n");
+  }
+
+  function save(name, text){
+    var blob = new Blob(["﻿"+text], {type:"text/csv;charset=utf-8;"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+
+  function headingFor(box){
+    var p = box.closest ? box.closest(".panel") : null;
+    var h = p && (p.querySelector("h2") || p.querySelector("h3"));
+    if(h) return h.textContent.trim();
+    var prev = box.previousElementSibling;
+    while(prev){ if(/^H[23]$/.test(prev.tagName)) return prev.textContent.trim(); prev = prev.previousElementSibling; }
+    return (document.title||"chart").split("—")[0].trim();
+  }
+
+  var page = slug((location.pathname.split("/").pop()||"page").replace(/\.html?$/,""));
+
+  document.querySelectorAll(".chartbox").forEach(function(box){
+    var cv = box.querySelector("canvas");
+    if(!cv) return;
+    var title = headingFor(box);
+
+    /* Accessibility: a bare <canvas> is invisible to a screen reader. Name it, and point
+       at the tabular form of the same data rather than pretending an image alt can carry
+       twenty years of series. */
+    cv.setAttribute("role","img");
+    cv.setAttribute("aria-label","Chart: "+title+". The plotted values can be downloaded as a CSV file using the button below the chart.");
+
+    var bar = document.createElement("div");
+    bar.className = "charttools";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "csvbtn";
+    btn.textContent = "Download data (CSV)";
+    btn.setAttribute("aria-label","Download the data behind the chart “"+title+"” as a CSV file");
+    btn.addEventListener("click", function(){
+      var ch = Chart.getChart(cv);
+      if(!ch){ btn.textContent = "No data available"; btn.disabled = true; return; }
+      var csv = toCsv(ch, title);
+      if(!csv){ btn.textContent = "No series selected"; return; }
+      save(page+"-"+slug(title)+".csv", csv);
+      var old = btn.textContent;
+      btn.textContent = "Downloaded ✓";
+      setTimeout(function(){ btn.textContent = old; }, 1600);
+    });
+    bar.appendChild(btn);
+    box.parentNode.insertBefore(bar, box.nextSibling);
+  });
+})();
+</script>
+</body>
+</html>

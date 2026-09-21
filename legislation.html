@@ -57,7 +57,7 @@
   .count{font-size:12.5px;color:var(--muted)}
 
   #stage{position:absolute;inset:0;top:auto;height:calc(100% - 108px);width:100%}
-  #wrap{position:relative;height:calc(100vh - 108px);width:100%}
+  #wrap{position:relative;height:calc(100vh - 108px);width:100%;overflow:hidden}
   canvas{display:block;width:100%;height:100%;cursor:grab}
   canvas.drag{cursor:grabbing}
 
@@ -117,6 +117,62 @@
   #intro .btn{background:var(--accent);color:#fff;border:0;font-weight:600;padding:9px 20px;border-radius:8px;cursor:pointer}
   #intro .btn:hover{background:#17509f}
   #intro a{color:var(--accent)}
+
+/* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
+.ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
+.ddwrap>.ddtog{background:none;border:0;color:inherit;font:inherit;font-size:11px;line-height:1;
+  cursor:pointer;padding:6px 5px;opacity:.75;border-radius:6px}
+.ddwrap>.ddtog:hover,.ddwrap>.ddtog:focus-visible{opacity:1;background:rgba(127,127,127,.18)}
+.ddmenu{position:absolute;top:calc(100% + 7px);left:0;min-width:242px;display:none;flex-direction:column;
+  background:#fff;border:1px solid rgba(20,24,31,.14);border-radius:10px;
+  box-shadow:0 14px 34px rgba(20,24,31,.24);padding:6px;z-index:140}
+.ddwrap.open>.ddmenu{display:flex}
+.ddwrap .ddmenu a{display:block;padding:8px 11px;margin:0;border:0 !important;border-radius:7px;
+  background:none !important;color:#14181f !important;text-decoration:none;font-size:13.5px;
+  font-weight:500 !important;white-space:nowrap;letter-spacing:normal}
+.ddwrap .ddmenu a:hover{background:#eef3fb !important;color:#0b3d91 !important}
+.ddwrap .ddmenu a[aria-current]{color:#0b3d91 !important;font-weight:700 !important;background:#eef4fd !important}
+.ddmenu .ddhead{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#6b7686;
+  padding:6px 11px 4px;font-weight:700}
+/* ===== shared: narrow-viewport pass (added Sept 2026) ===== */
+@media (max-width:860px){
+  header{padding-left:18px !important;padding-right:18px !important}
+  header .top{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  header .links,header .top .links,header span.links{flex-wrap:wrap !important;flex-shrink:1 !important;row-gap:6px}
+  header .top{flex-wrap:wrap !important}
+  nav.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:9px;row-gap:4px}
+  .grid2{grid-template-columns:1fr !important}
+  nav.tabs .headerinner,.subnav .headerinner,.tabs .headerinner{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  nav.tabs button,.subnav a,.tabs button{flex:0 0 auto}
+  .bar{row-gap:8px}
+}
+@media (max-width:600px){
+  .wrap{padding-left:16px !important;padding-right:16px !important}
+  .headerinner{padding-left:16px !important;padding-right:16px !important}
+  header{padding-left:16px !important;padding-right:16px !important}
+  .cards{grid-template-columns:1fr !important}
+  .form{grid-template-columns:1fr !important}
+  header h1{font-size:21px;line-height:1.25}
+  .ddmenu{min-width:0;width:max-content;max-width:78vw}
+  .ddwrap .ddmenu a{white-space:normal}
+  table{font-size:12.5px}
+  th,td{padding:7px 8px}
+}
+  @media (max-width:600px){
+    #panel{left:14px;right:14px;width:auto;max-width:none}
+    header h1{font-size:17px}
+    header .tagline{min-width:0}
+  }
+
+/* ===== shared: chart data download + focus visibility (added Sept 2026) ===== */
+.charttools{display:flex;justify-content:flex-end;margin:8px 0 0}
+.csvbtn{font:inherit;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.csvbtn:hover{color:var(--ink);border-color:var(--muted);background:#fafbfc}
+.csvbtn[disabled]{opacity:.45;cursor:default}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -126,7 +182,14 @@
   <div class="tagline">Fit for 55 and the Green Deal core — how the acts connect, and what is still standing.</div>
   <span class="links">
     <a href="index.html">← Home</a>
-    <a href="ets.html">EU ETS</a>
+    <span class="ddwrap"><a href="ets.html">EU ETS</a><button class="ddtog" type="button" aria-expanded="false" aria-haspopup="true" aria-label="EU ETS sub-pages">&#9662;</button><span class="ddmenu">
+        <span class="ddhead">EU ETS</span>
+        <a href="ets.html">Overview</a>
+        <a href="benchmarks.html">Free allocation benchmarks</a>
+        <a href="ets2.html">ETS 2 — buildings &amp; transport</a>
+        <a href="maritime.html">Maritime</a>
+        <a href="aviation.html">Aviation</a>
+      </span></span>
     <a href="cbam.html">CBAM</a>
     <a href="effort-sharing.html">Effort sharing</a>
     <a href="indirect-costs.html">Indirect costs</a>
@@ -146,12 +209,17 @@
   <span class="chip" data-st="p"><span class="dot ring" style="border-color:var(--violet)"></span>Proposed</span>
   <button class="btn" id="reset">Reset view</button>
   <button class="btn" id="about">About this map</button>
+  <button class="btn" id="csv">Download CSV</button>
   <div class="spacer"></div>
   <span class="count" id="count"></span>
+  <span class="count" style="margin-left:14px">Updated 21 Sep 2026 · <a href="changelog.html" style="color:inherit">what changed</a></span>
 </div>
 
 <div id="wrap">
-  <canvas id="cv"></canvas>
+  <canvas id="cv" role="img" aria-label="Interactive map of 107 EU climate legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
+  <p class="vh">This map is drawn on a canvas and cannot be read by a screen reader. The same 107 acts —
+     number, title, year, policy area, status, EUR-Lex link and the relations between them — are available as a
+     CSV file from the &ldquo;Download CSV&rdquo; button in the toolbar above.</p>
   <div id="tip"></div>
 
   <div id="scrim"></div>
@@ -177,10 +245,13 @@
        assessment duties under the Civil Protection Mechanism. Water policy proper — the Water Framework
        Directive and its river basin planning — sits outside the map, on the same reasoning that keeps most
        energy law out of it, though the Floods Directive is coordinated with it.</p>
+    <p><strong>Getting the data out.</strong> “Download CSV” in the toolbar exports all 107 acts — number,
+       title, year, policy area, status, EUR-Lex link and the relations between them — as a single file. It is
+       the full list rather than the filtered view.</p>
     <p>If you believe that important legislation is missing, please feel free to get in touch at
        <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
     <div class="foot">
-      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.</span>
+      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.<br><strong>Last updated 21 September 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
       <button class="btn" id="introClose">Explore the map</button>
     </div>
   </div>
@@ -1100,6 +1171,77 @@ L.forEach(d=>{
 });
 fitView();
 updateCount();
+</script>
+<script>
+
+/* ===== shared: EU ETS dropdown behaviour (added Sept 2026) ===== */
+(function(){
+  var wraps=[].slice.call(document.querySelectorAll('.ddwrap'));
+  if(!wraps.length) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  function close(w){ w.classList.remove('open'); w.dataset.pinned=''; var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','false'); }
+  function open(w){ w.classList.add('open'); var t=w.querySelector('.ddtog'); if(t) t.setAttribute('aria-expanded','true'); }
+  wraps.forEach(function(w){
+    var t=w.querySelector('.ddtog');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var pinned = w.dataset.pinned==='1';
+      wraps.forEach(close);
+      if(!pinned){ open(w); w.dataset.pinned='1'; }
+    });
+    if(canHover){
+      w.addEventListener('mouseenter',function(){ open(w); });
+      w.addEventListener('mouseleave',function(){ if(w.dataset.pinned!=='1') close(w); });
+    }
+    var m=w.querySelector('.ddmenu'); if(m) m.addEventListener('click',function(e){ e.stopPropagation(); });
+  });
+  document.addEventListener('click',function(){ wraps.forEach(close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') wraps.forEach(close); });
+})();
+</script>
+
+<script>
+/* ===== legislation map: CSV export (added Sept 2026) =====
+   The map is a view of a list. This hands over the list itself — one row per act, with
+   its relations flattened — so it can be checked, sorted or merged with other work
+   without scraping the canvas. Filters apply: what you export is what is on screen. */
+(function(){
+  var btn=document.getElementById("csv");
+  if(!btn || typeof L === "undefined") return;
+
+  function esc(v){ v=(v==null?"":String(v));
+    return /[",\n\r;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+
+  var DOMLBL={}; try{ Object.keys(DOMS).forEach(function(k){ DOMLBL[k]=DOMS[k].label; }); }catch(e){}
+  var STATUS = (typeof STLBL!=="undefined") ? STLBL
+             : {g:"In force, as adopted",y:"In force, amended",r:"Repealed or expired",p:"Proposed, not yet adopted"};
+  var RELS = (typeof RELLBL!=="undefined") ? RELLBL
+           : {am:"amends",rp:"repeals",im:"implements",rl:"relates to"};
+
+  btn.addEventListener("click",function(){
+    var rows=[["id","number","title","year","policy_area","status","eurlex_url","relations","summary"]
+                .map(esc).join(",")];
+    /* The full list, not the filtered view: the map is drawn on a canvas, so there is no
+       per-node DOM to read a filter state from, and a partial export would be the more
+       surprising of the two behaviours. */
+    L.forEach(function(d){
+      var rel=(d.rel||[]).map(function(r){ return (RELS[r[0]]||r[0])+": "+r[1]; }).join("; ");
+      rows.push([
+        esc(d.id), esc(d.num), esc(d.title), esc(d.yr),
+        esc(DOMLBL[d.dom]||d.dom), esc(STATUS[d.st]||d.st),
+        esc(d.url || (d.eli ? "http://data.europa.eu/eli/"+d.eli+"/oj" : "")),
+        esc(rel), esc(d.sum)
+      ].join(","));
+    });
+    var blob=new Blob(["﻿"+rows.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+    var url=URL.createObjectURL(blob), a=document.createElement("a");
+    a.href=url; a.download="eu-climate-legislation-map.csv";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },0);
+    var old=btn.textContent; btn.textContent="Downloaded ✓";
+    setTimeout(function(){ btn.textContent=old; },1600);
+  });
+})();
 </script>
 </body>
 </html>

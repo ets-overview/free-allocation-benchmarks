@@ -1,0 +1,60 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 EU Climate Policy Explorer
+
+The content of this repository — the explanatory text, the compiled datasets, the
+visualisations and the page code — is licensed under the Creative Commons Attribution
+4.0 International License.
+
+You are free to:
+
+  Share  — copy and redistribute the material in any medium or format
+  Adapt  — remix, transform, and build upon the material for any purpose,
+           including commercially
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made. You may do so in any reasonable manner, but
+  not in any way that suggests the licensor endorses you or your use.
+
+  No additional restrictions — You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license permits.
+
+The full legal code governs and is available at:
+
+  https://creativecommons.org/licenses/by/4.0/legalcode
+
+A plain-language summary is at:
+
+  https://creativecommons.org/licenses/by/4.0/
+
+---
+
+Suggested attribution:
+
+  "EU Climate Policy Explorer, CC BY 4.0,
+   https://ets-overview.github.io/free-allocation-benchmarks/"
+
+---
+
+NOT COVERED BY THIS LICENSE
+
+Legal texts, official figures and datasets published by the European Union are
+reproduced here under the terms on which their publishers make them available,
+and remain subject to those terms rather than to this license:
+
+  - Legislative texts from EUR-Lex and the Official Journal of the European Union
+  - Datasets published by the European Environment Agency
+  - Data extracted from the EU Union Registry
+  - Allowance price data from the ICAP Allowance Price Explorer
+
+Reuse of the EU's own documents is generally permitted under Commission Decision
+2011/833/EU, subject to acknowledgement of the source; check the publisher's terms
+for anything you intend to redistribute.
+
+Chart.js, loaded from a CDN and not redistributed in this repository, is licensed
+separately under the MIT License.
+
+This is an independent project. It is not affiliated with, endorsed by, or speaking
+for the European Commission or any other institution of the European Union.
