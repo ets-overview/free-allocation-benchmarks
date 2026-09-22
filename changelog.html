@@ -265,6 +265,53 @@
       </ul>
     </div>
 
+    <div class="entry big">
+      <div class="date">22 September 2026</div>
+      <h2>The legislation map gets three levels of detail</h2>
+      <ul>
+        <li><span class="where">Legislation map</span><strong>107 acts was too many to look at.</strong> The map
+          now opens on <strong>core</strong> — the 37 acts that create a regime rather than adjust one, plus the
+          live proposals that would materially change one. <strong>+ machinery</strong> adds the delegated and
+          implementing acts that operate each regime and the landmark revisions, for 78. <strong>All</strong> is
+          the full 107 as before. The choice is remembered between visits.</li>
+        <li><span class="where">Legislation map</span>The level is set by hand for each act rather than computed
+          from how connected it is. A connection count measures how often something has been amended, not how
+          much it matters — filtering on it would have kept 23 of the 36 carbon pricing acts while dropping the
+          Floods Directive, the Industrial Emissions Directive, ReFuelEU Aviation and the Methane Regulation.
+          Every policy area keeps representation at core level.</li>
+        <li><span class="where">Legislation map</span>Opening an act that sits below the level currently shown
+          now raises the level automatically, so a link from the detail panel can never land on nothing.</li>
+        <li><span class="where">Legislation map</span>Timeline nodes sharing a lane and a year are now stacked at
+          fixed offsets instead of being scattered randomly, which was the main source of overlapping labels.
+          The policy-area labels down the right-hand side were being clipped at common window widths and are
+          now inside the fitted view, with a halo so a node in the final year cannot sit on top of one.</li>
+        <li><span class="where">Legislation map</span>The CSV export gained a column for the level, and the
+          canvas now sizes itself to whatever the toolbar leaves rather than to a fixed height.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="date">22 September 2026</div>
+      <h2>Cross-link corrections after the ETS 2 split</h2>
+      <ul>
+        <li><span class="where">Correction</span><strong>Effort sharing pointed ETS 2 at the wrong page.</strong>
+          "From 2028, ETS 2 will put a carbon price on fuels for buildings and road transport" linked to the ETS
+          overview. It was written before ETS 2 had a page of its own; it now goes to that page.</li>
+        <li><span class="where">EU ETS</span>The scope tab carried two signposts to the ETS 2 page, one of them a
+          panel left behind when its chart moved. The panel is gone and its one load-bearing fact — 957 Mt
+          reported for 2024, about 80% of what the original ETS covered — now sits in the "two systems" box
+          alongside the single link.</li>
+        <li><span class="where">EU ETS</span>The sources list still credited ETS 2 reported emissions to this
+          page after the chart moved; it now says where the figure is quoted and where it is charted. The
+          sentence pointing at the free allocation record was also missing a dash, which left it ungrammatical.</li>
+        <li><span class="where">Effort sharing</span>"Union Registry" linked to the ETS overview, which is not a
+          page about the registry. The link now sits on "ETS allowances", which is what the ETS page is about.</li>
+        <li><span class="where">Benchmarks</span>The link to the allowance price used the older
+          <code>#tab-price</code> form. Normalised to <code>#price</code>, which is what the address bar shows
+          when you open that tab.</li>
+      </ul>
+    </div>
+
     <div class="entry">
       <div class="date">August 2026</div>
       <h2>Previous full review</h2>
@@ -292,7 +339,7 @@
 
   <footer>An independent, non-commercial resource. Corrections are welcome at
     <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a> — if something here is wrong, saying
-    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 21 September 2026.</strong></span></footer>
+    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 22 September 2026.</strong></span></footer>
 
 </div>
 
