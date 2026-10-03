@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Legislation Map — EU Climate Policy Explorer</title>
-<meta name="description" content="An interactive map of 107 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="description" content="An interactive map of 108 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Legislation Map">
-<meta property="og:description" content="An interactive map of 107 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:description" content="An interactive map of 108 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Legislation Map">
-<meta name="twitter:description" content="An interactive map of 107 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:description" content="An interactive map of 108 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -217,12 +217,12 @@
   <button class="btn" id="csv">Download CSV</button>
   <div class="spacer"></div>
   <span class="count" id="count"></span>
-  <span class="count" style="margin-left:14px">Updated 22 Sep 2026 · <a href="changelog.html" style="color:inherit">what changed</a></span>
+  <span class="count" style="margin-left:14px">Updated 3 Oct 2026 · <a href="changelog.html" style="color:inherit">what changed</a></span>
 </div>
 
 <div id="wrap">
-  <canvas id="cv" role="img" aria-label="Interactive map of 107 EU climate legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
-  <p class="vh">This map is drawn on a canvas and cannot be read by a screen reader. The same 107 acts —
+  <canvas id="cv" role="img" aria-label="Interactive map of 108 EU climate legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
+  <p class="vh">This map is drawn on a canvas and cannot be read by a screen reader. The same 108 acts —
      number, title, year, policy area, status, EUR-Lex link and the relations between them — are available as a
      CSV file from the &ldquo;Download CSV&rdquo; button in the toolbar above.</p>
   <div id="tip"></div>
@@ -250,11 +250,11 @@
        assessment duties under the Civil Protection Mechanism. Water policy proper — the Water Framework
        Directive and its river basin planning — sits outside the map, on the same reasoning that keeps most
        energy law out of it, though the Floods Directive is coordinated with it.</p>
-    <p><strong>Core, machinery, everything.</strong> The map holds 107 acts, which is more than anyone
+    <p><strong>Core, machinery, everything.</strong> The map holds 108 acts, which is more than anyone
        can read at once, so it opens with the <strong>core</strong>: the 37 acts that create a regime rather
        than adjust one — the ETS Directive rather than its Phase 4 revision, the Effort Sharing Regulation
        rather than the 2023 amendment that raised its targets — plus the live proposals that would materially
-       change one. <strong>+ machinery</strong> adds the 41 delegated and implementing acts that make each
+       change one. <strong>+ machinery</strong> adds the 42 delegated and implementing acts that make each
        regime operate, and the landmark revisions. <strong>All</strong> adds the rest: repealed predecessors
        and technical amendments.</p>
     <p>The line between the three is set by hand, act by act, not computed from how connected a node is.
@@ -263,13 +263,13 @@
        instrument in their corner, while a routine amending regulation can have several. Your choice is
        remembered between visits, and opening an act that sits below the current level raises it
        automatically rather than leaving you on a dead link.</p>
-    <p><strong>Getting the data out.</strong> “Download CSV” in the toolbar exports all 107 acts — number,
+    <p><strong>Getting the data out.</strong> “Download CSV” in the toolbar exports all 108 acts — number,
        title, year, policy area, status, EUR-Lex link and the relations between them — as a single file, with a column saying which of the three levels each act sits at. It is the full
        list rather than the filtered view.</p>
     <p>If you believe that important legislation is missing, please feel free to get in touch at
        <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
     <div class="foot">
-      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.<br><strong>Last updated 22 September 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
+      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.<br><strong>Last updated 3 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
       <button class="btn" id="introClose">Explore the map</button>
     </div>
   </div>
@@ -475,10 +475,14 @@ const L = [
  eli:"dec/2013/529",
  sum:"Established accounting rules and action-plan reporting for land use emissions and removals, ahead of the sector's full integration into the climate framework.",
  rel:[]},
-{id:"crcf", lvl:1, num:"Reg. (EU) 2024/3012", title:"Carbon Removals Certification Framework", yr:2024, dom:"es", st:"g",
+{id:"crcf", lvl:1, num:"Reg. (EU) 2024/3012", title:"Carbon Removals and Carbon Farming (CRCF) Regulation", yr:2024, dom:"es", st:"g",
  eli:"reg/2024/3012",
- sum:"The first EU-wide voluntary framework for certifying permanent carbon removals, carbon farming and carbon storage in products, with QU.A.L.ITY criteria for quantification, additionality, storage and sustainability.",
+ sum:"The first EU-wide voluntary framework for certifying permanent carbon removals, carbon farming and carbon storage in products, with QU.A.L.ITY criteria for quantification, additionality, storage and sustainability. Often called the Carbon Removals Certification Framework after its subject matter, but the Commission's own name for it is the CRCF Regulation.",
  rel:[["im","climatelaw"],["rl","lulucf"]]},
+{id:"crcfimpl", lvl:2, num:"Impl. Reg. (EU) 2025/2358", title:"CRCF certification schemes and audits", yr:2025, dom:"es", st:"g",
+ eli:"reg_impl/2025/2358",
+ sum:"The first operating layer under the CRCF Regulation, adopted 20 November 2025: how certification schemes are governed and recognised by the Commission, how certification bodies are appointed and supervised, how audits are run, and what the registries must do to stop a removal being counted twice. It sets the plumbing rather than the measurement \u2014 the methodologies for the activities themselves, from DACCS and biochar to peatland rewetting, come separately as delegated regulations. Until those arrive, the framework can accredit an auditor but cannot yet certify a tonne.",
+ rel:[["im","crcf"]]},
 
 // ---------- Transport
 {id:"cars09", lvl:3, num:"Reg. (EC) No 443/2009", title:"CO₂ standards for cars (2009)", yr:2009, dom:"tr", st:"r",
@@ -661,24 +665,24 @@ const L = [
 
 // ---------- Proposals currently in the legislative procedure
 {id:"p_ets5", lvl:1, num:"COM(2026) 616", title:"EU ETS review — Phase 5, 2031–2040", yr:2026, dom:"cp", st:"p",
- prop:"Tabled 17 July 2026 · ordinary legislative procedure",
+ prop:"Tabled 17 July 2026 · procedure 2026/0212(COD) · ENVI, rapporteur Peter Liese (EPP) · indicative plenary 14 December 2026",
  url:"https://climate.ec.europa.eu/document/download/c0b4ca8e-0e12-4b4e-9976-98c0b4224410_en",
  sum:"The most consequential ETS reform since 2005. Sets the Phase 5 framework aligned to the 2040 target: linear reduction factor of 3.7% for 2031–35 then 1.7%, free allocation extended to 2040 but conditional from 2031 on a verified decarbonisation investment plan, CBAM free allocation phase-out slowed and stretched to 2038, benchmark update rules for 2031–35 and 2036–40, a 4% cross-sectoral correction factor buffer, waste incineration brought into scope from 2031, aviation extended to flights within 5,000 km from 2029, maritime extended to 400–5,000 GT vessels, permanent carbon removals integrated via a 250 Mt cap increase, and a new Industrial Decarbonisation Bank from 2028. Agreement targeted for Q1 2027.",
  rel:[["am","ets"],["am","msr"],["rl","cl2040"],["rl","crcf"]]},
 {id:"p_fb", lvl:2, num:"COM(2026) 619", title:"Fall-back benchmark uplift for 2026–2030", yr:2026, dom:"cp", st:"p",
- prop:"Tabled 17 July 2026 · ordinary legislative procedure",
+ prop:"Tabled 17 July 2026 · procedure 2026/0211(COD) · urgent procedure requested 4 September · indicative plenary 19 October 2026",
  url:"https://climate.ec.europa.eu/document/download/672f0f66-a1c2-41d4-a6d6-ff82fea1eb62_en",
- sum:"Separate proposal tabled alongside the ETS review. Relaxes the maximum annual reduction rate applied to the heat and fuel fall-back benchmarks for the current period, unlocking roughly 80 million additional allowances — about €6 bn — for energy-intensive industry. Oil and gas activities are excluded and stay on the existing rate. It amends the ETS Directive itself rather than the benchmark regulation, but the effect lands on the heat and fuel values for 2026–2030.",
+ sum:"Separate proposal tabled alongside the ETS review. Relaxes the maximum annual reduction rate applied to the heat and fuel fall-back benchmarks for the current period, unlocking roughly 80 million additional allowances — about €6 bn — for energy-intensive industry. Oil and gas activities are excluded and stay on the existing rate. It amends the ETS Directive itself rather than the benchmark regulation, but the effect lands on the heat and fuel values for 2026–2030. Moving faster than the review it was tabled alongside: ENVI requested the urgent procedure on 4 September 2026, the Economic and Social Committee delivered its opinion on 24 September, and a plenary first reading is pencilled in for 19 October 2026. Rapporteur Adam Jarubas (EPP).",
  rel:[["am","ets"],["rl","bm26"],["rl","p_ets5"]]},
 {id:"p_msr", lvl:1, num:"COM(2026) 153", title:"MSR invalidation amendment", yr:2026, dom:"cp", st:"p",
- prop:"Tabled 1 April 2026 · ordinary legislative procedure",
+ prop:"Tabled 1 April 2026 · procedure 2026/0085(COD) · in trilogue since late September 2026",
  url:"https://climate.ec.europa.eu/document/download/ea54bb9d-505e-47ec-b81e-f635443182d3_en?filename=COM_2026_153_1_EN_ACT_part1_v4.pdf",
- sum:"Ends the invalidation mechanism under which allowances held in the Market Stability Reserve above 400 million are cancelled, retaining them instead as a buffer against future supply tightness. The July ETS review supplements this with dynamic thresholds, a new lower buffer and a halved intake rate.",
+ sum:"Would end the invalidation mechanism under which allowances held in the Market Stability Reserve above 400 million are cancelled, retaining them instead as a buffer against future supply tightness. All three institutions now want something different. The Commission proposed abolishing invalidation outright. Parliament (15 September 2026, 367–240) would keep it but raise the threshold from 400 to 650 million. The Council (23 September 2026) would suspend it until 31 December 2030 and then reinstate it at 800 million from 1 January 2031. Trilogues are under way with the aim of concluding by the end of 2026. Rapporteur Pierfrancesco Maran (S&D).",
  rel:[["am","msr"],["rl","p_ets5"]]},
 {id:"p_cbamx", lvl:1, num:"COM(2025) 989", title:"CBAM downstream goods and anti-avoidance", yr:2025, dom:"cp", st:"p",
- prop:"Tabled 17 December 2025 \u00b7 procedure 2025/0419(COD)",
+ prop:"Tabled 17 December 2025 \u00b7 procedure 2025/0419(COD) \u00b7 in trilogue since September 2026",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0989",
- sum:"Would amend the CBAM Regulation to extend its scope to downstream goods and add anti-avoidance measures: around 180 steel- and aluminium-intensive products from 1 January 2028, plus provisions against misdeclared emission intensities and the 'scrap loophole', under which routing material through pre-consumer steel and aluminium scrap can strip the carbon content out of a shipment on paper.",
+ sum:"Would amend the CBAM Regulation to extend its scope to downstream goods and add anti-avoidance measures: around 180 steel- and aluminium-intensive products from 1 January 2028, plus provisions against misdeclared emission intensities and the 'scrap loophole', under which routing material through pre-consumer steel and aluminium scrap can strip the carbon content out of a shipment on paper. Both co-legislators went wider than the Commission: the Council's general approach of 12 June 2026 covers around 200 goods with an annual review from 2028, and Parliament's position of 15 September 2026, adopted 464\u201350, pushes towards 457 products. Trilogues are under way.",
  rel:[["am","cbam"]]},
 {id:"p_etd", lvl:2, num:"COM(2021) 563", title:"Energy Taxation Directive recast", yr:2021, dom:"en", st:"p",
  prop:"Tabled 14 July 2021 · unanimity in Council, still unadopted",
@@ -711,14 +715,14 @@ const L = [
 
 // ---------- pending proposals identified from the export
 {id:"p_mrvsimp", lvl:2, num:"COM(2026) 620", title:"Maritime MRV simplification and ETS alignment", yr:2026, dom:"tr", st:"p",
- prop:"Tabled 17 July 2026 \u00b7 part of the July 2026 package",
+ prop:"Tabled 17 July 2026 \u00b7 procedure 2026/0210(COD) \u00b7 ENVI, rapporteur Peter Liese (EPP) \u00b7 indicative plenary 14 December 2026",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0620",
  sum:"Would amend both the shipping MRV Regulation and FuelEU Maritime to simplify and streamline monitoring, reporting and verification and align them with the ETS revision. Three overlapping maritime reporting regimes have accumulated since 2015; this is the attempt to reconcile them.",
  rel:[["am","mrvship"],["am","fueleu"],["rl","p_ets5"]]},
 {id:"p_msr2", lvl:2, num:"COM(2025) 738", title:"Market stability reserve for ETS 2", yr:2025, dom:"cp", st:"p",
- prop:"Tabled 27 November 2025 \u00b7 ordinary legislative procedure",
+ prop:"Tabled 27 November 2025 \u00b7 provisional agreement 11 June 2026, awaiting formal adoption",
  url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC0738",
- sum:"Would amend the MSR Decision as regards the reserve for the buildings, road transport and additional fuels system \u2014 the ETS 2 counterpart to the main market stability reserve, and a live question given the price volatility expected when ETS 2 starts in 2028.",
+ sum:"Would amend the MSR Decision as regards the reserve for the buildings, road transport and additional fuels system \u2014 the ETS 2 counterpart to the main market stability reserve, and a live question given the price volatility expected when ETS 2 starts in 2028. Council and Parliament reached a provisional agreement on 11 June 2026: the volume released when the price trigger fires doubles from 20 to 40 million allowances, the reserve continues beyond 2030, and a gradual release starts when allowances in circulation fall below 260 million.",
  rel:[["am","msr"],["rl","ets23"]]},
 {id:"p_hdvcred", lvl:3, num:"COM(2025) 784", title:"Heavy-duty vehicle emission credits", yr:2025, dom:"tr", st:"p",
  prop:"Tabled 16 December 2025 \u00b7 ordinary legislative procedure",

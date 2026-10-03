@@ -24,7 +24,7 @@ put the two next to each other, in plain language and from the legal text.
 | `cbam.html` | The Carbon Border Adjustment Mechanism: scope, calendar, default values, cost calculator |
 | `indirect-costs.html` | Compensation for indirect carbon costs — the third leakage instrument |
 | `effort-sharing.html` | The Effort Sharing Regulation: 27 national targets and five flexibilities |
-| `legislation.html` | Interactive map of 107 acts, their amendment chains and current status |
+| `legislation.html` | Interactive map of 108 acts, their amendment chains and current status |
 | `changelog.html` | What changed on this site and when |
 
 ## Scope, and what is deliberately left out
@@ -58,7 +58,7 @@ or a reading of an ambiguous provision, the page says so.
 ## Getting the data out
 
 Every chart has a download button underneath it that exports the plotted series as CSV, reflecting
-whatever series toggles are currently set. The legislation map exports all 107 acts with their
+whatever series toggles are currently set. The legislation map exports all 108 acts with their
 relations, status and EUR-Lex links. These are the series as drawn — grouped and rounded — not the
 source datasets; for those, go to the source named in the caveats tab.
 
