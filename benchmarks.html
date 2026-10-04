@@ -279,13 +279,77 @@
         <p style="font-size:13.5px;color:#39414d">52 product benchmarks, each covering a defined good with its own
            system boundary, plus two fall-backs — a <strong>heat benchmark</strong> and a <strong>fuel
            benchmark</strong> — used where no product benchmark fits. Everything from hot metal and cement clinker
-           to adipic acid and tissue paper has its own value.</p>
+           to adipic acid and tissue paper has its own value. When the two fall-backs apply, and why they behave
+           unlike the other 52, is set out directly below.</p>
       </div>
     </div>
     <div class="warn" style="margin-top:16px"><strong>They are updated twice a decade, not annually.</strong>
       Values are fixed for 2013–2020, then 2021–2025, then 2026–2030. Within a period nothing moves. That is why
       the charts on this page show three steps rather than a curve — and why a benchmark update is a significant
       event for the sectors it covers rather than a routine adjustment.</div>
+  </div>
+
+  <div class="panel">
+    <h2>When a benchmark is not a product benchmark</h2>
+    <p class="sub">Benchmarks are set per product — but only 52 products have one, and plenty of what industry
+       does is not on that list. The rule for everything else is a cascade, and it is worth knowing because the
+       two fall-backs behave quite differently from the other 52.</p>
+
+    <p class="sub">Free allocation is not calculated per installation. An installation is divided into
+       <strong>sub-installations</strong>, and each is assigned to one of four approaches in a strict order of
+       priority set by Article 10(2) of the Free Allocation Regulation. You only move down when the one above
+       does not fit.</p>
+
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l" style="width:34%">Approach</th><th class="l">Applies when</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>1 · Product benchmark</strong></td>
+              <td class="l">The output is one of the 52 benchmarked goods <em>and</em> the activity sits inside
+                  that benchmark's defined system boundary.</td></tr>
+          <tr><td class="l"><strong>2 · Heat benchmark</strong></td>
+              <td class="l">Measurable heat is consumed, or exported to a consumer outside the ETS, and no
+                  product benchmark covers it.</td></tr>
+          <tr><td class="l"><strong>3 · Fuel benchmark</strong></td>
+              <td class="l">Fuel is burned to produce <em>non-measurable</em> heat — direct firing into a kiln or
+                  furnace, where there is no metered heat to benchmark — and neither of the above applies.</td></tr>
+          <tr><td class="l"><strong>4 · Process emissions</strong></td>
+              <td class="l">Process CO₂, such as carbonate decomposition, not covered by a product benchmark.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div>
+        <h3>Why only 52 products</h3>
+        <p class="sub">A product benchmark needs a good homogeneous enough that one figure per tonne means
+           something, made by enough EU installations to compute an average of the cleanest 10%. Speciality
+           chemicals, food processing, industrial gases, much of engineering and a good deal of ceramics fail
+           that test. Rather than invent a number, the law stops benchmarking the product and benchmarks the
+           energy instead.</p>
+      </div>
+      <div>
+        <h3>So where do you actually meet them</h3>
+        <p class="sub">A plant whose output has no product benchmark at all, but which still needs heat. The
+           parts of a benchmarked plant that fall outside its product benchmark's system boundary — a steel
+           mill's hot metal is on a product benchmark, ancillary heat beyond that boundary is not. Heat exported
+           to district heating or to non-ETS users. And direct firing, where the fuel is benchmarked because
+           there is no measurable heat to benchmark.</p>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-top:4px"><strong>The fall-backs were never measured best practice, and that
+      is why the clamp bites so hard.</strong> The other 52 values come from what the cleanest installations
+      actually achieve. These two do not. The Commission derived them from literature rather than plant data,
+      "based on the use of natural gas as reference fuel and a boiler efficiency of 90% for the heat benchmark".
+      It shows in the original numbers: the 2013–2020 fuel benchmark of <strong>56.1</strong> allowances per TJ
+      is exactly the emission factor of natural gas, and the heat benchmark of <strong>62.3</strong> is that
+      divided by 90%. They answer the question <em>what if you made this heat in an efficient gas boiler?</em>
+      <br><br>Article 10a(2) then applies a reduction rate to them as though they were observed best practice,
+      and the 50% ceiling binds. The 2026–2030 fuel benchmark of 28.1 is half the CO₂ of burning gas, and the
+      heat benchmark of 31.2 covers about half the emissions of an efficient gas boiler. No gas-fired heat can
+      meet either — by construction rather than by measurement, which is the argument running underneath
+      <a href="#rates" data-goto="rates">COM(2026) 619</a>.</div>
   </div>
 
   <div class="panel">
@@ -871,6 +935,18 @@
       <li>Definitions and system boundaries: Annex I to Delegated Regulation (EU) 2019/331, as amended by Delegated Regulation (EU) 2024/873.</li>
       <li>CBAM factor: Article 10a(1a) of Directive 2003/87/EC as amended by Directive (EU) 2023/959. CBAM goods scope: Annex I to Regulation (EU) 2023/956.</li>
     </ul>
+    <p class="sub"><strong>The allocation cascade and the origin of the fall-backs.</strong> The strict order of
+       priority — product benchmark, then heat, then fuel, then process emissions — is set by Article 10(2) of the
+       Free Allocation Regulation,
+       <a href="http://data.europa.eu/eli/reg_del/2019/331/oj" target="_blank" rel="noopener">Delegated Regulation (EU) 2019/331</a>,
+       and is quoted in that form in the Commission's guidance document 2 on allocation methodologies at
+       installation level. The derivation of the two fall-backs from natural gas is the Commission's own: its
+       benchmark curve factsheets state that the estimates were "based on the use of natural gas as reference fuel
+       and a boiler efficiency of 90% for the heat benchmark", and give the emission factor of natural gas as
+       56.1 t CO₂e/TJ — which is the 2013–2020 fuel benchmark exactly, with 56.1 ÷ 0.9 = 62.3 giving the heat
+       benchmark. The comparisons against gas-fired heat on the overview tab are arithmetic from those two
+       figures, not a Commission statement.</p>
+
     <p class="sub"><strong>The fall-back benchmark scenario.</strong> The proposal is
        <a href="https://climate.ec.europa.eu/document/download/672f0f66-a1c2-41d4-a6d6-ff82fea1eb62_en" target="_blank" rel="noopener">COM(2026) 619</a>
        of 17 July 2026, procedure 2026/0211(COD). Its Article 1 inserts a derogation into Article 10a(2) setting
