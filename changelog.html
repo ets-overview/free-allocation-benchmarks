@@ -291,6 +291,38 @@
     </div>
 
     <div class="entry big">
+      <div class="date">4 October 2026</div>
+      <h2>The fall-back benchmark proposal, charted</h2>
+      <ul>
+        <li><span class="where">Benchmarks</span><strong>COM(2026) 619 now appears as a scenario on the reduction
+          rates tab, not just as a sentence.</strong> The heat and fuel fall-backs are the clearest case of the
+          Article 10a(2) clamp doing the work rather than the data — both sit at the maximum 50% total reduction,
+          which is why they fell about a third in one step. The proposal would lower that maximum for these two
+          values alone. The panel charts the 2021–2025 value, the value in force and the indicative value under
+          the proposal, side by side.</li>
+        <li><span class="where">Benchmarks</span>The indicative figures — 43.0 and 38.7 allowances per TJ, about
+          38% above the values in force — are from recital 2 of the Council's negotiating mandate of
+          16 September 2026, which gives them as indicative averages for 2026–2030. The proposal's own text fixes
+          no percentage at all: it sets the rate at whatever "makes full use of the additional amount" of roughly
+          80 million allowances without triggering the cross-sectoral correction factor. The panel says so, and is
+          drawn as an open bar rather than a solid one.</li>
+        <li><span class="where">Benchmarks</span>Two features of the proposal that are easy to miss are set out
+          alongside: oil and gas activities (NACE 0610, 0620, 1920 and 4950) are excluded and stay on the rate in
+          force, so the fall-backs would become two values rather than one; and the adjusted values run from 2027,
+          with the 2026 top-up paid together with the 2027 allocation at a rate using 40% of the adjustment. The
+          scenario is therefore shown as a period level, not a year-by-year path.</li>
+        <li><span class="where">Benchmarks</span>The full table, the calculator and the derivation stay on the law
+          in force. Nothing in the scenario feeds them.</li>
+        <li><span class="where">Fix</span><strong>Opening the benchmarks page at a tab threw an error.</strong>
+          <code>benchmarks.html#rates</code>, <code>#cbam</code> and <code>#calc</code> have been failing on first
+          paint since deep links were added on 21 September: an older hash handler near the top of the page
+          switched tabs before the chart variables further down had been initialised. That handler is gone — the
+          shared deep-link script at the end of the page, which runs after everything is ready, was already doing
+          the same job.</li>
+      </ul>
+    </div>
+
+    <div class="entry big">
       <div class="date">3 October 2026</div>
       <h2>Procedural status across the pending files, and a correction on the CRCF</h2>
       <ul>
@@ -380,7 +412,7 @@
 
   <footer>An independent, non-commercial resource. Corrections are welcome at
     <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a> — if something here is wrong, saying
-    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 3 October 2026.</strong></span></footer>
+    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 4 October 2026.</strong></span></footer>
 
 </div>
 
