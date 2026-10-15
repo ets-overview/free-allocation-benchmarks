@@ -181,112 +181,49 @@
   <div class="log">
 
     <div class="entry big">
-      <div class="date">21 September 2026</div>
-      <h2>September policy update, a new ETS 2 page, and a navigation rebuild</h2>
+      <div class="date">15 October 2026</div>
+      <h2>A wrong IMO date, a conflated allowance volume, and the ETS 2 reserve adopted</h2>
       <ul>
-        <li><span class="where">EU ETS</span><strong>Market Stability Reserve.</strong> Added Parliament's
-          position on COM(2026) 153. The Environment Committee rejected the Commission's approach on 10 September
-          and the plenary adopted its negotiating position on 15 September, 367–240 with 59 abstentions: keep
-          invalidation, but raise the threshold from 400 Mt to 650 Mt. Council remains divided; trilogues follow.
-          The page previously said only that the proposal was not law.</li>
-        <li><span class="where">EU ETS</span><strong>The rest of the July 2026 review.</strong> New panel covering
-          what COM(2026) 616 contains besides the cap trajectory: free allocation made conditional on verified
-          decarbonisation investment plans from 2031, 250 Mt of permanent removals integrated, international
-          credits from 2036, municipal waste incineration from 2031, and the Industrial Decarbonisation Bank.</li>
-        <li><span class="where">New page</span><strong>EU ETS 2 now has its own page.</strong> It was a box on the
-          ETS scope tab. At 957 Mt reported for 2024 it is larger than aviation and maritime combined and starts
-          pricing in 2028, so it now gets the same treatment as the other sectors: scope, the obligation on fuel
-          suppliers, the cap, the €45 price safeguard, the Social Climate Fund and the overlap with effort
-          sharing. The country breakdown chart moved there from the ETS page.</li>
-        <li><span class="where">CBAM</span><strong>Default values corrected.</strong> Implementing Regulation
-          (EU) 2026/1740 of 31 July 2026 corrects the Annex I default values with retroactive effect from
-          1 January 2026, affecting selected aluminium products and precursors of unknown origin. The calculator
-          and the default value explorer still use the 4 February 2026 version; both now say so explicitly. The
-          corrected values have not yet been transcribed.</li>
-        <li><span class="where">CBAM</span><strong>Downstream extension has moved.</strong> Council general
-          approach of 12 June 2026 (around 200 goods, annual review from 2028) and Parliament's negotiating
-          position of 15 September 2026, adopted 464–50, pushing towards 457 products. The page previously
-          described this only as a December 2025 proposal.</li>
-        <li><span class="where">Correction</span><strong>COM(2026) 619 was the wrong citation.</strong> The
-          benchmarks page attributed the reintroduction of 15% of phased-out free allocation and the 2038 CBAM
-          phase-out to COM(2026) 619. That change is in COM(2026) 616, the ETS review; COM(2026) 619 is the
-          separate fall-back benchmark uplift for the heat and fuel benchmarks. Both pages now say which is
-          which.</li>
-        <li><span class="where">Aviation</span><strong>The CORSIA question has been answered.</strong> The page
-          said the Commission's assessment of CORSIA was unresolved. It was published in July 2026 and was
-          negative. COM(2026) 616 proposes extending the ETS from 2029 to departing flights within 5 000 km of
-          Frankfurt, with a deduction for CORSIA costs and a further review in 2032. Added to the scope and CORSIA
-          tabs; the caveat saying the proposal was out of scope has been removed.</li>
-        <li><span class="where">Maritime</span><strong>July 2026 proposals added.</strong> Ships of 400–5 000 GT
-          would enter the pricing obligation from 2031 with monitoring from 2029; the ice-class and outermost
-          region derogations would run to 2035, as would a new derogation for containerships of 10 000 TEU and
-          above on voyages over 300 nautical miles. Also flagged that the adjourned IMO extraordinary session
-          reconvenes in October 2026.</li>
-        <li><span class="where">Site</span><strong>Navigation.</strong> The benchmarks, maritime, aviation and new
-          ETS 2 pages were reachable only from the home page and from cross-links. The EU ETS item in the top
-          navigation is now a dropdown listing all five, and the navigation is identical on every page.</li>
-        <li><span class="where">Site</span><strong>Narrow screens.</strong> Every page was wider than a phone
-          viewport — up to twice the width on the ETS, CBAM, benchmarks and legislation pages — forcing horizontal
-          scrolling and clipping content. Fixed: the header link row wraps, two-column blocks collapse to one,
-          the tab strips scroll horizontally, and the legislation map's detail panel no longer extends the
-          document.</li>
-        <li><span class="where">Site</span><strong>Tabs are now linkable.</strong> Any tab on any page can be
-          addressed directly — <code>ets.html#price</code>, <code>cbam.html#calc</code>,
-          <code>benchmarks.html#table</code> — and the address bar follows the tab you are on, so a citation
-          points at what you were reading. Previously only the benchmarks page did this, and the cross-link from
-          benchmarks to the ETS price tab silently landed on the overview.</li>
-        <li><span class="where">Site</span><strong>Dates.</strong> Every page now carries its own last-updated
-          date instead of one site-wide "reviewed August 2026", and this changelog sits behind them.</li>
-        <li><span class="where">Site</span><strong>Chart data is downloadable.</strong> Every chart now has a
-          button underneath it that exports the plotted series as CSV, reflecting whichever series toggles are
-          set. The legislation map exports all 107 acts with their number, title, year, policy area, status,
-          EUR-Lex link and relations. These are the series as drawn, not the source datasets, and each page's
-          caveats tab now says so.</li>
-        <li><span class="where">Accessibility</span><strong>Charts and tabs are now reachable without sight or a
-          mouse.</strong> Every chart canvas carries a name and points at the CSV as its text alternative, rather
-          than being an unlabelled blank to a screen reader. The tab strips implement the ARIA tab pattern —
-          tablist, tab, tabpanel, aria-selected — and respond to left, right, home and end keys. Focus outlines
-          are visible again. The legislation map, which is drawn on a canvas and cannot be made readable in
-          place, carries a description pointing at the CSV and the search field.</li>
-        <li><span class="where">Home</span><strong>The sourcing claim was overstated.</strong> The page said
-          "every figure and every act links back to its official source". Acts do link individually; figures are
-          sourced at dataset level, in each page's caveats tab. The claim now says which is which.</li>
-        <li><span class="where">Benchmarks</span>Removed the opening sentence pointing out that benchmarks belong
-          to the EU ETS — redundant now that the page sits inside the ETS section of the navigation.</li>
-        <li><span class="where">Repo</span><strong>README, licence and setup notes added.</strong> The repository
-          had no README and no licence, which left the "open resource" claim resting on nothing a visitor could
-          check. The README sets out scope, sources, the two-level sourcing convention, the update policy and how
-          to contribute; the licence is CC BY 4.0, with the EU's own texts and datasets carved out under their
-          publishers' terms.</li>
-        <li><span class="where">Fixes</span>A literal <code>\u2014</code> escape was rendering as text in the CBAM
-          scope tab. The opening sentence of the ETS page was ungrammatical. Four typos on the home page.
-          The aviation page's "around €75" for the allowance price is now given as a range, since the price
-          series on the ETS page ends in June 2026.</li>
-      </ul>
-    </div>
-
-    <div class="entry big">
-      <div class="date">22 September 2026</div>
-      <h2>The legislation map gets three levels of detail</h2>
-      <ul>
-        <li><span class="where">Legislation map</span><strong>107 acts was too many to look at.</strong> The map
-          now opens on <strong>core</strong> — the 37 acts that create a regime rather than adjust one, plus the
-          live proposals that would materially change one. <strong>+ machinery</strong> adds the delegated and
-          implementing acts that operate each regime and the landmark revisions, for 78. <strong>All</strong> is
-          the full 107 as before. The choice is remembered between visits.</li>
-        <li><span class="where">Legislation map</span>The level is set by hand for each act rather than computed
-          from how connected it is. A connection count measures how often something has been amended, not how
-          much it matters — filtering on it would have kept 23 of the 36 carbon pricing acts while dropping the
-          Floods Directive, the Industrial Emissions Directive, ReFuelEU Aviation and the Methane Regulation.
-          Every policy area keeps representation at core level.</li>
-        <li><span class="where">Legislation map</span>Opening an act that sits below the level currently shown
-          now raises the level automatically, so a link from the detail panel can never land on nothing.</li>
-        <li><span class="where">Legislation map</span>Timeline nodes sharing a lane and a year are now stacked at
-          fixed offsets instead of being scattered randomly, which was the main source of overlapping labels.
-          The policy-area labels down the right-hand side were being clipped at common window widths and are
-          now inside the fitted view, with a halo so a node in the final year cannot sit on top of one.</li>
-        <li><span class="where">Legislation map</span>The CSV export gained a column for the level, and the
-          canvas now sizes itself to whatever the toolbar leaves rather than to a fixed height.</li>
+        <li><span class="where">Maritime</span><strong>Correction: the resumed IMO session is 4 December 2026,
+          not October.</strong> The page said the extraordinary session of the Marine Environment Protection
+          Committee "reconvenes in October 2026", which was the adjournment's original one-year framing. The
+          IMO calendar puts the resumed session on <strong>4 December 2026</strong>, after an intersessional
+          working group on 23–27 November and the regular MEPC 85 on 30 November – 3 December. The
+          working group held from 1 to 4 September 2026 closed without agreement on a revised text, which the
+          page did not mention at all.</li>
+        <li><span class="where">Benchmarks</span><strong>Correction: two volumes from two different texts had
+          been merged into one.</strong> The scenario panel for COM(2026) 619 gave the Council's indicative
+          values of 43.0 and 38.7 next to a volume of "roughly 80 million allowances". The 80 million is the
+          Commission's figure, from recital 2 of the proposal, which contains no indicative benchmark values.
+          The Council's negotiating mandate of 16 September 2026, which is where 43.0 and 38.7 come from, puts
+          the additional allocation at about <strong>88 million</strong> allowances plus roughly
+          <strong>33 million</strong> that would otherwise stay unallocated under the Article 10a(1)
+          conditionalities. Both figures are now given, each attributed to its own text, on the benchmarks page
+          and in the CBAM-factor note.</li>
+        <li><span class="where">ETS 2</span><strong>The market stability reserve amendment has been adopted.</strong>
+          The Council adopted it on <strong>9 October 2026</strong>, which closes the procedure that began with
+          the proposal of 27 November 2025 and the provisional agreement of 11 June 2026. It awaits signature
+          and publication, and enters into force twenty days after that: 40 million allowances released above
+          the €45 trigger instead of 20 million, the reserve continuing beyond 2030, and a gradual release
+          below 260 million in circulation. The ETS 2 page and the legislation map said "pending formal
+          adoption".</li>
+        <li><span class="where">Legislation map</span>Because one act is now adopted but not yet in force, the
+          status label for violet nodes reads <strong>"Proposed or adopted, not yet in force"</strong> rather
+          than "Proposed, not yet adopted". The colours and the filter are unchanged; what each act's own stage
+          is has always been in its detail panel.</li>
+        <li><span class="where">CBAM</span><strong>Correction: the United Kingdom is not a linked market.</strong>
+          The country table described it as one, with treatment "unresolved". There is no link. Linking the UK
+          ETS to the EU ETS is on the agenda of the EU–UK summit of <strong>20 November 2026</strong>, and
+          press reports in early October said a link had been agreed, but no text has been published. The page
+          now also sets out what a link would and would not do: an exemption needs the UK to be listed by
+          Commission delegated act, open to objection by Parliament and Council, and the UK would need its own
+          regulations to exclude EU goods from its mechanism.</li>
+        <li><span class="where">Site</span><strong>Checked, nothing to change.</strong> COM(2026) 619 is still
+          "awaiting committee decision" with amendments tabled on 22 September and the indicative plenary
+          unchanged at 19 October 2026. No trilogue outcome is recorded on the ETS 1 reserve file,
+          COM(2026) 153, where Parliament wants 650 Mt and the Council 800 Mt from 2031. The July 2026 review
+          package is unchanged. Nothing new has been published on the allowance price series either: it still ends on
+          30 June 2026, where ICAP's own data ended at the 5 October check, and the price tab says so.</li>
       </ul>
     </div>
 
@@ -412,6 +349,31 @@
       </ul>
     </div>
 
+    <div class="entry big">
+      <div class="date">22 September 2026</div>
+      <h2>The legislation map gets three levels of detail</h2>
+      <ul>
+        <li><span class="where">Legislation map</span><strong>107 acts was too many to look at.</strong> The map
+          now opens on <strong>core</strong> — the 37 acts that create a regime rather than adjust one, plus the
+          live proposals that would materially change one. <strong>+ machinery</strong> adds the delegated and
+          implementing acts that operate each regime and the landmark revisions, for 78. <strong>All</strong> is
+          the full 107 as before. The choice is remembered between visits.</li>
+        <li><span class="where">Legislation map</span>The level is set by hand for each act rather than computed
+          from how connected it is. A connection count measures how often something has been amended, not how
+          much it matters — filtering on it would have kept 23 of the 36 carbon pricing acts while dropping the
+          Floods Directive, the Industrial Emissions Directive, ReFuelEU Aviation and the Methane Regulation.
+          Every policy area keeps representation at core level.</li>
+        <li><span class="where">Legislation map</span>Opening an act that sits below the level currently shown
+          now raises the level automatically, so a link from the detail panel can never land on nothing.</li>
+        <li><span class="where">Legislation map</span>Timeline nodes sharing a lane and a year are now stacked at
+          fixed offsets instead of being scattered randomly, which was the main source of overlapping labels.
+          The policy-area labels down the right-hand side were being clipped at common window widths and are
+          now inside the fitted view, with a halo so a node in the final year cannot sit on top of one.</li>
+        <li><span class="where">Legislation map</span>The CSV export gained a column for the level, and the
+          canvas now sizes itself to whatever the toolbar leaves rather than to a fixed height.</li>
+      </ul>
+    </div>
+
     <div class="entry">
       <div class="date">22 September 2026</div>
       <h2>Cross-link corrections after the ETS 2 split</h2>
@@ -431,6 +393,91 @@
         <li><span class="where">Benchmarks</span>The link to the allowance price used the older
           <code>#tab-price</code> form. Normalised to <code>#price</code>, which is what the address bar shows
           when you open that tab.</li>
+      </ul>
+    </div>
+
+    <div class="entry big">
+      <div class="date">21 September 2026</div>
+      <h2>September policy update, a new ETS 2 page, and a navigation rebuild</h2>
+      <ul>
+        <li><span class="where">EU ETS</span><strong>Market Stability Reserve.</strong> Added Parliament's
+          position on COM(2026) 153. The Environment Committee rejected the Commission's approach on 10 September
+          and the plenary adopted its negotiating position on 15 September, 367–240 with 59 abstentions: keep
+          invalidation, but raise the threshold from 400 Mt to 650 Mt. Council remains divided; trilogues follow.
+          The page previously said only that the proposal was not law.</li>
+        <li><span class="where">EU ETS</span><strong>The rest of the July 2026 review.</strong> New panel covering
+          what COM(2026) 616 contains besides the cap trajectory: free allocation made conditional on verified
+          decarbonisation investment plans from 2031, 250 Mt of permanent removals integrated, international
+          credits from 2036, municipal waste incineration from 2031, and the Industrial Decarbonisation Bank.</li>
+        <li><span class="where">New page</span><strong>EU ETS 2 now has its own page.</strong> It was a box on the
+          ETS scope tab. At 957 Mt reported for 2024 it is larger than aviation and maritime combined and starts
+          pricing in 2028, so it now gets the same treatment as the other sectors: scope, the obligation on fuel
+          suppliers, the cap, the €45 price safeguard, the Social Climate Fund and the overlap with effort
+          sharing. The country breakdown chart moved there from the ETS page.</li>
+        <li><span class="where">CBAM</span><strong>Default values corrected.</strong> Implementing Regulation
+          (EU) 2026/1740 of 31 July 2026 corrects the Annex I default values with retroactive effect from
+          1 January 2026, affecting selected aluminium products and precursors of unknown origin. The calculator
+          and the default value explorer still use the 4 February 2026 version; both now say so explicitly. The
+          corrected values have not yet been transcribed.</li>
+        <li><span class="where">CBAM</span><strong>Downstream extension has moved.</strong> Council general
+          approach of 12 June 2026 (around 200 goods, annual review from 2028) and Parliament's negotiating
+          position of 15 September 2026, adopted 464–50, pushing towards 457 products. The page previously
+          described this only as a December 2025 proposal.</li>
+        <li><span class="where">Correction</span><strong>COM(2026) 619 was the wrong citation.</strong> The
+          benchmarks page attributed the reintroduction of 15% of phased-out free allocation and the 2038 CBAM
+          phase-out to COM(2026) 619. That change is in COM(2026) 616, the ETS review; COM(2026) 619 is the
+          separate fall-back benchmark uplift for the heat and fuel benchmarks. Both pages now say which is
+          which.</li>
+        <li><span class="where">Aviation</span><strong>The CORSIA question has been answered.</strong> The page
+          said the Commission's assessment of CORSIA was unresolved. It was published in July 2026 and was
+          negative. COM(2026) 616 proposes extending the ETS from 2029 to departing flights within 5 000 km of
+          Frankfurt, with a deduction for CORSIA costs and a further review in 2032. Added to the scope and CORSIA
+          tabs; the caveat saying the proposal was out of scope has been removed.</li>
+        <li><span class="where">Maritime</span><strong>July 2026 proposals added.</strong> Ships of 400–5 000 GT
+          would enter the pricing obligation from 2031 with monitoring from 2029; the ice-class and outermost
+          region derogations would run to 2035, as would a new derogation for containerships of 10 000 TEU and
+          above on voyages over 300 nautical miles. Also flagged that the adjourned IMO extraordinary session
+          reconvenes in October 2026.</li>
+        <li><span class="where">Site</span><strong>Navigation.</strong> The benchmarks, maritime, aviation and new
+          ETS 2 pages were reachable only from the home page and from cross-links. The EU ETS item in the top
+          navigation is now a dropdown listing all five, and the navigation is identical on every page.</li>
+        <li><span class="where">Site</span><strong>Narrow screens.</strong> Every page was wider than a phone
+          viewport — up to twice the width on the ETS, CBAM, benchmarks and legislation pages — forcing horizontal
+          scrolling and clipping content. Fixed: the header link row wraps, two-column blocks collapse to one,
+          the tab strips scroll horizontally, and the legislation map's detail panel no longer extends the
+          document.</li>
+        <li><span class="where">Site</span><strong>Tabs are now linkable.</strong> Any tab on any page can be
+          addressed directly — <code>ets.html#price</code>, <code>cbam.html#calc</code>,
+          <code>benchmarks.html#table</code> — and the address bar follows the tab you are on, so a citation
+          points at what you were reading. Previously only the benchmarks page did this, and the cross-link from
+          benchmarks to the ETS price tab silently landed on the overview.</li>
+        <li><span class="where">Site</span><strong>Dates.</strong> Every page now carries its own last-updated
+          date instead of one site-wide "reviewed August 2026", and this changelog sits behind them.</li>
+        <li><span class="where">Site</span><strong>Chart data is downloadable.</strong> Every chart now has a
+          button underneath it that exports the plotted series as CSV, reflecting whichever series toggles are
+          set. The legislation map exports all 107 acts with their number, title, year, policy area, status,
+          EUR-Lex link and relations. These are the series as drawn, not the source datasets, and each page's
+          caveats tab now says so.</li>
+        <li><span class="where">Accessibility</span><strong>Charts and tabs are now reachable without sight or a
+          mouse.</strong> Every chart canvas carries a name and points at the CSV as its text alternative, rather
+          than being an unlabelled blank to a screen reader. The tab strips implement the ARIA tab pattern —
+          tablist, tab, tabpanel, aria-selected — and respond to left, right, home and end keys. Focus outlines
+          are visible again. The legislation map, which is drawn on a canvas and cannot be made readable in
+          place, carries a description pointing at the CSV and the search field.</li>
+        <li><span class="where">Home</span><strong>The sourcing claim was overstated.</strong> The page said
+          "every figure and every act links back to its official source". Acts do link individually; figures are
+          sourced at dataset level, in each page's caveats tab. The claim now says which is which.</li>
+        <li><span class="where">Benchmarks</span>Removed the opening sentence pointing out that benchmarks belong
+          to the EU ETS — redundant now that the page sits inside the ETS section of the navigation.</li>
+        <li><span class="where">Repo</span><strong>README, licence and setup notes added.</strong> The repository
+          had no README and no licence, which left the "open resource" claim resting on nothing a visitor could
+          check. The README sets out scope, sources, the two-level sourcing convention, the update policy and how
+          to contribute; the licence is CC BY 4.0, with the EU's own texts and datasets carved out under their
+          publishers' terms.</li>
+        <li><span class="where">Fixes</span>A literal <code>\u2014</code> escape was rendering as text in the CBAM
+          scope tab. The opening sentence of the ETS page was ungrammatical. Four typos on the home page.
+          The aviation page's "around €75" for the allowance price is now given as a range, since the price
+          series on the ETS page ends in June 2026.</li>
       </ul>
     </div>
 
@@ -461,7 +508,7 @@
 
   <footer>An independent, non-commercial resource. Corrections are welcome at
     <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a> — if something here is wrong, saying
-    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 5 October 2026.</strong></span></footer>
+    so is the fastest way to get it fixed.<br><span class="stamp"><strong>Last updated 15 October 2026.</strong></span></footer>
 
 </div>
 
