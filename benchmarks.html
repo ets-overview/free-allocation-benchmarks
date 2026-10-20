@@ -87,6 +87,8 @@
   th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
   th:first-child,td:first-child{text-align:left;white-space:normal}
   th.l,td.l{text-align:left}
+  .postbl td.l,.postbl th.l{white-space:normal;vertical-align:top}
+  .postbl td:first-child{width:160px}
   thead th{position:sticky;top:0;background:#fafbfc;cursor:pointer;user-select:none;font-size:11.5px;
            text-transform:uppercase;letter-spacing:.04em;color:var(--muted);z-index:5;
            box-shadow:inset 0 -1px 0 var(--line)}
@@ -525,7 +527,9 @@
        the additional free allocation at around <strong>80 million allowances</strong> over 2026–2030, while the
        Council's negotiating mandate of 16 September 2026 raised it to about <strong>88 million</strong>, on top
        of roughly 33 million allowances that would otherwise stay unallocated under the Article 10a(1)
-       conditionalities. In both versions the uplift may not trigger the cross-sectoral correction factor.</p>
+       conditionalities. Parliament's Environment Committee, voting on 19 October 2026, took the same 88 million
+       and added about 11 million withheld from installations that failed those conditionalities, for close to
+       100 million. In every version the uplift may not trigger the cross-sectoral correction factor.</p>
 
     <div class="chartbox" style="height:360px"><canvas id="fbChart"></canvas></div>
 
@@ -533,7 +537,7 @@
       <div class="card"><div class="k">43.0</div><div class="l">heat benchmark, indicative, against 31.2 in force — allowances per TJ</div></div>
       <div class="card"><div class="k">38.7</div><div class="l">fuel benchmark, indicative, against 28.1 in force</div></div>
       <div class="card"><div class="k">+38%</div><div class="l">what that is worth per unit of heat or fuel, against the values in force</div></div>
-      <div class="card"><div class="k">~88 Mt</div><div class="l">additional free allocation over 2026–2030 in the Council mandate — the Commission proposed ~80 Mt</div></div>
+      <div class="card"><div class="k">~88 Mt</div><div class="l">additional free allocation over 2026–2030 in the Council mandate — ~80 Mt proposed by the Commission, close to 100 Mt in Parliament's committee position</div></div>
     </div>
 
     <div class="warn" style="margin-top:18px"><strong>Where these two numbers come from, and how firm they are.</strong>
@@ -543,8 +547,39 @@
       amount, which is how the text can fix a volume without fixing a percentage. The figures of 43.0 and 38.7
       belong to the larger of the two volumes: they come from the Council's mandate of 16 September 2026,
       which gives them as <em>indicative average values</em> for 2026–2030, equivalent to about 9% below the
-      2021–2025 benchmarks rather than the 34% below that the clamp produced. Parliament has not yet taken a
-      position. Treat them as the order of magnitude under discussion, not as a determined value.</div>
+      2021–2025 benchmarks rather than the 34% below that the clamp produced. Parliament had not taken a position of its own when these two figures were published. Treat them as the
+      order of magnitude under discussion, not as a determined value.</div>
+    <div class="tblscroll" style="margin:18px 0 0">
+      <table class="postbl">
+        <thead><tr><th class="l">Position</th><th class="l">What it would do</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>Commission</strong><br><span class="dim">17 July 2026</span></td>
+              <td class="l"><strong>~80 million</strong> additional allowances over 2026–2030. Fixes no
+                  percentage: the rate is whatever consumes that amount. Oil and gas activities excluded.</td></tr>
+          <tr><td class="l"><strong>Council</strong><br><span class="dim">16 September 2026</span></td>
+              <td class="l"><strong>~88 million</strong>, plus roughly <strong>33 million</strong> left
+                  unallocated under the Article 10a(1) conditionalities. Gives 43.0 and 38.7 as indicative average
+                  values, about 9% below the 2021–2025 benchmarks. Oil and gas still excluded.</td></tr>
+          <tr><td class="l"><strong>Parliament</strong><br><span class="dim">committee, 19 October 2026</span></td>
+              <td class="l">The same <strong>~88 million</strong>, plus about <strong>11 million</strong> withheld
+                  from installations that failed those conditionalities — close to 100 million in all. Asks the
+                  Commission for sector-specific parameters, starting with part of the ceramics industry, and
+                  splits the allowances left unallocated three ways: a third to the Modernisation Fund, a third to
+                  the Innovation Fund, a third into the benchmark adjustment. Publishes no indicative benchmark
+                  values.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:12px">The Environment Committee adopted that position on 19 October 2026,
+       <strong>64 votes to 11 with 2 abstentions</strong>, on a report by Adam Jarubas (EPP). The plenary first
+       reading follows on <strong>22 October 2026</strong> under the urgent procedure, and negotiation with the
+       Council after that; all three institutions say they want the revised values in the 2027 allocation update.
+       A larger volume does not mechanically mean a larger uplift to these two benchmarks, because part of the
+       committee's extra allowances goes to the two funds rather than into the benchmark adjustment. One report
+       puts the committee's cap on the average reduction at about 12.5% below the 2021–2025 values, against the
+       roughly 9% the Council's indicative figures imply — treat that as reporting rather than as a published
+       value until the adopted text is out.</p>
+
 
     <div class="grid2" style="margin-top:4px">
       <div>
@@ -1060,7 +1095,7 @@
 <footer class="wrap" style="padding-bottom:30px">
   Figures transcribed from the OJ annexes and cross-checked; the derivation reproduces all official values. Still a
   working visualisation, not an official publication — verify against EUR-Lex before use in filings or contracts.
-<br><span class="stamp"><strong>Last updated 15 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 20 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1641,7 +1676,7 @@ function buildSectors(){
     data:{labels:LABELS,datasets:[
       {label:"2021–2025, in force",backgroundColor:"rgba(154,164,176,.55)",borderRadius:3,data:P2},
       {label:"2026–2030, in force",backgroundColor:"rgba(31,95,191,.85)",borderRadius:3,data:P3},
-      {label:"2026–2030 under COM(2026) 619 — indicative, not law",
+      {label:"2026–2030, Council mandate — indicative, not law",
        backgroundColor:"rgba(107,91,210,.28)",borderColor:"#6b5bd2",borderWidth:{top:2,left:2,right:2,bottom:0},
        borderRadius:3,data:SC}]},
     options:{responsive:true,maintainAspectRatio:false,
