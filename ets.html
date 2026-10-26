@@ -382,8 +382,8 @@
 
   <div class="panel">
     <h2>What the 2026 proposals would change</h2>
-    <p class="sub">Two separate proposals are in negotiation. Neither is law — but on the first one all three
-       institutions have now put a number on the table, and no two of them agree.</p>
+    <p class="sub">Two separate proposals. Neither is law — but on the first one the three institutions each
+       put a different number on the table and have now settled on a fourth.</p>
     <div class="grid2">
       <div>
         <h3 style="font-size:14.5px;margin:0 0 8px">COM(2026) 153 — April 2026</h3>
@@ -405,14 +405,23 @@
               <tr><td class="l"><strong>Council</strong><br><span class="dim">23 September 2026</span></td>
                   <td class="l">Suspend invalidation until 31 December 2030, then reinstate it at 800 Mt from
                       1 January 2031 — double the current threshold.</td></tr>
+              <tr><td class="l"><strong>Agreed</strong><br><span class="dim">20 October 2026</span></td>
+                  <td class="l">Keep invalidation and raise the threshold to <strong>700 Mt</strong>, applying as
+                      soon as the act is formally adopted. Whether the threshold should then come down again is
+                      left to the wider ETS review.</td></tr>
             </tbody>
           </table>
         </div>
-        <p style="font-size:13.5px;color:#39414d;margin:10px 0 0">Trilogues began at the end of September, with
-           a further round expected in the week of 19 October and the aim of agreeing a text before the end of
-           2026.  Nothing had been agreed as this page was last updated. The spread is the thing to watch: between a reserve
-           that never cancels again and one that cancels above 650 Mt lies most of the argument about whether the
-           surplus is a problem to be removed or a cushion to be kept. Rapporteur Pierfrancesco Maran (S&amp;D).</p>
+        <p style="font-size:13.5px;color:#39414d;margin:10px 0 0">That is where it landed. Council and
+           Parliament reached a <strong>provisional agreement on 20 October 2026</strong>, announced the
+           following day: invalidation survives, at a threshold between the two positions, and the Commission's
+           own proposal to abolish it does not. The deal still has to be endorsed by both institutions and
+           formally adopted after legal-linguistic revision, so it is not law yet. European Council conclusions
+           of 16 October had called on the co-legislators to accelerate exactly this file. What was at stake in the spread is worth keeping in
+           view: between a reserve that never cancels again and one that cancels above 400 Mt lies most of the
+           argument about whether the surplus is a problem to be removed or a cushion to be kept, and 700 Mt
+           answers it by keeping the mechanism while making it bite later. Rapporteur Pierfrancesco Maran
+           (S&amp;D).</p>
       </div>
       <div>
         <h3 style="font-size:14.5px;margin:0 0 8px">COM(2026) 616 — July 2026</h3>
@@ -542,13 +551,13 @@
        allowances trading between €4 and €8 and the carbon price changed almost nobody's investment decision.
        A steep climb from 2018, as the Market Stability Reserve began withdrawing that surplus and the 2030
        target was tightened. Then a plateau from 2022 at levels an order of magnitude higher, where the price
-       genuinely competes with the cost of abatement. Monthly averages from ICAP's daily series, which currently
-       ends on 30 June 2026; switch to annual for the smoothed view.</p>
+       genuinely competes with the cost of abatement. Monthly averages of primary-market prices, running to
+       30 September 2026; switch to annual for the smoothed view.</p>
     <div class="controls">
       <span class="seg">
         <button id="pMonth" class="on">Monthly</button><button id="pYear">Annual</button>
       </span>
-      <span class="tag">3 025 trading days · Jan 2010 – Jun 2026</span>
+      <span class="tag">3 084 observations · Jan 2010 – Sep 2026</span>
     </div>
     <div class="chartbox" style="height:380px"><canvas id="priceChart"></canvas></div>
     <div class="cards" style="margin:18px 0 0">
@@ -556,19 +565,29 @@
       <div class="card"><div class="k">€97.51</div><div class="l">all-time high, 8 February 2022</div></div>
       <div class="card"><div class="k">14.6×</div><div class="l">increase in the annual average between 2017 and 2023</div></div>
       <div class="card"><div class="k">−22%</div><div class="l">fall in the annual average from 2023 to 2024</div></div>
-      <div class="card"><div class="k">€82.32</div><div class="l">Q3 2026 average of auction clearing prices — see the note below</div></div>
+      <div class="card"><div class="k">€85.43</div><div class="l">October 2026 so far — mean of 17 auction clearing prices to 26 October, month not complete</div></div>
     </div>
 
-    <div class="warn" style="margin-top:18px"><strong>Why the series stops in June 2026, and what has happened
-      since.</strong> The chart is monthly means of ICAP's daily primary-market series, and ICAP's published data
-      currently ends on 30 June 2026. Rather than splice in a different source mid-chart, the line stops where the
-      source stops.
-      <br><br>That does not leave the quarter since then unquantified. The CBAM certificate price is defined as the
-      weighted average of EU ETS auction clearing prices for the quarter — the same quantity this chart plots,
-      aggregated differently — and the Commission published the Q3 2026 figure on 5 October 2026 at
-      <strong>€82.32</strong>. Set against a Q2 monthly range of €72.65 to €79.37 and a June mean of €77.82, that
-      puts the summer of 2026 roughly 6% above where this line ends. The Q4 figure is due on 4 January 2027. Both
-      are on the <a href="cbam.html#how">CBAM page</a>.</div>
+    <div class="warn" style="margin-top:18px"><strong>The line used to stop in June. Why it now runs to
+      September, and why that is not a change of source.</strong> Until this update the series ended on
+      30 June 2026, where ICAP's published data ends, and this box explained that splicing in another source
+      mid-chart would be worse than stopping. The months since have now been added from EEX's own
+      <em>primary market auction report</em> — the market operator's record of every EU ETS auction, with the
+      clearing price for each one.
+      <br><br>That turned out not to be a second source at all. Rebuilding the first half of 2026 from the EEX
+      file gives 86.51, 73.77, 68.17, 72.81, 74.95 and 77.82: the same six monthly means that were already on
+      this chart, to the cent, from the same 107 observations, and an identical annual mean of €75.39 for the
+      half-year. ICAP's primary-market series for the EU ETS <em>is</em> the auction series. There is no seam at
+      June because there is nothing to splice.
+      <br><br>October is left off because the month is not over. Through 26 October its 17 auctions average
+      <strong>€85.43</strong>, and the auction of 26 October cleared at <strong>€87.68</strong>, the highest
+      since mid-January.
+      <br><br>One more check falls out of the same file. The CBAM certificate price is defined as the
+      volume-weighted average of EU ETS auction clearing prices over a quarter, and weighting the 59 auctions of
+      July to September by their volumes gives <strong>€82.32</strong> — exactly the figure the Commission
+      published for Q3 2026 on 5 October. The simple mean of the same 59 auctions is €82.18; the difference is
+      what the volume weighting does. The Q4 figure is due on 4 January 2027, and both are on the
+      <a href="cbam.html#how">CBAM page</a>.</div>
   </div>
 </section>
 
@@ -656,7 +675,7 @@
       <li><strong>Cap.</strong> <a href="https://climate.ec.europa.eu/eu-action/carbon-markets/eu-emissions-trading-system-eu-ets/eu-ets-emissions-cap_en" target="_blank" rel="noopener">Commission EU ETS emissions cap page</a> for the explanation of the cap and its calculation; <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023D1575" target="_blank" rel="noopener">Commission Decision (EU) 2023/1575</a> for the 2024 figure of 1 386 051 745 allowances; <a href="https://eur-lex.europa.eu/legal-content/GA/TXT/?uri=CELEX:32020D1722" target="_blank" rel="noopener">Commission Decision (EU) 2020/1722</a> for 2021.</li>
       <li><strong>Reduction factors and rebasings.</strong> <a href="https://eur-lex.europa.eu/eli/dir/2003/87/oj/eng" target="_blank" rel="noopener">Directive 2003/87/EC</a> as amended by <a href="https://eur-lex.europa.eu/eli/dir/2023/959/oj/eng" target="_blank" rel="noopener">Directive (EU) 2023/959</a>.</li>
       <li><strong>TNAC and MSR.</strong> <a href="https://op.europa.eu/en/search-results?p_p_id=eu_europa_publications_portlet_search_executor_SearchExecutorPortlet_INSTANCE_q8EzsBteHybf&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;queryText=total+number+of+allowances+in+circulation&amp;facet.collection=EULex%2CEUPub%2CEUDir%2CEUWebPage%2CEUSummariesOfLegislation%2CPublicProcurement&amp;startRow=1&amp;resultsPerPage=10&amp;SEARCH_TYPE=SIMPLE" target="_blank" rel="noopener">Annual Commission communications publishing the total number of allowances in circulation</a>; <a href="http://data.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a> as amended.</li>
-      <li><strong>Allowance price.</strong> <a href="https://icapcarbonaction.com/en/ets-prices" target="_blank" rel="noopener">ICAP Allowance Price Explorer</a> — daily primary-market prices for the EU ETS, combining ICAP's pre-2018 and post-2019 series. Monthly and annual figures on this page are means computed from that daily data — 3 025 trading days, of which 107 fall in 2026. <strong>The series ends on 30 June 2026 because that is where ICAP's published data currently ends</strong>, not because the page has not been updated; it was re-checked on 5 October 2026 and no later observations were available. For the period after that, the quarterly CBAM certificate price is the weighted average of EU ETS auction clearing prices and is sourced on the CBAM page; Q3 2026 was €82.32.</li>
+      <li><strong>Allowance price.</strong> Two sources for one series. Through 30 June 2026: <a href="https://icapcarbonaction.com/en/ets-prices" target="_blank" rel="noopener">ICAP Allowance Price Explorer</a>, daily primary-market prices combining ICAP's pre-2018 and post-2019 series. From 1 July to 30 September 2026: the <a href="https://www.eex.com/en/market-data/environmental-markets/auction-market" target="_blank" rel="noopener">EEX emission spot primary market auction report</a> for 2026, monthly means of the clearing price of every auction, all auction calendars together. The join was validated rather than assumed: the EEX file reproduces each of the six ICAP months of 2026 to the cent, with the same observation count and the same half-year mean, so the two are the same underlying series. 3 084 observations in all, of which 166 fall in 2026. The 2026 annual figure is a part-year mean to 30 September. October is not plotted because the month was incomplete at the time of writing.</li>
       <li><strong>Emissions.</strong> <a href="https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards" target="_blank" rel="noopener">European Environment Agency EU ETS data viewer</a>, underlying database, July 2026 release. Series computed from the field “EU ETS verified emissions”, summed across EEA countries excluding the United Kingdom, by main activity code.</li>
       <li><strong>Free allocation.</strong> <a href="https://union-registry.ec.europa.eu/" target="_blank" rel="noopener">EU Union Registry</a> daily data extracts (operator yearly activity, snapshot 7 August 2026), aggregated per year excluding the United Kingdom. The 957 Mt of ETS 2 emissions reported for 2024, quoted on the scope tab, comes from the same extract with the ETS 2 national accounts separated by account name; it is charted on the <a href="ets2.html">EU ETS 2 page</a>.</li>
       <li><strong>Auction revenue and its use.</strong> <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA indicator: use of auctioning revenues generated under the EU ETS</a>, EU-27 scope. Category breakdown available from the 2023 reporting year only.</li>
@@ -717,9 +736,9 @@
 </section>
 
 <footer class="wrap" style="padding-bottom:30px">
-  Compiled from Commission and EEA sources, August 2026; policy status reviewed 21 September 2026. An orientation tool, not an official publication —
+  Compiled from Commission and EEA sources, August 2026; policy status reviewed 26 October 2026. An orientation tool, not an official publication —
   verify against the primary sources before relying on any figure.
-<br><span class="stamp"><strong>Last updated 20 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1060,10 +1079,10 @@ new Chart(document.getElementById("rvMsChart"),{type:"bar",
             y:{grid:{display:false},ticks:{font:{size:10.5}}}}}});
 
 // ---------------------------------------------------------------- allowance price
-const PM_L=["2010-01", "2010-02", "2010-03", "2010-04", "2010-05", "2010-06", "2010-07", "2010-08", "2010-09", "2010-10", "2010-11", "2011-01", "2011-02", "2011-03", "2011-04", "2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12", "2012-01", "2012-02", "2012-03", "2012-04", "2012-05", "2012-06", "2012-07", "2012-08", "2012-09", "2012-10", "2012-11", "2012-12", "2013-01", "2013-02", "2013-03", "2013-04", "2013-05", "2013-06", "2013-07", "2013-08", "2013-09", "2013-10", "2013-11", "2013-12", "2014-01", "2014-02", "2014-03", "2014-04", "2014-05", "2014-06", "2014-07", "2014-08", "2014-09", "2014-10", "2014-11", "2014-12", "2015-01", "2015-02", "2015-03", "2015-04", "2015-05", "2015-06", "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12", "2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06", "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2017-06", "2017-07", "2017-08", "2017-09", "2017-10", "2017-11", "2017-12", "2018-01", "2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"];
-const PM=[13.02,12.89,12.86,14.07,15.17,15.27,14.17,14.56,15.14,15.28,14.63,14.14,14.56,15.92,16.45,16.62,15.12,12.49,11.94,11.62,10.23,9.36,7.13,6.97,8.52,7.5,6.72,6.55,6.96,7.49,7.64,7.61,7.69,7.2,6.44,5.01,4.4,4.03,3.81,3.42,4.22,4.19,4.4,5.18,4.85,4.52,4.65,4.97,6.44,6.17,5.18,5.03,5.54,5.9,6.24,5.98,6.05,6.79,6.74,6.89,7.19,6.72,7.04,7.4,7.43,7.69,8.06,8.06,8.33,8.47,8.27,6.49,5.17,4.88,5.66,5.88,5.6,4.62,4.67,4.3,5.68,5.63,4.48,5.11,5.13,5.06,4.75,4.58,4.96,5.24,5.63,6.71,7.26,7.54,7.28,8.39,9.39,11.38,13.23,14.82,15.11,16.21,18.77,21.6,19.58,18.69,20.68,22.97,20.84,21.81,25.59,25.54,24.93,27.91,27.06,25.7,24.44,24.54,24.6,24.35,23.89,19.87,20.12,19.64,23.19,27.35,26.62,27.55,25.14,26.31,29.76,33.53,37.66,40.52,44.87,51.83,52.7,53.38,56.5,61.31,59.58,65.6,80.64,83.46,90.33,74.61,80.63,85.39,82.72,81.58,87.66,69.54,69.48,75.48,86.04,79.97,91.98,89.31,89.79,84.12,85.03,86.25,84.78,81.88,80.76,75.88,68.82,63.2,55.35,57.48,63.6,71.07,68.61,66.9,70.17,65.04,63.15,66.96,68.08,75.78,75.72,68.76,64.31,70.59,72.25,69.99,70.96,75.46,77.92,80.7,82.74,86.51,73.77,68.17,72.81,74.95,77.82];
-const PA={2010:14.28, 2011:13.27, 2012:7.24, 2013:4.37, 2014:5.91, 2015:7.62, 2016:5.25, 2017:5.76, 2018:15.48, 2019:24.75, 2020:24.34, 2021:53.74, 2022:80.24, 2023:83.64, 2024:64.9, 2025:73.42, 2026:75.39};   // annual means
-const PN={2010:48, 2011:49, 2012:73, 2013:191, 2014:198, 2015:205, 2016:195, 2017:201, 2018:203, 2019:214, 2020:215, 2021:232, 2022:224, 2023:227, 2024:226, 2025:217, 2026:107};  // observations per year
+const PM_L=["2010-01", "2010-02", "2010-03", "2010-04", "2010-05", "2010-06", "2010-07", "2010-08", "2010-09", "2010-10", "2010-11", "2011-01", "2011-02", "2011-03", "2011-04", "2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12", "2012-01", "2012-02", "2012-03", "2012-04", "2012-05", "2012-06", "2012-07", "2012-08", "2012-09", "2012-10", "2012-11", "2012-12", "2013-01", "2013-02", "2013-03", "2013-04", "2013-05", "2013-06", "2013-07", "2013-08", "2013-09", "2013-10", "2013-11", "2013-12", "2014-01", "2014-02", "2014-03", "2014-04", "2014-05", "2014-06", "2014-07", "2014-08", "2014-09", "2014-10", "2014-11", "2014-12", "2015-01", "2015-02", "2015-03", "2015-04", "2015-05", "2015-06", "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12", "2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06", "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2017-06", "2017-07", "2017-08", "2017-09", "2017-10", "2017-11", "2017-12", "2018-01", "2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09"];
+const PM=[13.02,12.89,12.86,14.07,15.17,15.27,14.17,14.56,15.14,15.28,14.63,14.14,14.56,15.92,16.45,16.62,15.12,12.49,11.94,11.62,10.23,9.36,7.13,6.97,8.52,7.5,6.72,6.55,6.96,7.49,7.64,7.61,7.69,7.2,6.44,5.01,4.4,4.03,3.81,3.42,4.22,4.19,4.4,5.18,4.85,4.52,4.65,4.97,6.44,6.17,5.18,5.03,5.54,5.9,6.24,5.98,6.05,6.79,6.74,6.89,7.19,6.72,7.04,7.4,7.43,7.69,8.06,8.06,8.33,8.47,8.27,6.49,5.17,4.88,5.66,5.88,5.6,4.62,4.67,4.3,5.68,5.63,4.48,5.11,5.13,5.06,4.75,4.58,4.96,5.24,5.63,6.71,7.26,7.54,7.28,8.39,9.39,11.38,13.23,14.82,15.11,16.21,18.77,21.6,19.58,18.69,20.68,22.97,20.84,21.81,25.59,25.54,24.93,27.91,27.06,25.7,24.44,24.54,24.6,24.35,23.89,19.87,20.12,19.64,23.19,27.35,26.62,27.55,25.14,26.31,29.76,33.53,37.66,40.52,44.87,51.83,52.7,53.38,56.5,61.31,59.58,65.6,80.64,83.46,90.33,74.61,80.63,85.39,82.72,81.58,87.66,69.54,69.48,75.48,86.04,79.97,91.98,89.31,89.79,84.12,85.03,86.25,84.78,81.88,80.76,75.88,68.82,63.2,55.35,57.48,63.6,71.07,68.61,66.9,70.17,65.04,63.15,66.96,68.08,75.78,75.72,68.76,64.31,70.59,72.25,69.99,70.96,75.46,77.92,80.7,82.74,86.51,73.77,68.17,72.81,74.95,77.82,80.26,81.63,84.62];
+const PA={2010:14.28, 2011:13.27, 2012:7.24, 2013:4.37, 2014:5.91, 2015:7.62, 2016:5.25, 2017:5.76, 2018:15.48, 2019:24.75, 2020:24.34, 2021:53.74, 2022:80.24, 2023:83.64, 2024:64.9, 2025:73.42, 2026:77.8};   // annual means, 2026 to 30 September
+const PN={2010:48, 2011:49, 2012:73, 2013:191, 2014:198, 2015:205, 2016:195, 2017:201, 2018:203, 2019:214, 2020:215, 2021:232, 2022:224, 2023:227, 2024:226, 2025:217, 2026:166};  // observations per year
 const pmLabels=PM_L;
 let priceMode="month", priceChart;
 function drawPrice(){
