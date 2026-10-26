@@ -16,6 +16,7 @@ put the two next to each other, in plain language and from the legal text.
 | Page | Covers |
 | --- | --- |
 | `index.html` | Entry point and orientation |
+| `energy.html` | **Companion map** — EU energy legislation, renewables in focus: 147 acts in eight lanes, with its own look and its own icon, linked from the top right of every page |
 | `ets.html` | The EU ETS: cap, Market Stability Reserve, outcomes since 2005, auction revenue, allowance price, scope changes |
 | `benchmarks.html` | All 54 free allocation benchmarks across three periods, the Article 10a(2) derivation of each value, the CBAM overlay, an installation-level calculator |
 | `ets2.html` | EU ETS 2 — fuels for buildings, road transport and small industry, pricing from 2028 |

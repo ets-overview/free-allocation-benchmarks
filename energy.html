@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Legislation Map — EU Energy Policy Explorer</title>
+<meta name="description" content="An interactive map of EU energy legislation — renewables, efficiency, electricity and gas markets, security of supply, transport fuels and nuclear — with renewable energy in focus, colour-coded by whether each act is in force, amended, repealed or still a proposal.">
+
+<!-- Open Graph (LinkedIn, Facebook, Slack, etc.) — set og:url and og:image once the site has its address -->
+<meta property="og:title" content="EU Energy Legislation Map">
+<meta property="og:description" content="An interactive map of EU energy legislation with renewable energy in focus, colour-coded by whether each act is in force, amended, repealed or still a proposal.">
+<meta property="og:url" content="index.htmlenergy.html">
+<meta property="og:type" content="website">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EU Energy Legislation Map">
+<meta name="twitter:description" content="An interactive map of EU energy legislation with renewable energy in focus, colour-coded by whether each act is in force, amended, repealed or still a proposal.">
+<link rel="icon" type="image/png" href="images/favicon-energy.png">
+
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#fff; --ink:#14181f; --muted:#5f6b7a; --line:#e3e7ec; --accent:#1f5fbf;
+    --green:#1f8a5f; --yellow:#d9a520; --red:#c0392b; --violet:#6b5bd2;
+    --ren:#0a93b5;   /* renewables focus: the ring drawn around every act with renewables content */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{display:flex;flex-direction:column}
+  header,.bar{flex:0 0 auto}
+  body{margin:0;background:var(--bg);color:var(--ink);overflow:hidden;
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+
+  /* a darker teal header than the climate site's blue: same family, visibly a different site */
+  header{background:#0b4f5c;color:#fff;padding:14px 22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px;letter-spacing:-.01em;white-space:nowrap}
+  header .tagline{color:#bfe0e6;font-size:13px;flex:1;min-width:200px}
+  header .links{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+  header a{color:#bfe0e6;font-size:13px;text-decoration:none;border:1px solid #3d8190;padding:5px 11px;border-radius:7px;white-space:nowrap}
+  header a:hover{background:#136a7a;color:#fff}
+  header a[aria-current]{background:#fff;color:#0b4f5c;border-color:#fff;font-weight:600}
+
+  .bar{background:var(--panel);border-bottom:1px solid var(--line);padding:9px 22px;
+       display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  select,input,.btn{font:inherit;font-size:13.5px;padding:6px 9px;border:1px solid var(--line);
+                    border-radius:7px;background:#fff;color:var(--ink)}
+  .btn{cursor:pointer} .btn:hover{background:#f2f5f9}
+  input[type=search]{min-width:200px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;
+        border:1px solid var(--line);border-radius:20px;padding:4px 11px;background:#fff;user-select:none}
+  .chip.off{opacity:.4}
+  .chip .dot{width:10px;height:10px;border-radius:50%}
+  .chip .dot.ring, #legend .dot.ring{background:#eeecfb;border:2px dashed var(--violet)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .seg button{border:0;background:#fff;font:inherit;font-size:13.5px;padding:6px 13px;cursor:pointer;color:var(--muted)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--accent);color:#fff;font-weight:600}
+  .seg button:not(.on):hover{background:#f2f5f9;color:var(--ink)}
+  .seg .lbl{font-size:12.5px;color:var(--muted);padding:6px 4px 6px 10px;background:#fafbfc;border-right:1px solid var(--line)}
+  #renSeg button.on{background:var(--ren)}
+  .spacer{flex:1}
+  .count{font-size:12.5px;color:var(--muted)}
+
+  #wrap{position:relative;flex:1 1 auto;min-height:0;width:100%;overflow:hidden}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  canvas.drag{cursor:grabbing}
+
+  #panel{position:absolute;top:14px;right:14px;width:400px;max-width:calc(100% - 28px);
+         max-height:calc(100% - 28px);overflow:auto;background:var(--panel);border:1px solid var(--line);
+         border-radius:12px;box-shadow:0 8px 28px rgba(20,24,31,.16);padding:20px 22px;
+         transform:translateX(calc(100% + 24px));transition:transform .22s cubic-bezier(.4,0,.2,1);z-index:10}
+  #panel.on{transform:none}
+  #panel .close{position:absolute;top:12px;right:14px;border:0;background:none;font-size:22px;line-height:1;
+                color:var(--muted);cursor:pointer;padding:2px 6px}
+  #panel .close:hover{color:var(--ink)}
+  #panel h2{margin:0 6px 3px 0;font-size:17px;padding-right:22px;letter-spacing:-.01em}
+  #panel .num{font-size:12.5px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  #panel .meta{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 14px}
+  #panel .sum{font-size:14px;color:#39414d;margin:0 0 16px}
+  #panel h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+            margin:16px 0 7px;border-top:1px solid var(--line);padding-top:13px}
+  #panel h3.renh{color:var(--ren)}
+  #panel ul{list-style:none;margin:0;padding:0}
+  #panel li{padding:5px 0;font-size:13.5px;display:flex;gap:8px;align-items:flex-start}
+  #panel li .rel{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+                 border:1px solid var(--line);border-radius:4px;padding:1px 5px;flex-shrink:0;margin-top:2px;min-width:88px;text-align:center}
+  #panel li a{color:var(--accent);text-decoration:none;cursor:pointer}
+  #panel li a:hover{text-decoration:underline}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+  .badge.g{background:#e6f5ee;color:#14663f} .badge.y{background:#fbf2dc;color:#87680d}
+  .badge.r{background:#fbeae8;color:#96291d} .badge.n{background:#eef2f7;color:#4a5567}
+  .badge.p{background:#eeecfb;color:#453a95} .badge.re{background:#e2f4f8;color:#075f75}
+  #panel .ext{display:block;margin-top:12px;font-size:13px;color:var(--accent);text-decoration:none}
+  #panel .ext:hover{text-decoration:underline}
+
+  #legend{position:absolute;left:14px;bottom:62px;background:rgba(255,255,255,.94);border:1px solid var(--line);
+          border-radius:10px;padding:11px 14px;font-size:12.5px;color:var(--muted);z-index:5;max-width:290px}
+  #legend .row{display:flex;align-items:center;gap:8px;margin:4px 0}
+  #legend .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+  #legend .dot.renring{background:#fff;border:2.5px solid var(--ren);width:15px;height:15px;margin:-2px}
+  #legend .ln{width:22px;height:0;border-top:2px solid #b7c0cb;flex-shrink:0}
+  #legend .ln.dash{border-top-style:dashed}
+  #legend .ln.dot2{border-top-style:dotted}
+  #legend .ln.fine{border-top:1px dashed #cfd6de}
+  #legend .hint{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.45}
+  #legend .tog{display:none}
+
+  #tip{position:absolute;pointer-events:none;background:#14181f;color:#fff;font-size:12.5px;
+       padding:5px 9px;border-radius:6px;opacity:0;transition:opacity .12s;z-index:8;white-space:nowrap}
+
+  #scrim{position:absolute;inset:0;background:rgba(20,24,31,.34);z-index:40;display:none}
+  #scrim.on{display:block}
+  #intro{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:41;
+         width:680px;max-width:calc(100% - 32px);max-height:calc(100% - 40px);overflow:auto;
+         background:var(--panel);border:1px solid var(--line);border-radius:14px;
+         box-shadow:0 16px 48px rgba(20,24,31,.24);padding:26px 30px 22px;display:none}
+  #intro.on{display:block}
+  #intro h2{margin:0 0 14px;font-size:19px;letter-spacing:-.01em}
+  #intro p{font-size:14px;line-height:1.62;color:#39414d;margin:0 0 13px}
+  #intro p:last-of-type{margin-bottom:0}
+  #intro .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;
+               margin-top:20px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap}
+  #intro .btn{background:var(--accent);color:#fff;border:0;font-weight:600;padding:9px 20px;border-radius:8px;cursor:pointer}
+  #intro .btn:hover{background:#17509f}
+  #intro a{color:var(--accent)}
+
+  .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  @media (max-width:860px){
+    header{padding-left:18px;padding-right:18px}
+    .bar{row-gap:8px;padding-left:16px;padding-right:16px}
+  }
+  @media (max-width:600px){
+    header{padding-left:16px;padding-right:16px}
+    header{gap:8px 12px}
+    header h1{font-size:17px}
+    header .tagline{min-width:0;flex-basis:100%}
+    header .links{flex:1 1 100%;min-width:0;flex-shrink:1}
+    header a{white-space:normal}
+    #panel{left:14px;right:14px;width:auto;max-width:none}
+    input[type=search]{min-width:0;flex:1 1 140px}
+    /* the legend covers half the map on a phone: collapse it to a button */
+    #legend{max-width:calc(100% - 28px);bottom:14px}
+    #legend .tog{display:block;border:0;background:none;font:inherit;font-size:12.5px;color:var(--accent);padding:0;cursor:pointer}
+    #legend:not(.open) .row,#legend:not(.open) .hint{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EU energy legislation map</h1>
+  <div class="tagline">Renewables in focus — how EU energy law connects, what amends what, and what is still standing.</div>
+  <span class="links">
+    <a href="energy.html" aria-current="page">Energy legislation map</a>
+    <a href="legislation.html">Climate legislation map</a>
+    <a href="index.html">EU Climate Policy Explorer</a>
+  </span>
+</header>
+
+<div class="bar">
+  <span class="seg">
+    <button id="mNet">Network</button><button id="mTime" class="on">Timeline</button>
+  </span>
+  <span class="seg" id="lvlSeg" role="group" aria-label="How much detail to show">
+    <button data-lvl="1" title="Principal instruments only — the act that creates each regime, plus the live proposals that would change one">Core</button><button data-lvl="2" title="Adds the implementing and delegated acts that operate each regime, the landmark revisions and the 2022 crisis measures">+ machinery</button><button data-lvl="3" title="Every act, including repealed predecessors and technical amendments">All</button>
+  </span>
+  <span class="seg" id="renSeg" role="group" aria-label="Renewable energy focus">
+    <span class="lbl">Renewables</span><button data-ren="hi" title="Ring every act with renewable energy content and fade the rest">Highlight</button><button data-ren="only" title="Show only acts with renewable energy content">Only</button><button data-ren="off" title="Treat every act the same">Off</button>
+  </span>
+  <input type="search" id="q" placeholder="Search legislation…">
+  <select id="dom"></select>
+  <span class="chip" data-st="g"><span class="dot" style="background:var(--green)"></span>In force, unamended</span>
+  <span class="chip" data-st="y"><span class="dot" style="background:var(--yellow)"></span>In force, amended</span>
+  <span class="chip" data-st="r"><span class="dot" style="background:var(--red)"></span>Repealed or expired</span>
+  <span class="chip" data-st="p"><span class="dot ring" style="border-color:var(--violet)"></span>Proposed</span>
+  <button class="btn" id="reset">Reset view</button>
+  <button class="btn" id="about">About this map</button>
+  <button class="btn" id="csv">Download CSV</button>
+  <div class="spacer"></div>
+  <span class="count" id="count"></span>
+  <span class="count" style="margin-left:14px">Updated 27 Sep 2026</span>
+</div>
+
+<div id="wrap">
+  <canvas id="cv" role="img" aria-label="Interactive map of EU energy legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
+  <p class="vh">This map is drawn on a canvas and cannot be read by a screen reader. The same acts —
+     number, title, year, policy area, status, renewables relevance, EUR-Lex link and the relations between them —
+     are available as a CSV file from the &ldquo;Download CSV&rdquo; button in the toolbar above.</p>
+  <div id="tip"></div>
+
+  <div id="scrim"></div>
+  <div id="intro">
+    <h2>About this map</h2>
+    <p>This is the companion to the <a href="legislation.html">climate
+       legislation map</a>. That map deliberately keeps to acts whose primary objective is climate change,
+       which leaves most energy law outside it — even though the energy system is where most of the
+       emissions reductions actually have to happen. This map picks up what it leaves out.</p>
+    <p><strong>Scope.</strong> The map covers EU legislation adopted under the energy title of the Treaty
+       (Article 194 TFEU) and the acts that operate it: renewables, energy efficiency and buildings, the
+       electricity and gas markets and their networks, security of supply, fuels for transport, energy
+       taxation, and — because it is part of the energy mix and increasingly of the argument —
+       nuclear safety under the Euratom Treaty. Commission communications, action plans, strategies and
+       recommendations are not legal acts and do not appear, however often they are cited: REPowerEU,
+       the Electrification Action Plan and the Citizens Energy Package are described on the acts they
+       led to, not drawn as nodes. The state aid guidelines that decide how renewables can be subsidised
+       are left out on the same reasoning.</p>
+    <p><strong>Renewables in focus.</strong> Renewable energy has its own lane, but a large share of the
+       rules that decide how fast renewables are built sit elsewhere: contracts for difference in the
+       electricity market reform, energy sharing in the electricity directive, rooftop solar duties in the
+       buildings directive, offshore grid planning in TEN-E, renewable hydrogen quotas in the aviation and
+       shipping fuel regulations. <strong>Highlight</strong> draws a ring around every act that carries
+       renewables provisions, wherever it sits, and fades the rest; each such act says in its detail panel
+       what those provisions are. <strong>Only</strong> hides everything else.</p>
+    <p><strong>Overlap with the climate map.</strong> <span id="cmCount"></span> acts appear on both maps —
+       the Renewable Energy Directives, the efficiency and buildings directives, the Governance Regulation,
+       the gas package, the methane rules and the transport fuel regulations among them. They are marked
+       &ldquo;also on the climate map&rdquo; in the detail panel. Carbon pricing, effort sharing and CBAM stay
+       on the climate side.</p>
+    <p><strong>Core, machinery, everything.</strong> The map holds <span id="nAll"></span> acts. It opens with the
+       <strong>core</strong> (<span id="n1"></span> acts): the instruments that create a regime, plus the live proposals
+       that would materially change one. <strong>+ machinery</strong> adds <span id="n2"></span> delegated and
+       implementing acts, landmark revisions and the 2022 emergency regulations. <strong>All</strong> adds
+       the remaining <span id="n3"></span>: repealed predecessors and technical amendments. The line between
+       the three is set by hand, act by act.</p>
+    <p><strong>What is coming.</strong> Several announced proposals had not been tabled when this map was last
+       updated and are therefore not on it yet: the revision of the energy security framework (gas, electricity
+       and oil supply security), the post-2030 energy framework that would align the Governance Regulation and
+       the renewables and efficiency directives with the 2040 climate target, a review of the hydrogen
+       delegated acts, and measures on phasing out fossil fuel subsidies. They will be added as proposals
+       once they exist.</p>
+    <p><strong>How the list was compiled.</strong> The acts were checked against a EUR-Lex search for energy
+       legislation (exported 26 September 2026, about 3,400 documents). Most of what such a search returns is
+       deliberately left out: individual state aid and merger decisions, derogations and exemptions granted to
+       single member states, recognitions of individual biofuel certification schemes, the hundreds of
+       product-specific ecodesign and labelling regulations, trade defence measures, research programme
+       decisions, corrigenda, and recommendations, which are not binding. Statuses follow the EUR-Lex in-force
+       indicator; where EUR-Lex has consolidated an amendment, the act is shown as amended.</p>
+    <p><strong>Getting the data out.</strong> &ldquo;Download CSV&rdquo; exports every act — number, title,
+       year, policy area, status, tier, renewables relevance, whether it is also on the climate map, EUR-Lex
+       link and relations — as a single file.</p>
+    <p>If you believe that important legislation is missing, please feel free to get in touch at
+       <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
+    <div class="foot">
+      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from &ldquo;About this map&rdquo; in the toolbar.<br><strong>Last updated 27 September 2026</strong>, added to the EU Climate Policy Explorer on 26 October 2026.</span>
+      <button class="btn" id="introClose">Explore the map</button>
+    </div>
+  </div>
+
+  <div id="legend">
+    <button class="tog" id="legTog" aria-expanded="false">Legend</button>
+    <div class="row"><span class="dot" style="background:var(--green)"></span>In force, text as adopted</div>
+    <div class="row"><span class="dot" style="background:var(--yellow)"></span>In force, amended since adoption</div>
+    <div class="row"><span class="dot" style="background:var(--red)"></span>Repealed or expired</div>
+    <div class="row"><span class="dot ring"></span>Proposed, in negotiation</div>
+    <div class="row"><span class="dot renring"></span>Carries renewable energy provisions</div>
+    <div class="row" style="margin-top:9px"><span class="ln"></span>amends</div>
+    <div class="row"><span class="ln dash"></span>repeals / replaces</div>
+    <div class="row"><span class="ln dot2"></span>implements / supplements</div>
+    <div class="row"><span class="ln fine"></span>relates to (no formal legal link)</div>
+    <div class="hint"></div>
+  </div>
+
+  <div id="panel">
+    <button class="close" id="pClose" aria-label="Close">×</button>
+    <h2 id="pTitle"></h2>
+    <div class="num" id="pNum"></div>
+    <div class="meta" id="pMeta"></div>
+    <p class="sum" id="pSum"></p>
+    <div id="pRen"></div>
+    <div id="pRels"></div>
+    <a class="ext" id="pCm" target="_blank" rel="noopener" href="legislation.html">Also on the climate legislation map ↗</a>
+    <a class="ext" id="pExt" target="_blank" rel="noopener">Open on EUR-Lex →</a>
+  </div>
+</div>
+
+<script>
+// ============================================================ DATA
+// st: g = in force as adopted · y = in force but amended · r = repealed/expired · p = proposal
+// rel: [type, targetId] — am (amends) · rp (repeals/replaces) · im (implements/supplements) · rl (relates to)
+// ren: renewables content of an act outside the renewables lane (every act in that lane counts automatically)
+// cm:  also on the climate legislation map
+const CLIMATE_MAP = "legislation.html";
+
+const DOMS = {
+  re: {label:"Renewables & clean tech",          col:"#0a93b5"},
+  ef: {label:"Efficiency & buildings",           col:"#2e8b57"},
+  mk: {label:"Electricity markets & grids",      col:"#0b3d91"},
+  gs: {label:"Gas, hydrogen & methane",          col:"#d68910"},
+  sc: {label:"Security of supply & crisis",      col:"#8a5a2b"},
+  tf: {label:"Transport fuels & infrastructure", col:"#8e44ad"},
+  fw: {label:"Framework, taxation & external",   col:"#34495e"},
+  nu: {label:"Nuclear (Euratom)",                col:"#7a6f86"}
+};
+
+const L = [
+// ---------- Renewables & clean tech
+{id:"res01", lvl:3, num:"Dir. 2001/77/EC", title:"Renewable Electricity Directive", yr:2001, dom:"re", st:"r",
+ eli:"dir/2001/77",
+ sum:"The first EU framework for electricity from renewable sources: indicative national targets adding up to a 22% renewable share of electricity consumption by 2010 in the then fifteen member states, and the first guarantees of origin. Indicative targets proved easy to miss, which is the lesson the 2009 directive was built on. Repealed by RED I from 2012.",
+ rel:[]},
+{id:"bio03", lvl:3, num:"Dir. 2003/30/EC", title:"Biofuels Directive", yr:2003, dom:"re", st:"r",
+ eli:"dir/2003/30",
+ sum:"Set an indicative 5.75% share of biofuels in petrol and diesel for transport by 2010, with no sustainability safeguards at all — the gap that led to the sustainability criteria of 2009 and, later, the argument over indirect land-use change. Repealed by RED I from 2012.",
+ rel:[]},
+{id:"red1", lvl:2, num:"Dir. 2009/28/EC", title:"Renewable Energy Directive I", yr:2009, dom:"re", st:"r", cm:1,
+ eli:"dir/2009/28",
+ sum:"The first binding EU renewables framework: a 20% share of gross final energy consumption by 2020, split into binding national targets, a 10% renewables target for transport, national renewable energy action plans, and the original sustainability criteria for biofuels. The EU as a whole reached 22% in 2020. Repealed and recast by RED II from July 2021.",
+ rel:[["rp","res01"],["rp","bio03"]]},
+{id:"iluc", lvl:3, num:"Dir. (EU) 2015/1513", title:"Indirect Land-Use Change (ILUC) Directive", yr:2015, dom:"re", st:"g",
+ eli:"dir/2015/1513",
+ sum:"The response to evidence that crop-based biofuels displace food production onto land cleared elsewhere. Capped food- and feed-crop biofuels at 7% of transport energy, introduced an indicative 0.5% target for advanced biofuels, and required reporting of estimated indirect land-use change emissions. Amended both RED I and the Fuel Quality Directive.",
+ rel:[["am","red1"],["am","fqd"]]},
+{id:"red2", lvl:1, num:"Dir. (EU) 2018/2001", title:"Renewable Energy Directive II", yr:2018, dom:"re", st:"y", cm:1,
+ eli:"dir/2018/2001",
+ sum:"The current renewables framework, as amended. Replaced binding national targets with a binding EU-level target (originally 32% by 2030) delivered through national contributions in the Governance Regulation, extended sustainability criteria from biofuels to solid biomass and biogas for heat and power, created rights to self-consume and to form renewable energy communities, and defined renewable fuels of non-biological origin (RFNBOs) — the legal category for renewable hydrogen. Almost every other renewables rule in the EU plugs into this act.",
+ rel:[["rp","red1"]]},
+{id:"red3", lvl:1, num:"Dir. (EU) 2023/2413", title:"Renewable Energy Directive III", yr:2023, dom:"re", st:"g", cm:1,
+ eli:"dir/2023/2413",
+ sum:"Raises the binding 2030 target to 42.5%, with an indicative top-up to 45%. Adds sector targets: in transport a 29% renewables share or a 14.5% cut in greenhouse gas intensity, with a combined 5.5% sub-target for advanced biofuels and RFNBOs; in industry 42% of hydrogen used to be RFNBO by 2030 and 60% by 2035; an indicative 49% renewables share in buildings; and binding annual increases in renewable heating and cooling. Its permitting chapter — renewables acceleration areas, statutory deadlines, and a presumption that renewables are of overriding public interest — was brought forward from the 2022 emergency regulation. Most provisions were due for transposition by 21 May 2025; the Commission has since opened infringement proceedings against several member states for missing it.",
+ rel:[["am","red2"],["am","gov"],["am","fqd"],["rl","emerg"],["rp","fqd652"]]},
+{id:"iludel", lvl:2, num:"Del. Reg. (EU) 2019/807", title:"High ILUC-risk feedstock criteria", yr:2019, dom:"re", st:"g",
+ eli:"reg_del/2019/807",
+ sum:"Defines which biofuel feedstocks carry a high risk of indirect land-use change and how low-risk production can be certified. Palm oil is the only feedstock identified as high-risk, and its contribution towards the renewables targets is frozen and then phased down to zero by 2030 — a provision that went to the WTO.",
+ rel:[["im","red2"]]},
+{id:"sust", lvl:2, num:"Impl. Reg. (EU) 2022/996", title:"Sustainability and GHG-saving verification rules", yr:2022, dom:"re", st:"y",
+ eli:"reg_impl/2022/996",
+ sum:"The audit layer beneath the sustainability criteria: how voluntary and national certification schemes verify that biofuels, biomass fuels and RFNBOs meet the sustainability and greenhouse gas savings requirements, what auditors must check, and how certified consignments are traced through the Union database. Amended in 2024 and 2025, including on the accreditation of certification bodies.",
+ amBy:["Impl. Reg. (EU) 2024/805","Impl. Reg. (EU) 2025/196"],
+ rel:[["im","red2"]]},
+{id:"finmech", lvl:2, num:"Impl. Reg. (EU) 2020/1294", title:"Union renewable energy financing mechanism", yr:2020, dom:"re", st:"g",
+ eli:"reg_impl/2020/1294",
+ sum:"Lets one member state pay for renewable capacity built in another and count part of the output towards its own contribution. Contributing and hosting countries sign up to tenders run by the Commission; the first, in 2022, supported solar in Finland with Luxembourg's money. Built on Article 33 of the Governance Regulation, and one of the few tools that lets the EU put renewables where they are cheapest rather than where the budget is.",
+ rel:[["im","gov"]]},
+{id:"emerg", lvl:2, num:"Council Reg. (EU) 2022/2577", title:"Emergency framework to accelerate renewables deployment", yr:2022, dom:"re", st:"r",
+ eli:"reg/2022/2577",
+ sum:"An emergency regulation adopted under Article 122 TFEU after the 2022 gas shock. Presumed renewable energy projects to be in the overriding public interest, capped permitting for solar equipment on existing artificial structures at three months and for heat pumps at one month, and fast-tracked repowering. Extended once and expired on 30 June 2025; its core provisions were made permanent in RED III, which is why the model is still in force even though the regulation is not.",
+ rel:[]},
+{id:"emerg23", lvl:3, num:"Council Reg. (EU) 2024/223", title:"Extension of the renewables emergency framework", yr:2023, dom:"re", st:"r",
+ eli:"reg/2024/223",
+ sum:"Adopted on 22 December 2023 and published in January 2024. Extended the 2022 emergency permitting regulation, with some targeted changes, until 30 June 2025, to bridge the gap until member states had transposed RED III's permitting chapter. Expired.",
+ rel:[["am","emerg"]]},
+{id:"rfnbo1", lvl:2, num:"Del. Reg. (EU) 2023/1184", title:"Rules for producing renewable hydrogen (RFNBOs)", yr:2023, dom:"re", st:"g",
+ eli:"reg_del/2023/1184",
+ sum:"Decides when hydrogen made from grid electricity counts as renewable. Three tests: additionality — from 2028 the electrolyser must be matched with new renewable capacity; temporal correlation — monthly until the end of 2029, hourly from 2030; and geographical correlation — the renewable plant must sit in the same bidding zone. The most contested renewables delegated act yet adopted, since the tighter the rules, the more expensive the hydrogen. The Commission has signalled a review.",
+ rel:[["im","red2"]]},
+{id:"rfnbo2", lvl:2, num:"Del. Reg. (EU) 2023/1185", title:"Emissions methodology for RFNBOs and recycled carbon fuels", yr:2023, dom:"re", st:"g",
+ eli:"reg_del/2023/1185",
+ sum:"Sets the 70% minimum greenhouse gas saving that RFNBOs and recycled carbon fuels must reach against a fossil comparator of 94 g CO₂e/MJ, and how to count life-cycle emissions. Carbon captured from fossil combustion can be used in synthetic fuels only for a transitional period, until 2036 for power generation and 2041 otherwise. The same methodology decides what counts towards the aviation and shipping fuel mandates.",
+ rel:[["im","red2"]]},
+{id:"nzia", lvl:1, num:"Reg. (EU) 2024/1735", title:"Net-Zero Industry Act", yr:2024, dom:"re", st:"y", cm:1,
+ eli:"reg/2024/1735",
+ sum:"Sets a benchmark of 40% EU manufacturing capacity for net-zero technologies by 2030 — solar, wind, batteries, heat pumps, electrolysers and grid technology among them — with faster permitting for manufacturing projects. For renewables the operative part is Article 26: member states must apply non-price criteria, including resilience of supply, to at least 30% of the renewable capacity they auction each year, or 6 GW. Its carbon storage obligation on oil and gas producers is covered on the climate map.",
+ amBy:["Del. Reg. (EU) 2025/1463"],
+ rel:[["rl","red3"]]},
+{id:"nziaauct", lvl:2, num:"Impl. Reg. (EU) 2025/1176", title:"Non-price criteria in renewables auctions", yr:2025, dom:"re", st:"g",
+ eli:"reg_impl/2025/1176",
+ sum:"Specifies the pre-qualification and award criteria that renewables auctions must use under the Net-Zero Industry Act: mandatory standards on responsible business conduct, cybersecurity and ability to deliver, plus optional criteria on resilience of supply chains, environmental sustainability and system integration. The instrument that turns the 'buy European' argument into auction design.",
+ rel:[["im","nzia"]]},
+{id:"p_permit", lvl:1, num:"COM(2025) 1007", title:"Accelerated permitting for grids, storage and renewables", yr:2025, dom:"re", st:"p",
+ prop:"Tabled 10 December 2025 · procedure 2025/0400(COD) · European Grids Package · Council general approach 26 June 2026",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC1007",
+ sum:"Would amend the Renewable Energy Directive, the Electricity Market Directive and the Gas and Hydrogen Directive to extend the permitting logic of RED III to grids, storage and recharging: grid projects presumed to be in the overriding public interest until climate neutrality, streamlined environmental assessment, digital permitting, benefit-sharing with local communities for larger renewable projects, and a shift in grid connection from 'first come, first served' towards 'first ready, first served'. The renewables side of the Grids Package.",
+ rel:[["am","red2"],["am","emdir"],["am","gasdir"],["rl","p_tene"]]},
+
+// ---------- Efficiency & buildings
+{id:"chp04", lvl:3, num:"Dir. 2004/8/EC", title:"Cogeneration Directive", yr:2004, dom:"ef", st:"r",
+ eli:"dir/2004/8",
+ sum:"Promoted high-efficiency combined heat and power. Folded into the 2012 Energy Efficiency Directive and repealed.",
+ rel:[]},
+{id:"esd06", lvl:3, num:"Dir. 2006/32/EC", title:"Energy End-Use Efficiency and Energy Services Directive", yr:2006, dom:"ef", st:"r",
+ eli:"dir/2006/32",
+ sum:"Set an indicative 9% energy savings target over nine years and national energy efficiency action plans. Repealed by the 2012 Energy Efficiency Directive.",
+ rel:[]},
+{id:"eed12", lvl:2, num:"Dir. 2012/27/EU", title:"Energy Efficiency Directive (2012)", yr:2012, dom:"ef", st:"r", cm:1,
+ eli:"dir/2012/27",
+ sum:"Turned the 20% efficiency ambition for 2020 into a framework: the energy savings obligation on member states, mandatory energy audits for large companies, and a 3% annual renovation rate for central government buildings. Recast in 2023.",
+ rel:[["rp","chp04"],["rp","esd06"],["am","eco09"],["am","lab10"]]},
+{id:"eed18", lvl:3, num:"Dir. (EU) 2018/2002", title:"Energy Efficiency Directive amendment (2030 target)", yr:2018, dom:"ef", st:"r",
+ eli:"dir/2018/2002",
+ sum:"Part of the Clean Energy for All Europeans package. Set a 32.5% efficiency target for 2030 and extended the energy savings obligation beyond 2020. Listed as no longer in force on EUR-Lex, since the directive it amended has been repealed.",
+ rel:[["am","eed12"]]},
+{id:"eed23", lvl:1, num:"Dir. (EU) 2023/1791", title:"Energy Efficiency Directive (recast)", yr:2023, dom:"ef", st:"y", cm:1,
+ eli:"dir/2023/1791",
+ sum:"Makes the EU efficiency target binding for the first time — an 11.7% reduction in final energy consumption by 2030 against the 2020 reference scenario — and puts the 'energy efficiency first' principle into law. Raises the annual savings obligation to an average of 1.49%, requires the public sector to cut its energy use by 1.9% a year, and extends the renovation duty to public buildings at every level of government.",
+ ren:"Redefines 'efficient district heating and cooling' on a tightening schedule that, from 2050, requires the network to run on renewable energy, waste heat or a combination — which makes this, in practice, the district heating decarbonisation law.",
+ rel:[["rp","eed12"]]},
+{id:"dc24", lvl:2, num:"Del. Reg. (EU) 2024/1364", title:"Rating scheme for data centres", yr:2024, dom:"ef", st:"g",
+ eli:"reg_del/2024/1364",
+ sum:"The first phase of a common EU rating scheme for data centres: operators of sites of 500 kW and above report energy, water and heat-reuse indicators to a European database each year. The data that will decide whether data centres get efficiency requirements of their own.",
+ ren:"Operators report the share of renewable energy they use and how much of their waste heat is reused.",
+ rel:[["im","eed23"]]},
+{id:"epbd02", lvl:3, num:"Dir. 2002/91/EC", title:"Energy Performance of Buildings Directive (2002)", yr:2002, dom:"ef", st:"r",
+ eli:"dir/2002/91",
+ sum:"The first buildings directive: a calculation methodology, minimum requirements for new and renovated buildings, and energy performance certificates. Recast in 2010.",
+ rel:[]},
+{id:"epbd10", lvl:3, num:"Dir. 2010/31/EU", title:"Energy Performance of Buildings Directive (2010)", yr:2010, dom:"ef", st:"r", cm:1,
+ eli:"dir/2010/31",
+ sum:"Introduced nearly zero-energy buildings for all new buildings from 2021 and cost-optimal minimum performance requirements. Recast in 2024.",
+ rel:[["rp","epbd02"]]},
+{id:"epbd18", lvl:3, num:"Dir. (EU) 2018/844", title:"Buildings directive amendment (2018)", yr:2018, dom:"ef", st:"g",
+ eli:"dir/2018/844",
+ sum:"Added long-term renovation strategies, the smart readiness indicator, and pre-cabling for electric vehicle charging in car parks. Also amended the 2012 Energy Efficiency Directive.",
+ rel:[["am","epbd10"],["am","eed12"]]},
+{id:"epbd24", lvl:1, num:"Dir. (EU) 2024/1275", title:"Energy Performance of Buildings Directive (recast)", yr:2024, dom:"ef", st:"y", cm:1,
+ eli:"dir/2024/1275",
+ sum:"Requires all new buildings to be zero-emission from 2030 (public buildings from 2028), cuts average primary energy use of the residential stock by 16% by 2030 and 20–22% by 2035, requires renovation of the worst-performing non-residential buildings, and ends financial incentives for stand-alone fossil fuel boilers from 2025, with the aim of phasing them out entirely by 2040. Transposition deadline May 2026.",
+ ren:"Article 10 phases in an obligation to install solar energy on buildings: new public and non-residential buildings from 2026, existing large ones on renovation from 2027, new residential buildings from 2030. Zero-emission buildings must meet their remaining demand from renewables on site, from a renewable energy community or from efficient district heating.",
+ amBy:["Del. Reg. (EU) 2026/52"],
+ rel:[["rp","epbd10"],["rl","eed23"],["rl","red3"]]},
+{id:"lab10", lvl:3, num:"Dir. 2010/30/EU", title:"Energy Labelling Directive", yr:2010, dom:"ef", st:"r",
+ eli:"dir/2010/30",
+ sum:"The framework behind the A+++ to D label. Its open-ended plus classes eroded the label's meaning, which the 2017 regulation fixed. Repealed.",
+ rel:[]},
+{id:"lab17", lvl:1, num:"Reg. (EU) 2017/1369", title:"Energy Labelling Framework Regulation", yr:2017, dom:"ef", st:"y",
+ eli:"reg/2017/1369",
+ sum:"Returns product energy labels to a plain A–G scale, rescaled so that the top classes start empty, and creates the EPREL product database. Product-specific labels are set by delegated acts under it.",
+ amBy:["Reg. (EU) 2020/740 (tyre labelling), which widened the uses of the product database"],
+ rel:[["rp","lab10"]]},
+{id:"eco09", lvl:3, num:"Dir. 2009/125/EC", title:"Ecodesign Directive", yr:2009, dom:"ef", st:"y",
+ eli:"dir/2009/125",
+ sum:"The framework for minimum energy performance requirements for energy-related products — boilers, motors, lighting, appliances. Recast from the 2005 directive to cover energy-related products. The Ecodesign for Sustainable Products Regulation replaces it, but EUR-Lex still lists it as in force: it keeps applying during the transition, and the product measures adopted under it stay in force until replaced.",
+ rel:[["rp","eup05"]]},
+{id:"espr", lvl:2, num:"Reg. (EU) 2024/1781", title:"Ecodesign for Sustainable Products Regulation", yr:2024, dom:"ef", st:"g",
+ eli:"reg/2024/1781",
+ sum:"Extends ecodesign from energy performance to durability, repairability and recycled content across almost all physical goods, and introduces the digital product passport. Energy efficiency requirements for products now sit inside a much wider circular-economy regime. It takes over from the 2009 directive, which remains listed as in force during the transition.",
+ rel:[["rl","eco09"]]},
+
+// ---------- Electricity markets & grids
+{id:"emd09", lvl:3, num:"Dir. 2009/72/EC", title:"Electricity Directive (third package)", yr:2009, dom:"mk", st:"r",
+ eli:"dir/2009/72",
+ sum:"The third energy package's rules for the internal electricity market: unbundling of transmission from generation and supply, independent regulators, and basic consumer rights. Recast in 2019.",
+ rel:[["rp","emd03"]]},
+{id:"er09", lvl:3, num:"Reg. (EC) No 714/2009", title:"Cross-border electricity exchange regulation", yr:2009, dom:"mk", st:"r",
+ eli:"reg/2009/714",
+ sum:"Access conditions for cross-border electricity trade, ENTSO-E, and the legal basis for the network codes and guidelines. Recast in 2019.",
+ rel:[]},
+{id:"acer09", lvl:3, num:"Reg. (EC) No 713/2009", title:"ACER founding regulation", yr:2009, dom:"mk", st:"r",
+ eli:"reg/2009/713",
+ sum:"Established the Agency for the Cooperation of Energy Regulators. Recast in 2019.",
+ rel:[]},
+{id:"emdir", lvl:1, num:"Dir. (EU) 2019/944", title:"Electricity Market Directive", yr:2019, dom:"mk", st:"y",
+ eli:"dir/2019/944",
+ sum:"The consumer and retail half of the electricity market rulebook: the right to a dynamic price contract and a smart meter, switching supplier, protection of vulnerable and energy-poor customers, unbundling, and the tasks of regulators and distribution system operators. Amended by the 2024 market design reform.",
+ ren:"Gives active customers the right to generate, store and sell their own electricity, and creates citizen energy communities — the legal basis for rooftop solar owners and local renewable projects to take part in the market. The 2024 reform added a right to share renewable electricity between neighbours.",
+ rel:[["rp","emd09"]]},
+{id:"emreg", lvl:1, num:"Reg. (EU) 2019/943", title:"Electricity Market Regulation", yr:2019, dom:"mk", st:"y",
+ eli:"reg/2019/943",
+ sum:"The wholesale half of the rulebook: market principles, balancing responsibility, bidding zones, the requirement that at least 70% of interconnector capacity be offered to the market, and an emissions limit of 550 g CO₂/kWh that shuts most coal plants out of capacity mechanisms. Amended by the 2024 reform, and the target of a further amendment on network charges tabled in July 2026.",
+ ren:"Limits priority dispatch to small renewable installations and makes renewables balance-responsible like any other generator, while protecting them from market-based redispatch — the rules that decide how much of their output gets curtailed.",
+ rel:[["rp","er09"]]},
+{id:"acer", lvl:2, num:"Reg. (EU) 2019/942", title:"ACER Regulation", yr:2019, dom:"mk", st:"y",
+ eli:"reg/2019/942",
+ sum:"The recast mandate of the Agency for the Cooperation of Energy Regulators: network codes, cross-border decisions, market monitoring. Its tasks have been widened by nearly every energy act since, including the methane and gas package rules.",
+ rel:[["rp","acer09"]]},
+{id:"emd24r", lvl:2, num:"Reg. (EU) 2024/1747", title:"Electricity market design reform (Regulation)", yr:2024, dom:"mk", st:"g",
+ eli:"reg/2024/1747",
+ sum:"The response to the 2022 price crisis that chose to reform rather than replace marginal pricing. Promotes power purchase agreements and forward markets, requires flexibility needs assessments and allows support for non-fossil flexibility, and lets the Council declare a regional or EU-wide electricity price crisis. Amends the Electricity Market and ACER Regulations.",
+ ren:"From July 2027, direct price support for new wind, solar, geothermal, hydropower without reservoir and nuclear must take the form of two-way contracts for difference, with revenues above the strike price returned to consumers. Member states must also remove unjustified barriers to renewable power purchase agreements.",
+ rel:[["am","emreg"],["am","acer"]]},
+{id:"emd24d", lvl:2, num:"Dir. (EU) 2024/1711", title:"Electricity market design reform (Directive)", yr:2024, dom:"mk", st:"g",
+ eli:"dir/2024/1711",
+ sum:"The consumer side of the 2024 reform: the right to a fixed-price contract, stricter hedging obligations on suppliers, a ban on disconnecting vulnerable customers during a crisis, and suppliers of last resort. Amends the Electricity Market Directive and RED II.",
+ ren:"Creates a right to energy sharing (Article 15a): households, SMEs and public bodies can share renewable electricity they generate or buy with other consumers, without becoming suppliers.",
+ rel:[["am","emdir"],["am","red2"]]},
+{id:"remit", lvl:2, num:"Reg. (EU) No 1227/2011", title:"Wholesale energy market integrity and transparency (REMIT)", yr:2011, dom:"mk", st:"y",
+ eli:"reg/2011/1227",
+ sum:"Prohibits insider trading and market manipulation in wholesale electricity and gas markets and requires trading data to be reported to ACER.",
+ rel:[]},
+{id:"remit24", lvl:3, num:"Reg. (EU) 2024/1106", title:"REMIT revision", yr:2024, dom:"mk", st:"g",
+ eli:"reg/2024/1106",
+ sum:"Extends REMIT to LNG and algorithmic trading, strengthens ACER's investigatory powers in cross-border cases, and tightens the registration of non-EU market participants.",
+ rel:[["am","remit"],["am","acer"]]},
+{id:"cacm", lvl:2, num:"Reg. (EU) 2015/1222", title:"Capacity allocation and congestion management guideline (CACM)", yr:2015, dom:"mk", st:"y",
+ eli:"reg/2015/1222",
+ sum:"The network code that couples Europe's day-ahead and intraday electricity markets into a single price-setting algorithm and defines how bidding zones are reviewed. Adopted under the 2009 regulation and now operating under its 2019 successor.",
+ amBy:["Impl. Reg. (EU) 2021/280"],
+ rel:[["im","emreg"]]},
+{id:"sogl", lvl:2, num:"Reg. (EU) 2017/1485", title:"Electricity transmission system operation guideline", yr:2017, dom:"mk", st:"y",
+ eli:"reg/2017/1485",
+ sum:"Operational security rules for transmission system operators — frequency, voltage, reserves, coordination. The framework under which the expert panel on the April 2025 Iberian blackout investigated its causes — and part of the operational rulebook that E3G argues still reflects a centralised, fossil-based system rather than one run largely on inverter-based renewables.",
+ amBy:["Impl. Reg. (EU) 2021/280"],
+ rel:[["im","emreg"]]},
+{id:"switch26", lvl:2, num:"Impl. Reg. (EU) 2026/855", title:"Data procedures for 24-hour supplier switching", yr:2026, dom:"mk", st:"g",
+ eli:"reg_impl/2026/855",
+ sum:"Sets interoperability requirements and common procedures for access to the data needed to switch electricity supplier, so that the technical switch can be completed within 24 hours in every member state by the end of 2026, as the Electricity Market Directive requires. Adopted on 14 April 2026 as the one binding element of the Citizens Energy Package, which is otherwise a communication and four recommendations.",
+ rel:[["im","emdir"]]},
+{id:"p_bills", lvl:1, num:"COM(2026) 600", title:"Future-proofing electricity bills: network charges, taxation, smart meters", yr:2026, dom:"mk", st:"p",
+ prop:"Tabled 17 July 2026 · with the Electrification Action Plan",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0600",
+ sum:"Would amend the Electricity Market Regulation to lower system costs and support electrification: cost-reflective network tariffs with locational and time-of-use signals, a smart meter rollout to at least 50% of final customers by 2030 and 75% by 2033, a framework for sharing grid data, a principle that electricity should be taxed less heavily than natural gas, and scope for regulators to prioritise mature projects in congested grids. The tax principle is the Commission's route around the stalled Energy Taxation Directive recast.",
+ ren:"Connection prioritisation in congested grids and flexibility-based tariffs decide how quickly new renewable capacity can connect and how much of it is curtailed.",
+ rel:[["am","emreg"],["rl","etd"],["rl","p_etd"]]},
+{id:"tene13", lvl:3, num:"Reg. (EU) No 347/2013", title:"TEN-E Regulation (2013)", yr:2013, dom:"mk", st:"r", cm:1,
+ eli:"reg/2013/347",
+ sum:"The earlier energy infrastructure framework and its Projects of Common Interest lists, which still included fossil gas corridors. Repealed in 2022.",
+ rel:[["rp","tene06"]]},
+{id:"tene22", lvl:1, num:"Reg. (EU) 2022/869", title:"TEN-E Regulation", yr:2022, dom:"mk", st:"g", cm:1,
+ eli:"reg/2022/869",
+ sum:"Rules for selecting, permitting and financing cross-border energy infrastructure as Projects of Common Interest or Mutual Interest. Ends support for new fossil gas projects and prioritises electricity grids, smart grids, hydrogen networks and CO₂ transport. The Commission proposed replacing it in December 2025.",
+ ren:"Introduces sea-basin planning for offshore grids: member states agree non-binding offshore renewable generation goals per sea basin, and ENTSO-E draws up integrated offshore network development plans to match.",
+ rel:[["rp","tene13"],["rl","red3"]]},
+{id:"p_tene", lvl:1, num:"COM(2025) 1006", title:"TEN-E recast (European Grids Package)", yr:2025, dom:"mk", st:"p",
+ prop:"Tabled 10 December 2025 · European Grids Package · Council general approach 26 June 2026",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025PC1006",
+ sum:"Would repeal and replace the 2022 TEN-E Regulation and amend the ACER Regulation and the Gas and Hydrogen Market Regulation. Fast-tracks approval and financing of projects of common interest, requires regulators in every member state receiving a significant share of a project's benefits to share its costs, and directs part of congestion income into relieving the congested interconnectors. The main legislative piece of the Grids Package.",
+ ren:"Grids are now the main bottleneck for renewables — connection queues, not permits, are what hold projects back in much of the EU — which is why this and the permitting directive are treated as renewables files.",
+ rel:[["rp","tene22"],["am","acer"],["am","gasreg"]]},
+
+// ---------- Gas, hydrogen & methane
+{id:"gd09", lvl:3, num:"Dir. 2009/73/EC", title:"Gas Directive (third package)", yr:2009, dom:"gs", st:"r",
+ eli:"dir/2009/73",
+ sum:"The third package's rules for the internal natural gas market. Recast by the 2024 hydrogen and decarbonised gas package.",
+ rel:[["rp","gd03"]]},
+{id:"gr09", lvl:3, num:"Reg. (EC) No 715/2009", title:"Gas transmission network access regulation", yr:2009, dom:"gs", st:"r",
+ eli:"reg/2009/715",
+ sum:"Access conditions for natural gas transmission networks and the basis for the gas network codes. Recast by the 2024 gas package.",
+ rel:[["rp","gr05"]]},
+{id:"gasdir", lvl:1, num:"Dir. (EU) 2024/1788", title:"Gas and Hydrogen Market Directive", yr:2024, dom:"gs", st:"g", cm:1,
+ eli:"dir/2024/1788",
+ sum:"Recasts the gas market rules to cover renewable and low-carbon gases and creates the regulatory framework for dedicated hydrogen networks, with unbundling of hydrogen network operators. Also bars long-term contracts for unabated fossil gas from running beyond 2049, and requires member states to plan the decommissioning of gas distribution networks. Transposition deadline August 2026.",
+ ren:"Guarantees access to the gas grid for biomethane and renewable hydrogen and requires a certification system for renewable gases linked to the RED II sustainability criteria.",
+ rel:[["rp","gd09"],["am","eed23"]]},
+{id:"gasreg", lvl:1, num:"Reg. (EU) 2024/1789", title:"Gas and Hydrogen Market Regulation", yr:2024, dom:"gs", st:"g", cm:1,
+ eli:"reg/2024/1789",
+ sum:"The companion regulation: access to gas and hydrogen networks, tariff discounts for injecting renewable and low-carbon gas, the European Network of Network Operators for Hydrogen, and a permanent, voluntary version of the joint gas purchasing platform created in 2022. Along the way it amends REMIT, the security of supply regulation, the ACER Regulation, the TEN-E Regulation and the decision on intergovernmental energy agreements.",
+ ren:"Tariff discounts at entry points for renewable and low-carbon gases and for hydrogen storage, to lower the cost of getting biomethane and renewable hydrogen into the system.",
+ rel:[["rp","gr09"],["rl","gasdir"],["rl","joint22"],["am","remit"],["am","sos17"],["am","acer"],["am","tene22"],["am","iga"]]},
+{id:"lowc", lvl:2, num:"Del. Reg. (EU) 2025/2359", title:"Methodology for low-carbon fuels", yr:2025, dom:"gs", st:"g",
+ eli:"reg_del/2025/2359",
+ sum:"The low-carbon counterpart to the RFNBO rules: how to calculate the emissions savings of hydrogen and other fuels produced from non-renewable sources, such as natural gas with carbon capture or nuclear electricity, which must reach the same 70% saving to count as 'low-carbon' under the gas package. In force since 11 December 2025.",
+ rel:[["im","gasdir"],["rl","rfnbo2"]]},
+{id:"methane", lvl:1, num:"Reg. (EU) 2024/1787", title:"Methane Emissions Regulation", yr:2024, dom:"gs", st:"g", cm:1,
+ eli:"reg/2024/1787",
+ sum:"The first EU rules on methane in the energy sector: measurement, reporting and verification, leak detection and repair, bans on routine venting and flaring in oil, gas and coal, and — from 2027 — equivalent monitoring requirements on imported fossil fuels, followed by a maximum methane intensity from 2030. Formally, it also amends the ACER Regulation.",
+ rel:[["am","acer"]]},
+
+// ---------- Security of supply & crisis measures
+{id:"ssd05", lvl:3, num:"Dir. 2005/89/EC", title:"Security of electricity supply directive", yr:2005, dom:"sc", st:"r",
+ eli:"dir/2005/89",
+ sum:"Required member states to safeguard security of electricity supply and adequate network investment. Replaced by the 2019 risk-preparedness regulation.",
+ rel:[]},
+{id:"riskprep", lvl:1, num:"Reg. (EU) 2019/941", title:"Risk-preparedness in the electricity sector", yr:2019, dom:"sc", st:"g",
+ eli:"reg/2019/941",
+ sum:"Requires regional electricity crisis scenarios, national risk-preparedness plans, and cooperation between member states in a crisis. Under review in the Commission's revision of the energy security framework, announced for autumn 2026.",
+ rel:[["rp","ssd05"]]},
+{id:"sos10", lvl:3, num:"Reg. (EU) No 994/2010", title:"Security of gas supply regulation (2010)", yr:2010, dom:"sc", st:"r",
+ eli:"reg/2010/994",
+ sum:"Introduced the infrastructure (N-1) standard and supply standards for protected customers after the 2009 Russia–Ukraine gas crisis. Replaced in 2017.",
+ rel:[["rp","gss04"]]},
+{id:"sos17", lvl:1, num:"Reg. (EU) 2017/1938", title:"Security of Gas Supply Regulation", yr:2017, dom:"sc", st:"y",
+ eli:"reg/2017/1938",
+ sum:"The gas security backbone: regional risk groups, preventive action and emergency plans, the N-1 infrastructure standard, protected customers and a solidarity mechanism between member states. Since 2022 it has also been the vehicle for the storage obligations and, since 2026, for the phase-out of Russian gas.",
+ rel:[["rp","sos10"]]},
+{id:"stor22", lvl:2, num:"Reg. (EU) 2022/1032", title:"Gas Storage Regulation", yr:2022, dom:"sc", st:"g",
+ eli:"reg/2022/1032",
+ sum:"Adopted in just over three months in 2022: storage facilities must be filled to 80% by 1 November 2022 and 90% by 1 November in later years, with storage operators certified for security risks. Amended the security of supply regulation and the 2009 gas network access regulation.",
+ rel:[["am","sos17"],["am","gr09"]]},
+{id:"stor25", lvl:2, num:"Reg. (EU) 2025/1733", title:"Gas storage rules extended to 2027", yr:2025, dom:"sc", st:"g",
+ eli:"reg/2025/1733",
+ sum:"Extends the storage obligation, which would otherwise have lapsed at the end of 2025, by two years and makes it more flexible: the 90% target can be met at any point between 1 October and 1 December, with permitted deviations under difficult market conditions. In force since 11 September 2025.",
+ rel:[["am","sos17"],["rl","stor22"]]},
+{id:"rugas", lvl:1, num:"Reg. (EU) 2026/261", title:"Phase-out of Russian natural gas imports", yr:2026, dom:"sc", st:"g",
+ eli:"reg/2026/261",
+ sum:"Bans imports of Russian natural gas in steps: new contracts immediately, existing short-term contracts first, then all LNG by the end of 2026 and all pipeline gas by autumn 2027. Also prepares the phase-out of Russian oil imports, requires national diversification plans, and improves monitoring of energy dependencies. Adopted by qualified majority rather than unanimity, so no single member state could block it. In force since 18 March 2026.",
+ rel:[["am","sos17"]]},
+{id:"oil", lvl:1, num:"Council Dir. 2009/119/EC", title:"Oil Stocks Directive", yr:2009, dom:"sc", st:"y",
+ eli:"dir/2009/119",
+ sum:"Requires member states to hold emergency stocks of crude oil or petroleum products equal to the greater of 90 days of net imports or 61 days of consumption. The Commission announced a revision in its April 2026 AccelerateEU communication, in the middle of the 2026 oil and gas supply crisis.",
+ amBy:["Commission Impl. Dir. (EU) 2018/1581"],
+ rel:[["rp","oil06"]]},
+{id:"dr22", lvl:2, num:"Council Reg. (EU) 2022/1369", title:"Coordinated gas demand reduction", yr:2022, dom:"sc", st:"r",
+ eli:"reg/2022/1369",
+ sum:"A voluntary 15% cut in gas demand from August 2022 to March 2023, which the Council could make mandatory by declaring a Union alert. It never did — demand fell by more than the target anyway. Extended once, expired in March 2024 and replaced by a Council recommendation.",
+ rel:[["rl","sos17"]]},
+{id:"dr23", lvl:3, num:"Council Reg. (EU) 2023/706", title:"Extension of gas demand reduction", yr:2023, dom:"sc", st:"r",
+ eli:"reg/2023/706",
+ sum:"Extended the voluntary gas demand reduction by a year, to March 2024. Expired.",
+ rel:[["am","dr22"]]},
+{id:"cap22", lvl:2, num:"Council Reg. (EU) 2022/1854", title:"Emergency intervention on high energy prices", yr:2022, dom:"sc", st:"r",
+ eli:"reg/2022/1854",
+ sum:"The 2022 emergency package for electricity: a mandatory 5% cut in peak-hour demand, a cap of €180/MWh on the market revenues of inframarginal generators, and a temporary solidarity contribution from fossil fuel companies' surplus profits. Expired; the 2024 market design reform was written so that it would not need repeating.",
+ ren:"The €180/MWh revenue cap fell mainly on renewable and nuclear generators, whose costs had not risen with gas prices — the episode that made two-way contracts for difference the default for new support.",
+ rel:[["rl","emreg"],["rl","emd24r"]]},
+{id:"joint22", lvl:3, num:"Council Reg. (EU) 2022/2576", title:"Joint gas purchasing and solidarity", yr:2022, dom:"sc", st:"r",
+ eli:"reg/2022/2576",
+ sum:"Created AggregateEU, the joint purchasing platform with mandatory demand aggregation for part of the storage targets, plus default solidarity rules. Extended once, by Council Reg. (EU) 2023/2919, and expired; joint purchasing was made permanent, on a voluntary basis, by the 2024 gas package.",
+ rel:[["rl","sos17"]]},
+{id:"mcm22", lvl:3, num:"Council Reg. (EU) 2022/2578", title:"Market correction mechanism", yr:2022, dom:"sc", st:"r",
+ eli:"reg/2022/2578",
+ sum:"A dynamic cap on front-month TTF gas derivatives, triggered above €180/MWh. Never activated. Extended once, by Council Reg. (EU) 2023/2920, and expired at the end of January 2025.",
+ rel:[]},
+
+// ---------- Transport fuels & infrastructure
+{id:"fqd", lvl:1, num:"Dir. 98/70/EC", title:"Fuel Quality Directive", yr:1998, dom:"tf", st:"y",
+ eli:"dir/1998/70",
+ sum:"Sets the environmental specifications for petrol and diesel — and, since 2009, a target to cut the greenhouse gas intensity of road transport fuels by 6% by 2020. The oldest act on this map. Amended by the ILUC Directive and again by RED III as the transport renewables rules moved into the renewables directive.",
+ rel:[]},
+{id:"cvd", lvl:2, num:"Dir. 2009/33/EC", title:"Clean Vehicles Directive", yr:2009, dom:"tf", st:"y",
+ eli:"dir/2009/33",
+ sum:"Sets minimum shares of clean vehicles in public procurement, including national targets for clean and zero-emission buses. Its review is scheduled for the end of 2027.",
+ amBy:["Dir. (EU) 2019/1161"],
+ rel:[]},
+{id:"afid", lvl:3, num:"Dir. 2014/94/EU", title:"Alternative Fuels Infrastructure Directive", yr:2014, dom:"tf", st:"r", cm:1,
+ eli:"dir/2014/94",
+ sum:"Required national targets for alternative fuels infrastructure but left the level of ambition to member states. Replaced by the AFIR in 2023.",
+ rel:[]},
+{id:"afir", lvl:1, num:"Reg. (EU) 2023/1804", title:"Alternative Fuels Infrastructure Regulation", yr:2023, dom:"tf", st:"y", cm:1,
+ eli:"reg/2023/1804",
+ sum:"Binding targets for electric recharging and hydrogen refuelling along the TEN-T network — recharging pools every 60 km on the core network — plus shore-side electricity at ports and electricity for stationary aircraft. The Electrification Action Plan schedules its review for 2026–2027.",
+ amBy:["Del. Reg. (EU) 2025/656","Del. Reg. (EU) 2025/671"],
+ rel:[["rp","afid"]]},
+{id:"refuel", lvl:1, num:"Reg. (EU) 2023/2405", title:"ReFuelEU Aviation", yr:2023, dom:"tf", st:"g", cm:1,
+ eli:"reg/2023/2405",
+ sum:"Obliges fuel suppliers at EU airports to blend sustainable aviation fuel — 2% in 2025, 6% in 2030, rising to 70% in 2050 — and airlines to refuel in the EU to prevent tankering.",
+ ren:"Carries a binding sub-mandate for synthetic aviation fuels made from renewable hydrogen from 2030, rising to 35% of all aviation fuel by 2050 — one of the few firm sources of demand for renewable hydrogen.",
+ rel:[["rl","rfnbo2"],["rl","red3"]]},
+{id:"fueleu", lvl:1, num:"Reg. (EU) 2023/1805", title:"FuelEU Maritime", yr:2023, dom:"tf", st:"g", cm:1,
+ eli:"reg/2023/1805",
+ sum:"A declining limit on the greenhouse gas intensity of energy used on board ships calling at EU ports, from −2% in 2025 to −80% in 2050, plus shore power requirements for container and passenger ships at berth.",
+ ren:"Counts renewable hydrogen-based fuels double until 2033, and triggers a 2% sub-target for them from 2034 if their uptake stays below 1% in 2031.",
+ rel:[["rl","rfnbo2"],["rl","red3"]]},
+
+// ---------- Framework, taxation & external
+{id:"gov", lvl:1, num:"Reg. (EU) 2018/1999", title:"Governance of the Energy Union and Climate Action", yr:2018, dom:"fw", st:"y", cm:1,
+ eli:"reg/2018/1999",
+ sum:"The planning backbone of EU energy and climate policy: ten-year National Energy and Climate Plans, long-term strategies, and biennial progress reports, assessed by the Commission. Because the renewables and efficiency targets are EU-level, this is where the national contributions to them are set and checked. A revision for the post-2030 period is expected at the end of 2026.",
+ ren:"Holds the mechanism by which national renewables contributions add up to the EU target, a 'gap-filler' duty if they collectively fall short, and the legal basis for the Union renewable energy financing mechanism.",
+ rel:[]},
+{id:"stats", lvl:2, num:"Reg. (EC) No 1099/2008", title:"Energy Statistics Regulation", yr:2008, dom:"fw", st:"y",
+ eli:"reg/2008/1099",
+ sum:"The legal basis for Eurostat's energy statistics — the numbers against which every renewables share and efficiency target is measured. Its annexes are updated regularly by Commission regulation.",
+ amBy:["Commission Reg. (EU) No 431/2014","Commission Reg. (EU) 2017/2010","Commission Reg. (EU) 2019/2146","Commission Reg. (EU) 2022/132","Commission Reg. (EU) 2024/264"],
+ rel:[["rl","gov"]]},
+{id:"etd", lvl:1, num:"Council Dir. 2003/96/EC", title:"Energy Taxation Directive", yr:2003, dom:"fw", st:"y", cm:1,
+ eli:"dir/2003/96",
+ sum:"Sets minimum excise rates for motor and heating fuels and electricity. Still based on volume rather than energy content or emissions, so that in several member states electricity carries a heavier tax than the gas it is supposed to replace. The 2021 recast is stuck on the unanimity requirement.",
+ amBy:["successive Council directives granting and extending national derogations"],
+ rel:[]},
+{id:"p_etd", lvl:2, num:"COM(2021) 563", title:"Energy Taxation Directive recast", yr:2021, dom:"fw", st:"p", cm:1,
+ prop:"Tabled 14 July 2021 · unanimity in Council, still unadopted",
+ url:"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52021PC0563",
+ sum:"Would tax energy by energy content and environmental performance, rank fuels by their emissions so that electricity and renewable fuels face the lowest rates, and remove fossil fuel exemptions. Five years on it has still not passed Council.",
+ ren:"The recast would give renewable electricity, advanced biofuels and renewable hydrogen the lowest minimum rates of any energy product.",
+ rel:[["rp","etd"]]},
+{id:"ect", lvl:2, num:"Council Decision (EU) 2024/1638", title:"EU withdrawal from the Energy Charter Treaty", yr:2024, dom:"fw", st:"g",
+ eli:"dec/2024/1638",
+ sum:"Withdraws the EU from the Energy Charter Treaty, whose investment protection had allowed fossil fuel investors to sue governments over climate and energy measures. Euratom withdrew in parallel (Council Decision (EU) 2024/1677). The withdrawal took effect in June 2025, but a sunset clause keeps existing investments protected for twenty years.",
+ rel:[]},
+{id:"taxnuc", lvl:2, num:"Del. Reg. (EU) 2022/1214", title:"Taxonomy delegated act on nuclear and gas", yr:2022, dom:"fw", st:"g",
+ eli:"reg_del/2022/1214",
+ sum:"Adds certain nuclear and fossil gas activities to the EU taxonomy of sustainable activities, under conditions. Austria's annulment action was dismissed by the General Court in September 2025 (Case T-625/22). The taxonomy itself sits on the climate map; this act is shown here because what it classifies is energy generation.",
+ rel:[["rl","nsd"]]},
+
+// ---------- Nuclear (Euratom)
+{id:"nsd", lvl:1, num:"Council Dir. 2009/71/Euratom", title:"Nuclear Safety Directive", yr:2009, dom:"nu", st:"y",
+ eli:"dir/2009/71",
+ sum:"The first binding EU framework for the safety of nuclear installations: independent national regulators, licence-holder responsibility, and periodic self-assessment with international peer review. Amended in 2014.",
+ rel:[]},
+{id:"nsd14", lvl:2, num:"Council Dir. 2014/87/Euratom", title:"Nuclear Safety Directive amendment", yr:2014, dom:"nu", st:"g",
+ eli:"dir/2014/87",
+ sum:"The post-Fukushima revision: an EU-wide safety objective, topical peer reviews every six years, and stronger independence for regulators.",
+ rel:[["am","nsd"]]},
+{id:"rwd", lvl:1, num:"Council Dir. 2011/70/Euratom", title:"Spent fuel and radioactive waste", yr:2011, dom:"nu", st:"g",
+ eli:"dir/2011/70",
+ sum:"Requires national programmes for the management of spent fuel and radioactive waste through to disposal, and makes each member state responsible for the waste it generates.",
+ rel:[["rl","nsd"]]},
+{id:"bss", lvl:2, num:"Council Dir. 2013/59/Euratom", title:"Basic safety standards for radiation protection", yr:2013, dom:"nu", st:"g",
+ eli:"dir/2013/59",
+ sum:"Consolidated the radiation protection rules for workers, patients and the public, including radon in homes and workplaces.",
+ rel:[["rl","nsd"],["rp","bss96"]]},
+
+// ---------- added after reviewing the EUR-Lex energy search export (26 September 2026)
+// Renewables & clean tech
+{id:"altener", lvl:3, num:"Council Decision 93/500/EEC", title:"Altener programme", yr:1993, dom:"re", st:"r",
+ eli:"dec/1993/500",
+ sum:"The first EU programme dedicated to renewable energy: funding for studies, pilot actions and information campaigns, set against indicative objectives for raising the renewables share of energy supply by 2005. Renewables policy began as a spending programme, not a regulatory one — binding targets came sixteen years later. Expired.",
+ rel:[]},
+{id:"altener2", lvl:3, num:"Council Decision 98/352/EC", title:"Altener II", yr:1998, dom:"re", st:"r",
+ eli:"dec/1998/352",
+ sum:"The follow-on multiannual programme promoting renewable energy sources, running into the early 2000s alongside the Commission's 1997 White Paper goal of a 12% renewables share by 2010. Expired; folded into Intelligent Energy – Europe.",
+ rel:[["rl","altener"]]},
+{id:"iee", lvl:3, num:"Decision No 1230/2003/EC", title:"Intelligent Energy – Europe (2003–2006)", yr:2003, dom:"re", st:"r",
+ eli:"dec/2003/1230",
+ sum:"Merged the Altener (renewables), SAVE (efficiency) and related programmes into a single energy programme for 2003–2006, with strands for renewables, efficiency, transport energy and international cooperation. Its successors ran under the Competitiveness and Innovation Programme and then Horizon 2020 and LIFE. Expired.",
+ rel:[["rl","altener2"],["rl","save2"]]},
+{id:"nreap", lvl:3, num:"Commission Decision 2009/548/EC", title:"Template for National Renewable Energy Action Plans", yr:2009, dom:"re", st:"g",
+ eli:"dec/2009/548",
+ sum:"The common format in which member states set out how they would meet their binding 2020 targets under RED I, sector by sector and year by year. The ancestor of the renewables chapters of today's National Energy and Climate Plans. Still listed as in force on EUR-Lex, although the directive it implemented has been repealed.",
+ rel:[["im","red1"]]},
+{id:"hp13", lvl:3, num:"Commission Decision 2013/114/EU", title:"Guidelines on counting renewable energy from heat pumps", yr:2013, dom:"re", st:"g",
+ eli:"dec/2013/114",
+ sum:"Sets out how member states calculate the renewable energy delivered by heat pumps of different technologies — the ambient heat they capture — for the purposes of the renewables targets. A small act with large consequences for how much the heat pump rollout counts towards them.",
+ rel:[["im","red1"]]},
+{id:"coproc", lvl:3, num:"Del. Reg. (EU) 2023/1640", title:"Methodology for co-processed biofuels", yr:2023, dom:"re", st:"g",
+ eli:"reg_del/2023/1640",
+ sum:"How to determine the renewable share of fuels made by processing biomass together with fossil feedstock in the same refinery unit, so that only the biogenic part counts towards the transport targets.",
+ rel:[["im","red2"]]},
+{id:"annex9", lvl:2, num:"Del. Dir. (EU) 2024/1405", title:"New feedstocks for advanced biofuels (Annex IX)", yr:2024, dom:"re", st:"g",
+ eli:"dir_del/2024/1405",
+ sum:"Adds feedstocks to Annex IX of RED II — the list that decides which biofuels and biogas count as 'advanced' (Part A) or fall in the capped used-cooking-oil and animal-fat category (Part B) and so qualify for the sub-targets and multipliers. Every addition is contested, because inclusion in Part A can make a feedstock markedly more valuable.",
+ rel:[["am","red2"]]},
+{id:"cbres", lvl:2, num:"Del. Reg. (EU) 2022/2202", title:"Cross-border renewable energy projects (CB RES list)", yr:2022, dom:"re", st:"y",
+ eli:"reg_del/2022/2202",
+ sum:"Establishes the list of cross-border renewable energy projects eligible for funding under the Connecting Europe Facility — projects in which two or more member states cooperate on renewable generation. Updated regularly; the latest update in the export is from July 2026.",
+ amBy:["Del. Reg. (EU) 2024/2613","Del. Reg. (EU) 2025/2514","Del. Reg. (EU) 2026/1470"],
+ rel:[["im","cef"]]},
+
+// Efficiency & buildings
+{id:"save", lvl:3, num:"Council Decision 91/565/EEC", title:"SAVE programme", yr:1991, dom:"ef", st:"r",
+ eli:"dec/1991/565",
+ sum:"The first EU programme for promoting energy efficiency: studies, pilot actions and information measures. Expired.",
+ rel:[]},
+{id:"save2", lvl:3, num:"Council Decision 96/737/EC", title:"SAVE II", yr:1996, dom:"ef", st:"r",
+ eli:"dec/1996/737",
+ sum:"The second multiannual efficiency programme. Expired; merged with Altener into Intelligent Energy – Europe in 2003.",
+ rel:[["rl","save"]]},
+{id:"estar", lvl:3, num:"Reg. (EC) No 2422/2001", title:"Energy Star labelling programme for office equipment", yr:2001, dom:"ef", st:"r",
+ eli:"reg/2001/2422",
+ sum:"Brought the US Energy Star label for office equipment into EU law under an agreement with the United States. Recast in 2008 (Reg. (EC) No 106/2008); the programme ended when the EU–US agreement expired in 2018, and product requirements now sit in the ecodesign and labelling rules.",
+ rel:[]},
+{id:"eup05", lvl:3, num:"Dir. 2005/32/EC", title:"Ecodesign of Energy-using Products Directive", yr:2005, dom:"ef", st:"r",
+ eli:"dir/2005/32",
+ sum:"The first ecodesign framework, limited to products that use energy. Recast in 2009 to cover energy-related products as well — windows and insulation, for example, which do not use energy themselves but affect how much is used.",
+ rel:[]},
+{id:"pef", lvl:3, num:"Del. Reg. (EU) 2023/807", title:"Primary energy factor for electricity", yr:2022, dom:"ef", st:"g",
+ eli:"reg_del/2023/807",
+ sum:"Lowers the default primary energy factor for electricity from 2.1 to 1.9, reflecting the growing share of renewables in generation. The factor converts electricity use into primary energy, so a lower one makes electric heating and heat pumps look better in efficiency calculations and building ratings.",
+ ren:"The factor falls as the renewable share of electricity rises — a direct accounting link between renewables deployment and the efficiency rules.",
+ rel:[["im","eed12"],["rl","eed23"]]},
+{id:"neeap", lvl:3, num:"Impl. Decision 2013/242/EU", title:"Template for National Energy Efficiency Action Plans", yr:2013, dom:"ef", st:"g",
+ eli:"dec_impl/2013/242",
+ sum:"The reporting format for national efficiency action plans under the 2012 directive, since absorbed into the National Energy and Climate Plans. Still listed as in force on EUR-Lex.",
+ rel:[["im","eed12"]]},
+{id:"costopt", lvl:2, num:"Del. Reg. (EU) 2025/2273", title:"Cost-optimal methodology for building requirements", yr:2025, dom:"ef", st:"g",
+ eli:"reg_del/2025/2273",
+ sum:"The comparative methodology member states use to set minimum energy performance requirements for buildings and building elements at cost-optimal levels, updated for the recast directive. An earlier publication of an act with the same title and date, Del. Reg. (EU) 2025/1511, is listed as no longer in force.",
+ rel:[["im","epbd24"]]},
+
+// Electricity markets & grids
+{id:"transit90", lvl:3, num:"Council Dir. 90/547/EEC", title:"Electricity Transit Directive", yr:1990, dom:"mk", st:"r",
+ eli:"dir/1990/547",
+ sum:"Obliged large transmission grids to allow electricity to transit between other operators — the first, narrow step towards an internal electricity market. Repealed by the second electricity directive.",
+ rel:[]},
+{id:"emd96", lvl:3, num:"Dir. 96/92/EC", title:"First Electricity Directive", yr:1996, dom:"mk", st:"r",
+ eli:"dir/1996/92",
+ sum:"The first electricity market liberalisation directive: gradual opening of national markets to competition for large customers, and accounting separation of the grid from generation and supply. Repealed in 2003.",
+ rel:[]},
+{id:"emd03", lvl:3, num:"Dir. 2003/54/EC", title:"Second Electricity Directive", yr:2003, dom:"mk", st:"r",
+ eli:"dir/2003/54",
+ sum:"The second package: full market opening for all customers by July 2007, legal unbundling of network operators, and independent national regulators. Repealed by the third package in 2009.",
+ rel:[["rp","emd96"],["rp","transit90"]]},
+{id:"ergeg", lvl:3, num:"Commission Decision 2003/796/EC", title:"European Regulators Group for Electricity and Gas (ERGEG)", yr:2003, dom:"mk", st:"r",
+ eli:"dec/2003/796",
+ sum:"An advisory group of national energy regulators set up by the Commission — the informal forerunner of ACER, which took over its role once the Agency was established in 2009–2011. No longer in force.",
+ rel:[]},
+{id:"tene06", lvl:3, num:"Decision No 1364/2006/EC", title:"TEN-E guidelines (2006)", yr:2006, dom:"mk", st:"r",
+ eli:"dec/2006/1364",
+ sum:"Guidelines for trans-European energy networks, identifying projects of common interest in electricity and gas. Replaced by the 2013 TEN-E Regulation.",
+ rel:[]},
+{id:"rfg", lvl:2, num:"Reg. (EU) 2016/631", title:"Grid connection requirements for generators (RfG)", yr:2016, dom:"mk", st:"g",
+ eli:"reg/2016/631",
+ sum:"The network code setting the technical requirements every generator must meet to connect to the grid — frequency and voltage ranges, fault ride-through, reactive power. It decides what a wind farm or solar park must be able to do when the system is stressed.",
+ ren:"Defines the connection requirements for 'power park modules' — the category that covers wind and solar — including how they must behave during frequency and voltage disturbances.",
+ rel:[["im","emreg"]]},
+{id:"dcc", lvl:3, num:"Reg. (EU) 2016/1388", title:"Demand connection network code", yr:2016, dom:"mk", st:"g",
+ eli:"reg/2016/1388",
+ sum:"Technical requirements for connecting demand facilities and distribution systems to the transmission grid, including the conditions for demand response.",
+ rel:[["im","emreg"]]},
+{id:"hvdc", lvl:3, num:"Reg. (EU) 2016/1447", title:"HVDC network code", yr:2016, dom:"mk", st:"g",
+ eli:"reg/2016/1447",
+ sum:"Technical requirements for high-voltage direct current systems and for power park modules connected by direct current — the connection standard for most far-offshore wind.",
+ ren:"Sets the requirements for DC-connected power park modules, which in practice means offshore wind farms connected by HVDC cable.",
+ rel:[["im","emreg"]]},
+{id:"eb", lvl:2, num:"Reg. (EU) 2017/2195", title:"Electricity balancing guideline", yr:2017, dom:"mk", st:"y",
+ eli:"reg/2017/2195",
+ sum:"Creates common European platforms for exchanging balancing energy between system operators, and harmonises how balancing is procured and settled. The more weather-dependent generation there is, the more balancing matters.",
+ amBy:["Impl. Reg. (EU) 2021/280"],
+ rel:[["im","emreg"]]},
+{id:"erc", lvl:2, num:"Reg. (EU) 2017/2196", title:"Electricity emergency and restoration network code", yr:2017, dom:"mk", st:"g",
+ eli:"reg/2017/2196",
+ sum:"Rules for system operators on managing emergency, blackout and restoration states: system defence plans, restoration plans and the order in which load and generation are reconnected. The code that frames system restoration after events such as the April 2025 Iberian blackout.",
+ rel:[["im","emreg"],["rl","riskprep"]]},
+{id:"cef", lvl:2, num:"Reg. (EU) 2021/1153", title:"Connecting Europe Facility (2021–2027)", yr:2021, dom:"mk", st:"y",
+ eli:"reg/2021/1153",
+ sum:"The EU budget instrument for trans-European transport, energy and digital infrastructure. Its energy strand co-finances projects of common interest under TEN-E, and it has been amended since adoption. Repealed the 2014–2020 CEF.",
+ amBy:["amended since adoption — see the consolidated text on EUR-Lex"],
+ ren:"Has a dedicated window for cross-border renewable energy projects, whose eligible list is set by delegated regulation.",
+ rel:[["rl","tene22"]]},
+{id:"remit26", lvl:3, num:"Impl. Reg. (EU) 2026/256", title:"REMIT data reporting rules", yr:2026, dom:"mk", st:"g",
+ eli:"reg_impl/2026/256",
+ sum:"New rules on reporting wholesale energy market data to ACER, implementing the 2024 REMIT revision and replacing the earlier implementing regulation. Adopted on the same day as Del. Reg. (EU) 2026/255 on the authorisation and supervision of inside information platforms and registered reporting mechanisms.",
+ rel:[["im","remit"],["rl","remit24"]]},
+
+// Gas, hydrogen & methane
+{id:"hcl", lvl:2, num:"Dir. 94/22/EC", title:"Hydrocarbons Licensing Directive", yr:1994, dom:"gs", st:"y",
+ eli:"dir/1994/22",
+ sum:"Requires non-discriminatory, transparent procedures for granting licences to prospect for, explore and produce oil and gas. The EU's main upstream fossil fuel law, and the one a managed decline of domestic production would eventually have to engage with.",
+ amBy:["amended since adoption — see the consolidated text on EUR-Lex"],
+ rel:[]},
+{id:"gd03", lvl:3, num:"Dir. 2003/55/EC", title:"Second Gas Directive", yr:2003, dom:"gs", st:"r",
+ eli:"dir/2003/55",
+ sum:"The second package for gas: full market opening by 2007, legal unbundling and independent regulators. Replaced the first gas directive (98/30/EC) and was itself repealed in 2009.",
+ rel:[]},
+{id:"gr05", lvl:3, num:"Reg. (EC) No 1775/2005", title:"Gas transmission access regulation (2005)", yr:2005, dom:"gs", st:"r",
+ eli:"reg/2005/1775",
+ sum:"The first binding rules on third-party access to gas transmission networks. Replaced in 2009.",
+ rel:[]},
+{id:"gd19", lvl:3, num:"Dir. (EU) 2019/692", title:"Gas Directive amendment for third-country pipelines", yr:2019, dom:"gs", st:"r",
+ eli:"dir/2019/692",
+ sum:"Extended the gas market rules — unbundling, third-party access, tariff regulation — to the EU section of pipelines from third countries. Adopted during the dispute over Nord Stream 2, which it was widely read as targeting. Lapsed with the repeal of the directive it amended.",
+ rel:[["am","gd09"]]},
+{id:"offsh", lvl:2, num:"Dir. 2013/30/EU", title:"Offshore Oil and Gas Safety Directive", yr:2013, dom:"gs", st:"y",
+ eli:"dir/2013/30",
+ sum:"Adopted after the Deepwater Horizon disaster: licensees must show they can cover liabilities, operators need approved major hazard reports, and independent competent authorities oversee offshore installations.",
+ amBy:["amended since adoption — see the consolidated text on EUR-Lex"],
+ rel:[["rl","hcl"]]},
+{id:"gbal", lvl:3, num:"Reg. (EU) No 312/2014", title:"Gas balancing network code", yr:2014, dom:"gs", st:"g",
+ eli:"reg/2014/312",
+ sum:"Market-based balancing rules for gas transmission networks: network users balance their own portfolios daily, with operators buying and selling only what remains.",
+ rel:[["im","gr09"]]},
+{id:"interop", lvl:3, num:"Reg. (EU) 2015/703", title:"Gas interoperability and data exchange network code", yr:2015, dom:"gs", st:"g",
+ eli:"reg/2015/703",
+ sum:"Common rules on interconnection agreements, units, gas quality and data exchange between gas transmission operators — the rules that will need rewriting as hydrogen blending and biomethane injection grow.",
+ rel:[["im","gr09"]]},
+{id:"cam", lvl:3, num:"Reg. (EU) 2017/459", title:"Gas capacity allocation network code (CAM)", yr:2017, dom:"gs", st:"g",
+ eli:"reg/2017/459",
+ sum:"How gas transmission capacity at interconnection points is auctioned, including the procedure for offering incremental capacity. Replaced the 2013 code (Reg. (EU) No 984/2013).",
+ rel:[["im","gr09"]]},
+{id:"h2rus", lvl:3, num:"Impl. Decision (EU) 2025/1486", title:"Exclusion of Russian and Belarusian hydrogen from the hydrogen mechanism", yr:2025, dom:"gs", st:"g",
+ eli:"dec_impl/2025/1486",
+ sum:"Temporarily excludes offers of hydrogen originating in Russia or Belarus from being collected through the EU mechanism that aggregates demand and matches it with supply to support the development of the hydrogen market. Renewed by Impl. Decision (EU) 2026/1551 in July 2026.",
+ rel:[["im","gasreg"]]},
+
+// Security of supply & crisis
+{id:"oil06", lvl:3, num:"Council Dir. 2006/67/EC", title:"Oil stocks directive (codified 2006)", yr:2006, dom:"sc", st:"r",
+ eli:"dir/2006/67",
+ sum:"The codified version of the oil stocks rules going back to Council Directive 68/414/EEC of 1968, which first obliged member states to hold emergency stocks. Replaced by the 2009 directive, which aligned the obligation with the International Energy Agency's.",
+ rel:[]},
+{id:"gss04", lvl:3, num:"Council Dir. 2004/67/EC", title:"Security of gas supply directive (2004)", yr:2004, dom:"sc", st:"r",
+ eli:"dir/2004/67",
+ sum:"The first EU framework for security of gas supply. Its weakness was exposed by the 2009 Russia–Ukraine gas crisis, and it was replaced by a directly applicable regulation in 2010.",
+ rel:[]},
+{id:"iga", lvl:2, num:"Decision (EU) 2017/684", title:"Information exchange on intergovernmental energy agreements", yr:2017, dom:"sc", st:"y",
+ eli:"dec/2017/684",
+ sum:"Requires member states to notify the Commission of intergovernmental agreements with third countries in the field of energy — and, for gas and oil agreements, to submit them before signature so the Commission can check them against EU law. A response to supply deals negotiated bilaterally with Russia. Amended by the 2024 gas package.",
+ rel:[]},
+{id:"traj25", lvl:3, num:"Impl. Reg. (EU) 2024/2995", title:"Gas storage filling trajectories for 2025", yr:2024, dom:"sc", st:"g",
+ eli:"reg_impl/2024/2995",
+ sum:"Sets each member state's intermediate storage filling targets for 2025 on the way to the 1 November target — the kind of annual implementing act the storage regulation relies on.",
+ rel:[["im","stor22"]]},
+{id:"riskgr", lvl:3, num:"Del. Reg. (EU) 2026/146", title:"Composition of the gas risk groups", yr:2026, dom:"sc", st:"g",
+ eli:"reg_del/2026/146",
+ sum:"Updates the regional risk groups of member states that jointly assess gas supply risks under the security of supply regulation.",
+ rel:[["am","sos17"]]},
+{id:"rusanc", lvl:2, num:"Council Reg. (EU) No 833/2014", title:"Russia sectoral sanctions (energy provisions)", yr:2014, dom:"sc", st:"y",
+ eli:"reg/2014/833",
+ sum:"The EU's sectoral sanctions against Russia. Not energy law in the Treaty sense — it is adopted under the common foreign and security policy — but since 2022 it has carried the ban on imports of Russian seaborne crude oil and petroleum products and the oil price cap mechanism, alongside restrictions on energy technology and investment. Amended many times; the export contains amendments up to July 2026. The 2026 gas phase-out regulation is its counterpart under ordinary energy and trade law.",
+ amBy:["numerous Council regulations, most recently Council Reg. (EU) 2026/1805"],
+ rel:[["rl","rugas"]]},
+
+// Transport fuels & infrastructure
+{id:"fqd09", lvl:2, num:"Dir. 2009/30/EC", title:"Fuel Quality Directive amendment (GHG intensity)", yr:2009, dom:"tf", st:"y",
+ eli:"dir/2009/30",
+ sum:"Introduced the obligation on fuel suppliers to reduce the life-cycle greenhouse gas intensity of transport fuels by 6% by 2020, and allowed E10 petrol. The 'low-carbon fuel standard' strand of EU transport energy policy, which RED III later folded into the renewables framework.",
+ amBy:["amended since adoption — see the consolidated text on EUR-Lex"],
+ rel:[["am","fqd"]]},
+{id:"fqd652", lvl:3, num:"Council Dir. (EU) 2015/652", title:"Calculation methods under the Fuel Quality Directive", yr:2015, dom:"tf", st:"r",
+ eli:"dir/2015/652",
+ sum:"Laid down how fuel suppliers calculate and report the greenhouse gas intensity of their fuels for the 6% reduction obligation. Repealed by RED III.",
+ rel:[["im","fqd09"]]},
+{id:"cvd19", lvl:3, num:"Dir. (EU) 2019/1161", title:"Clean Vehicles Directive amendment", yr:2019, dom:"tf", st:"g",
+ eli:"dir/2019/1161",
+ sum:"Turned the Clean Vehicles Directive into a real obligation: minimum national shares of clean vehicles in public procurement, with half of the clean bus target to be met with zero-emission buses.",
+ rel:[["am","cvd"]]},
+{id:"afprice", lvl:3, num:"Impl. Reg. (EU) 2018/732", title:"Alternative fuels unit price comparison", yr:2018, dom:"tf", st:"y",
+ eli:"reg_impl/2018/732",
+ sum:"A common method for displaying the price of alternative fuels per 100 km at filling stations, so that electricity, hydrogen and gas can be compared with petrol and diesel.",
+ amBy:["amended since adoption — see the consolidated text on EUR-Lex"],
+ rel:[["im","afid"]]},
+{id:"afirapi", lvl:3, num:"Del. Reg. (EU) 2025/645", title:"Common data interface for recharging and refuelling points", yr:2025, dom:"tf", st:"g",
+ eli:"reg_del/2025/645",
+ sum:"Common technical requirements for the application programming interface through which static and dynamic data on recharging and refuelling points — location, availability, price — must be made available.",
+ rel:[["im","afir"]]},
+{id:"evmeter", lvl:2, num:"Dir. (EU) 2026/706", title:"Measuring instruments for EV charging and energy meters", yr:2026, dom:"tf", st:"g",
+ eli:"dir/2026/706",
+ sum:"Amends the Measuring Instruments Directive to cover measuring systems in electric vehicle supply equipment and compressed gas dispensers, and updates the rules for electricity, gas and thermal energy meters — the legal metrology behind billing by the kilowatt-hour at a charger.",
+ rel:[["rl","afir"]]},
+
+// Framework, taxation & external
+{id:"encom", lvl:1, num:"Council Decision 2006/500/EC", title:"Energy Community Treaty", yr:2006, dom:"fw", st:"g",
+ eli:"dec/2006/500",
+ sum:"Concludes the treaty that extends the EU's internal energy market rules to its neighbours in South-East Europe and the Black Sea region, Ukraine and Moldova among them. Contracting parties take over EU energy acquis — market, renewables, efficiency and, increasingly, climate rules — on an adapted timetable. The main channel through which Ukraine's energy system has been integrated with the EU's.",
+ ren:"Contracting parties adopt the EU renewables framework, including binding renewables targets set within the Energy Community.",
+ rel:[]},
+{id:"irena", lvl:2, num:"Council Decision 2010/385/EU", title:"EU membership of IRENA", yr:2010, dom:"fw", st:"g",
+ eli:"dec/2010/385",
+ sum:"Concludes the Statute of the International Renewable Energy Agency on behalf of the EU, making the Union a member alongside its member states.",
+ ren:"The EU's membership of the only international organisation dedicated to renewable energy.",
+ rel:[]},
+{id:"ectinterp", lvl:3, num:"Decision (EU) 2025/1904", title:"Agreement on the interpretation of the Energy Charter Treaty", yr:2025, dom:"fw", st:"g",
+ eli:"dec/2025/1904",
+ sum:"Approves an agreement among the EU, Euratom and member states on how the Energy Charter Treaty is to be interpreted and applied between them — in substance, confirming that its arbitration clause cannot be used in intra-EU disputes, which the Court of Justice ruled in Komstroy (2021). It deals with the treaty's continuing effects after withdrawal.",
+ rel:[["rl","ect"]]},
+{id:"pricestats", lvl:2, num:"Reg. (EU) 2016/1952", title:"Gas and electricity price statistics", yr:2016, dom:"fw", st:"g",
+ eli:"reg/2016/1952",
+ sum:"Requires comparable statistics on gas and electricity prices for households and non-household consumers, broken down into energy, network, and tax and levy components — the data behind every comparison of EU energy prices and the weight of taxes in them.",
+ rel:[["rp","prt08"],["rl","stats"]]},
+{id:"prt08", lvl:3, num:"Dir. 2008/92/EC", title:"Transparency of gas and electricity prices (2008)", yr:2008, dom:"fw", st:"r",
+ eli:"dir/2008/92",
+ sum:"Recast of the 1990 price transparency directive for industrial end-users. Replaced by the 2016 regulation.",
+ rel:[["rp","prt90"]]},
+{id:"prt90", lvl:3, num:"Council Dir. 90/377/EEC", title:"Transparency of gas and electricity prices (1990)", yr:1990, dom:"fw", st:"r",
+ eli:"dir/1990/377",
+ sum:"The first procedure for collecting the gas and electricity prices charged to industrial end-users. Repealed.",
+ rel:[]},
+{id:"repower", lvl:2, num:"Reg. (EU) 2023/435", title:"REPowerEU chapters in recovery and resilience plans", yr:2023, dom:"fw", st:"g",
+ eli:"reg/2023/435",
+ sum:"The legal act behind REPowerEU's money: amends the Recovery and Resilience Facility so that member states can add REPowerEU chapters to their plans, funded by additional grants and loans and by transfers from cohesion funds, for investments that cut fossil fuel imports.",
+ ren:"REPowerEU chapters fund renewables deployment, grids, efficiency and renewable hydrogen, alongside a limited amount of gas and oil infrastructure for supply security.",
+ rel:[["rl","rugas"]]},
+{id:"eepr", lvl:3, num:"Reg. (EC) No 663/2009", title:"European Energy Programme for Recovery", yr:2009, dom:"fw", st:"y",
+ eli:"reg/2009/663",
+ sum:"The energy part of the post-2008 stimulus: EU grants for gas and electricity interconnectors, offshore wind and carbon capture demonstration projects. Unspent money was redirected to a financial instrument for efficiency and renewables.",
+ amBy:["Reg. (EU) No 1233/2010 and later amendments"],
+ ren:"Funded offshore wind grid connections and demonstration projects.",
+ rel:[]},
+{id:"inv10", lvl:3, num:"Council Reg. (EU, Euratom) No 617/2010", title:"Notification of energy infrastructure investments (2010)", yr:2010, dom:"fw", st:"r",
+ eli:"reg/2010/617",
+ sum:"Required member states to report planned investment projects in energy infrastructure to the Commission. Replaced in 2014.",
+ rel:[]},
+{id:"inv14", lvl:3, num:"Reg. (EU) No 256/2014", title:"Notification of energy infrastructure investments (2014)", yr:2014, dom:"fw", st:"r",
+ eli:"reg/2014/256",
+ sum:"The successor reporting regulation. Repealed by Reg. (EU) 2018/1504 as part of the streamlining that moved energy reporting into the Governance Regulation.",
+ rel:[["rp","inv10"],["rl","gov"]]},
+{id:"coal02", lvl:3, num:"Council Reg. (EC) No 1407/2002", title:"State aid to the coal industry", yr:2002, dom:"fw", st:"r",
+ eli:"reg/2002/1407",
+ sum:"Governed state aid to the coal industry after the expiry of the ECSC Treaty in 2002, allowing aid for restructuring and for maintaining a minimum of domestic production for supply security. Expired at the end of 2010.",
+ rel:[]},
+{id:"coal10", lvl:2, num:"Council Decision 2010/787/EU", title:"State aid for the closure of uncompetitive coal mines", yr:2010, dom:"fw", st:"g",
+ eli:"dec/2010/787",
+ sum:"Allowed operating aid to hard coal mines only as part of a definitive closure plan, with all such mines to close by the end of 2018, plus aid for the social and environmental costs of closure. The legal end of subsidised EU hard coal mining.",
+ rel:[["rl","coal02"]]},
+
+// Nuclear (Euratom)
+{id:"bss96", lvl:3, num:"Council Dir. 96/29/Euratom", title:"Basic safety standards (1996)", yr:1996, dom:"nu", st:"r",
+ eli:"dir/1996/29",
+ sum:"The radiation protection standards that preceded the 2013 directive, itself the latest in a line going back to 1959. Repealed.",
+ rel:[]},
+{id:"ship92", lvl:3, num:"Council Dir. 92/3/Euratom", title:"Shipments of radioactive waste (1992)", yr:1992, dom:"nu", st:"r",
+ eli:"dir/1992/3",
+ sum:"The first system of prior authorisation for shipments of radioactive waste between member states and into and out of the Community. Replaced in 2006.",
+ rel:[]},
+{id:"ship06", lvl:2, num:"Council Dir. 2006/117/Euratom", title:"Shipments of radioactive waste and spent fuel", yr:2006, dom:"nu", st:"g",
+ eli:"dir/2006/117",
+ sum:"A standard procedure of prior authorisation and consent for cross-border shipments of radioactive waste and spent fuel, extended to spent fuel for reprocessing.",
+ rel:[["rp","ship92"],["rl","rwd"]]},
+{id:"jointconv", lvl:3, num:"Council Decision 2005/84/Euratom", title:"Accession to the Joint Convention on spent fuel and radioactive waste", yr:2005, dom:"nu", st:"g",
+ eli:"dec/2005/84",
+ sum:"Approves Euratom's accession to the IAEA Joint Convention on the Safety of Spent Fuel Management and on the Safety of Radioactive Waste Management, the international counterpart to the 2011 waste directive.",
+ rel:[["rl","rwd"]]},
+{id:"decom", lvl:3, num:"Council Reg. (Euratom) 2021/100", title:"Nuclear decommissioning financing programme", yr:2021, dom:"nu", st:"g",
+ eli:"reg/2021/100",
+ sum:"EU funding for decommissioning nuclear facilities and managing radioactive waste for 2021–2027, chiefly the reactors at Kozloduy in Bulgaria and Bohunice in Slovakia that were shut down as a condition of accession, and the Commission's own research facilities. Ignalina in Lithuania has a separate programme (Council Reg. (EU) 2021/101).",
+ rel:[["rl","rwd"]]}
+];
+
+// ============================================================ GRAPH SETUP
+const RELLBL={am:"amends", rp:"repeals", im:"implements", rl:"relates to"};
+const PROPLBL={am:"would amend", rp:"would repeal", im:"would implement", rl:"relates to"};
+const relLabel = e => (byId[e.s].st==="p" ? PROPLBL : RELLBL)[e.type];
+const byId=Object.fromEntries(L.map(d=>[d.id,d]));
+const EDGES=[];
+L.forEach(s=>(s.rel||[]).forEach(([t,tid])=>{
+  if(byId[tid]) EDGES.push({s:s.id,t:tid,type:t});
+  else console.warn("missing relation target", s.id, "→", tid);
+}));
+const AMENDED_IN_MAP=new Set(EDGES.filter(e=>e.type==="am"&&byId[e.s].st!=="p").map(e=>e.t));
+L.forEach(d=>d.deg=0);
+EDGES.forEach(e=>{byId[e.s].deg++; byId[e.t].deg++;});
+const NBR={}; L.forEach(d=>NBR[d.id]=new Set());
+EDGES.forEach(e=>{NBR[e.s].add(e.t); NBR[e.t].add(e.s);});
+
+/* An act counts as renewables-relevant if it sits in the renewables lane or carries a note
+   saying what its renewables provisions are. The note is the test: no note, no ring. */
+const isRen = d => d.dom==="re" || !!d.ren;
+const RENCOL="#0a93b5";
+
+const STCOL={g:"#1f8a5f", y:"#d9a520", r:"#c0392b", p:"#6b5bd2"};
+const STLBL={g:"In force, as adopted", y:"In force, amended", r:"Repealed or expired", p:"Proposed, not yet adopted"};
+
+const domKeys=Object.keys(DOMS);
+L.forEach(d=>{
+  const k=domKeys.indexOf(d.dom), a=k/domKeys.length*Math.PI*2;
+  d.x=Math.cos(a)*260+(Math.random()-.5)*140;
+  d.y=Math.sin(a)*260+(Math.random()-.5)*140;
+  d.vx=0; d.vy=0; d.r=7+Math.min(11,d.deg*1.5);
+});
+
+// ============================================================ CANVAS
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+let W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+let view={x:0,y:0,k:1};
+function resize(){
+  const r=cv.getBoundingClientRect(); W=r.width; H=r.height;
+  cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+/* Refit whenever the canvas changes size, until the reader has panned or zoomed themselves */
+let userMoved=false;
+new ResizeObserver(()=>{ resize(); if(!userMoved && typeof fitView==="function") fitView(); }).observe(cv); resize();
+
+let hover=null, selected=null, dragNode=null, panning=false, last={x:0,y:0}, moved=false;
+let mode="timeline";
+function load(key, ok, dflt){ try{ const s=localStorage.getItem(key); if(ok.includes(s)) return s; }catch(e){} return dflt; }
+function save(key, v){ try{ localStorage.setItem(key, String(v)); }catch(e){} }
+const filt={q:"", dom:"", lvl:+load("energyMapLevel",["1","2","3"],"1"),
+            ren:load("energyMapRen",["hi","only","off"],"hi"), st:new Set(["g","y","r","p"])};
+
+// ---- timeline geometry: x = adoption year, y = policy-area lane
+/* The year axis spans only the acts currently shown, so that the few acts from the 1990s do not
+   stretch the core view (which starts in 1998) across three decades of empty lanes. */
+let YR0=Math.min(...L.map(d=>d.yr)), YR1=Math.max(...L.map(d=>d.yr));
+const XSP=92, LANE=112;
+const tx = yr => (yr-(YR0+YR1)/2)*XSP;
+const ty = dom => (domKeys.indexOf(dom)-(domKeys.length-1)/2)*LANE;
+const TL_H=(domKeys.length-1)*LANE;
+
+function placeTimeline(){
+  const shown=L.filter(visible);
+  if(shown.length){ YR0=Math.min(...shown.map(d=>d.yr)); YR1=Math.max(YR0+4,...shown.map(d=>d.yr)); }
+  if(!userMoved) fitView();
+  const groups={};
+  L.filter(visible).forEach(d=>{ const k=d.dom+"|"+d.yr; (groups[k]=groups[k]||[]).push(d); });
+  L.forEach(d=>{ d.x=tx(d.yr); d.y=ty(d.dom); d.vx=0; d.vy=0; });
+  Object.values(groups).forEach(g=>{
+    g.sort((a,b)=>a.num.localeCompare(b.num));
+    const step=Math.min(28, Math.max(18, (LANE*0.74)/Math.max(1,g.length)));
+    /* odd and even years sit slightly above and below the lane centre, so that labels of acts
+       in consecutive years do not run into each other */
+    const top=-(g.length-1)*step/2 + (g.length<=2 ? (g[0].yr%2 ? -11 : 11) : 0);
+    g.forEach((d,i)=>{ d.y=ty(d.dom)+top+i*step; d.x=tx(d.yr); });
+  });
+}
+/* Fit the whole timeline, keeping room on the right for the lane labels. The labels are drawn
+   at a constant screen size, so their width is reserved in pixels rather than in world units. */
+function fitView(){
+  if(mode==="force"){ view={x:0,y:0,k:1}; return; }
+  ctx.font="600 13px -apple-system,Segoe UI,sans-serif";
+  const labW=Math.max(...domKeys.map(k=>ctx.measureText(DOMS[k].label).width))+34+18;
+  const x0=tx(YR0)-50, x1=tx(YR1)+46, y0=ty(domKeys[0])-62, y1=ty(domKeys[domKeys.length-1])+84;
+  const k=Math.max(0.2,Math.min(2, Math.min((W-24-labW)/(x1-x0), (H-24)/(y1-y0))));
+  view={k, x:(12-W/2)/k-x0, y:-(y0+y1)/2};
+}
+
+const visible = d =>
+  d.lvl <= filt.lvl &&
+  filt.st.has(d.st) &&
+  (filt.ren!=="only" || isRen(d)) &&
+  (!filt.dom || d.dom===filt.dom) &&
+  (!filt.q || (d.title+" "+d.num+" "+d.sum+" "+(d.ren||"")).toLowerCase().includes(filt.q));
+
+function toWorld(px,py){ return {x:(px-W/2)/view.k-view.x, y:(py-H/2)/view.k-view.y}; }
+
+// ------------------------------------------------ force simulation
+function step(){
+  const vis=L.filter(visible);
+  const TL = mode==="timeline";
+  for(let i=0;i<vis.length;i++) for(let j=i+1;j<vis.length;j++){
+    const a=vis[i],b=vis[j];
+    let dx=b.x-a.x, dy=b.y-a.y, d2=dx*dx+dy*dy||0.01;
+    const minD=(a.r+b.r+(TL?9:14));
+    let f=(TL?520:2600)/d2;
+    if(d2<minD*minD) f+=(minD-Math.sqrt(d2))*(TL?0.34:0.28);
+    const d=Math.sqrt(d2); dx/=d; dy/=d;
+    a.vx-=dx*f; a.vy-=dy*f; b.vx+=dx*f; b.vy+=dy*f;
+  }
+  if(TL){
+    vis.forEach(d=>{
+      d.vx += (tx(d.yr)-d.x)*0.115;
+      d.vy += (ty(d.dom)-d.y)*0.030;
+    });
+  }else{
+    EDGES.forEach(e=>{
+      const a=byId[e.s], b=byId[e.t];
+      if(!visible(a)||!visible(b)) return;
+      const dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy)||.01;
+      const rest=115, f=(d-rest)*0.012;
+      a.vx+=dx/d*f; a.vy+=dy/d*f; b.vx-=dx/d*f; b.vy-=dy/d*f;
+    });
+    vis.forEach(d=>{ d.vx-=d.x*0.0016; d.vy-=d.y*0.0016; });
+  }
+  vis.forEach(d=>{
+    if(d===dragNode){d.vx=0;d.vy=0;return;}
+    d.vx*=TL?0.80:0.86; d.vy*=TL?0.80:0.86;
+    d.x+=Math.max(-14,Math.min(14,d.vx));
+    d.y+=Math.max(-14,Math.min(14,d.vy));
+  });
+}
+
+function drawAxis(){
+  const x0=tx(YR0)-46, x1=tx(YR1)+46;
+  const yTop=ty(domKeys[0])-58, yBot=ty(domKeys[domKeys.length-1])+58;
+  ctx.textAlign="left"; ctx.textBaseline="middle";
+  domKeys.forEach((k,i)=>{
+    const y=ty(k);
+    if(k==="re" && filt.ren!=="off"){ ctx.fillStyle="rgba(10,147,181,.07)"; ctx.fillRect(x0,y-LANE/2,x1-x0,LANE); }
+    else if(i%2===0){ ctx.fillStyle="rgba(20,24,31,.028)"; ctx.fillRect(x0,y-LANE/2,x1-x0,LANE); }
+    ctx.beginPath(); ctx.moveTo(x0,y-LANE/2); ctx.lineTo(x1,y-LANE/2);
+    ctx.strokeStyle="rgba(20,24,31,.07)"; ctx.lineWidth=1/view.k; ctx.stroke();
+    ctx.font=`600 ${13/view.k}px -apple-system,Segoe UI,sans-serif`;
+    const lx=x1+34, lw=ctx.measureText(DOMS[k].label).width, pad=6/view.k;
+    ctx.fillStyle="rgba(246,247,249,.92)";
+    ctx.fillRect(lx-pad, y-(11/view.k), lw+pad*2, 22/view.k);
+    ctx.fillStyle=DOMS[k].col;
+    ctx.fillText(DOMS[k].label, lx, y);
+  });
+  ctx.textAlign="center";
+  for(let y=YR0;y<=YR1;y++){
+    const X=tx(y);
+    ctx.beginPath(); ctx.moveTo(X,yTop); ctx.lineTo(X,yBot);
+    ctx.strokeStyle= y%5===0 ? "rgba(20,24,31,.14)" : "rgba(20,24,31,.055)";
+    ctx.lineWidth=1/view.k; ctx.stroke();
+    ctx.textBaseline="top";
+    ctx.font=`${(y%5===0?"600 ":"")}${12/view.k}px -apple-system,Segoe UI,sans-serif`;
+    ctx.fillStyle= y%5===0 ? "#5f6b7a" : "#98a2ae";
+    ctx.fillText(String(y), X, yBot+9);
+  }
+  ctx.textBaseline="alphabetic";
+}
+
+// ------------------------------------------------ draw
+const DASH={am:[], rp:[6,4], im:[1.5,4], rl:[3,3]};
+/* In highlight mode the acts without renewables content stay on the map for context but
+   step back; hover and selection still override, so nothing becomes unreadable. */
+const fade = d => filt.ren==="hi" && !isRen(d) ? 0.38 : 1;
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const vis=new Set(L.filter(visible).map(d=>d.id));
+  const focus = hover||selected;
+  const near = focus ? new Set([focus.id,...NBR[focus.id]]) : null;
+
+  ctx.save();
+  ctx.translate(W/2,H/2); ctx.scale(view.k,view.k); ctx.translate(view.x,view.y);
+  if(mode==="timeline") drawAxis();
+
+  EDGES.forEach(e=>{
+    if(!vis.has(e.s)||!vis.has(e.t)) return;
+    const a=byId[e.s], b=byId[e.t];
+    const on = !near || (near.has(e.s)&&near.has(e.t));
+    const soft = e.type==="rl";
+    ctx.globalAlpha = near ? 1 : Math.min(fade(a),fade(b))<1 ? 0.55 : 1;
+    ctx.beginPath();
+    ctx.setLineDash(DASH[e.type].map(v=>v/view.k));
+    ctx.strokeStyle = on ? (near?(soft?"#a8b2be":"#7d8794"):(soft?"#dde2e8":"#c8d0da")) : "#e8ecf1";
+    ctx.lineWidth = (on&&near?(soft?1.3:1.8):(soft?0.9:1.1))/view.k;
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2, dx=b.x-a.x, dy=b.y-a.y;
+    ctx.moveTo(a.x,a.y);
+    ctx.quadraticCurveTo(mx-dy*0.07, my+dx*0.07, b.x,b.y);
+    ctx.stroke();
+    if(on && !soft){
+      const ang=Math.atan2(b.y-my-dx*0.07, b.x-mx+dy*0.07);
+      const L2=8/view.k, off=b.r+3;
+      const px=b.x-Math.cos(ang)*off, py=b.y-Math.sin(ang)*off;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(px,py);
+      ctx.lineTo(px-Math.cos(ang-0.4)*L2, py-Math.sin(ang-0.4)*L2);
+      ctx.lineTo(px-Math.cos(ang+0.4)*L2, py-Math.sin(ang+0.4)*L2);
+      ctx.closePath();
+      ctx.fillStyle=ctx.strokeStyle; ctx.fill();
+    }
+  });
+  ctx.setLineDash([]); ctx.globalAlpha=1;
+
+  L.forEach(d=>{
+    if(!vis.has(d.id)) return;
+    const on = !near || near.has(d.id);
+    const base = near ? (on?1:0.16) : fade(d);
+    // renewables ring, outside the policy-area halo
+    if(filt.ren!=="off" && isRen(d)){
+      ctx.globalAlpha = on?1:0.2;
+      ctx.beginPath(); ctx.arc(d.x,d.y,d.r+6.2,0,7);
+      ctx.lineWidth=2.3/view.k; ctx.strokeStyle=RENCOL; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r+3.2,0,7);
+    ctx.fillStyle=DOMS[d.dom].col; ctx.globalAlpha=(on?0.28:0.06)*base; ctx.fill();
+    ctx.globalAlpha = base;
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,7);
+    if(d.st==="p"){
+      ctx.fillStyle="#f0eefb"; ctx.fill();
+      ctx.setLineDash([3.5/view.k, 2.6/view.k]);
+      ctx.lineWidth=2.2/view.k; ctx.strokeStyle=STCOL.p; ctx.stroke();
+      ctx.setLineDash([]);
+    }else{
+      ctx.fillStyle=STCOL[d.st]; ctx.fill();
+    }
+    if(d===selected){ ctx.lineWidth=2.6/view.k; ctx.strokeStyle="#14181f"; ctx.stroke(); }
+    else if(d===hover){ ctx.lineWidth=2/view.k; ctx.strokeStyle=d.st==="p"?"#453a95":"#fff"; ctx.stroke(); }
+    ctx.globalAlpha=1;
+  });
+
+  const showAll = view.k > (mode==="timeline" ? 0.40 : 0.55);
+  ctx.textAlign="center"; ctx.textBaseline="top";
+  L.forEach(d=>{
+    if(!vis.has(d.id)) return;
+    const on = !near || near.has(d.id);
+    const big = d.deg>=4;
+    if(!(showAll||big||d===hover||d===selected)) return;
+    if(!on && !showAll) return;
+    ctx.globalAlpha = near ? (on?1:0.14) : Math.max(0.5,fade(d));
+    const fs=11/view.k;
+    ctx.font=`${d===selected||d===hover?"600 ":""}${fs}px -apple-system,Segoe UI,sans-serif`;
+    const txt=d.num.replace(/^(Council Dir\.|Council Reg\.|Council Decision|Dir\.|Reg\.|Decision|Del\. Reg\.|Impl\. Reg\.) /,"").replace(/^\((EU|EC)\) (No )?/,"");
+    const off = (filt.ren!=="off" && isRen(d)) ? 8 : 5;
+    ctx.lineWidth=3.4/view.k; ctx.strokeStyle="rgba(246,247,249,.92)";
+    ctx.strokeText(txt, d.x, d.y+d.r+off);
+    ctx.fillStyle= on?"#3a434f":"#9aa4b0";
+    ctx.fillText(txt, d.x, d.y+d.r+off);
+    ctx.globalAlpha=1;
+  });
+
+  ctx.restore();
+}
+
+function loop(){ step(); draw(); requestAnimationFrame(loop); }
+loop();
+
+// ------------------------------------------------ hit testing & interaction
+function pick(px,py){
+  const w=toWorld(px,py);
+  let best=null,bd=1e9;
+  L.forEach(d=>{
+    if(!visible(d)) return;
+    const dist=Math.hypot(d.x-w.x, d.y-w.y);
+    if(dist<d.r+6 && dist<bd){bd=dist;best=d;}
+  });
+  return best;
+}
+const tip=document.getElementById("tip");
+cv.addEventListener("pointermove",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  if(dragNode){ const w=toWorld(px,py); dragNode.x=w.x; dragNode.y=w.y; moved=true; return; }
+  if(panning){ userMoved=true; view.x+=(px-last.x)/view.k; view.y+=(py-last.y)/view.k; last={x:px,y:py}; moved=true; return; }
+  const h=pick(px,py);
+  if(h!==hover){ hover=h; cv.style.cursor=h?"pointer":"grab"; }
+  if(h){
+    tip.textContent=`${h.num} — ${h.title}`;
+    tip.style.left=Math.min(px+14, W-tip.offsetWidth-8)+"px"; tip.style.top=(py+14)+"px"; tip.style.opacity=1;
+  } else tip.style.opacity=0;
+});
+cv.addEventListener("pointerdown",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  cv.setPointerCapture(ev.pointerId); moved=false;
+  const h=pick(px,py);
+  if(h){ dragNode=h; } else { panning=true; last={x:px,y:py}; cv.classList.add("drag"); }
+});
+cv.addEventListener("pointerup",ev=>{
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  if(!moved){ const h=pick(px,py); h ? open(h) : close(); }
+  dragNode=null; panning=false; cv.classList.remove("drag");
+});
+cv.addEventListener("wheel",ev=>{
+  ev.preventDefault(); userMoved=true;
+  const r=cv.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+  const before=toWorld(px,py);
+  view.k=Math.max(0.25,Math.min(3.5, view.k*(ev.deltaY<0?1.12:1/1.12)));
+  const after=toWorld(px,py);
+  view.x+=after.x-before.x; view.y+=after.y-before.y;
+},{passive:false});
+
+// ------------------------------------------------ detail panel
+const panel=document.getElementById("panel");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function open(d){
+  selected=d;
+  document.getElementById("pTitle").textContent=d.title;
+  document.getElementById("pNum").textContent=d.num;
+  document.getElementById("pMeta").innerHTML=
+    `<span class="badge ${d.st}">${STLBL[d.st]}</span>`+
+    `<span class="badge n">${DOMS[d.dom].label}</span>`+
+    `<span class="badge n">${d.st==="p"?"Proposed":"Adopted"} ${d.yr}</span>`+
+    (isRen(d)?`<span class="badge re">Renewables</span>`:"");
+  document.getElementById("pSum").innerHTML=
+    (d.prop?`<span style="display:block;color:var(--violet);font-weight:600;font-size:12.5px;margin-bottom:7px">${esc(d.prop)}</span>`:"")+
+    esc(d.sum);
+  document.getElementById("pRen").innerHTML = d.ren
+    ? `<h3 class="renh">Renewables provisions</h3><p class="sum" style="margin:0">${esc(d.ren)}</p>` : "";
+
+  const out=EDGES.filter(e=>e.s===d.id), inc=EDGES.filter(e=>e.t===d.id);
+  const li=(e,other)=>`<li><span class="rel">${relLabel(e)}</span>
+      <a data-go="${other}">${byId[other].num} — ${byId[other].title}</a></li>`;
+  let html="";
+  if(d.st==="y" && !AMENDED_IN_MAP.has(d.id)){
+    html+=`<h3>Amended by</h3>`;
+    html+= d.amBy && d.amBy.length
+      ? `<ul>${d.amBy.map(a=>`<li><span class="rel">amends</span><span>${a}</span></li>`).join("")}</ul>
+         <p class="sum" style="margin:9px 0 0;color:var(--muted);font-size:12.5px">These acts are not shown as
+         nodes: they are technical amendments that would crowd the map without changing its shape. Read the
+         consolidated text on EUR-Lex for the current wording.</p>`
+      : `<p class="sum" style="margin:0;color:var(--muted)">In force, but amended since adoption by acts outside
+         this map's scope. See the consolidated text on EUR-Lex.</p>`;
+  }
+  if(out.length) html+=`<h3>Links from this act</h3><ul>${out.map(e=>li(e,e.t)).join("")}</ul>`;
+  if(inc.length) html+=`<h3>Links to this act</h3><ul>${inc.map(e=>
+      `<li><span class="rel">${relLabel(e)}</span>
+       <a data-go="${e.s}">${byId[e.s].num} — ${byId[e.s].title}</a></li>`).join("")}</ul>`;
+  if(!out.length&&!inc.length) html+=`<h3>Links</h3><p class="sum" style="margin:0;color:var(--muted)">No links recorded in this map.</p>`;
+  document.getElementById("pRels").innerHTML=html;
+  document.getElementById("pCm").style.display = d.cm ? "block" : "none";
+  const ext=document.getElementById("pExt");
+  ext.href = d.url || ("http://data.europa.eu/eli/"+d.eli+"/oj");
+  ext.textContent = d.url ? "Open the proposal →" : "Open on EUR-Lex →";
+  panel.classList.add("on");
+
+  view.x = -d.x + 170/view.k;
+  if(mode==="force") view.y = -d.y;
+  else view.y = Math.max(-TL_H/2-90, Math.min(TL_H/2+90, -d.y));
+}
+function close(){ selected=null; panel.classList.remove("on"); }
+document.getElementById("pClose").onclick=close;
+document.getElementById("pRels").addEventListener("click",ev=>{
+  const a=ev.target.closest("[data-go]"); if(!a) return;
+  const d=byId[a.dataset.go];
+  if(!visible(d)){ // make a filtered-out target reachable rather than leaving a dead link
+    if(d.lvl>filt.lvl) setLevel(d.lvl, false);
+    if(filt.ren==="only" && !isRen(d)) setRen("hi");
+    filt.st.add(d.st); document.querySelectorAll(".chip").forEach(c=>c.classList.remove("off"));
+    document.getElementById("dom").value=""; filt.dom="";
+    document.getElementById("q").value=""; filt.q="";
+    if(mode==="timeline") placeTimeline();
+    updateCount();
+  }
+  open(d);
+});
+addEventListener("keydown",e=>{ if(e.key==="Escape") close(); });
+
+// ------------------------------------------------ controls
+const domSel=document.getElementById("dom");
+domSel.innerHTML=`<option value="">All policy areas</option>`+
+  Object.entries(DOMS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join("");
+const LVLNAME={1:"core", 2:"core + machinery", 3:"all acts"};
+function updateCount(){
+  const v=L.filter(visible), c=s=>v.filter(d=>d.st===s).length;
+  document.getElementById("count").textContent=
+    `${v.length} of ${L.length} shown · ${LVLNAME[filt.lvl]} · ${v.filter(isRen).length} with renewables content · ${c("g")} unamended · ${c("y")} amended · ${c("r")} repealed · ${c("p")} proposed`;
+}
+function setLevel(n, redraw){
+  filt.lvl=n; save("energyMapLevel", n);
+  document.querySelectorAll("#lvlSeg button").forEach(b=>b.classList.toggle("on", +b.dataset.lvl===n));
+  updateCount();
+  if(mode==="timeline") placeTimeline();
+}
+function setRen(v){
+  filt.ren=v; save("energyMapRen", v);
+  document.querySelectorAll("#renSeg button").forEach(b=>b.classList.toggle("on", b.dataset.ren===v));
+  updateCount();
+  if(mode==="timeline") placeTimeline();
+}
+document.querySelectorAll("#lvlSeg button").forEach(b=>b.onclick=()=>setLevel(+b.dataset.lvl));
+document.querySelectorAll("#renSeg button").forEach(b=>b.onclick=()=>setRen(b.dataset.ren));
+document.getElementById("q").oninput=e=>{filt.q=e.target.value.toLowerCase().trim();updateCount();};
+domSel.onchange=e=>{filt.dom=e.target.value;updateCount();};
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  const s=c.dataset.st;
+  filt.st.has(s)?filt.st.delete(s):filt.st.add(s);
+  c.classList.toggle("off",!filt.st.has(s));
+  updateCount();
+});
+document.getElementById("reset").onclick=()=>{
+  close(); userMoved=false;
+  setLevel(1, false);
+  setRen("hi");
+  if(mode==="force") L.forEach(d=>{
+    const k=domKeys.indexOf(d.dom), a=k/domKeys.length*Math.PI*2;
+    d.x=Math.cos(a)*260+(Math.random()-.5)*140;
+    d.y=Math.sin(a)*260+(Math.random()-.5)*140; d.vx=0; d.vy=0;
+  });
+  fitView();
+};
+
+// ------------------------------------------------ layout mode
+const hintEl=document.querySelector("#legend .hint");
+const HINTS={
+  force:`Click a node for detail. Drag to reposition, scroll to zoom, drag the background to pan.
+         Node size reflects how many other acts connect to it.`,
+  timeline:`Nodes are anchored to their year of adoption and grouped into policy-area lanes, so the
+            amendment arrows run left to right through time. Scroll to zoom, drag the background to pan.`
+};
+function setMode(m){
+  if(m===mode) return;
+  mode=m;
+  document.getElementById("mNet").classList.toggle("on",m==="force");
+  document.getElementById("mTime").classList.toggle("on",m==="timeline");
+  hintEl.textContent=HINTS[m];
+  if(m==="timeline") placeTimeline();
+  fitView();
+}
+document.getElementById("mNet").onclick=()=>setMode("force");
+document.getElementById("mTime").onclick=()=>setMode("timeline");
+
+const legend=document.getElementById("legend"), legTog=document.getElementById("legTog");
+legTog.onclick=()=>{ const o=legend.classList.toggle("open"); legTog.setAttribute("aria-expanded",o); legTog.textContent=o?"Hide legend":"Legend"; };
+
+// ------------------------------------------------ intro overlay
+const introEl=document.getElementById("intro"), scrim=document.getElementById("scrim");
+function showIntro(v){ introEl.classList.toggle("on",v); scrim.classList.toggle("on",v); }
+document.getElementById("introClose").onclick=()=>showIntro(false);
+document.getElementById("about").onclick=()=>showIntro(true);
+scrim.onclick=()=>showIntro(false);
+addEventListener("keydown",e=>{ if(e.key==="Escape" && introEl.classList.contains("on")) showIntro(false); });
+/* the counts in the intro come from the data, so they cannot drift from it */
+[["nAll",L.length],["n1",L.filter(d=>d.lvl===1).length],["n2",L.filter(d=>d.lvl===2).length],
+ ["n3",L.filter(d=>d.lvl===3).length],["cmCount",L.filter(d=>d.cm).length]]
+  .forEach(([id,n])=>document.getElementById(id).textContent=n);
+showIntro(true);
+
+// ------------------------------------------------ initial state: timeline
+hintEl.textContent=HINTS[mode];
+setRen(filt.ren);
+setLevel(filt.lvl, false);
+placeTimeline();
+fitView();
+</script>
+
+<script>
+/* ===== CSV export =====
+   One row per act, relations flattened, so the list can be checked, sorted or merged without
+   scraping the canvas. Always the full list, not the filtered view. */
+(function(){
+  var btn=document.getElementById("csv");
+  function esc(v){ v=(v==null?"":String(v));
+    return /[",\n\r;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+  btn.addEventListener("click",function(){
+    var rows=[["id","number","title","year","policy_area","status","tier","renewables_relevant",
+               "renewables_provisions","also_on_climate_map","eurlex_url","relations","summary"].map(esc).join(",")];
+    L.forEach(function(d){
+      var rel=(d.rel||[]).map(function(r){ return (RELLBL[r[0]]||r[0])+": "+r[1]; }).join("; ");
+      rows.push([
+        esc(d.id), esc(d.num), esc(d.title), esc(d.yr),
+        esc(DOMS[d.dom].label), esc(STLBL[d.st]),
+        esc({1:"principal instrument",2:"machinery or major revision",3:"amendment or superseded"}[d.lvl]),
+        esc(isRen(d)?"yes":"no"), esc(d.ren||""), esc(d.cm?"yes":"no"),
+        esc(d.url || (d.eli ? "http://data.europa.eu/eli/"+d.eli+"/oj" : "")),
+        esc(rel), esc(d.sum)
+      ].join(","));
+    });
+    var blob=new Blob(["﻿"+rows.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+    var url=URL.createObjectURL(blob), a=document.createElement("a");
+    a.href=url; a.download="eu-energy-legislation-map.csv";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },0);
+    var old=btn.textContent; btn.textContent="Downloaded ✓";
+    setTimeout(function(){ btn.textContent=old; },1600);
+  });
+})();
+</script>
+</body>
+</html>
