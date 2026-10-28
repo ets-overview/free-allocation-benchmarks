@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Legislation Map — EU Climate Policy Explorer</title>
-<meta name="description" content="An interactive map of 108 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="description" content="An interactive map of 109 EU climate acts and their amendment chains — Fit for 55 and the Green Deal core — colour-coded by whether each is in force, amended, repealed or still a proposal.">
 
 <!-- Open Graph (LinkedIn, Facebook, Slack, etc.) -->
 <meta property="og:title" content="EU Climate Legislation Map">
-<meta property="og:description" content="An interactive map of 108 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta property="og:description" content="An interactive map of 109 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta property="og:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <meta property="og:url" content="https://ets-overview.github.io/free-allocation-benchmarks/legislation.html">
 <meta property="og:type" content="website">
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EU Climate Legislation Map">
-<meta name="twitter:description" content="An interactive map of 108 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
+<meta name="twitter:description" content="An interactive map of 109 EU climate acts and their amendment chains, colour-coded by whether each is in force, amended, repealed or still a proposal.">
 <meta name="twitter:image" content="https://ets-overview.github.io/free-allocation-benchmarks/images/preview.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -226,11 +226,11 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <button class="btn" id="csv">Download CSV</button>
   <div class="spacer"></div>
   <span class="count" id="count"></span>
-  <span class="count" style="margin-left:14px">Updated 5 Oct 2026 · <a href="changelog.html" style="color:inherit">what changed</a></span>
+  <span class="count" style="margin-left:14px">Updated 28 Oct 2026 · <a href="changelog.html" style="color:inherit">what changed</a></span>
 </div>
 
 <div id="wrap">
-  <canvas id="cv" role="img" aria-label="Interactive map of 108 EU climate legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
+  <canvas id="cv" role="img" aria-label="Interactive map of 109 EU climate legislation acts, drawn as a network of amendment and implementation links. This is a graphical view; the same information is available as a list through the &quot;Download CSV&quot; button in the toolbar, and individual acts can be found with the search field."></canvas>
   <p class="vh">This map is drawn on a canvas and cannot be read by a screen reader. The same 108 acts —
      number, title, year, policy area, status, EUR-Lex link and the relations between them — are available as a
      CSV file from the &ldquo;Download CSV&rdquo; button in the toolbar above.</p>
@@ -259,8 +259,13 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        assessment duties under the Civil Protection Mechanism. Water policy proper — the Water Framework
        Directive and its river basin planning — sits outside the map, on the same reasoning that keeps most
        energy law out of it, though the Floods Directive is coordinated with it.</p>
-    <p><strong>Core, machinery, everything.</strong> The map holds 108 acts, which is more than anyone
-       can read at once, so it opens with the <strong>core</strong>: the 37 acts that create a regime rather
+    <p>That scattered architecture is what the <strong>European Climate Resilience Law</strong> proposed on
+       27 October 2026 would gather up: one regulation, one national plan in place of four planning instruments,
+       one agreed warming trajectory to plan against, and a named owner for each major risk. It is a proposal,
+       drawn in violet like the others, and it is the reason this lane is worth watching rather than merely
+       recording.</p>
+    <p><strong>Core, machinery, everything.</strong> The map holds 109 acts, which is more than anyone
+       can read at once, so it opens with the <strong>core</strong>: the 38 acts that create a regime rather
        than adjust one — the ETS Directive rather than its Phase 4 revision, the Effort Sharing Regulation
        rather than the 2023 amendment that raised its targets — plus the live proposals that would materially
        change one. <strong>+ machinery</strong> adds the 42 delegated and implementing acts that make each
@@ -278,7 +283,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <p>If you believe that important legislation is missing, please feel free to get in touch at
        <a href="mailto:eu-climate-overview@pm.me">eu-climate-overview@pm.me</a>.</p>
     <div class="foot">
-      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.<br><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
+      <span style="font-size:12.5px;color:var(--muted)">Reopen any time from “About this map” in the toolbar.<br><strong>Last updated 28 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span>
       <button class="btn" id="introClose">Explore the map</button>
     </div>
   </div>
@@ -792,6 +797,11 @@ const L = [
  eli:"dir/2022/2557/oj",
  sum:"Requires member states to identify critical entities across eleven sectors — energy, transport, water, health, digital infrastructure and others — and to ensure those entities assess and manage the risks to their operations, explicitly including risks from natural hazards and climate change. Adaptation enters EU law here as an infrastructure resilience duty rather than a climate one, which is why it is rarely counted as climate legislation despite carrying a large share of the actual obligation.",
  rel:[["rl","climatelaw"]]},
+{id:"p_crl", lvl:1, num:"COM(2026) 730", title:"European Climate Resilience Law", yr:2026, dom:"ad", st:"p",
+ prop:"Tabled 27 October 2026 \u00b7 procedure 2026/0336(COD) \u00b7 legal basis Article 192(1) TFEU \u00b7 not yet referred to committee",
+ url:"https://climate.ec.europa.eu/document/download/dc70f56e-0b44-4a7a-b3ba-5cda2d378016_en?filename=com_2026_730_en.pdf",
+ sum:"The first attempt to put adaptation on the same legal footing as mitigation. Everything else on this map is about reducing emissions; this regulation is about living with the warming already committed to. Three things in it bind. A \u2018reference global warming trajectory\u2019 \u2014 given in Annex I as 1.5\u00b0C by 2030, 2\u00b0C by 2050 and 3\u00b0C by 2100 \u2014 becomes the common planning assumption, so that authorities stop each picking their own scenario. National climate risk assessments become regular and comparable with the European one: the EEA\u2019s assessment by 30 June 2028 and every five years after, national assessments by 30 June 2029, each required to look beyond the central case at extreme and low-probability, high-impact outcomes. And four separate planning instruments collapse into one national strategic plan on climate resilience, due 31 December 2030 and updated every five years, which takes the place of the national adaptation strategy the Climate Law requires and of the adaptation parts of the energy and climate plans under the Governance Regulation, which Article 14 amends accordingly. For every major risk in Annex II a member state must name the public authority that owns it \u2014 the provision most likely to change behaviour, because unowned risks are the ones nobody funds. The Commission adopts a Union strategic plan by 30 September 2028, Eurostat publishes annual statistics on lives and money lost from 31 December 2030, and reporting moves to a single biennial cycle from 15 March 2029. Tabled with a Communication, COM(2026) 720, setting out the wider framework. Note the limits: the trajectory is a planning assumption rather than a target, and the provisions on budgeting, spatial planning and impact assessment encourage rather than oblige. The Commission puts the adaptation bill at around \u20ac70 bn a year.",
+ rel:[["am","gov"],["rl","climatelaw"],["rl","floods"],["rl","cer"],["rl","ucpm"],["rl","nrl"]]},
 {id:"cbamprice", lvl:2, num:"Impl. Reg. (EU) 2025/2548", title:"CBAM certificate price methodology", yr:2025, dom:"cp", st:"g",
  eli:"reg_impl/2025/2548",
  sum:"Lays down how the Commission calculates and publishes the price of CBAM certificates \u2014 the weighted average of EU ETS auction clearing prices, quarterly through 2026 and weekly from 2027. The instrument that pins the border price to the domestic one, so that imported and EU-made goods face the same carbon cost.",
