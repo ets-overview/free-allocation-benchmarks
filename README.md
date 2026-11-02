@@ -89,8 +89,8 @@ directly, and the address bar follows whichever tab you are on.
 
 ## Contributing
 
-Corrections, missing legislation and factual disputes are all welcome at
-**eu-climate-overview@pm.me**, or as an issue or pull request. For a correction it helps enormously
+Corrections, missing legislation and factual disputes are all welcome via
+[LinkedIn](https://www.linkedin.com/in/julian-rosenthal), or as an issue or pull request. For a correction it helps enormously
 to include the source — an OJ citation or a link to the consolidated text — since almost every
 disagreement about these numbers turns out to be a disagreement about which version of a document
 is being read.
