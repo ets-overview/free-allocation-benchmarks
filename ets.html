@@ -477,22 +477,42 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       benchmark system and CBAM exist, and why the argument about them is so persistent. Aviation tells a third
       story: down 63% in 2020, then back to about a fifth below its 2012 level by 2025 — the only series here whose
       low point is behind it rather than at the end.</div>
+    <div class="warn" style="margin-top:12px"><strong>The last point is still moving.</strong> This series is the
+      EEA ETS data viewer, July 2026 release. The Union Registry's own extract of 6 November 2026 puts 2025
+      verified emissions at <strong>1 161.9 Mt</strong> against the 1 148.8 Mt plotted here — 13 Mt higher,
+      almost all of it maritime (87.6 Mt against 80.7) and aviation (61.7 Mt against 58.9), where late reports
+      are still arriving in the first full year of maritime coverage. The fill-in is visible across three
+      snapshots of the same year: the registry's own extract of 1 April 2026 had 2025 at just 1 035.4 Mt, with
+      maritime at 43.3; by July the EEA release had 1 148.8; by November the registry has 1 161.9. The same
+      thing happened a year earlier: the April 2025 extract put 2024 at 1 018.1 Mt against the 1 186 Mt it
+      finally settled at, 14% low. So this is a reporting lag with a shape, not a revision to argue about, and
+      the final figures for 2024 now agree between the sources to within 0.3 Mt. The chart stays on the EEA release because it draws the line between combustion and other
+      industrial activity in a slightly different place from the registry's activity codes, and splicing the two
+      mid-series would be worse than being a few months behind on the final point. Both are linked under
+      <a href="#notes" data-goto="notes">Data &amp; caveats</a>.</div>
   </div>
 
   <div class="panel">
     <h2>Does anyone actually comply?</h2>
     <p class="sub">A cap is only as good as its enforcement, and this is the part of the system almost nobody
-       looks at. For the 2024 compliance year the registry assigns each installation a code: A if it surrendered
-       at least as many allowances as it emitted, B if it did not. Of 12 873 installations with a calculated
-       status, <strong>12 576 were compliant — 97.7%</strong>. A separate 475 fall under code C, meaning emissions
-       were never reported at all, and 1 118 are excluded small emitters.</p>
+       looks at. For the <strong>2025 compliance year</strong> the registry assigns each installation a code:
+       A if it surrendered at least as many allowances as it emitted, B if it did not. Of 13 594 installations
+       with a calculated status, <strong>13 291 were compliant — 97.8%</strong>. A separate 474 fall under
+       code C, meaning emissions were never reported at all, and 1 085 are excluded small emitters. The chart
+       shows the eighteen activities with at least fifty installations between them; hover any bar for its
+       2024 and 2023 rates. Across the system the rate has gone <strong>98.3% in 2023, 97.7% in 2024,
+       97.8% in 2025</strong> — the dip is the year maritime arrived with 3 316 operators at 96.4%, not a
+       deterioration in the installations that were already there.</p>
     <div class="chartbox" style="height:430px"><canvas id="cmpChart"></canvas></div>
-    <div class="warn" style="margin-top:18px"><strong>The gap sits almost entirely in the newest sectors.</strong>
-      Aircraft operators come in at 91.2% and maritime at 96.4%, against 98–100% for the long-established
-      stationary sectors — cement clinker, bulk chemicals, gypsum and mineral oil refining record no failures at
-      all. Compliance appears to be a function of how long a sector has been in the system rather than how hard
-      its abatement is, which is an argument for lead time whenever the scope expands again. Maritime entered
-      in 2024 and is being measured in its very first compliance year.</div>
+    <div class="warn" style="margin-top:18px"><strong>Three years in, the lead-time story only half
+      holds.</strong> Maritime behaves as it predicts: 96.4% in its first compliance year, <strong>97.3%</strong>
+      in its second, operators learning the system. Aviation does not. It sat at 91.1% in 2023 and 91.2% in
+      2024, then fell to <strong>88.9%</strong> in 2025, in its fourteenth year, and is now further from the
+      rest of the system than maritime ever was. Nor is 2025 only a problem at the edges: paper and cardboard
+      has slipped three years running, 97.8 to 96.3 to 95.9, and ceramics, lime and ferrous metals each gave
+      back half a point or more. What the bottom of the chart has in common is a long tail of small operators;
+      what the top has is a handful of large, heavily supervised plants — refineries at 100% in all three
+      years, against cement clinker, which recorded no failures in 2024 and two in 2025.</div>
   </div>
 
 </section>
@@ -694,9 +714,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <li><strong>TNAC and MSR.</strong> <a href="https://op.europa.eu/en/search-results?p_p_id=eu_europa_publications_portlet_search_executor_SearchExecutorPortlet_INSTANCE_q8EzsBteHybf&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;queryText=total+number+of+allowances+in+circulation&amp;facet.collection=EULex%2CEUPub%2CEUDir%2CEUWebPage%2CEUSummariesOfLegislation%2CPublicProcurement&amp;startRow=1&amp;resultsPerPage=10&amp;SEARCH_TYPE=SIMPLE" target="_blank" rel="noopener">Annual Commission communications publishing the total number of allowances in circulation</a>; <a href="http://data.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a> as amended.</li>
       <li><strong>Allowance price.</strong> Two sources for one series. Through 30 June 2026: <a href="https://icapcarbonaction.com/en/ets-prices" target="_blank" rel="noopener">ICAP Allowance Price Explorer</a>, daily primary-market prices combining ICAP's pre-2018 and post-2019 series. From 1 July to 30 September 2026: the <a href="https://www.eex.com/en/market-data/environmental-markets/auction-market" target="_blank" rel="noopener">EEX emission spot primary market auction report</a> for 2026, monthly means of the clearing price of every auction, all auction calendars together. The join was validated rather than assumed: the EEX file reproduces each of the six ICAP months of 2026 to the cent, with the same observation count and the same half-year mean, so the two are the same underlying series. 3 084 observations in all, of which 166 fall in 2026. The 2026 annual figure is a part-year mean to 30 September. October is not plotted because the month was incomplete at the time of writing.</li>
       <li><strong>Emissions.</strong> <a href="https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards" target="_blank" rel="noopener">European Environment Agency EU ETS data viewer</a>, underlying database, July 2026 release. Series computed from the field “EU ETS verified emissions”, summed across EEA countries excluding the United Kingdom, by main activity code.</li>
-      <li><strong>Free allocation.</strong> <a href="https://union-registry.ec.europa.eu/" target="_blank" rel="noopener">EU Union Registry</a> daily data extracts (operator yearly activity, snapshot 7 August 2026), aggregated per year excluding the United Kingdom. The 957 Mt of ETS 2 emissions reported for 2024, quoted on the scope tab, comes from the same extract with the ETS 2 national accounts separated by account name; it is charted on the <a href="ets2.html">EU ETS 2 page</a>.</li>
+      <li><strong>Free allocation.</strong> EU Union Registry daily data extracts from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a> (operator yearly activity, snapshot 7 August 2026), aggregated per year excluding the United Kingdom. The 957 Mt of ETS 2 emissions reported for 2024, quoted on the scope tab, comes from the same extract with the ETS 2 national accounts separated by account name; it is charted on the <a href="ets2.html">EU ETS 2 page</a>.</li>
       <li><strong>Auction revenue and its use.</strong> <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA indicator: use of auctioning revenues generated under the EU ETS</a>, EU-27 scope. Category breakdown available from the 2023 reporting year only.</li>
-      <li><strong>Compliance.</strong> EU Union Registry compliance data for the 2024 compliance year (codes A, B, C by installation and main activity type).</li>
+      <li><strong>Compliance.</strong> EU Union Registry compliance-code extracts for the <strong>2023, 2024 and 2025 compliance years</strong> (codes A, B, C by installation and main activity type), from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a>. The chart is 2025: 15 305 installation records, of which 13 594 carry a calculated A or B status, grouped by main activity type and limited to activities with at least fifty installations — eighteen of them, covering 97.8% of the records. The 2023 and 2024 extracts are used only for the comparisons in the text and tooltips; running the same method over the 2024 file returns 12 576 compliant of 12 873 and 97.7%, which is what this page published for that year before.</li>
       <li><strong>Revenue.</strong> Commission reporting on the functioning of the European carbon market; EEA auctioning revenue indicator.</li>
       <li><strong>Proposals.</strong> <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52026PC0153" target="_blank" rel="noopener">COM(2026) 153</a> of 1 April 2026 and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=comnat:COM_2026_0616_FIN" target="_blank" rel="noopener">COM(2026) 616</a> of 17 July 2026, both in the ordinary legislative procedure.</li>
     </ul>
@@ -753,7 +773,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 </section>
 
 <footer class="wrap" style="padding-bottom:30px">
-  Compiled from Commission and EEA sources, August 2026; policy status reviewed 26 October 2026. An orientation tool, not an official publication —
+  Compiled from Commission and EEA sources, August 2026; policy status reviewed 6 November 2026. An orientation tool, not an official publication —
   verify against the primary sources before relying on any figure.
 <br><span class="stamp"><strong>Last updated 6 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
@@ -1018,7 +1038,7 @@ document.getElementById("emCards").innerHTML=Object.keys(EM).map(k=>{
 }).join("");
 drawEm();
 
-const CMP=[{"n": "Aircraft operators", "a": 436, "b": 42, "p": 91.2}, {"n": "Paper & cardboard", "a": 442, "b": 17, "p": 96.3}, {"n": "Maritime operators", "a": 3195, "b": 121, "p": 96.4}, {"n": "Ferrous metals", "a": 200, "b": 5, "p": 97.6}, {"n": "Bricks & tiles", "a": 132, "b": 3, "p": 97.8}, {"n": "Ceramics", "a": 602, "b": 12, "p": 98.0}, {"n": "Lime & dolomite", "a": 203, "b": 4, "p": 98.1}, {"n": "Ammonia", "a": 60, "b": 1, "p": 98.4}, {"n": "Other", "a": 198, "b": 3, "p": 98.5}, {"n": "Combustion of fuels", "a": 5364, "b": 75, "p": 98.6}, {"n": "Glass", "a": 287, "b": 4, "p": 98.6}, {"n": "Production or processing of non-fe", "a": 77, "b": 1, "p": 98.7}, {"n": "Combustion >20 MW", "a": 232, "b": 3, "p": 98.7}, {"n": "Coke ovens", "a": 177, "b": 2, "p": 98.9}, {"n": "Cement clinker", "a": 205, "b": 0, "p": 100.0}, {"n": "Bulk chemicals", "a": 289, "b": 0, "p": 100.0}, {"n": "Gypsum", "a": 77, "b": 0, "p": 100.0}, {"n": "Refining of mineral oil", "a": 108, "b": 0, "p": 100.0}];
+const CMP=[{"n": "Aircraft operators", "p23": 91.1, "p24": 91.2, "a": 458, "b": 57, "p": 88.9}, {"n": "Pulp", "p23": 95.8, "p24": 97.8, "a": 125, "b": 8, "p": 94.0}, {"n": "Paper & cardboard", "p23": 97.8, "p24": 96.3, "a": 443, "b": 19, "p": 95.9}, {"n": "Ferrous metals", "p23": 97.5, "p24": 97.6, "a": 201, "b": 7, "p": 96.6}, {"n": "Lime & dolomite", "p23": 98.5, "p24": 98.1, "a": 197, "b": 6, "p": 97.0}, {"n": "Maritime operators", "p23": null, "p24": 96.4, "a": 3774, "b": 105, "p": 97.3}, {"n": "Ceramics", "p23": 98.4, "p24": 98.0, "a": 597, "b": 15, "p": 97.5}, {"n": "Pig iron & steel", "p23": 99.4, "p24": 98.9, "a": 176, "b": 4, "p": 97.8}, {"n": "Glass", "p23": 97.9, "p24": 98.6, "a": 290, "b": 4, "p": 98.6}, {"n": "Combustion of fuels", "p23": 98.8, "p24": 98.6, "a": 5450, "b": 65, "p": 98.8}, {"n": "Gypsum", "p23": 100.0, "p24": 100.0, "a": 103, "b": 1, "p": 99.0}, {"n": "Cement clinker", "p23": 99.5, "p24": 100.0, "a": 203, "b": 2, "p": 99.0}, {"n": "Combustion >20 MW", "p23": 98.8, "p24": 98.7, "a": 224, "b": 2, "p": 99.1}, {"n": "Bulk chemicals", "p23": 99.6, "p24": 100.0, "a": 300, "b": 2, "p": 99.3}, {"n": "Other (Article 24 opt-in)", "p23": 98.5, "p24": 98.5, "a": 202, "b": 0, "p": 100.0}, {"n": "Hydrogen & syngas", "p23": 100.0, "p24": 98.4, "a": 72, "b": 0, "p": 100.0}, {"n": "Non-ferrous metals", "p23": 100.0, "p24": 98.7, "a": 77, "b": 0, "p": 100.0}, {"n": "Refining of mineral oil", "p23": 100.0, "p24": 100.0, "a": 108, "b": 0, "p": 100.0}];
 const CMP_A=12576, CMP_B=297, CMP_C=475;
 
 new Chart(document.getElementById("cmpChart"),{type:"bar",
@@ -1028,8 +1048,12 @@ new Chart(document.getElementById("cmpChart"),{type:"bar",
   options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},
       tooltip:{callbacks:{label:c=>{const d=CMP[c.dataIndex];
-        return [`${d.p.toFixed(1)}% compliant`,`${d.a} met the obligation, ${d.b} did not`];}}}},
-    scales:{x:{min:88,max:100,title:{display:true,text:"% of assessed installations that surrendered enough allowances, 2024"},
+        const hist=d.p23==null?`2024: ${d.p24.toFixed(1)}% · first year was 2024`
+                              :`2024: ${d.p24.toFixed(1)}%  ·  2023: ${d.p23.toFixed(1)}%`;
+        const mv=d.p-d.p24, arrow=Math.abs(mv)<0.05?"unchanged on 2024":
+          `${mv>0?"+":""}${mv.toFixed(1)} points on 2024`;
+        return [`${d.p.toFixed(1)}% compliant`,`${d.a} met the obligation, ${d.b} did not`,hist,arrow];}}}},
+    scales:{x:{min:88,max:100,title:{display:true,text:"% of assessed installations that surrendered enough allowances, 2025"},
                grid:{color:"#eef1f5"}},
             y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 

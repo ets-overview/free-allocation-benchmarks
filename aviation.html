@@ -474,21 +474,27 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <section id="tab-comply" class="hide">
   <div class="panel">
     <h2>Aviation has the worst compliance rate in the ETS</h2>
-    <p class="sub">For the 2024 compliance year the Union Registry assigns each operator a code: A if it
-       surrendered at least as many allowances as it emitted, B if it did not. Aircraft operators come in at
-       <strong>91.2%</strong> — 436 compliant against 42 that were not — the lowest of any activity in the system,
-       where the long-established stationary sectors sit between 98% and 100%.</p>
+    <p class="sub">For the <strong>2025 compliance year</strong> the Union Registry assigns each operator a
+       code: A if it surrendered at least as many allowances as it emitted, B if it did not. Aircraft operators
+       come in at <strong>88.9%</strong> — 458 compliant against 57 that were not — the lowest of any activity
+       in the system, where the long-established stationary sectors sit between 98% and 100%. The rate has
+       fallen, and only this year: aviation held at <strong>91.1% in 2023</strong> and
+       <strong>91.2% in 2024</strong>, on 436 compliant against 42, before dropping in 2025. The assessed fleet
+       grew from 478 operators to 515 over the same step, so both the number of operators and the number
+       failing have risen, the latter much faster.</p>
     <div class="chartbox" style="height:300px"><canvas id="cmpChart"></canvas></div>
     <div class="warn" style="margin-top:18px"><strong>Two very different figures, both correct.</strong> The
       Commission reports that over 99.5% of aviation <em>emissions</em> are covered by surrendered allowances. The
-      91.2% here counts <em>operators</em>. Both are true: the non-compliant operators are overwhelmingly small
+      88.9% here counts <em>operators</em>. Both are true: the non-compliant operators are overwhelmingly small
       ones — business jets, charter operators, occasional visitors to EEA airspace — and between them they account
       for a negligible share of the tonnes. Which number is the right one depends entirely on whether you are
       asking about environmental integrity or about administrative reach.</div>
     <p class="sub" style="margin:16px 0 0;margin-bottom:0">The pattern across the system is that compliance tracks
-       how long a sector has been regulated and how concentrated it is, rather than how hard its abatement is.
-       Cement clinker and refining record no failures at all. Aviation, with hundreds of small operators
-       administered across 30 states, records the most.</p>
+       how concentrated a sector is rather than how hard its abatement is — and, on the 2025 figures, not how
+       long it has been regulated either: maritime improved in its second compliance year while aviation got
+       worse in its fourteenth. Refining, non-ferrous metals and hydrogen record no failures at all; cement
+       clinker, which recorded none in 2024, has two. Aviation, with hundreds of small operators administered
+       across 30 states, records the most.</p>
   </div>
 </section>
 
@@ -510,7 +516,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <li><strong>Emissions</strong> — European Environment Agency EU ETS data viewer, July 2026 release, main
         activity code 10 (aviation), EEA scope excluding the United Kingdom. The same extraction as the
         <a href="ets.html">ETS overview</a> page, so the two are consistent.</li>
-      <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2024 compliance year.</li>
+      <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2025 compliance year, from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a>.</li>
     </ul>
     <p class="sub"><strong>Getting the data out.</strong> Every chart on this page has a download button
        underneath it that exports the plotted series as CSV, reflecting whichever series toggles you have set.
@@ -547,14 +553,14 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        figure as indicating scale rather than as a price.</p>
   </details>
 
-  <footer>Compiled from Commission, EASA and EEA sources, August 2026; policy status reviewed 26 October 2026. An orientation tool, not an official
-    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+  <footer>Compiled from Commission, EASA and EEA sources, August 2026; policy status reviewed 6 November 2026. An orientation tool, not an official
+    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 6 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 26 October 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 6 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -623,9 +629,9 @@ new Chart(document.getElementById("allocChart"),{type:"bar",
             x:{grid:{display:false}}}}});
 
 // ---------------------------------------------------------------- compliance
-// Union Registry, 2024 compliance year: operators coded A against coded B.
-const CMP=[["Aircraft operators",91.2],["Maritime operators",96.4],["Paper & cardboard",96.3],
-           ["Combustion of fuels",98.6],["Cement clinker",100.0],["Refining of mineral oil",100.0]];
+// Union Registry, 2025 compliance year: operators coded A against coded B.
+const CMP=[["Aircraft operators",88.9],["Pulp",94.0],["Paper & cardboard",95.9],
+           ["Maritime operators",97.3],["Combustion of fuels",98.8],["Refining of mineral oil",100.0]];
 new Chart(document.getElementById("cmpChart"),{type:"bar",
   data:{labels:CMP.map(d=>d[0]),datasets:[{data:CMP.map(d=>d[1]),
     backgroundColor:CMP.map(d=>d[1]<95?"rgba(192,57,43,.85)":(d[1]<99?"rgba(217,165,32,.85)":"rgba(31,138,95,.85)")),
