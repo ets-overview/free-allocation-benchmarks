@@ -1242,7 +1242,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Compiled from Commission sources, August 2026; policy status reviewed 26 October 2026. Orientation only — not legal or compliance advice. Verify against
   the Regulation and the Commission's guidance before acting.
-<br><span class="stamp"><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 8 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1254,7 +1254,9 @@ const DV_D={"China": {"Cement::Grey clinker": [1.35, 0.04, 1.39, 1.529], "Cement
 
 const CBAMF={2026:0.975,2027:0.95,2028:0.90,2029:0.775,2030:0.515,2031:0.39,2032:0.265,2033:0.14,2034:0};
 const YEARS=Object.keys(CBAMF).map(Number);
-const prop=y=>y<2028?CBAMF[y]:CBAMF[y]+0.15*(1-CBAMF[y]);
+// July 2026 proposal (indicative): 15% of the phased-out share restored from 2028, zero from 2038
+const cf0=y=>CBAMF[y]!=null?CBAMF[y]:0;
+const prop=y=>y<2028?cf0(y):(y>=2038?0:cf0(y)+0.15*(1-cf0(y)));
 
 
 
@@ -1336,20 +1338,24 @@ document.getElementById("kpis").innerHTML=[
 let lockChart;
 function drawLock(){
   const sp=document.getElementById("showProp").checked;
+  // with the proposal on, the axis runs to 2038, when its free allocation reaches zero
+  const YS=sp?[...YEARS,2035,2036,2037,2038]:YEARS;
   const ds=[
-    {label:"Free allocation retained by EU producers",data:YEARS.map(y=>CBAMF[y]*100),
+    {label:"Free allocation retained by EU producers",data:YS.map(y=>cf0(y)*100),
      borderColor:"#1f8a5f",backgroundColor:"rgba(31,138,95,.10)",borderWidth:3,pointRadius:4,tension:0,fill:true},
-    {label:"Importer's CBAM obligation",data:YEARS.map(y=>(1-CBAMF[y])*100),
+    {label:"Importer's CBAM obligation",data:YS.map(y=>(1-cf0(y))*100),
      borderColor:"#c0392b",backgroundColor:"rgba(192,57,43,.08)",borderWidth:3,pointRadius:4,tension:0,fill:true}
   ];
-  if(sp) ds.push({label:"Free allocation under the July 2026 proposal",data:YEARS.map(y=>prop(y)*100),
-    borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:3,tension:0});
+  if(sp) ds.push({label:"Free allocation under the July 2026 proposal",data:YS.map(y=>prop(y)*100),
+    borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:3,tension:0},
+    {label:"Importer's CBAM obligation under the proposal",data:YS.map(y=>(1-prop(y))*100),
+    borderColor:"#e08a7f",borderDash:[6,4],borderWidth:2,pointRadius:3,tension:0});
   const opts={responsive:true,maintainAspectRatio:false,
     plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
       tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
     scales:{y:{beginAtZero:true,max:105,title:{display:true,text:"% of the benchmark-based amount"},grid:{color:"#eef1f5"}},
             x:{grid:{display:false}}}};
-  const data={labels:YEARS.map(String),datasets:ds};
+  const data={labels:YS.map(String),datasets:ds};
   if(lockChart){lockChart.data=data;lockChart.options=opts;lockChart.update();}
   else lockChart=new Chart(document.getElementById("lockChart"),{type:"line",data,options:opts});
 }
@@ -1591,8 +1597,9 @@ function run(){
     qty>0 && qty<=50 ? "Below the 50-tonne annual threshold — CBAM obligations would not apply."
     : `${f0(emis)} t CO₂e embedded per year · net certificate price ${eur(netPrice)}`;
 
-  const rows=YEARS.map(y=>{
-    const cf=scen==="prop"?prop(y):CBAMF[y];
+  // under the proposal free allocation lasts to 2037, so the run extends to 2038
+  const rows=(scen==="prop"?[...YEARS,2035,2036,2037,2038]:YEARS).map(y=>{
+    const cf=scen==="prop"?prop(y):cf0(y);
     const adj=1-cf;                       // proxy for the free allocation adjustment
     const certs=emis*adj;
     return {y,cf,adj,certs,cost:certs*netPrice};
@@ -1604,7 +1611,7 @@ function run(){
     [eur(rows[0].cost),"CBAM cost for the 2026 import year"],
     [eur(rows.find(r=>r.y===2030).cost),"cost in 2030, when the obligation reaches 48.5%"],
     [eur(rows[rows.length-1].cost),"cost at full application"],
-    [eur(total),"cumulative 2026–2034"],
+    [eur(total),`cumulative 2026–${rows[rows.length-1].y}`],
     [qty>0?eur(rows[rows.length-1].cost/qty)+" / t":"—","added cost per tonne of goods at full application"]
   ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 

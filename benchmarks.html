@@ -631,6 +631,22 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        barely moves — usually a sign the clamp is doing the work rather than the data.</p>
   </div>
   <div class="grid2" id="secGrid"></div>
+  <div class="panel">
+    <h2>After 2030: the July 2026 proposal narrows the corridor</h2>
+    <p class="sub">The clamp is what turns measured performance into a benchmark, so its bounds matter more than
+       any single data point. Expressed per year, the corridor was 0.2–1.6% for 2021–2025 and is 0.3–2.5% for
+       2026–2030. The ETS review would set it at <strong>0.3–2.0% a year for 2031–2040</strong>: the same floor,
+       a lower ceiling. The dots are each benchmark's measured annual rate from the 2026–2030 exercise, repeated in
+       the proposed column as a rough guide to who would hit the new ceiling — the 2031 update will be computed
+       from newer data.</p>
+    <div class="kpi2" id="p5RtKpis"></div>
+    <div class="chartbox" style="height:300px"><canvas id="p5RtChart"></canvas></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:rgba(31,95,191,.25)"></span>Statutory corridor, % of the 2007/08 value per year</span>
+      <span><span class="swatch" style="background:rgba(107,91,210,.30)"></span>Proposed corridor, 2031–2040 (not law)</span>
+      <span><span class="swatch" style="background:#c0392b"></span>Benchmark whose measured rate is above the period's ceiling</span>
+    </div>
+  </div>
 </section>
 
 <!-- ================= CBAM ================= -->
@@ -647,8 +663,10 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="chartbox" style="height:400px"><canvas id="cbamChart"></canvas></div>
     <div class="warn" style="margin-top:16px">The dashed scenario is <strong>not law</strong>. The Commission's ETS review
       proposal of 17 July 2026 (COM(2026) 616) would reintroduce 15% of the phased-out free allocation from 2028 and
-      extend the phase-out to 2038. Modelled here as <code>factor′ = factor + 0.15 × (1 − factor)</code> from 2028 —
-      an illustrative reading, not the legislative text, which is still going through co-decision.
+      extend the phase-out to 2038. Modelled here as <code>factor′ = factor + 0.15 × (1 − factor)</code> from 2028,
+      falling to zero in 2038 — which reproduces the 7, 13 and 15 percentage points the Öko-Institut reads from the
+      proposal for 2030, 2033 and 2034–2037. Still an illustrative reading, not the legislative text, which is going
+      through co-decision. With the proposal switched on, the axis runs to 2038 so that the four extra years show.
       <br><br>The separate proposal tabled the same day, COM(2026) 619, is the fall-back benchmark uplift: it
       relaxes the maximum annual reduction rate on the heat and fuel benchmarks for 2026–2030, unlocking roughly
       80 million additional allowances in the Commission's version and about 88 million in the Council's mandate
@@ -931,6 +949,61 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <a href="ets.html#price">allowance price</a> is the other half of the question: free allocation was worth
       little at €5 a tonne and is worth a great deal at €75, even as the volume has fallen by three quarters.</div>
   </div>
+  <div class="panel">
+    <h2>After 2030: who would still get free allocation, and how much</h2>
+    <p class="sub">Current law says nothing about free allocation after 2030, apart from the CBAM phase-out that
+       ends in 2034. The July 2026 proposal (COM(2026) 616) writes Phase 5: free allocation and carbon-leakage
+       protection continue to 2040, without updating the leakage list. The lines below show the share of the
+       benchmark-based amount each group keeps, before the cross-sectoral correction and before the benchmarks
+       themselves tighten.</p>
+    <div class="controls">
+      <label class="chk"><input type="checkbox" id="faProp" checked> Show the July 2026 proposal (indicative)</label>
+    </div>
+    <div class="chartbox" style="height:400px"><canvas id="faShareChart"></canvas></div>
+    <div class="warn" style="margin-top:16px"><strong>What the lines leave out.</strong> From 2031, the 100% for
+      leakage sectors and the CBAM line are paid only on conditions, as the next chart shows. The district heating
+      line assumes the 30% share it receives today as the starting point and the proposal's equal annual steps to
+      zero in 2040; the conditional extra 30% that district heating can receive in 2026–2030 is not drawn. The
+      benchmark values for 2031–2040 are not known yet, so the volume behind each percentage will fall faster
+      than the lines do.</div>
+  </div>
+
+  <div class="panel">
+    <h2>From 2031, free allocation is paid out on conditions</h2>
+    <p class="sub">The largest change in the proposal is not how much is allocated but how it is paid. An
+       installation would receive <strong>80%</strong> of its free allocation each year once a verified
+       “Invest in EU decarbonisation plan” is approved. The remaining <strong>20%</strong> for each five-year
+       period is released only after verification that the investments were made and delivered significant
+       emission reductions. The investment required equals the full value of the free allowances received in the
+       period, and an operator that moves the activity out of the EU must hand allowances back. The chart shows the
+       payment profile for an installation entitled to 100 allowances a year.</p>
+    <p class="sub">One point is already moving in Council. The presidency's first compromise text of
+       3 November 2026 would make clear that failing to carry out the planned investments is not a ground for
+       clawing back the 80% already paid out — which would leave the 20% held back as the only money actually at
+       stake on delivery. The <a href="ets.html#msr">ETS page</a> follows the file's progress.</p>
+    <div class="chartbox" style="height:330px"><canvas id="faCondChart"></canvas></div>
+    <div class="grid2" style="margin-top:18px">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Who is exempt from the conditions</h3>
+        <ul style="font-size:13.5px;color:#39414d;margin:0;padding-left:18px">
+          <li>The 10% best-performing installations — the ones whose data set the benchmarks.</li>
+          <li>Zero- and low-emission installations.</li>
+          <li>Projects already supported by the Innovation Fund or the Industrial Decarbonisation Bank.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">What else changes</h3>
+        <ul style="font-size:13.5px;color:#39414d;margin:0;padding-left:18px">
+          <li>Operators can pool investment obligations across sites, including across member states.</li>
+          <li>The carbon-leakage list is not updated for 2031–2040.</li>
+          <li>Benchmarks keep tightening, within a corridor of 0.3–2.0% a year — see the
+            <a href="#" data-goto="rates">Reduction rates</a> tab.</li>
+          <li>Member states can keep compensating electro-intensive industry for indirect carbon costs — see the
+            <a href="indirect-costs.html">indirect costs page</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ================= TABLE ================= -->
@@ -1112,7 +1185,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Figures transcribed from the OJ annexes and cross-checked; the derivation reproduces all official values. Still a
   working visualisation, not an official publication — verify against EUR-Lex before use in filings or contracts.
-<br><span class="stamp"><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 8 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1195,8 +1268,10 @@ const CFG = { 1:{n:9, ext:15, lo:0.03, hi:0.24, val:"b", meas:"m17", label:"2021
 // CBAM factor, Art. 10a(1a) Dir. 2003/87/EC as amended by Dir. (EU) 2023/959
 const CBAMF = {2025:1, 2026:0.975, 2027:0.95, 2028:0.90, 2029:0.775, 2030:0.515,
                2031:0.39, 2032:0.265, 2033:0.14, 2034:0};
-// Indicative July 2026 proposal: reintroduce 15% of the phased-out share from 2028
-const cbamProp = y => y<2028 ? CBAMF[y] : CBAMF[y]+0.15*(1-CBAMF[y]);
+// Indicative July 2026 proposal: reintroduce 15% of the phased-out share from 2028, zero from 2038.
+// Gives 7.3 pp extra in 2030, 12.9 pp in 2033 and 15 pp in 2034–2037, as the Öko-Institut's reading has it.
+const cbamF0 = y => CBAMF[y]!=null ? CBAMF[y] : 0;
+const cbamProp = y => y<2028 ? cbamF0(y) : (y>=2038 ? 0 : cbamF0(y)+0.15*(1-cbamF0(y)));
 // CLEF for sectors not on the carbon leakage list
 const CLEF_NO = {2026:0.30, 2027:0.225, 2028:0.15, 2029:0.075, 2030:0, 2031:0, 2032:0, 2033:0, 2034:0};
 const YEARS = [2026,2027,2028,2029,2030,2031,2032,2033,2034];
@@ -1482,17 +1557,90 @@ function drawRates(){
 }
 ["rtPeriod","rtSector","rtSort"].forEach(id=>document.getElementById(id).onchange=drawRates);
 
+// ================================================================ Phase 5 corridor (rates tab)
+(function(){
+  const rates=D.filter(d=>!ALIAS_B.includes(d.n)).map(d=>({n:d.n,r:derive(d,2).annual*100}));
+  const P=[["2021–2025",0.2,1.6],["2026–2030",0.3,2.5],["2031–2040 (proposed)",0.3,2.0]];
+  const over25=rates.filter(x=>x.r>2.5).length, over20=rates.filter(x=>x.r>2.0).length;
+  document.getElementById("p5RtKpis").innerHTML=[
+    ["0.3–2.0%","proposed corridor per year, 2031–2040 — down from 0.3–2.5%"],
+    [over20,`of ${rates.length} benchmarks measured faster than 2.0% a year in the 2026–2030 exercise`],
+    [over20-over25,"of those sit between 2.0% and 2.5% — inside today's ceiling, above the proposed one"]
+  ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+  const pts=[];
+  rates.forEach(x=>{ [1,2].forEach(k=>pts.push({x:Math.min(x.r,4.2),y:P[k][0],n:x.n,r:x.r,hi:P[k][2]})); });
+  new Chart(document.getElementById("p5RtChart"),{
+    data:{labels:P.map(p=>p[0]),datasets:[
+      {type:"bar",label:"Corridor",data:P.map(p=>[p[1],p[2]]),
+       backgroundColor:["rgba(31,95,191,.25)","rgba(31,95,191,.25)","rgba(107,91,210,.30)"],
+       borderColor:["#1f5fbf","#1f5fbf","#6b5bd2"],borderWidth:1.5,borderSkipped:false,barThickness:30},
+      {type:"scatter",label:"Benchmarks (2026–2030 measured rate)",data:pts,
+       pointRadius:3.5,pointBackgroundColor:pts.map(p=>p.r>p.hi?"rgba(192,57,43,.75)":"rgba(20,24,31,.35)"),
+       pointBorderWidth:0}]},
+    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.datasetIndex===0?`Corridor ${c.raw[0]}–${c.raw[1]}% a year`
+          :`${c.raw.n}: ${c.raw.r.toFixed(2)}%/yr${c.raw.r>4.2?" (off scale)":""}${c.raw.r>c.raw.hi?" — above the ceiling":""}`}}},
+      scales:{x:{type:"linear",min:-0.5,max:4.3,title:{display:true,text:"Annual reduction, % of the 2007/08 value per year"},grid:{color:"#eef1f5"}},
+              y:{type:"category",grid:{display:false}}}}});
+})();
+
+// ================================================================ Phase 5 free allocation (freealloc tab)
+let faShareChart;
+function drawFaShare(){
+  const prop=document.getElementById("faProp").checked;
+  const ys=[]; for(let y=2026;y<=2040;y++) ys.push(y);
+  const L=(label,data,col,dash)=>({label,data,borderColor:col,backgroundColor:col,borderDash:dash||[],
+    borderWidth:dash?2:2.6,pointRadius:dash?2:3,pointHitRadius:10,tension:0,spanGaps:false});
+  const ds=[
+    L("CBAM goods — current law",ys.map(y=>y<=2034?cbamF0(y)*100:null),"#c0392b"),
+    L("Leakage sectors outside CBAM — current law",ys.map(y=>y<=2030?100:null),"#1f8a5f"),
+    L("District heating — current law",ys.map(y=>y<=2030?30:null),"#d68910"),
+    L("Not on the leakage list — current law",ys.map(y=>y<=2030?CLEF_NO[y]*100:null),"#8a94a0")];
+  if(prop) ds.push(
+    L("CBAM goods — proposal",ys.map(y=>y<2028?null:y<=2038?cbamProp(y)*100:null),"#c0392b",[6,4]),
+    L("Leakage sectors outside CBAM — proposal (conditional)",ys.map(y=>y<2030?null:100),"#1f8a5f",[6,4]),
+    L("District heating — proposal",ys.map(y=>y<2030?null:30*(2040-y)/10),"#d68910",[6,4]));
+  const opts={responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{title:c=>`Year ${c[0].label}`,label:c=>c.parsed.y==null?null:`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+    scales:{y:{beginAtZero:true,max:105,title:{display:true,text:"Share of the benchmark-based amount (%)"},grid:{color:"#eef1f5"}},
+            x:{grid:{display:false}}}};
+  const data={labels:ys.map(String),datasets:ds};
+  if(faShareChart){faShareChart.data=data;faShareChart.options=opts;faShareChart.update();}
+  else faShareChart=new Chart(document.getElementById("faShareChart"),{type:"line",data,options:opts});
+}
+document.getElementById("faProp").onchange=drawFaShare;
+drawFaShare();
+
+(function(){
+  const lab=["2031","2032","2033","2034","2035","After verification","2036","2037","2038","2039","2040","After verification "];
+  const ver=l=>l.startsWith("After");
+  new Chart(document.getElementById("faCondChart"),{type:"bar",
+    data:{labels:lab,datasets:[
+      {label:"Paid each year once the decarbonisation plan is approved (80%)",data:lab.map(l=>ver(l)?0:80),backgroundColor:"rgba(31,138,95,.85)",borderRadius:3},
+      {label:"Released at the end of the period, once investments and emission cuts are verified (20% × 5 years)",data:lab.map(l=>ver(l)?100:0),backgroundColor:"rgba(214,137,16,.85)",borderRadius:3},
+      {label:"Withheld until verification",data:lab.map(l=>ver(l)?0:20),backgroundColor:"rgba(214,137,16,.18)",borderColor:"rgba(214,137,16,.8)",borderWidth:1,borderDash:[3,3],borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{label:c=>c.parsed.y?`${c.dataset.label}: ${c.parsed.y} allowances`:null}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10.5},maxRotation:0,autoSkip:false,
+                callback:function(v){const t=this.getLabelForValue(v);return t.startsWith("After")?["After","verification"]:t;}}},
+              y:{stacked:true,beginAtZero:true,max:110,title:{display:true,text:"Allowances (installation entitled to 100 a year)"},grid:{color:"#eef1f5"}}}}});
+})();
+
 // ================================================================ CBAM
 let cbamChart;
 function drawCbam(){
   const showProp=document.getElementById("cbShowProp").checked;
-  const yrs=[2025,...YEARS];
+  // the proposal runs four years past current law's 2034 end point, so the axis has to as well
+  const yrs=showProp?[2025,...YEARS,2035,2036,2037,2038]:[2025,...YEARS];
   const sets=[
-    {label:"CBAM goods — current law",data:yrs.map(y=>CBAMF[y]*100),
+    {label:"CBAM goods — current law",data:yrs.map(y=>cbamF0(y)*100),
      borderColor:"#c0392b",backgroundColor:"#c0392b",tension:0,pointRadius:4,borderWidth:2.5},
-    {label:"Carbon-leakage sectors outside CBAM",data:yrs.map(()=>100),
+    {label:"Carbon-leakage sectors outside CBAM",data:yrs.map(y=>y<=2034?100:null),
      borderColor:"#1f8a5f",backgroundColor:"#1f8a5f",tension:0,pointRadius:3,borderWidth:2},
-    {label:"Not on the carbon leakage list",data:yrs.map(y=>y===2025?30:(CLEF_NO[y]??0)*100),
+    {label:"Not on the carbon leakage list",data:yrs.map(y=>y===2025?30:y<=2034?(CLEF_NO[y]??0)*100:null),
      borderColor:"#8a94a0",backgroundColor:"#8a94a0",tension:0,pointRadius:3,borderWidth:2}
   ];
   if(showProp) sets.push({label:"CBAM goods — July 2026 proposal (indicative)",
