@@ -274,7 +274,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="controls">
       <span class="seg"><button id="capLvl" class="on">Cap level</button><button id="capChg">Annual change</button></span>
       <label class="chk"><input type="checkbox" id="showExt" checked> Current rules after 2030</label>
-      <label class="chk"><input type="checkbox" id="showProp" checked> July 2026 Phase 5 proposal</label>
+      <label class="chk"><input type="checkbox" id="showProp" checked> Commission proposal / Council text</label>
+      <label class="chk"><input type="checkbox" id="showEp" checked> Parliament rapporteur's offer (3%)</label>
       <label class="chk"><input type="checkbox" id="showRem" checked> + allowances added for removals</label>
       <label class="chk"><input type="checkbox" id="showFb"> Fallback if no international credits</label>
     </div>
@@ -282,7 +283,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="legend" id="capLegend">
       <span><span class="sw" style="border-color:#0b3d91"></span>Cap in force (2013–2030)</span>
       <span><span class="sw d" style="border-color:#c0392b"></span>Current rules simply extended — supply ends around 2039</span>
-      <span><span class="sw d" style="border-color:#6b5bd2"></span>Proposed Phase 5 — allowances continue into the 2040s</span>
+      <span><span class="sw d" style="border-color:#6b5bd2"></span>Commission proposal, 3.7% then 1.7% — also the Council's current text, since the presidency compromise of 3 November leaves the factor unchanged</span>
+      <span><span class="sw d" style="border-color:#16a085"></span>Parliament: rapporteur Peter Liese's opening offer, 3% a year from 2031 — not yet a committee position</span>
       <span><span class="sw" style="border-color:#b9b0ee;background:rgba(107,91,210,.22)"></span>Allowances added on top for permanent removals (Art. 9c, 250 Mt over 2031–40)</span>
       <span><span class="sw d" style="border-color:#d68910"></span>Fallback: 2.7% from 2036 if international credits prove unavailable</span>
     </div>
@@ -304,6 +306,17 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       Commission reports by 31 January 2033 that suitable international credits are not available: the factor
       from 2036 becomes 2.7%, the fully domestic 90% path. The gap between the purple and the orange line is the
       room the international credits buy.</div>
+    <div class="warn" style="margin-top:16px"><strong>Where the co-legislators stand.</strong> Neither has a
+      position yet. In the <strong>Council</strong>, the Irish presidency's first compromise text of 3 November
+      2026 leaves the reduction factor exactly as the Commission proposed, so the purple line is also the Council's
+      text as it stands; ministers aim to agree a position in December. In <strong>Parliament</strong>, rapporteur
+      Peter Liese opened the committee talks on 4 November with a factor of 3% — halfway between keeping 4.4% and
+      the proposed 1.7% — ahead of the committee vote on 1 December. Halfway in the factor is not halfway in
+      ambition, though. The 3% line cuts less steeply than the Commission's 3.7% in the first five years and more
+      steeply afterwards, so it ends lower in 2040 — <span id="epC40"></span> Mt against
+      <span id="prC40"></span> Mt — but issues <span id="epDiff"></span> Mt more over 2031–2040 as a whole.
+      The 3% is applied here to every year from 2031 onwards, like the other lines; the offer as reported does not
+      say whether it would vary within the period, or what it would mean for international credits.</div>
   </div>
 
 
@@ -313,7 +326,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        see what each element of the proposal is worth in allowances. The international credits do not add supply:
        up to 260 million allowances are set aside out of the cap to pay for them, which is why they are shown as
        part of the proposal bar rather than on top of it. The removals allowances are on top: the cap rises
-       one-for-one.</p>
+       one-for-one. The Council's current text is the Commission's on all three counts. For the Parliament
+       rapporteur's 3% the reported offer says nothing about international credits or removals, so the whole bar is
+       shown as cap.</p>
     <div class="chartbox" style="height:280px"><canvas id="p5Chart"></canvas></div>
     <div class="cards" id="p5Cards" style="margin:18px 0 0"></div>
   </div>
@@ -512,6 +527,15 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            allocated in advance, and the Commission is invited to consider carbon capture technologies beyond
            BioCCS and DACCS, biochar among them, in its 2034 report. Whatever trilogues settle on the invalidation question will
            land inside this file.</p>
+        <p style="font-size:13.5px;color:#39414d;margin:10px 0 0">In Parliament the groups have tabled
+           <strong>3,435 amendments</strong>, and the Environment Committee held its first debate on
+           <strong>4 November 2026</strong>. Liese's opening offer is a reduction factor of <strong>3%</strong> —
+           halfway between the 4.4% the more ambitious groups want to keep and the 1.7% others are asking for — and
+           more pragmatic conditions on free allocation than the Commission proposes. The groups start far apart:
+           ECR and ESN want the system abolished; S&amp;D and Renew Europe oppose international credits and the Left
+           has doubts about them; the Left wants today's trajectory kept to 2035; the Greens back the conditions on
+           free allocation. The committee vote is set for <strong>1 December</strong> and the plenary for the
+           December session, which opens on 14 December.</p>
       </div>
     </div>
   </div>
@@ -722,8 +746,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <h2>What else is in the July 2026 review</h2>
     <p class="sub">The cap trajectory is the headline of COM(2026) 616, but it is not the whole proposal. Five
        other changes would alter what the system is, not just how fast it tightens. All of it is in the ordinary
-       legislative procedure — procedure 2026/0212(COD), rapporteur Peter Liese (EPP), indicative plenary first
-       reading 14 December 2026, with agreement targeted for the first quarter of 2027. None of it is law.</p>
+       legislative procedure — procedure 2026/0212(COD), rapporteur Peter Liese (EPP), Environment Committee vote
+       1 December and indicative plenary first reading 14 December 2026, with agreement targeted for the first quarter of 2027. None of it is law.</p>
     <div class="grid2">
       <div>
         <h3 style="font-size:14.5px;margin:0 0 8px">Free allocation becomes conditional</h3>
@@ -798,7 +822,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        250 Mt added for permanent removals is drawn separately, on the Öko-Institut's modelled ramp (about 2 Mt in
        2031 rising to 48 Mt in 2040), because the proposal fixes the total and not the profile; the contingent
        10 Mt is not drawn. The cap increases for the wider aviation and maritime scope are not included, so the
-       proposed cap is still understated somewhat. The fallback line applies 2.7% from 2036 to the same base.
+       proposed cap is still understated somewhat. The fallback line applies 2.7% from 2036 to the same base, and the Parliament rapporteur's 3% is applied to the
+       same base for every year from 2031.
        Treat all of them as showing shape, not level.</p>
     <p><strong>Proposed MSR rules.</strong> Drawn from the proposal as summarised by the Öko-Institut and the
        Florence School of Regulation: 12% intake from 2028 above an upper threshold of 947 Mt; the excess over
@@ -842,7 +867,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Compiled from Commission and EEA sources, August 2026; policy status reviewed 6 November 2026. An orientation tool, not an official publication —
   verify against the primary sources before relying on any figure.
-<br><span class="stamp"><strong>Last updated 8 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 10 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -876,6 +901,10 @@ for(let y=2036;y<=2042;y++) FB[y]=Math.max(0, FB[y-1]-R27);
 // not the profile; drawn with the linear ramp modelled by the Öko-Institut (≈2 Mt in 2031 to 48 Mt in 2040).
 const REM={};
 for(let y=2031;y<=2040;y++) REM[y]=2+(48-2)*(y-2031)/9;
+// Parliament rapporteur's opening offer (Liese, ENVI, 4 November 2026): 3% a year, applied here to 2031 onwards
+const R30 = REF*0.030/1e6;
+const EP3={2030:CAP[2030]};
+for(let y=2031;y<=2042;y++) EP3[y]=Math.max(0, EP3[y-1]-R30);
 
 const TNAC={2018:1654.9, 2019:1385.5, 2020:1579.6, 2021:1449.3,
             2022:1134.8, 2023:1111.7, 2024:1148.0, 2025:1023.5};
@@ -893,7 +922,8 @@ const LRF=[
   ["2024–2027","4.3%","87.7 million","Maritime transport added, raising the cap by 78.4 Mt. One-off cut of 90 Mt in 2024 and 27 Mt in 2026."],
   ["2028–2030","4.4%","89.7 million","Aviation free allocation fully phased out; CBAM begins withdrawing industrial free allocation."],
   ["2031–2035","3.7% (proposed)","75.4 million","Phase 5 under COM(2026) 616. Free allocation becomes conditional on a verified decarbonisation plan."],
-  ["2036–2040","1.7% (proposed)","34.7 million","Deliberately flatter, so allowances are still issued in 2040. Reverts to 2.7% if high-quality international credits prove unavailable."]
+  ["2036–2040","1.7% (proposed)","34.7 million","Deliberately flatter, so allowances are still issued in 2040. Reverts to 2.7% if high-quality international credits prove unavailable."],
+  ["2031–2040","3% (rapporteur's offer)","61.2 million","Peter Liese's opening offer in the Environment Committee, 4 November 2026 — halfway between keeping 4.4% and the proposed 1.7%. Not yet a committee position; the Council's text so far keeps the Commission's 3.7% and 1.7%."]
 ];
 
 const TIMELINE=[
@@ -979,13 +1009,16 @@ function drawCap(){
       tension:0,spanGaps:false}];
     if(ext) ds.push({label:"Current rules extended",data:capYears.map(y=>EXT[y]??null),
       borderColor:"#c0392b",borderDash:[6,4],borderWidth:2,pointRadius:0,pointHitRadius:12,tension:0});
-    if(prop) ds.push({label:"Proposed Phase 5",data:capYears.map(y=>PROP[y]??null),
+    if(prop) ds.push({label:"Commission proposal / Council presidency text",data:capYears.map(y=>PROP[y]??null),
       borderColor:"#6b5bd2",borderDash:[6,4],borderWidth:2,pointRadius:0,pointHitRadius:12,tension:0});
     if(prop && document.getElementById("showRem").checked)
-      ds.push({label:"Proposed Phase 5 + removals allowances",
+      ds.push({label:"Commission proposal + removals allowances",
         data:capYears.map(y=>y<2030||y>2040?null:(y===2030?PROP[y]:PROP[y]+REM[y])),
         borderColor:"#b9b0ee",backgroundColor:"rgba(107,91,210,.22)",borderWidth:1.5,pointRadius:0,
         pointHitRadius:12,tension:0,fill:ds.length-1});
+    if(document.getElementById("showEp").checked)
+      ds.push({label:"Parliament rapporteur's offer, 3%",data:capYears.map(y=>y<2030?null:(EP3[y]??null)),
+        borderColor:"#16a085",borderDash:[9,3,2,3],borderWidth:2.2,pointRadius:0,pointHitRadius:12,tension:0});
     if(document.getElementById("showFb").checked)
       ds.push({label:"Fallback, 2.7% from 2036",data:capYears.map(y=>y<2035?null:(FB[y]??null)),
         borderColor:"#d68910",borderDash:[3,3],borderWidth:2,pointRadius:0,pointHitRadius:12,tension:0});
@@ -1028,18 +1061,20 @@ document.getElementById("showExt").onchange=drawCap;
 document.getElementById("showProp").onchange=drawCap;
 document.getElementById("showRem").onchange=drawCap;
 document.getElementById("showFb").onchange=drawCap;
+document.getElementById("showEp").onchange=drawCap;
 drawCap();
 
 // ---------------------------------------------------------------- Phase 5 totals
 (function(){
   const sum=(o,a=2031,b=2040)=>{let t=0;for(let y=a;y<=b;y++) t+=o[y]||0;return t;};
-  const tExt=sum(EXT), tProp=sum(PROP), tFb=sum(FB,2036)+sum(PROP,2031,2035), tRem=sum(REM);
+  const tExt=sum(EXT), tProp=sum(PROP), tFb=sum(FB,2036)+sum(PROP,2031,2035), tRem=sum(REM), tEp=sum(EP3);
   const CRED=260;
   const rows=[
     ["Current rules extended (4.4%)",       tExt, 0, 0],
     ["Fallback: fully domestic (2.7% from 2036)", tFb, 0, 0],
-    ["Proposal (3.7%, then 1.7%)",          tProp-CRED, CRED, 0],
-    ["Proposal + removals allowances",      tProp-CRED, CRED, tRem]];
+    ["Commission proposal = Council text (3.7%, then 1.7%)", tProp-CRED, CRED, 0],
+    ["Commission proposal + removals allowances", tProp-CRED, CRED, tRem],
+    ["Parliament rapporteur's offer (3%) — credits not specified", tEp, 0, 0]];
   new Chart(document.getElementById("p5Chart"),{type:"bar",
     data:{labels:rows.map(r=>r[0]),datasets:[
       {label:"Issued to the market — auctioned or allocated free",data:rows.map(r=>r[1]),backgroundColor:"rgba(11,61,145,.85)",borderRadius:3},
@@ -1055,8 +1090,12 @@ drawCap();
     ["+"+f1(tProp-tExt)+" Mt","more allowances over 2031–2040 under the proposal than under today's factor extended"],
     ["+"+f1(tProp-tFb)+" Mt","the room the international credits buy: the proposal against the fully domestic fallback"],
     [f1(PROP[2040])+" Mt","cap in 2040 under the proposal — "+f1(FB[2040])+" Mt under the fallback, zero under today's rules"],
-    ["+"+f1(tRem)+" Mt","added on top for removals, about "+f1(REM[2040])+" Mt of it in 2040 on the modelled ramp"]
+    ["+"+f1(tRem)+" Mt","added on top for removals, about "+f1(REM[2040])+" Mt of it in 2040 on the modelled ramp"],
+    ["+"+f1(tEp-tProp)+" Mt","more over 2031–2040 under the rapporteur's 3% than under the Commission's factors — despite a cap "+f1(PROP[2040]-EP3[2040])+" Mt lower in 2040"]
   ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+  document.getElementById("epC40").textContent=f1(EP3[2040]);
+  document.getElementById("prC40").textContent=f1(PROP[2040]);
+  document.getElementById("epDiff").textContent=f1(tEp-tProp);
 })();
 
 document.querySelector("#lrfTbl tbody").innerHTML=LRF.map(r=>
