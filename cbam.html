@@ -76,6 +76,18 @@
   tbody tr:hover{background:#f4f8ff}
   tfoot td{font-weight:700;background:#fafbfc;border-top:2px solid var(--line)}
   .tblscroll{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  /* positions matrix for the downstream extension */
+  table.pos td{white-space:normal;text-align:left;vertical-align:top;font-size:13px;line-height:1.45}
+  table.pos td.c{border-left:3px solid transparent}
+  table.pos td.same{background:#f6f7f9;color:#5f6b7a;border-left-color:#c9d0d8}
+  table.pos td.more{background:#e9f2fc;border-left-color:#1f5fbf}
+  table.pos td.less{background:#fdf3e2;border-left-color:#d68910}
+  table.pos td.mix{background:#f1eefb;border-left-color:#6b5bd2}
+  table.pos .open{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:#96291d;background:#fbeae8;border-radius:10px;padding:1px 7px;margin-top:4px}
+  .poskey{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:0 0 12px}
+  .poskey span{display:inline-flex;align-items:center;gap:6px}
+  .poskey i{width:14px;height:14px;border-radius:3px;display:inline-block}
   .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
   details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;margin-bottom:12px}
   summary{cursor:pointer;font-weight:600;font-size:14px}
@@ -274,8 +286,15 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
         <h3>Still not operational</h3>
         <p style="font-size:13.5px;color:#39414d">The Commission published a draft implementing regulation setting
            out recognition pathways and the calculation method on 13 May 2026, with consultation closing
-           10 June 2026. It had not been adopted as of July 2026. South Korea's K-ETS, running since 2015, is
-           generally regarded as the most advanced candidate — but it has no formal recognition either.</p>
+           10 June 2026. A vote by the member states' committee was reported for September, but no outcome has
+           been made public, and as of early November 2026 the regulation had still not been adopted or published.
+           The draft would apply retroactively from 1 January 2026, so deductions for this year's imports remain
+           possible in principle; the first declarations are not due until 30 September 2027. No country's scheme
+           is recognised. South Korea's K-ETS, running since 2015, is generally regarded as the most advanced
+           candidate, and formal recognition is Seoul's central ask in its talks with the Commission — but nothing
+           has been granted. Türkiye has moved from planning to law: its ETS regulation was published on
+           27 August 2026, with a pilot covering 2026 (reporting only) and 2027 (surrender at 100% free
+           allocation), which leaves little carbon price actually paid to deduct.</p>
       </div>
     </div>
     <div class="warn" style="margin-top:16px">Until that regulation is adopted, the deduction field in any
@@ -414,8 +433,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            carbon on imported steel but not on imported products made of steel simply moves the problem one step
            along the value chain.</p>
         <p style="font-size:13.5px;color:#39414d">Both co-legislators have now taken positions, and both went
-           further than the Commission. The Council's general approach of 12 June 2026 covers around 200 goods and
-           adds an annual review from 2028. Parliament adopted its negotiating position on 15 September 2026 by
+           further than the Commission. The Council's general approach of 12 June 2026 keeps the Commission's list,
+           adds about 200 further CN codes — just over 300 entries in all — and an annual review from 2028. Parliament adopted its negotiating position on 15 September 2026 by
            464 votes to 50, pushing the list towards 457 products and adding technical assistance for developing
            countries and derogations for the outermost regions. Technical preparation began on 28 September 2026
            and the <strong>first formal trilogue was held on 20 October 2026</strong>, at which both sides set out
@@ -436,6 +455,56 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            for.</p>
       </div>
     </div>
+  </div>
+
+  <div class="panel">
+    <h2>The downstream extension, drawn: proposal and positions</h2>
+    <p class="sub">COM(2025) 989 is in trilogue, so there are three texts on the table: the Commission's proposal
+       of 17 December 2025, the Council's general approach of 12 June 2026 and Parliament's mandate of
+       15 September 2026. The charts show what the extension is for and how far each institution would take it;
+       the matrix shows where they differ and which points the first trilogue on 20 October sent back to
+       technical work.</p>
+
+    <h3 style="font-size:15px;margin:18px 0 4px">1 · The gap it closes</h3>
+    <p class="sub" style="margin-top:0">Today CBAM charges the carbon in imported steel, but not in an imported
+       product made of steel. A European manufacturer whose product contains steel carries that steel's carbon cost
+       — through CBAM if the steel was imported, through the ETS if it was made in the EU — while a finished
+       import carries none. As free allocation phases out, that gap widens every year. The chart puts a price on it
+       for a tonne of downstream product with the Commission's average metal content of 79%.</p>
+    <div class="chartbox" style="height:330px"><canvas id="dsGapChart"></canvas></div>
+    <div class="warn" style="margin-top:14px"><strong>Illustrative.</strong> Steel content of 0.79 t per tonne
+      of product, blast-furnace steel at 2.0 t CO₂e/t, the Q3 2026 certificate price of €82.32 held flat, and the
+      CBAM factor of current law. The actual charge on a downstream good would follow its own embedded emissions,
+      including processing, and the default values still to be set — one of the open trilogue questions. From 2028
+      the green line sits on the blue one: that is the point of the extension, and the shaded gap is what remains
+      under current law. By 2034,
+      at full CBAM, the gap is about <span id="dsGap34"></span> per tonne of product.</div>
+
+    <h3 style="font-size:15px;margin:22px 0 4px">2 · How far each institution would go</h3>
+    <p class="sub" style="margin-top:0">All three widen the scope, and both co-legislators go further than the
+       Commission. The counts are not strictly comparable — the Commission counts product types, the Council's
+       text adds eight-digit CN codes, and Parliament published no count, so its figure is a law firm's
+       estimate — but the order of magnitude is clear.</p>
+    <div class="chartbox" style="height:230px"><canvas id="dsScopeChart"></canvas></div>
+
+    <h3 style="font-size:15px;margin:22px 0 8px">3 · Where the three texts differ</h3>
+    <div class="poskey">
+      <span><i style="background:#e9f2fc;border-left:3px solid #1f5fbf"></i>Goes further than the Commission</span>
+      <span><i style="background:#fdf3e2;border-left:3px solid #d68910"></i>Goes less far</span>
+      <span><i style="background:#f1eefb;border-left:3px solid #6b5bd2"></i>Mixed</span>
+      <span><i style="background:#f6f7f9;border-left:3px solid #c9d0d8"></i>As the Commission</span>
+      <span><span class="open" style="margin:0">Open</span> sent to technical work after the 20 October trilogue</span>
+    </div>
+    <div class="tblscroll" style="max-height:none">
+      <table class="pos">
+        <thead><tr><th class="l" style="width:16%">Issue</th><th class="l" style="width:28%">Commission, Dec 2025</th>
+          <th class="l" style="width:28%">Council, Jun 2026</th><th class="l" style="width:28%">Parliament, Sep 2026</th></tr></thead>
+        <tbody id="posBody"></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:12px 0 0">Next trilogue provisionally 30 November 2026; political agreement
+       targeted before the end of the year, for application from 1 January 2028. Compiled from the
+       Parliament's research service, Mayer Brown and cbamguide.com; the institutions' texts are the reference.</p>
   </div>
 </section>
 
@@ -603,6 +672,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       The default values are official, from Annex I to Implementing Regulation (EU) 2025/2621. The carbon pricing
       and Article 9 columns are a third-party assessment compiled by
       <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a> as of April 2026,
+      with the Türkiye row updated for the ETS regulation published on 27 August 2026 —
       not a Commission determination — and since no scheme has been formally recognised, every entry in the last
       column is a prospect rather than a status. Blank default cells mean that good has no published default for
       that origin.</div>
@@ -1207,8 +1277,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
           for some goods, indirect emissions from electricity, plus emissions embedded in relevant precursors.
           Default values apply where actual data is not available, and they are deliberately conservative.</li>
       <li><strong>The Article 9 carbon price deduction is not yet operational.</strong> The implementing
-          regulation setting out recognition pathways was still in draft as of July 2026 and no third-country
-          scheme has been formally recognised. The deduction field is therefore hypothetical — useful for modelling
+          regulation setting out recognition pathways was still in draft as of early November 2026 and no
+          third-country scheme has been formally recognised. The deduction field is therefore hypothetical — useful for modelling
           a future in which a scheme is recognised, not for a 2026 obligation.</li>
       <li><strong>The certificate price is held flat.</strong> It follows the EU ETS, so in practice it moves. All
           cost figures scale linearly with it — halve the price and halve every number.</li>
@@ -1242,7 +1312,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Compiled from Commission sources, August 2026; policy status reviewed 26 October 2026. Orientation only — not legal or compliance advice. Verify against
   the Regulation and the Commission's guidance before acting.
-<br><span class="stamp"><strong>Last updated 8 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 12 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1403,6 +1473,82 @@ const TR_MASS=[69,5,15,11];                    // % of imported mass, Q4 2023 - 
 const TR_EM_MT=[102.5,38.4,18.0,8.1];          // Mt CO2e embedded, 2024 (cement = residual of the 167 Mt total)
 const TR_TOT=TR_EM_MT.reduce((a,b)=>a+b,0);
 const TR_EM=TR_EM_MT.map(v=>v/TR_TOT*100);
+// ---------------------------------------------------------------- downstream extension (COM(2025) 989)
+(function(){
+  const ys=[2026,2027,2028,2029,2030,2031,2032,2033,2034];
+  const STEEL=0.79, INT=2.0, PRICE=82.32;
+  const cost=y=>STEEL*INT*PRICE*(1-CBAMF[y]);
+  const eur=v=>"€"+v.toFixed(0);
+  document.getElementById("dsGap34").textContent=eur(cost(2034));
+  new Chart(document.getElementById("dsGapChart"),{type:"line",
+    data:{labels:ys.map(String),datasets:[
+      {label:"Carbon cost on the steel in a product made in the EU",data:ys.map(cost),
+       borderColor:"#0b3d91",backgroundColor:"rgba(192,57,43,.13)",borderWidth:2.6,pointRadius:3,tension:0,fill:1,order:3},
+      {label:"Imported finished product — current law: nothing",data:ys.map(()=>0),
+       borderColor:"#c0392b",borderWidth:2.2,pointRadius:3,tension:0,order:2},
+      {label:"Imported finished product — with the extension from 2028",data:ys.map(y=>y<2028?null:cost(y)),
+       borderColor:"#1f8a5f",borderDash:[7,5],borderWidth:3.4,pointRadius:4.5,pointStyle:"rectRot",pointBackgroundColor:"#1f8a5f",tension:0,order:1}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11},sort:(a,b)=>a.datasetIndex-b.datasetIndex}},
+        tooltip:{itemSort:(a,b)=>a.datasetIndex-b.datasetIndex,callbacks:{title:c=>`Year ${c[0].label}`,label:c=>c.parsed.y==null?null:`${c.dataset.label}: €${c.parsed.y.toFixed(2)} per tonne of product`,
+          footer:c=>{const y=+c[0].label;return `Gap under current law: €${cost(y).toFixed(2)}/t`;}}}},
+      scales:{y:{beginAtZero:true,title:{display:true,text:"€ per tonne of downstream product"},grid:{color:"#eef1f5"}},x:{grid:{display:false}}}}});
+
+  new Chart(document.getElementById("dsScopeChart"),{type:"bar",
+    data:{labels:["Commission proposal","Council general approach","Parliament mandate"],datasets:[
+      {label:"Commission list (~180 product types)",data:[180,180,180],backgroundColor:"rgba(31,95,191,.85)",borderRadius:3},
+      {label:"Added by the Council (~200 CN codes; just over 300 entries in all)",data:[0,200,0],backgroundColor:"rgba(214,137,16,.85)",borderRadius:3},
+      {label:"Added by Parliament (to ~457 product types, estimate)",data:[0,0,277],backgroundColor:"rgba(107,91,210,.75)",borderRadius:3}]},
+    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{label:c=>c.parsed.x?`${c.dataset.label}`:null,footer:c=>`≈ ${c.reduce((a,x)=>a+x.parsed.x,0)} in total`}}},
+      scales:{x:{stacked:true,title:{display:true,text:"Downstream goods added to CBAM (approximate count)"},grid:{color:"#eef1f5"}},
+              y:{stacked:true,grid:{display:false}}}}});
+
+  // [issue, open?, [text, cls] × 3]  cls: same | more | less | mix
+  const POS=[
+    ["Downstream products",true,
+      ["About 180 steel- and aluminium-intensive product types, averaging 79% metal content: fasteners, wire, tubes, structural metalwork, vehicle parts, machinery, metal furniture, household goods, 3 medical devices. From 1 January 2028.","same"],
+      ["Keeps the Commission's list and adds about 200 CN codes — refrigerators, heat pumps, boilers, turbines, electric motors, transformers, brakes and clutches, trailer parts. Deletes the 3 medical devices.","more"],
+      ["About 457 product types, adding solar panels, water heaters, washing machines, heat pumps, transformers and more machinery and transport parts. Asks the Commission to assess chemicals and petrochemicals.","more"]],
+    ["Adding goods later",false,
+      ["No standing review.","same"],
+      ["Annual Commission review from 2028 to identify further downstream goods.","more"],
+      ["No annual product review, but default values must be reassessed at least once a year.","mix"]],
+    ["Crisis exemption (new Art. 27a)",false,
+      ["The Commission may temporarily remove a good in serious and unforeseen circumstances.","same"],
+      ["Kept, but only for import-dependent goods after a sustained price rise of more than 50% over at least six months.","more"],
+      ["Deleted. A temporary derogation is possible only for the outermost regions.","more"]],
+    ["Small importers (aluminium)",true,
+      ["The existing 50-tonne annual threshold applies.","same"],
+      ["50 tonnes.","same"],
+      ["5 tonnes for aluminium products — so that light finished goods, such as a hotel's worth of aluminium doors, cannot slip under it.","more"]],
+    ["Pre-consumer steel scrap",true,
+      ["Counts as a precursor: its embedded emissions are carried into the product.","same"],
+      ["Counts as a precursor.","same"],
+      ["Reported, but not taken into account.","less"]],
+    ["Aluminium scrap",true,
+      ["Pre-consumer scrap counts as a precursor; post-consumer scrap stays excluded.","same"],
+      ["Same as the Commission.","same"],
+      ["All aluminium scrap counts as a precursor, post-consumer included, at a single default value for unwrought aluminium.","more"]],
+    ["Online platforms",true,
+      ["Not covered.","same"],
+      ["Not covered.","same"],
+      ["Platforms that facilitate imports must become authorised CBAM declarants for the goods they handle.","more"]],
+    ["Circumvention",false,
+      ["Artificially adjusting supply chains to obtain lower default values.","same"],
+      ["Narrows that to moving the last substantial production step solely to get lower defaults; defines 'harmful resource shuffling' and, for high-risk goods and origins, puts the burden of proof on the declarant.","mix"],
+      ["Only where avoiding CBAM is the sole purpose; defines resource shuffling as sending low-emission output to the EU and the rest elsewhere, with country default values applying from the outset where it is found.","mix"]],
+    ["Default values for the added goods",true,
+      ["To be set for the new goods.","same"],
+      ["No specific provision reported.","same"],
+      ["No specific provision reported beyond the annual reassessment and the circumvention rule above.","same"]]
+  ];
+  document.getElementById("posBody").innerHTML=POS.map(([iss,open,...cells])=>
+    `<tr><td class="l"><strong>${iss}</strong>${open?'<br><span class="open">Open</span>':""}</td>`+
+    cells.map(([t,c])=>`<td class="c ${c}">${t}</td>`).join("")+"</tr>").join("");
+})();
+
 new Chart(document.getElementById("trChart"),{type:"bar",
   data:{labels:TR_S,datasets:[
     {label:"Share of imported mass",data:TR_MASS,backgroundColor:"rgba(184,192,204,.95)",borderRadius:3},
@@ -1459,7 +1605,7 @@ drawDv();
 //   corrected by IR (EU) 2026/1740 of 31 July 2026 — aluminium and unknown-origin precursors pending). Carbon pricing / Article 9 columns:
 // third-party compilation by cbamguide.com, April 2026 — not a Commission determination.
 const CT=[
- {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        cp:"None; ETS in development",            a9:"Not eligible"},
+ {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        cp:"TR ETS adopted Aug 2026; pilot 2026–27", a9:"Pilot at 100% free allocation"},
  {c:"India",       dv:"India",          s:"Steel, aluminium, fertilisers", cp:"CCTS, pilot phase",                    a9:"Not eligible"},
  {c:"China",       dv:"China",          s:"Steel, aluminium",              cp:"National ETS, electricity only",       a9:"Not eligible"},
  {c:"Russia",      dv:"Russia",         s:"Steel, aluminium, fertilisers", cp:"Token levy",                           a9:"Not eligible"},
