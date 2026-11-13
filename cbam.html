@@ -504,7 +504,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     </div>
     <p class="sub" style="margin:12px 0 0">Next trilogue provisionally 30 November 2026; political agreement
        targeted before the end of the year, for application from 1 January 2028. Compiled from the
-       Parliament's research service, Mayer Brown and cbamguide.com; the institutions' texts are the reference.</p>
+       Parliament's adopted text (<a href="https://www.europarl.europa.eu/RegData/seance_pleniere/textes_adoptes/definitif/2026/09-15/0276/P10_TA(2026)0276_EN.pdf" target="_blank" rel="noopener">P10_TA(2026)0276</a>),
+       the Parliament's research service, Mayer Brown and cbamguide.com. Parliament's 5-tonne aluminium threshold is in Annex IIa of its text (new point 1a of Annex VII).</p>
   </div>
 </section>
 
@@ -976,12 +977,35 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       &nbsp;&nbsp;<span class="dim">(Equation 3 — simple good, no precursors)</span><br>
       <strong>SEFA<sub>g,y</sub> = SFAProc<sub>g,y</sub> + Σ<sub>i</sub> ( m<sub>i,y</sub> × SEFA<sub>i,y′</sub> )</strong>
       &nbsp;&nbsp;<span class="dim">(Equation 4 — complex good, plus each precursor)</span><br>
-      <span style="font-size:13px;color:#4b5563">m<sub>i</sub> is tonnes of precursor <em>i</em> per tonne of the
-      good. Where a precursor is itself complex, Equations 2 to 4 repeat recursively until nothing is left.</span>
+      <strong>m<sub>i,y</sub> = M<sub>i,y</sub> ÷ AL<sub>y</sub></strong>
+      &nbsp;&nbsp;<span class="dim">(Equation 5 — how much of each precursor goes into one tonne of the good)</span><br>
+      <span style="font-size:13px;color:#4b5563">Where a precursor is itself complex, Equations 2 to 5 repeat
+      recursively until nothing is left.</span>
     </div>
+    <h3 style="margin-top:20px">Equation 5, in words</h3>
+    <p class="sub">Equation 4 needs to know how much of each precursor sits inside a tonne of the good. Equation 5
+       supplies that number from the installation's own production records, not from a standard recipe:</p>
+    <ul style="font-size:13.5px;color:#39414d;margin:0 0 10px;padding-left:20px">
+      <li><strong>M<sub>i,y</sub></strong> — the total mass of precursor <em>i</em>, in tonnes, consumed during
+        the reporting period <em>y</em> by the production process that makes the good.</li>
+      <li><strong>AL<sub>y</sub></strong> — the activity level: the tonnes of goods produced within the system
+        boundaries of that same production process over the same period.</li>
+      <li><strong>m<sub>i,y</sub></strong> — the ratio of the two: tonnes of precursor per tonne of good, the
+        “specific mass”. It is not a mass fraction of the finished product: losses count, so if a mill consumes, say,
+        1.05 t of slab for every tonne of hot-rolled coil it ships, m is 1.05, not 1.0.</li>
+    </ul>
+    <p class="sub" style="margin-top:0">Both quantities are measured at the level of the production process — the
+       aggregated goods category — rather than shipment by shipment, and they come from the same monitoring that
+       produces the embedded-emissions report (points E and F of Annex II to Implementing Regulation (EU)
+       2025/2547), with the reporting period identified under Article 7 of that Regulation. The consequence is that
+       the adjustment follows the actual input mix: a cement plant using less clinker per tonne gets a
+       correspondingly smaller deduction — and is charged on correspondingly lower embedded emissions. The ratio
+       always comes from the producer's records; what the annex allows to vary is the value attached to each
+       precursor, SEFA<sub>i</sub>, which can come from the precursor's own reporting period or, where needed,
+       from default values.</p>
     <h3 style="margin-top:22px">What each term is</h3>
-    <p class="sub">Four terms across both routes. Three of them are fixed by EU policy and move for
-       reasons that have nothing to do with the shipment; only the last is yours.</p>
+    <p class="sub">Five terms across both routes. Three of them are fixed by EU policy and move for
+       reasons that have nothing to do with the shipment; the last two come from the importer and its supplier.</p>
     <div class="tblscroll">
       <table id="ingTbl">
         <thead><tr><th class="l">Term</th><th class="l">What it is</th>
@@ -1018,8 +1042,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       Under actual data your adjustment scales with the clinker you actually used. A blended cement at 65% clinker
       gets a smaller deduction than a pure CEM I at 95% — correctly, because it also has lower embedded emissions
       to be charged on in the first place. The default route ignores the distinction and applies one figure to
-      everything under the CN code. <span class="dim">The 0.8 ratio above is illustrative; the real value comes
-      from Equation 5, the mass of precursor consumed divided by the activity level.</span></div>
+      everything under the CN code. <span class="dim">The 0.8 ratio above is illustrative; the real value is the plant's own
+      m<sub>clinker</sub> from Equation 5 — the tonnes of clinker it consumed in the year divided by the tonnes of
+      cement it produced.</span></div>
   </div>
 
   <div class="panel">
@@ -1125,12 +1150,21 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            and so a marginally larger obligation.</p>
       </div>
     </div>
-    <div class="warn" style="margin-top:16px"><strong>These figures are provisional and a review is overdue.</strong>
+    <div class="warn" style="margin-top:16px"><strong>These figures are provisional and the review is overdue.</strong>
       The final ETS benchmarks for 2026–2030 were not available when this Regulation was drafted, so the CBAM
-      benchmarks were built on <em>estimates</em> of them, with a commitment to review within one month of the real
-      values appearing. Those arrived in June 2026 as Regulation (EU) 2026/1412 — the values on the
-      <a href="benchmarks.html">benchmarks page</a>. Check for a revised CBAM benchmark table before relying on
-      anything here.</div>
+      benchmarks were built on <em>estimates</em> of them, with a commitment to review them “at the latest one month”
+      after the real values were published. Those arrived as Regulation (EU) 2026/1412, published on 29 June 2026 —
+      the values on the <a href="benchmarks.html">benchmarks page</a> — so the review was due by the end of July.
+      As of mid-November 2026 no revised CBAM benchmark table has been adopted or published, and no draft has
+      been put out for comment; the Commission's own CBAM Q&amp;A of 15 October 2026 now says only that the
+      benchmarks “should be reviewed shortly after” the final ETS values.
+      <br><br><strong>What that means in practice.</strong> The revision is not retroactive: under recital 10 of
+      Regulation (EU) 2025/2620 the updated benchmarks apply to goods imported <em>from 1 January 2027</em>. For
+      goods imported in 2026 the values here remain the legally applicable ones. For 2027 imports they are
+      placeholders until the revised table appears. Where a final ETS benchmark turned out lower than the estimate
+      used here, the revised CBAM benchmark will be lower too, which shrinks the free allocation adjustment and
+      raises the net cost per tonne — and with many ETS benchmarks cut by the maximum the rules allow, that is
+      the direction to expect.</div>
   </div>
 
   <div class="panel">
@@ -1312,7 +1346,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Compiled from Commission sources, August 2026; policy status reviewed 26 October 2026. Orientation only — not legal or compliance advice. Verify against
   the Regulation and the Commission's guidance before acting.
-<br><span class="stamp"><strong>Last updated 12 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 13 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1498,7 +1532,7 @@ const TR_EM=TR_EM_MT.map(v=>v/TR_TOT*100);
     data:{labels:["Commission proposal","Council general approach","Parliament mandate"],datasets:[
       {label:"Commission list (~180 product types)",data:[180,180,180],backgroundColor:"rgba(31,95,191,.85)",borderRadius:3},
       {label:"Added by the Council (~200 CN codes; just over 300 entries in all)",data:[0,200,0],backgroundColor:"rgba(214,137,16,.85)",borderRadius:3},
-      {label:"Added by Parliament (to ~457 product types, estimate)",data:[0,0,277],backgroundColor:"rgba(107,91,210,.75)",borderRadius:3}]},
+      {label:"Added by Parliament (~276 CN codes in Amendment 83, plus wider headings; ~457 in all)",data:[0,0,277],backgroundColor:"rgba(107,91,210,.75)",borderRadius:3}]},
     options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
         tooltip:{callbacks:{label:c=>c.parsed.x?`${c.dataset.label}`:null,footer:c=>`≈ ${c.reduce((a,x)=>a+x.parsed.x,0)} in total`}}},
@@ -1510,7 +1544,7 @@ const TR_EM=TR_EM_MT.map(v=>v/TR_TOT*100);
     ["Downstream products",true,
       ["About 180 steel- and aluminium-intensive product types, averaging 79% metal content: fasteners, wire, tubes, structural metalwork, vehicle parts, machinery, metal furniture, household goods, 3 medical devices. From 1 January 2028.","same"],
       ["Keeps the Commission's list and adds about 200 CN codes — refrigerators, heat pumps, boilers, turbines, electric motors, transformers, brakes and clutches, trailer parts. Deletes the 3 medical devices.","more"],
-      ["About 457 product types, adding solar panels, water heaters, washing machines, heat pumps, transformers and more machinery and transport parts. Asks the Commission to assess chemicals and petrochemicals.","more"]],
+      ["About 457 product types: the Commission's list, wider iron and steel headings (Amendments 110 and 135) and a separate table of some 276 further eight-digit CN codes (Amendment 83). That table adds household appliances — fridges and freezers, heat pumps, dishwashers, washing machines, electric water heaters, cookers and ovens, vacuum cleaners — steel and aluminium kitchenware, sinks and baths, air conditioners, cranes and lifts, electric motors and generators, photovoltaic generators (8501 71, 8501 72, 8501 80), wind power generating sets (8502 31), transformers and inverters, cables, car parts, seats, prefabricated buildings and medical devices. Ordinary solar modules and panels (8541 43) are not listed. Asks the Commission to assess chemicals and petrochemicals for a later extension.","more"]],
     ["Adding goods later",false,
       ["No standing review.","same"],
       ["Annual Commission review from 2028 to identify further downstream goods.","more"],
@@ -1539,6 +1573,10 @@ const TR_EM=TR_EM_MT.map(v=>v/TR_TOT*100);
       ["Artificially adjusting supply chains to obtain lower default values.","same"],
       ["Narrows that to moving the last substantial production step solely to get lower defaults; defines 'harmful resource shuffling' and, for high-risk goods and origins, puts the burden of proof on the declarant.","mix"],
       ["Only where avoiding CBAM is the sole purpose; defines resource shuffling as sending low-emission output to the EU and the rest elsewhere, with country default values applying from the outset where it is found.","mix"]],
+    ["Other changes",false,
+      ["—","same"],
+      ["—","same"],
+      ["Temporary derogation of up to four years for outermost regions, for goods destined exclusively for local consumption; simplified reporting for least-developed countries and EU technical assistance; special verification rules for candidate countries facing an exceptional security situation; CBAM revenue to be redirected to the sectors affected.","more"]],
     ["Default values for the added goods",true,
       ["To be set for the new goods.","same"],
       ["No specific provision reported.","same"],
@@ -1652,6 +1690,8 @@ const ING=[
   b:"Art. 14(6), Del. Reg. (EU) 2019/331; published under Art. 10a(5) of Dir. 2003/87/EC", s:"In force; buffer proposed to rise to 4%"},
  {n:"BM<sub>g</sub> / BM*<sub>g</sub> — CBAM benchmark", w:"A per-CN-code value combining the relevant ETS product benchmarks with the heat, fuel and process-emissions fallbacks. BM* for actual data, BM for default values.",
   b:"IR (EU) 2025/2620, Annex point 5", s:"In force, but built on estimated 2026\u201330 ETS benchmarks and due for review"},
+ {n:"m<sub>i,y</sub> — specific mass of precursor (actual data only)", w:"Tonnes of precursor i consumed per tonne of good produced, from Equation 5: the producer's total precursor use in the reporting period divided by its activity level. Set by the supplier's actual production, not by the Regulation.",
+  b:"IR (EU) 2025/2620, Annex section 3.3; data under Annex II, points E and F, IR (EU) 2025/2547", s:"In force"},
  {n:"M<sub>g</sub> — mass imported", w:"Tonnes of the good imported in the declaration year. The only term the importer directly controls.",
   b:"Reg. (EU) 2023/956, Art. 6", s:"In force"}
 ];
