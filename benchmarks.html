@@ -542,7 +542,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        close to 100 million. The provisional agreement of 12 November follows the Council on volume: the
        88 million plus the conditionality allowances, about 28 million of them into the general adjustment and up
        to 5 million for sector-specific benchmarks, around 121 million in all. In every version the uplift may not
-       trigger the cross-sectoral correction factor.</p>
+       trigger the cross-sectoral correction factor: the 88 million is what is left of the 3% buffer for
+       2026–2030, and the year-by-year ceiling and buffer figures are on the
+       <a href="#fa-ceiling">Free allocation tab</a>.</p>
 
     <div class="chartbox" style="height:360px"><canvas id="fbChart"></canvas></div>
 
@@ -872,7 +874,10 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
             <td class="l">CBAM goods only: <strong>97.5%</strong> in 2026, 51.5% in 2030, <strong>zero from 2034</strong>. 100% for everything else.</td></tr>
           <tr><td class="l"><strong>Cross-sectoral correction factor</strong></td>
             <td class="l">A uniform haircut applied to every installation if the sum of all entitlements would exceed the share of the cap reserved for free allocation.</td>
-            <td class="l"><strong>100%</strong> for 2021–2025 — the ceiling was not breached, so no cut was applied.</td></tr>
+            <td class="l"><strong>100%</strong> for 2021–2025 — the ceiling was not breached, so no cut was applied — and
+              <strong>100%</strong> for each year of 2026–2030 under Implementing Decision (EU) 2026/1862, held
+              there only by drawing most of the 3% buffer. Ceiling and buffer figures:
+              <a href="#fa-ceiling">Free allocation tab</a>.</td></tr>
         </tbody>
       </table>
     </div>
@@ -970,6 +975,64 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       benchmark values on this page determine, one product at a time. The
       <a href="ets.html#price">allowance price</a> is the other half of the question: free allocation was worth
       little at €5 a tonne and is worth a great deal at €75, even as the volume has fallen by three quarters.</div>
+  </div>
+  <div class="panel" id="fa-ceiling" style="scroll-margin-top:72px">
+    <h2>The ceiling for 2026–2030, and the 3% buffer that holds it</h2>
+    <p class="sub">Free allocation is not open-ended. The Directive requires 57% of allowances to be auctioned, so
+       at most <strong>43%</strong> of the cap can go out free, and some of that is set aside before any
+       installation sees it. Each period the Commission adds up the preliminary allocations the member states have
+       calculated, compares them with this ceiling and fixes the <strong>cross-sectoral correction factor</strong>:
+       100% if the total fits, lower if it does not, with every installation cut by the same proportion. For
+       2026–2030 it did that in Implementing Decision (EU) 2026/1862 of 23 July 2026, which sets the factor at
+       <strong>100% for every year</strong>. No installation is cut. But the totals only fit because of two
+       reserves.</p>
+
+    <div class="grid2" style="margin-top:6px">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Maximum free allocation per year</h3>
+        <div class="tblscroll">
+          <table class="postbl" id="faCapTbl">
+            <thead><tr><th class="l">Year</th><th>Maximum, allowances</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="sub" style="margin-top:8px">Recitals 6–7 of the decision. It spells out the derivation for 2026
+           only; allowances not used in one year roll forward to the next.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">How the 2026 figure is built</h3>
+        <div class="eq" style="line-height:1.85;margin-top:0">
+          Cap for 2026: <strong>1 185 420 090</strong><br>
+          adjusted for maritime transport: 1 180 706 960<br>
+          × 43% (the non-auctioned share) = 507 703 993<br>
+          − 35 357 143 for the Innovation Fund (Art. 10a(8)) = 472 346 850<br>
+          − 40 000 000 for the Social Climate Fund = <strong>432 346 850</strong>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:14.5px;margin:18px 0 8px">The two reserves</h3>
+    <p class="sub">First, <strong>125 586 948</strong> allowances available for free allocation in 2021–2025 were
+       never allocated, and the decision carries them forward. Second, Article 10a(5a) allows an additional
+       quantity of up to <strong>3% of the total allowances</strong> to be moved from auctioning into free
+       allocation to avoid a correction factor below 100% — the buffer. Over 2021–2030 that is
+       <strong>368 419 533</strong> allowances. None was needed in 2021–2025. For 2026–2030 the decision expects
+       <strong>289 226 630</strong> to be used: the factor stays at 100% because roughly four fifths of the buffer is
+       drawn. Every allowance taken from the buffer is one fewer auctioned, so the cost lands on auction revenue
+       rather than on industry.</p>
+    <div class="chartbox" style="height:170px"><canvas id="faBufChart"></canvas></div>
+    <div class="cards" id="faBufCards" style="margin:18px 0 0"></div>
+    <div class="warn" style="margin-top:18px"><strong>What is left of the buffer is the fall-back uplift.</strong>
+       The decision's own figures leave <strong>about 79.2 million</strong> allowances of the buffer unused, which
+       is where the Commission's "around 80 million" in COM(2026) 619 comes from. Its carbon market report of
+       9 November 2026 (COM(2026) 596) puts the remainder at <strong>87 914 174</strong>, the "around 88 million"
+       the Council, Parliament and the provisional agreement of 12 November all work with; neither document
+       explains the difference. That remainder is exactly what the
+       <a href="#rates" data-goto="rates">fall-back benchmark scenario</a> spends, which is why every version of
+       the proposal insists the uplift may not trigger the correction factor: spend more than what is left and the
+       factor drops below 100% for everyone. The roughly 33 million allowances withheld under the Article 10a(1)
+       conditionalities are a separate pool and sit outside this arithmetic. From 2031 the July 2026 ETS review
+       would raise the buffer to <strong>4%</strong> of the cap.</div>
   </div>
   <div class="panel">
     <h2>After 2030: who would still get free allocation, and how much</h2>
@@ -1197,7 +1260,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
           If adopted, the single heat and fuel rows here would split by sector.</li>
       <li>The same proposal would reintroduce 15% of phased-out free allocation for CBAM sectors from 2028 and extend the
           phase-out to 2038, extend carbon-leakage protection to 2040, define benchmark update rules for 2031–2035 and
-          2036–2040, raise the CSCF buffer to 4%, and from 2031 make all free allocation conditional on a verified
+          2036–2040, raise the CSCF buffer to 4% (the current 3% buffer and how much of it 2026–2030 uses:
+          <a href="#fa-ceiling">Free allocation tab</a>), and from 2031 make all free allocation conditional on a verified
           decarbonisation investment plan.</li>
       <li>No phase-out date has been set for carbon-leakage sectors outside CBAM.</li>
     </ul>
@@ -1345,6 +1409,34 @@ document.getElementById("allocCards").innerHTML=[
   ["492 Mt","free allowances in 2025"],
   ["42%","share of verified emissions covered by free allocation today"]
 ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+
+// ---------------------------------------------------------------- free allocation ceiling 2026-2030
+// Source: Commission Implementing Decision (EU) 2026/1862, recitals 6-9; remainder per COM(2026) 596.
+(function(){
+  const CAP=[[2026,432346850],[2027,434602358],[2028,395980088],[2029,357357817],[2030,318735546]];
+  const BUF=368419533, USED=289226630, CARRY=125586948, LEFT_CMR=87914174, LEFT=BUF-USED;
+  const n=v=>v.toLocaleString("en-GB").replace(/,/g,"\u202f");
+  const tb=document.querySelector("#faCapTbl tbody");
+  if(tb){ tb.innerHTML=CAP.map(r=>`<tr><td class="l">${r[0]}</td><td>${n(r[1])}</td></tr>`).join("")+
+    `<tr><td class="l"><strong>2026–2030</strong></td><td><strong>${n(CAP.reduce((a,r)=>a+r[1],0))}</strong></td></tr>`; }
+  const cv=document.getElementById("faBufChart");
+  if(cv) new Chart(cv,{type:"bar",
+    data:{labels:["3% buffer, 2021–2030"],datasets:[
+      {label:"Drawn to keep the factor at 100% in 2026–2030",data:[USED/1e6],backgroundColor:"rgba(31,95,191,.85)",borderRadius:3},
+      {label:"Left over — the headroom COM(2026) 619 spends",data:[LEFT/1e6],backgroundColor:"rgba(30,132,73,.75)",borderRadius:3}]},
+    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)} million`}}},
+      scales:{x:{stacked:true,max:Math.ceil(BUF/1e6/10)*10,title:{display:true,text:"Million allowances"},grid:{color:"#eef1f5"}},
+              y:{stacked:true,grid:{display:false}}}}});
+  const cards=document.getElementById("faBufCards");
+  if(cards) cards.innerHTML=[
+    ["100%","cross-sectoral correction factor for each year of 2026–2030"],
+    [(CARRY/1e6).toFixed(1)+" M","unallocated in 2021–2025, carried forward"],
+    [(USED/BUF*100).toFixed(0)+"%","of the 3% buffer drawn for 2026–2030 ("+(USED/1e6).toFixed(1)+" M of "+(BUF/1e6).toFixed(1)+" M)"],
+    ["~"+(LEFT/1e6).toFixed(0)+"–"+(LEFT_CMR/1e6).toFixed(0)+" M","left over: "+(LEFT/1e6).toFixed(1)+" M on the decision's figures, "+(LEFT_CMR/1e6).toFixed(1)+" M in the Commission's November report"]
+  ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+})();
 
 // ---------------------------------------------------------------- helpers
 const fmt = (v,d)=> v.toFixed(typeof d==="number"?d:(d&&d.dp)||3);
@@ -1952,7 +2044,13 @@ function buildSectors(){
     var raw=location.hash.replace(/^#/,''); if(!raw) return;
     try{ raw=decodeURIComponent(raw); }catch(e){}
     var b=byName(raw)||byName(raw.replace(/^tab-/,''));
-    if(b) b.click();
+    if(b){ b.click(); return; }
+    // an anchor inside a tab (e.g. #fa-ceiling): open its tab, then scroll to it
+    var el=document.getElementById(raw); if(!el) return;
+    var sec=el.closest('section[id^="tab-"]');
+    var tb=sec ? byName(sec.id.slice(4)) : null;
+    if(tb){ tb.click(); try{ history.replaceState(null,'','#'+raw); }catch(e){} }
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); },80);
   }
 
   btns.forEach(function(b,i){
