@@ -88,6 +88,8 @@
   th:first-child,td:first-child{text-align:left;white-space:normal}
   th.l,td.l{text-align:left}
   .postbl td.l,.postbl th.l{white-space:normal;vertical-align:top}
+  table.wrap td,table.wrap th{white-space:normal;vertical-align:top}
+  .tag.ncl{background:#fdecea;color:#a93226}
   .postbl td:first-child{width:160px}
   thead th{position:sticky;top:0;background:#fafbfc;cursor:pointer;user-select:none;font-size:11.5px;
            text-transform:uppercase;letter-spacing:.04em;color:var(--muted);z-index:5;
@@ -312,7 +314,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        does not fit.</p>
 
     <div class="tblscroll">
-      <table>
+      <table class="wrap">
         <thead><tr><th class="l" style="width:34%">Approach</th><th class="l">Applies when</th></tr></thead>
         <tbody>
           <tr><td class="l"><strong>1 · Product benchmark</strong></td>
@@ -366,7 +368,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <div class="panel">
     <h2>How to read this page</h2>
     <div class="tblscroll">
-      <table>
+      <table class="wrap">
         <thead><tr><th class="l">Tab</th><th class="l">Answers</th></tr></thead>
         <tbody>
           <tr><td class="l"><strong>Overview</strong></td><td class="l">What changed between periods, and how the values compare with what the cleanest installations actually achieve.</td></tr>
@@ -745,7 +747,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
           <option value="cl">On the carbon leakage list — 100%</option>
           <option value="nocl">Not on the list — 30% in 2026, to 0% in 2030</option>
         </select>
-        <div class="hint">Non-list sectors: 30 / 22.5 / 15 / 7.5 / 0% for 2026–2030.</div>
+        <div class="hint" id="cClefHint">Non-list sectors: 30 / 22.5 / 15 / 7.5 / 0% for 2026–2030.</div>
       </div>
       <div class="fld">
         <label for="cCbam">CBAM good</label>
@@ -832,7 +834,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        single refinery or steelworks routinely has several, each with its own rule, and the plant's entitlement is
        the sum. This is why two sites with identical output can receive very different allocations.</p>
     <div class="tblscroll">
-      <table>
+      <table class="wrap">
         <thead><tr><th class="l">Sub-installation type</th><th class="l">Applies to</th>
           <th class="l">How its entitlement is set</th></tr></thead>
         <tbody>
@@ -860,7 +862,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <div class="panel">
     <h2>Then the four multipliers</h2>
     <div class="tblscroll">
-      <table>
+      <table class="wrap">
         <thead><tr><th class="l">Term</th><th class="l">What it represents</th><th class="l">Value in force</th></tr></thead>
         <tbody>
           <tr><td class="l"><strong>Historical activity level</strong></td>
@@ -868,7 +870,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
             <td class="l">Median annual output over <strong>2019–2023</strong> for the 2026–2030 period; 2014–2018 for 2021–2025.</td></tr>
           <tr><td class="l"><strong>Carbon leakage exposure factor</strong></td>
             <td class="l">Whether the sector is judged at genuine risk of relocating production outside the EU. Sectors that are not lose their allocation on a timetable.</td>
-            <td class="l"><strong>100%</strong> for sectors on the carbon leakage list. <strong>30%</strong> through 2026 for everything else, then falling in equal steps to <strong>0% in 2030</strong> — district heating excepted.</td></tr>
+            <td class="l"><strong>100%</strong> for sectors on the <a href="cbam.html#leakage">carbon leakage list</a>. <strong>30%</strong> through 2026 for everything else, then falling in equal steps to <strong>0% in 2030</strong> — district heating excepted. Of the 52 product benchmarks only <strong>plasterboard</strong> is not on the list; heat, fuel and process-emission sub-installations are split into a listed and an unlisted part according to what they produce.</td></tr>
           <tr><td class="l"><strong>CBAM factor</strong></td>
             <td class="l">Withdraws free allocation from the goods CBAM covers, so that border charge and domestic protection never apply to the same tonne.</td>
             <td class="l">CBAM goods only: <strong>97.5%</strong> in 2026, 51.5% in 2030, <strong>zero from 2034</strong>. 100% for everything else.</td></tr>
@@ -901,7 +903,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <p class="sub" style="margin-bottom:0">The benchmark does not move across those years. The allocation falls by
        47% and then to zero entirely, driven by a single multiplier that has nothing to do with how the plant is
        run. For a sector <em>not</em> on the carbon leakage list the same plant would already be on 30% and heading
-       to nothing by 2030 by a different route. The rate is the part everyone argues about; the multipliers are
+       to nothing by 2030 by a different route — the position of plasterboard, the one product benchmark whose
+       products are not on the list. The rate is the part everyone argues about; the multipliers are
        where most of the money is.</p>
   </div>
 
@@ -1098,7 +1101,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <p class="sub">Every benchmark, every period, in one place. The two "10% avg" columns are the measured
        averages of the cleanest installations in each reference window — compare them against the benchmark in
        force to see how much of the value is data and how much is the statutory floor. Click any header to sort;
-       sorting by Δ P4a→P4b ranks the sectors by how hard the current update hit them.</p>
+       sorting by Δ P4a→P4b ranks the sectors by how hard the current update hit them. Every benchmark except
+       plasterboard covers products on the <a href="cbam.html#leakage">carbon leakage list</a>; plasterboard is
+       tagged.</p>
     <div class="controls">
       <input type="search" id="q" placeholder="Search benchmark…">
       <select id="tblSector"></select>
@@ -1231,6 +1236,11 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <li><strong>Activity level.</strong> The calculator treats your input as the historical activity level used for
           allocation. Real allocation uses a median of past activity and is adjusted when activity changes by more than
           15% against the baseline — not modelled here.</li>
+      <li><strong>Which benchmarks are on the carbon leakage list.</strong> The Commission's Guidance Document 9
+          (2024 revision) gives the exposure of each product benchmark under Delegated Decision (EU) 2019/708:
+          "Yes" for 51 of the 52, "No" only for plasterboard, whose products fall under NACE 23.62 (plaster
+          products for construction), which is not on the list. Plaster and dried secondary gypsum are listed.
+          The calculator switches to "not on the list" when plasterboard is selected; the full table tags it.</li>
       <li><strong>CLEF for non-carbon-leakage sectors.</strong> Modelled as 30% in 2026 falling linearly to 0% in 2030
           (30 / 22.5 / 15 / 7.5 / 0). The Directive says 30% "until 2026" then decreasing in equal amounts to 0%
           "after 2030", which some read as reaching zero in 2031 instead. If that reading prevails the figures for
@@ -1310,7 +1320,7 @@ const D = [
  {n:"Spray-dried powder", s:"Ceramics & gypsum", u:"t/t", a:0.076, b:0.058, c:0.046, m17:0.050, m:0.055},
  {n:"Plaster", s:"Ceramics & gypsum", u:"t/t", a:0.048, b:0.047, c:0.045, m17:0.048, m:0.049},
  {n:"Dried secondary gypsum", s:"Ceramics & gypsum", u:"t/t", a:0.017, b:0.013, c:0.009, m17:0.008, m:0.010},
- {n:"Plasterboard", s:"Ceramics & gypsum", u:"t/t", a:0.131, b:0.110, c:0.122, m17:0.119, m:0.125, f:"e"},
+ {n:"Plasterboard", s:"Ceramics & gypsum", u:"t/t", a:0.131, b:0.110, c:0.122, m17:0.119, m:0.125, f:"e", ncl:1},
 
  {n:"Short fibre kraft pulp", s:"Pulp & paper", u:"t/t", a:0.120, b:0.091, c:0.060, m17:0.000, m:0.029, f:"b"},
  {n:"Long fibre kraft pulp", s:"Pulp & paper", u:"t/t", a:0.060, b:0.046, c:0.040, m17:0.001, m:0.046, f:"b"},
@@ -1800,6 +1810,9 @@ function syncHints(){
   document.getElementById("cProdHint").textContent = ACTLBL[d.u];
   document.getElementById("cIntHint").textContent =
     `${INTLBL[d.u]}. Benchmark is ${fmt(d.c,d.dp)}; enter your own verified figure.`;
+  document.getElementById("cClefHint").textContent = d.ncl
+    ? "Plasterboard is the one product benchmark not on the list — set to “not on the list” by default."
+    : "All other product benchmarks are on the list. Non-list sectors: 30 / 22.5 / 15 / 7.5 / 0% for 2026–2030.";
   document.getElementById("cCbamHint").textContent = d.cbam
     ? "This benchmark is mapped to CBAM Annex I goods — factor applied by default."
     : "Not mapped to CBAM Annex I — no factor applied by default.";
@@ -1881,6 +1894,7 @@ document.getElementById("cReset").onclick=()=>{
 document.getElementById("cBm").addEventListener("change",()=>{
   const d=D.find(x=>x.n===document.getElementById("cBm").value);
   document.getElementById("cInt").value=+(d.c*1.25).toFixed(d.dp+1);
+  document.getElementById("cClef").value=d.ncl?"nocl":"cl";
   runCalc();
 });
 runCalc();
@@ -1901,7 +1915,7 @@ function drawTable(){
   });
   document.getElementById("rowcount").textContent=rows.length+" of "+D.length;
   document.querySelector("#tbl tbody").innerHTML=rows.map(d=>`<tr>
-    <td>${d.n}${d.f?`<span class="flag" title="${flagTip(d.f)}">!</span>`:""}${d.cbam?`<span class="tag" style="margin-left:5px">CBAM</span>`:""}</td>
+    <td>${d.n}${d.f?`<span class="flag" title="${flagTip(d.f)}">!</span>`:""}${d.cbam?`<span class="tag" style="margin-left:5px">CBAM</span>`:""}${d.ncl?`<span class="tag ncl" style="margin-left:5px" title="Not on the carbon leakage list 2021–2030: 30% in 2026, falling to 0% in 2030">not on CL list</span>`:""}</td>
     <td><span class="swatch" style="background:${PAL[d.s]}"></span>${d.s}</td>
     <td>${fmt(d.a,d.dp)}</td><td>${fmt(d.b,d.dp)}</td><td><strong>${fmt(d.c,d.dp)}</strong></td>
     <td class="dim">${fmt(d.m17,d.dp)}</td><td class="dim">${fmt(d.m,d.dp)}</td>
