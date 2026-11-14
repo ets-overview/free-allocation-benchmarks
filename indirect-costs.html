@@ -68,6 +68,18 @@
   nav.tabs button:hover{color:var(--ink)}
   .hide{display:none}
   .dim{color:var(--muted)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:0 0 12px}
+  .seg button{background:#fff;border:0;padding:6px 14px;font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--accent);color:#fff;font-weight:600}
+  .lgd{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+  .lgd i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .icc-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:6px 0 14px}
+  .icc-form label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+  .icc-form input,.icc-form select{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:7px;
+     font:inherit;font-size:13.5px;background:#fff}
+  .icc-form .hint{font-size:11.5px;color:var(--muted);margin-top:3px}
+  table.wrapcells td,table.wrapcells th{white-space:normal;vertical-align:top}
 
 /* ===== shared: EU ETS dropdown (added Sept 2026) ===== */
 .ddwrap{position:relative;display:inline-flex;align-items:center;gap:0}
@@ -169,6 +181,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <nav class="tabs">
   <div class="headerinner">
     <button data-tab="what" class="on">What it is</button>
+    <button data-tab="calc">How it is calculated</button>
     <button data-tab="traj">Trajectory</button>
     <button data-tab="who">Who pays</button>
     <button data-tab="fund">Where the money comes from</button>
@@ -182,8 +195,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <!-- ============ WHAT ============ -->
 <section id="tab-what">
   <div class="cards">
-    <div class="card"><div class="k">€5.52 bn</div><div class="l">paid out in 2024 by fifteen member states, for costs incurred in 2023</div></div>
-    <div class="card"><div class="k">8×</div><div class="l">growth since 2017, when ten member states paid €694 m</div></div>
+    <div class="card"><div class="k">€6.91 bn</div><div class="l">paid out in 2025 by fifteen member states, for costs incurred in 2024</div></div>
+    <div class="card"><div class="k">10×</div><div class="l">growth since 2017, when ten member states paid €694 m</div></div>
     <div class="card"><div class="k">80%</div><div class="l">maximum share of indirect costs that may now be compensated, raised from 75%</div></div>
     <div class="card"><div class="k">+20</div><div class="l">sectors added to the eligibility list in December 2025, plus two subsectors</div></div>
     <div class="card"><div class="k">None</div><div class="l">phase-out date, unlike free allocation and CBAM</div></div>
@@ -198,7 +211,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        competitors abroad face no equivalent.</p>
     <p class="sub" style="margin-bottom:0">Member states may reimburse part of that second cost, under Commission
        State aid guidelines that set who qualifies and how much may be paid. It is therefore not an EU instrument
-       in the way the ETS is: Brussels sets the ceiling, capitals decide whether to pay at all.</p>
+       in the way the ETS is: Brussels sets the ceiling, capitals decide whether to pay at all. The formula
+       behind that ceiling is on the <a href="#calc" data-goto="calc">How it is calculated</a> tab.</p>
   </div>
 
   <div class="panel">
@@ -242,11 +256,139 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   </div>
 </section>
 
+<!-- ============ HOW IT IS CALCULATED ============ -->
+<section id="tab-calc" class="hide">
+  <div class="panel">
+    <h2>The formula is set in Brussels; the decision to pay is national</h2>
+    <p class="sub">Member states design their own schemes, but every scheme has to be notified to the Commission
+       and approved against the ETS State aid Guidelines (2020/C 317/04, supplemented in 2021 and amended in
+       December 2025). The Guidelines fix a single EU-wide formula for the <strong>maximum</strong> aid an
+       installation may receive for a given year. A member state can pay that maximum, pay less, or not run a
+       scheme at all; several cap their budget and scale every payment down pro rata when claims exceed it.
+       What follows is the ceiling, as it applies to costs incurred from 2026.</p>
+    <div class="eq">
+      <strong>Where a product-specific electricity efficiency benchmark exists:</strong><br>
+      A<sub>max,t</sub> = A<sub>i</sub> × C<sub>t</sub> × P<sub>t−1</sub> × E × AO<sub>t</sub><br>
+      <strong>Where it does not (the fall-back):</strong><br>
+      A<sub>max,t</sub> = A<sub>i</sub> × C<sub>t</sub> × P<sub>t−1</sub> × EF × AEC<sub>t</sub>
+    </div>
+    <p class="sub" style="margin-bottom:0">Read from the right, the fall-back version is simple: take the electricity
+       the plant actually used, assume only an efficient share of it is eligible, convert it to tonnes of CO₂
+       with the carbon intensity of the power that sets prices in that region, value those tonnes at the
+       allowance price, and reimburse a fixed share. The product version does the same but measures eligible
+       electricity as output × an efficient electricity use per tonne, so a plant that uses more power than the
+       benchmark is not compensated for the excess.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Each term</h2>
+    <div class="tblscroll">
+      <table class="wrapcells">
+        <thead><tr><th class="l" style="width:18%">Term</th><th class="l">What it is</th><th class="l">Value from 2026</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>A<sub>i</sub></strong> — aid intensity</td>
+              <td class="l">The share of the calculated cost that may be reimbursed.</td>
+              <td class="l"><strong>80%</strong> for the sectors eligible since 2020 (Table 1 of Annex I), raised
+                  from 75% in December 2025; <strong>75%</strong> for the sectors added then (Table 2) and any
+                  further sector found eligible later.</td></tr>
+          <tr><td class="l"><strong>C<sub>t</sub></strong> — CO₂ emission factor</td>
+              <td class="l">Tonnes of CO₂ per MWh of the fossil plant that sets the electricity price in the
+                  region, a proxy for how much carbon cost is passed into each MWh. The same factor applies to
+                  all power a plant uses, whether bought from the grid, under contract or self-generated.</td>
+              <td class="l">The regional maximum in Annex III, updated for 2026–2030 (chart below), or a
+                  market-based factor a member state has had approved on the basis of a study of the actual
+                  price-setting technology. Where the new Annex III factor is at least 15% below the old one, the
+                  drop may be phased in in equal annual steps, reaching the new value by 2030 at the latest.</td></tr>
+          <tr><td class="l"><strong>P<sub>t−1</sub></strong> — allowance price</td>
+              <td class="l">The simple average, over the previous calendar year, of daily closing prices of the
+                  EUA one-year forward for December delivery of the aid year.</td>
+              <td class="l">For 2026 aid, the 2025 average of the December-2026 contract. For comparison, the 2025
+                  average spot price on the <a href="ets.html#price">ETS page</a> was €73.42.</td></tr>
+          <tr><td class="l"><strong>E</strong> — product efficiency benchmark</td>
+              <td class="l">Electricity use per tonne of product of the most efficient installations, in MWh/t,
+                  for the products listed in Annex II.</td>
+              <td class="l">The Annex II value for 2021, reduced by 1.09% a year from 2022:
+                  value<sub>t</sub> = value<sub>2021</sub> × 0.9891<sup>t−2021</sup>.</td></tr>
+          <tr><td class="l"><strong>EF</strong> — fall-back benchmark</td>
+              <td class="l">Used for eligible products with no Annex II benchmark: a flat share of actual
+                  consumption counts as efficient.</td>
+              <td class="l">0.80 in 2021, reduced by 1.09% a year: <strong id="efNow">0.757</strong> in 2026,
+                  <strong id="efEnd">0.725</strong> in 2030.</td></tr>
+          <tr><td class="l"><strong>AO<sub>t</sub></strong>, <strong>AEC<sub>t</sub></strong></td>
+              <td class="l">Actual output (tonnes) and actual electricity consumption (MWh) in year t.</td>
+              <td class="l">Measured after the year ends, which is why aid is normally paid in year t+1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Estimate the maximum aid</h2>
+    <p class="sub">The fall-back formula for one installation. The product formula works the same way with
+       E × AO<sub>t</sub> in place of EF × AEC<sub>t</sub>. The price is an assumption you set; nothing here is
+       a payment anyone is entitled to.</p>
+    <div class="icc-form">
+      <div><label for="iArea">Geographic area (Annex III)</label><select id="iArea"></select></div>
+      <div><label for="iYear">Year costs are incurred</label><select id="iYear"></select></div>
+      <div><label for="iAi">Sector</label><select id="iAi">
+        <option value="0.80">Eligible since 2020 — 80%</option>
+        <option value="0.75">Added in December 2025 — 75%</option></select></div>
+      <div><label for="iAec">Electricity consumed, MWh</label><input id="iAec" type="number" min="0" step="any" value="100000"></div>
+      <div><label for="iP">Allowance price P<sub>t−1</sub>, €/t</label><input id="iP" type="number" min="0" step="any" value="75">
+        <div class="hint">One-year forward, previous-year average.</div></div>
+    </div>
+    <div class="eq" id="iOut" style="margin-bottom:12px"></div>
+    <div class="cards" id="iCards" style="margin:0"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Where the plant is matters as much as what it makes</h2>
+    <p class="sub">The CO₂ factor is set per member state or group of member states, so the same plant drawing
+       the same power receives very different maximum aid depending on the zone. With the defaults above, a plant
+       in Germany or Luxembourg (0.73) could receive about 1.7 times what an identical plant in France (0.43)
+       could, and more than twice what one in Austria (0.33) could. Hover for the €/MWh at the calculator's
+       current settings.</p>
+    <div class="chartbox" style="height:520px"><canvas id="ctChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Further rules around the formula</h2>
+    <div class="grid2">
+      <div>
+        <h3>A cap on what the firm bears</h3>
+        <p style="font-size:13.5px;color:#39414d">Where 75–80% does not give enough protection, a member state may
+           limit the indirect costs an undertaking has to bear itself to <strong>1.5% of its gross value
+           added</strong> in that year. Aid then covers everything above that, so the effective share can exceed
+           80%. If used, the limit must apply to every eligible undertaking in the sector.</p>
+        <h3>When it is paid</h3>
+        <p style="font-size:13.5px;color:#39414d;margin-bottom:0">Aid must be applied for and paid in the year the
+           costs are incurred or the year after. Paid in the same year, it needs an ex-post check and any
+           over-payment is repaid before 1 July of the following year. In practice most schemes pay in year t+1,
+           which is why the trajectory on this page lags the allowance price by a year.</p>
+      </div>
+      <div>
+        <h3>Conditions on the recipient</h3>
+        <p style="font-size:13.5px;color:#39414d">Beneficiaries must have carried out the energy audit the Energy
+           Efficiency Directive requires and meet one of four conditions: implement the audit recommendations that
+           pay back within three years (or the longer period in Article 10a(1) of the ETS Directive); cover at
+           least 30% of their electricity from carbon-free sources; invest at least 50% of the aid in projects that
+           substantially cut the installation's emissions; or, new since December 2025, invest at least 50% in new
+           or modernised assets that reduce electricity system costs without increasing fossil fuel use.</p>
+        <h3>A transparency trigger</h3>
+        <p style="font-size:13.5px;color:#39414d;margin-bottom:0">A member state whose schemes cost more than
+           <strong>25% of its auction revenue</strong> in a year must publish a report explaining why, including
+           electricity prices for large industrial users. That threshold is what the red bars on the
+           <a href="#who" data-goto="who">Who pays</a> tab mark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TRAJECTORY ============ -->
 <section id="tab-traj" class="hide">
   <div class="panel">
-    <h2>The trajectory, 2017 to 2024</h2>
-    <p class="sub">Compiled from eight successive Commission reports on the functioning of the European carbon
+    <h2>The trajectory, 2017 to 2025</h2>
+    <p class="sub">Compiled from nine successive Commission reports on the functioning of the European carbon
        market. Each figure is the total aid <em>paid out</em> in that year, for indirect costs incurred the year
        before.</p>
     <div class="chartbox" style="height:360px"><canvas id="trajChart"></canvas></div>
@@ -270,15 +412,21 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <section id="tab-who" class="hide">
   <div class="panel">
     <h2>Who pays it</h2>
-    <p class="sub">Payments made in 2024 for costs incurred in 2023, by member state. Hover for the share of that
-       state's 2023 auction revenue the compensation represents.</p>
-    <div class="chartbox" style="height:420px"><canvas id="msChart"></canvas></div>
-    <div class="warn" style="margin-top:18px"><strong>Three countries account for 71% of it.</strong> Germany paid
-      €2.40 bn, France €0.91 bn and Poland €0.61 bn. But the sharper measure is compensation as a share of auction
-      revenue: <strong>Luxembourg paid 492%</strong> of its ETS auction revenue, France 44% and Germany 32%, while
-      Italy paid under 5% and Portugal 3%. Because the schemes are national and voluntary, a member state with
-      fiscal room can shield its industry and one without cannot — inside a single market the ETS is meant to keep
-      level.</div>
+    <p class="sub">Payments by each of the fifteen member states that run a scheme, for costs incurred the year
+       before. Hover for the number of installations and the share of that state's auction revenue the
+       compensation represents.</p>
+    <div class="seg" id="msYr"><button data-y="2025" class="on">Paid in 2025</button><button data-y="2024">Paid in 2024</button></div>
+    <div class="lgd"><span><i style="background:rgba(192,57,43,.85)"></i>Above 25% of the state's auction revenue —
+      must publish a report explaining why</span><span><i style="background:rgba(107,91,210,.8)"></i>25% or less</span></div>
+    <div class="chartbox" style="height:440px"><canvas id="msChart"></canvas></div>
+    <div class="warn" style="margin-top:18px" id="msNote"></div>
+    <p class="sub" style="margin:14px 0 0"><strong>Why Luxembourg is off the scale.</strong> Its compensation is
+       several times its auction revenue because that revenue is tiny: Luxembourg imports around two thirds of its
+       electricity and has no large fossil plants, so it auctions few allowances. France and Belgium are high for a
+       related reason, a largely low-carbon power sector that keeps auction revenue low relative to their
+       electricity-intensive industry. Because the schemes are national and voluntary, a member state with fiscal
+       room can shield its industry and one without cannot — inside a single market the ETS is meant to keep
+       level.</p>
   </div>
 </section>
 
@@ -369,6 +517,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            ETS revenue and runs on a different year basis.</p>
       </div>
     </div>
+    <p class="sub" style="margin:14px 0 0">Both figures are for 2024. On the disbursement basis, the
+       Commission's report of 9 November 2026 puts payments made in 2025 at <strong>€6.91 bn</strong>, for costs
+       incurred in 2024; the matching revenue-basis figure is not yet published.</p>
     <div class="warn" style="margin-top:16px">The two differ by roughly three quarters. Whenever you see a figure
       for indirect cost compensation, check which basis it uses. The trajectory chart on this site uses the
       disbursement basis throughout, so its years are comparable with each other.</div>
@@ -377,9 +528,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <div class="panel">
     <h2>Sources</h2>
     <ul>
-      <li><strong>Trajectory and member state tables</strong> — Commission reports on the functioning of the European carbon market: COM(2017) 693, COM(2018) 842, COM(2019) 557, COM(2020) 740, COM(2021) 962, COM(2022) 516, COM(2023) 654, COM(2024) 538 and COM(2025) 735.</li>
+      <li><strong>Trajectory and member state tables</strong> — Commission reports on the functioning of the European carbon market: COM(2017) 693, COM(2018) 842, COM(2019) 557, COM(2020) 740, COM(2021) 962, COM(2022) 516, COM(2023) 654, COM(2024) 538, COM(2025) 735 and COM(2026) 596.</li>
       <li><strong>Funding route</strong> — <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA dataset on member states' use of revenues from auctioning EU ETS allowances, 2020–2024</a>, project-level table, 2024 reporting year.</li>
-      <li><strong>State aid rules</strong> — Commission guidelines on certain State aid measures in the context of the EU ETS, as amended December 2025.</li>
+      <li><strong>State aid rules and the formula</strong> — Commission Guidelines on certain State aid measures in the context of the system for greenhouse gas emission allowance trading post-2021 (2020/C 317/04), as supplemented by 2021/C 528/01 and amended by C/2026/196 (adopted 23 December 2025, CO₂ factors applying from 1 January 2026).</li>
       <li><strong>CBAM interaction</strong> — Regulation (EU) 2023/956, Article 7 and Annex II.</li>
     </ul>
     <p class="sub"><strong>Getting the data out.</strong> Every chart on this page has a download button
@@ -393,19 +544,19 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <summary>What this page still needs</summary>
     <p>The sector-level breakdown of who receives the aid. Member states must publish a breakdown per recipient
        sector and subsector within three months of each year's end, but it sits in national publications rather
-       than consolidated anywhere. The 2024 total went to roughly 1 850 installations across fifteen states; the
+       than consolidated anywhere. The 2025 total went to 1 962 installations across fifteen states; the
        distribution inside that is not visible from the Commission reports alone.</p>
   </details>
 
   <footer>
     Compiled from Commission and EEA sources, August 2026; no substantive change in the September 2026 review. Orientation only, not legal or state aid advice.
-  <br><span class="stamp"><strong>Last updated 8 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+  <br><span class="stamp"><strong>Last updated 14 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 8 November 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 14 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -419,9 +570,9 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
 const nf=v=>v.toLocaleString("en-GB",{maximumFractionDigits:0});
 
 // Commission carbon market reports COM(2017) 693 - COM(2025) 735. Aid paid out per year, for costs incurred the year before.
-const TR_Y=[2017,2018,2019,2020,2021,2022,2023,2024];
-const TR_V=[694,462,656,1358,2380,2160,3950,5520];
-const TR_N=[10,11,11,13,14,13,15,15];
+const TR_Y=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const TR_V=[694,462,656,1358,2380,2160,3950,5520,6910];
+const TR_N=[10,11,11,13,14,13,15,15,15];
 new Chart(document.getElementById("trajChart"),{type:"bar",
   data:{labels:TR_Y.map(String),datasets:[{data:TR_V,
     backgroundColor:TR_Y.map(y=>y===2022?"rgba(217,165,32,.85)":"rgba(107,91,210,.85)"),borderRadius:3}]},
@@ -435,29 +586,106 @@ new Chart(document.getElementById("trajChart"),{type:"bar",
             x:{grid:{display:false}}}}});
 document.getElementById("trajCards").innerHTML=[
   ["€694 m","paid out in 2017, by ten member states"],
-  ["€5.52 bn","paid out in 2024, by fifteen"],
+  ["€6.91 bn","paid out in 2025, by the same fifteen as in 2024"],
   ["+107%","the largest single-year jump, 2020"],
-  ["~1 850","installations receiving aid in 2024"]
+  ["1 962","installations receiving aid in 2025, up 5%"]
 ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
 
-const MS=[
- {c:"Germany",v:2395.0,s:31.6},{c:"France",v:908.8,s:44.1},{c:"Poland",v:614.6,s:11.4},
- {c:"Greece",v:287.0,s:19.9},{c:"Spain",v:282.0,s:null},{c:"Belgium",v:249.9,s:33.8},
- {c:"Italy",v:165.5,s:4.7},{c:"Netherlands",v:147.3,s:11.7},{c:"Finland",v:143.2,s:25.1},
- {c:"Romania",v:116.7,s:20.4},{c:"Czechia",v:60.4,s:7.8},{c:"Slovakia",v:58.3,s:null},
- {c:"Luxembourg",v:37.6,s:492.0},{c:"Portugal",v:25.0,s:3.4}];
-new Chart(document.getElementById("msChart"),{type:"bar",
-  data:{labels:MS.map(d=>d.c),datasets:[{data:MS.map(d=>d.v),
-    backgroundColor:MS.map(d=>d.s!==null&&d.s>40?"rgba(192,57,43,.85)":"rgba(107,91,210,.8)"),
-    borderRadius:3,barThickness:16}]},
+// Commission carbon market reports: COM(2025) 735 Table 6 (paid 2024, costs 2023; share of 2023 auction revenue)
+// and COM(2026) 596 Tables 6-7 (paid 2025, costs 2024; share of 2024 auction revenue excl. aviation).
+// v = EUR million, s = % of auction revenue, n = installations.
+const MSD={
+ 2024:[{c:"Germany",v:2395.0,s:31.6,n:707},{c:"France",v:908.8,s:44.1,n:293},{c:"Poland",v:614.6,s:11.4,n:97},
+       {c:"Greece",v:287.0,s:19.9,n:57},{c:"Spain",v:282.8,s:8.0,n:191},{c:"Belgium",v:249.9,s:33.8,n:56},
+       {c:"Italy",v:165.5,s:4.7,n:252},{c:"Netherlands",v:147.3,s:11.7,n:48},{c:"Finland",v:143.2,s:25.1,n:55},
+       {c:"Romania",v:116.7,s:20.4,n:31},{c:"Czechia",v:60.4,s:7.8,n:23},{c:"Slovakia",v:58.3,s:15.4,n:9},
+       {c:"Luxembourg",v:37.6,s:492.0,n:4},{c:"Slovenia",v:25.4,s:13.6,n:16},{c:"Portugal",v:25.0,s:3.4,n:23}],
+ 2025:[{c:"Germany",v:2783.7,s:51,n:729},{c:"France",v:1048.0,s:71,n:322},{c:"Poland",v:688.1,s:18,n:97},
+       {c:"Italy",v:611.9,s:24,n:262},{c:"Spain",v:597.9,s:24,n:220},{c:"Belgium",v:279.2,s:53,n:55},
+       {c:"Greece",v:272.4,s:25,n:54},{c:"Netherlands",v:159.8,s:18,n:48},{c:"Finland",v:149.9,s:37,n:57},
+       {c:"Czechia",v:90.7,s:14,n:32},{c:"Romania",v:76.5,s:12,n:31},{c:"Portugal",v:50.0,s:10,n:26},
+       {c:"Luxembourg",v:41.5,s:817,n:4},{c:"Slovakia",v:35.5,s:12,n:9},{c:"Slovenia",v:25.2,s:19,n:16}]};
+// The member states each report names as above the 25% reporting threshold (Greece, at a rounded 25%, is named for 2025).
+const MS_OVER={2024:["Belgium","Finland","France","Germany","Luxembourg"],
+               2025:["Belgium","Finland","France","Germany","Greece","Luxembourg"]};
+let msYear=2025;
+const msChart=new Chart(document.getElementById("msChart"),{type:"bar",
+  data:{labels:[],datasets:[{data:[],backgroundColor:[],borderRadius:3,barThickness:16}]},
   options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},
       tooltip:{callbacks:{label:c=>`€${nf(c.parsed.x)} million`,
-        afterBody:c=>{const d=MS[c[0].dataIndex];
-          return d.s===null?["share of auction revenue not reported"]
-                           :[`${d.s}% of that state's 2023 auction revenue`];}}}},
-    scales:{x:{title:{display:true,text:"€ million paid in 2024 for costs incurred in 2023"},grid:{color:"#eef1f5"}},
+        afterBody:c=>{const d=MSD[msYear][c[0].dataIndex];
+          return [`${d.s}% of that state's ${msYear-1} auction revenue`,`${d.n} installation${d.n===1?"":"s"}`];}}}},
+    scales:{x:{title:{display:true,text:""},grid:{color:"#eef1f5"}},
             y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
+function drawMS(){
+  const D=MSD[msYear], over=MS_OVER[msYear], tot=D.reduce((a,d)=>a+d.v,0);
+  msChart.data.labels=D.map(d=>d.c);
+  msChart.data.datasets[0].data=D.map(d=>d.v);
+  msChart.data.datasets[0].backgroundColor=D.map(d=>over.includes(d.c)?"rgba(192,57,43,.85)":"rgba(107,91,210,.8)");
+  msChart.options.scales.x.title.text=`€ million paid in ${msYear} for costs incurred in ${msYear-1}`;
+  msChart.update();
+  const top=D.slice(0,3), topShare=top.reduce((a,d)=>a+d.v,0)/tot*100;
+  const bn=v=>"€"+(v/1000).toFixed(2)+" bn";
+  const byShare=D.slice().sort((a,b)=>b.s-a.s), low=D.slice().sort((a,b)=>a.s-b.s).slice(0,2);
+  const list=a=>a.length>1?a.slice(0,-1).join(", ")+" and "+a[a.length-1]:a[0];
+  let txt=`<strong>Three countries account for ${topShare.toFixed(0)}% of the ${bn(tot)}.</strong> `+
+    `${top[0].c} paid ${bn(top[0].v)}, ${top[1].c} ${bn(top[1].v)} and ${top[2].c} ${bn(top[2].v)}. `+
+    `As a share of auction revenue the ranking is different: ${byShare[0].c} ${byShare[0].s}%, `+
+    `${byShare[1].c} ${byShare[1].s}% and ${byShare[2].c} ${byShare[2].s}%, against ${low[0].c} ${low[0].s}% and ${low[1].c} ${low[1].s}%. `+
+    `${["No","One","Two","Three","Four","Five","Six","Seven","Eight"][over.length]||over.length} member states — ${list(over)} — were above the 25% threshold that obliges them to publish a report.`;
+  if(msYear===2025) txt+=` The jump from 2024 is partly arithmetic: allowance prices fell by about €20 between 2023 and 2024, `+
+    `shrinking the auction revenue the shares are measured against. On the Commission's estimate the median share `+
+    `would have been about 18% rather than 24% without that effect. Italy (+270%) and Spain (+111%) also paid far more.`;
+  document.getElementById("msNote").innerHTML=txt;
+  document.querySelectorAll("#msYr button").forEach(b=>b.classList.toggle("on",+b.dataset.y===msYear));
+}
+document.querySelectorAll("#msYr button").forEach(b=>b.onclick=()=>{msYear=+b.dataset.y;drawMS();});
+drawMS();
+
+// ---------------------------------------------------------------- formula tab
+// Annex III, ETS State aid Guidelines as amended by C/2026/196: maximum regional CO2 emission factors 2026-2030, tCO2/MWh.
+const CT=[["Bulgaria, Romania",0.91],["Czechia",0.89],["Poland",0.78],["Lithuania, Latvia, Estonia",0.76],
+  ["Slovenia",0.75],["Germany, Luxembourg",0.73],["Cyprus",0.72],["Finland",0.62],["Sweden",0.60],
+  ["Greece",0.58],["Slovakia",0.58],["Denmark",0.54],["Croatia",0.51],["Hungary",0.50],["Spain, Portugal",0.47],
+  ["Ireland",0.44],["Italy",0.44],["Netherlands",0.44],["France",0.43],["Malta",0.40],["Belgium",0.37],["Austria",0.33]];
+const efYear=t=>0.80*Math.pow(1-0.0109,t-2021);
+document.getElementById("efNow").textContent=efYear(2026).toFixed(3);
+document.getElementById("efEnd").textContent=efYear(2030).toFixed(3);
+const iArea=document.getElementById("iArea"), iYear=document.getElementById("iYear");
+iArea.innerHTML=CT.map(([a,v])=>`<option value="${v}"${a==="Germany, Luxembourg"?" selected":""}>${a} — ${v.toFixed(2)}</option>`).join("");
+iYear.innerHTML=[2026,2027,2028,2029,2030].map(y=>`<option>${y}</option>`).join("");
+const eur=v=>"€"+Math.round(v).toLocaleString("en-GB").replace(/,/g,"\u202f");
+let ctChart;
+function runICC(){
+  const ai=+document.getElementById("iAi").value, ct=+iArea.value, t=+iYear.value,
+        aec=+document.getElementById("iAec").value||0, p=+document.getElementById("iP").value||0, ef=efYear(t);
+  const aid=ai*ct*p*ef*aec, cost=ct*p*aec;
+  document.getElementById("iOut").innerHTML=
+    `A<sub>max,${t}</sub> = ${ai.toFixed(2)} × ${ct.toFixed(2)} t/MWh × €${p} × ${ef.toFixed(3)} × ${Math.round(aec).toLocaleString("en-GB").replace(/,/g,"\u202f")} MWh = <strong>${eur(aid)}</strong>`;
+  document.getElementById("iCards").innerHTML=[
+    [eur(aid),"maximum aid for "+t],
+    [aec?("€"+(aid/aec).toFixed(2)):"–","per MWh consumed"],
+    [eur(cost),"carbon cost the formula assumes is in the power bill (C × P × MWh)"],
+    [(ai*ef*100).toFixed(0)+"%","of that cost the maximum reimburses (A<sub>i</sub> × EF)"]
+  ].map(k=>`<div class="card"><div class="k">${k[0]}</div><div class="l">${k[1]}</div></div>`).join("");
+  if(ctChart){ const sel=iArea.selectedIndex;
+    ctChart.data.datasets[0].data=CT.map(([,v])=>+(ai*v*p*ef).toFixed(2));
+    ctChart.data.datasets[0].backgroundColor=CT.map((d,i)=>i===sel?"rgba(31,95,191,.9)":"rgba(107,91,210,.75)");
+    ctChart.update(); }
+}
+ctChart=new Chart(document.getElementById("ctChart"),{type:"bar",
+  data:{labels:CT.map(d=>d[0]),datasets:[{data:[],backgroundColor:CT.map(d=>d[0]==="Germany, Luxembourg"?"rgba(31,95,191,.9)":"rgba(107,91,210,.75)"),borderRadius:3,barThickness:14}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:c=>`CO₂ factor ${CT[c.dataIndex][1].toFixed(2)} t/MWh`,
+      afterLabel:c=>`maximum aid ≈ €${c.parsed.x.toFixed(2)} per MWh at the calculator's settings`}}},
+    scales:{x:{title:{display:true,text:"Maximum aid, € per MWh consumed (fall-back formula, calculator settings)"},grid:{color:"#eef1f5"}},
+            y:{grid:{display:false},ticks:{font:{size:11.5}}}}}});
+["iArea","iYear","iAi","iAec","iP"].forEach(id=>{const el=document.getElementById(id); el.oninput=runICC; el.onchange=runICC;});
+runICC();
+document.querySelectorAll("[data-goto]").forEach(a=>a.addEventListener("click",e=>{
+  e.preventDefault(); const b=document.querySelector(`nav button[data-tab="${a.dataset.goto}"]`); if(b) b.click();}));
 
 // EEA use-of-revenues dataset, 2024 reporting year: the only member states booking compensation as a reported use of auction revenue.
 const FUND=[{c:"France",v:833.8},{c:"Slovakia",v:93.8},{c:"Czechia",v:58.0},
