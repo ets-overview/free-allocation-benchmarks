@@ -221,7 +221,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <button data-tab="comply">Compliance</button>
     <button data-tab="countries">Countries</button>
     <button data-tab="leakage">Carbon leakage</button>
-    <button data-tab="calcmech">How it is calculated</button>
+    <button data-tab="formula">How it is calculated</button>
+    <button data-tab="calcmech">Free allocation adjustment</button>
     <button data-tab="calc">Cost calculator</button>
     <button data-tab="notes">Data &amp; caveats</button>
   </div>
@@ -928,7 +929,164 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 </section>
 
 
-<!-- ===================== CALCULATION MECHANICS ===================== -->
+<!-- ===================== FORMULA ===================== -->
+<section id="tab-formula" class="hide">
+  <div class="panel">
+    <h2>The obligation in one line</h2>
+    <p class="sub">For each declaration year the importer adds up its goods, and the number of CBAM certificates it
+       must surrender is the emissions embedded in them, less two deductions. The first term depends on how the good
+       was actually made — or on a default value if that is not known. The two deductions do not.</p>
+    <div class="eq" style="line-height:2">
+      <strong>Certificates = Σ<sub>g</sub> ( SEE<sub>g</sub> × M<sub>g</sub> ) − FAA − CP</strong><br>
+      <span class="dim">SEE<sub>g</sub></span> specific embedded emissions of good g, t CO₂e per tonne — <em>measured or default</em><br>
+      <span class="dim">M<sub>g</sub></span> tonnes of good g imported in the year<br>
+      <span class="dim">FAA</span> free allocation adjustment — what an EU producer of the same good would still get free
+        (<a href="#calcmech">Free allocation adjustment</a> tab)<br>
+      <span class="dim">CP</span> carbon price effectively paid in the country of production, converted into certificates (Article 9)
+    </div>
+    <p class="sub" style="margin-bottom:0">Each certificate then costs the CBAM certificate price for the period,
+       which tracks the EU ETS auction price (<a href="#how">How it works</a>). The rest of this tab is about the
+       first term: the two ways of arriving at SEE<sub>g</sub>.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Two routes to SEE: measured or default</h2>
+    <div class="grid2">
+      <div>
+        <h3>Measured (actual) emissions</h3>
+        <p class="sub" style="margin-bottom:8px">The producing installation monitors its emissions under the
+           methodology in Implementing Regulation (EU) 2025/2547, an accredited verifier checks them, and the
+           figures reach the importer through the CBAM Registry. Annex IV of the CBAM Regulation gives the formula.</p>
+        <div class="eq" style="line-height:2;margin-top:6px">
+          <span class="dim">Simple good (no precursors):</span><br>
+          SEE<sub>g</sub> = AttrEm<sub>g</sub> ÷ AL<sub>g</sub><br>
+          <span class="dim">Complex good:</span><br>
+          SEE<sub>g</sub> = ( AttrEm<sub>g</sub> + EE<sub>InpMat</sub> ) ÷ AL<sub>g</sub>,
+          &nbsp; EE<sub>InpMat</sub> = Σ<sub>i</sub> M<sub>i</sub> × SEE<sub>i</sub>
+        </div>
+        <p class="sub" style="margin-bottom:0"><strong>AttrEm<sub>g</sub></strong> are the emissions attributed to
+           the good's own production process over the reporting period, <strong>AL<sub>g</sub></strong> the tonnes
+           produced, and <strong>M<sub>i</sub></strong> the tonnes of each precursor consumed, each carrying its own
+           SEE<sub>i</sub>. Dividing through, the precursor term is m<sub>i</sub> × SEE<sub>i</sub> with
+           m<sub>i</sub> = M<sub>i</sub> ÷ AL<sub>g</sub> — the same Equation 5 that drives the free allocation
+           adjustment. <strong>No mark-up</strong> applies.</p>
+      </div>
+      <div>
+        <h3>Default values</h3>
+        <p class="sub" style="margin-bottom:8px">Where verified data is not available, the importer takes the value for
+           the good's CN code and country of origin from Annex I to Implementing Regulation (EU) 2025/2621, as
+           corrected by 2026/1740 (<a href="#countries">Countries</a> tab), and adds a mark-up.</p>
+        <div class="eq" style="line-height:2;margin-top:6px">
+          SEE<sub>g</sub> = DV<sub>g,country</sub> × ( 1 + mark-up<sub>y</sub> )<br>
+          <span class="dim">mark-up:</span> 10% in 2026, 20% in 2027, 30% from 2028<br>
+          <span class="dim">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fertilisers:</span> 1% throughout
+        </div>
+        <p class="sub" style="margin-bottom:0">DV is the <strong>total emissions</strong> column: direct plus indirect
+           for cement and fertilisers, direct only for iron and steel, aluminium and hydrogen, whose indirect emissions
+           are outside CBAM. If the country is not listed or has no value, the ‘Other countries and territories’ row
+           applies. Defaults are set at the average intensity of the origin country, or of the ten most
+           carbon-intensive exporters where data is thin, and the mark-up is designed to make them more expensive than
+           most real data.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>What goes into the measured figure</h2>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l" style="width:22%">Component</th><th class="l">How it is counted</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>Direct emissions</strong></td>
+              <td class="l" style="white-space:normal">Fuel combustion and process emissions within the system boundary
+                  of the production process — for clinker, the calcination of limestone and the kiln fuel. Emissions
+                  from heat the process imports are added; heat exported is deducted.</td></tr>
+          <tr><td class="l"><strong>Indirect emissions</strong></td>
+              <td class="l" style="white-space:normal">Electricity consumed × an emission factor. Counted only for
+                  cement and fertilisers. The factor is the default grid factor of the country in Annex II to
+                  Implementing Regulation (EU) 2025/2621 — 0.605 t CO₂/MWh for China, 0.420 for Türkiye, 0.726 for
+                  India — unless the producer can show a direct technical link to a generator or a qualifying power
+                  purchase agreement.</td></tr>
+          <tr><td class="l"><strong>Precursors</strong></td>
+              <td class="l" style="white-space:normal">The embedded emissions of relevant precursors, such as clinker in
+                  cement or pig iron in steel, carried into the good in proportion to the mass consumed. The producer may
+                  use actual data for its own process and default values for a bought-in precursor; where the precursor's
+                  country of production cannot be identified, the values in Annex IV of the default-values regulation
+                  apply.</td></tr>
+          <tr><td class="l"><strong>Reporting period</strong></td>
+              <td class="l" style="white-space:normal">Normally the calendar year, so SEE is an annual average for the
+                  installation, not a figure for the individual shipment.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Worked example: 1 000 t of grey Portland cement from China, 2026</h2>
+    <p class="sub">CN 2523 29 00, imported in 2026, valued at the Q3 2026 certificate price of €82.32, with the CBAM
+       factor at 97.5%, the correction factor at 100% and no carbon price paid in China. The default figures are
+       official; the plant figures on the right are illustrative but typical of a modern dry-process kiln.</p>
+    <div class="grid2">
+      <div>
+        <h3>Route A — default values</h3>
+        <div class="eq" style="line-height:2;margin-top:6px">
+          <span class="dim">Annex I, China, grey Portland cement:</span><br>
+          direct 1.35 + indirect 0.07 = <strong>1.42</strong> t CO₂e/t<br>
+          SEE = 1.42 × 1.10 (2026 mark-up) = <strong>1.562</strong><br>
+          embedded = 1.562 × 1 000 = <strong>1 562 t</strong><br>
+          FAA = 0.975 × 1.0 × 0.666 (BM, default route) × 1 000 = <strong>649 t</strong><br>
+          certificates = 1 562 − 649 = <strong>913</strong><br>
+          cost = 913 × €82.32 ≈ <strong style="color:var(--up)">€75 100</strong>, about €75 per tonne
+        </div>
+      </div>
+      <div>
+        <h3>Route B — measured values</h3>
+        <div class="eq" style="line-height:2;margin-top:6px">
+          <span class="dim">Clinker (precursor):</span> direct 0.84 + 0.065 MWh × 0.605 = <strong>0.879</strong> t CO₂e/t clinker<br>
+          <span class="dim">Cement (grinding):</span> no direct; 0.040 MWh × 0.605 = 0.024<br>
+          SEE = 0.024 + 0.80 (clinker per t) × 0.879 = <strong>0.728</strong><br>
+          embedded = 0.728 × 1 000 = <strong>728 t</strong><br>
+          FAA = 0.80 × 0.975 × 1.0 × 0.666 (BM*, clinker) × 1 000 = <strong>519 t</strong><br>
+          certificates = 728 − 519 = <strong>208</strong><br>
+          cost = 208 × €82.32 ≈ <strong style="color:var(--down)">€17 100</strong>, about €17 per tonne
+        </div>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:4px"><strong>The same cement, a fourfold difference.</strong> Two things
+      drive it. The default is an average for the whole country plus a mark-up, so it sits about twice as high as a
+      good plant's real figure. And because the free allocation adjustment is capped by a benchmark rather than
+      following the emissions, the whole of that gap lands on the certificates: the adjustment differs by only
+      130 t between the two routes, the embedded emissions by 834 t. The measured route also reflects the clinker
+      ratio — a blended cement with less clinker has lower embedded emissions and a correspondingly smaller
+      adjustment, which the single default for the CN code cannot distinguish.</div>
+    <h3 style="margin-top:18px">How the gap develops</h3>
+    <p class="sub">Same two cements, same €82.32 price, as the mark-up rises to 30% and the CBAM factor falls.</p>
+    <div class="tblscroll">
+      <table id="fxTbl">
+        <thead><tr><th class="l">Year</th><th>Mark-up</th><th>CBAM factor</th>
+          <th>Default: certificates / t</th><th>Default: € / t</th>
+          <th>Measured: certificates / t</th><th>Measured: € / t</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:12px 0 0">Under the July 2026 ETS review proposal the CBAM factor would fall more slowly
+       and the adjustment would last to 2037; this table uses the schedule in force. The adjustment uses the CBAM
+       benchmarks in Implementing Regulation (EU) 2025/2620, which are due for review — see the
+       <a href="#calcmech">Free allocation adjustment</a> tab.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The second deduction: carbon price paid abroad</h2>
+    <p class="sub" style="margin-bottom:0">Under Article 9 the importer may claim a reduction for a carbon price
+       effectively paid in the country of production on the same embedded emissions — net of any rebate, free
+       allocation or other compensation — converted into a number of certificates at the CBAM certificate price. The
+       claim needs documentary evidence, certified by an independent person. Until the implementing rules on how
+       foreign carbon prices are recognised are adopted, this term is zero in practice for almost every origin; the
+       status is on the <a href="#how">How it works</a> tab.</p>
+  </div>
+</section>
+
+<!-- ===================== CALC MECHANICS ===================== -->
 <section id="tab-calcmech" class="hide">
   <div class="panel">
     <h2>Why free allocation is in the formula at all</h2>
@@ -1069,7 +1227,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        nothing clawed back from the second. A producer half as carbon-intensive as the benchmark pays for half the
        emissions and receives the <em>same</em> adjustment — so being clean is worth exactly what it should be. If
        the adjustment tracked your own emissions instead, cleaning up your process would shrink your deduction
-       too, and the incentive would partly cancel itself out.</p>
+       too, and the incentive would partly cancel itself out. The first line — measured against default, with the
+       same cement worked through both routes — is on the <a href="#formula">How it is calculated</a> tab.</p>
   </div>
 
 
@@ -1761,6 +1920,18 @@ document.getElementById("bmDiff").onchange=drawBm; drawBm();
     return `<tr><td class="l"><strong>${y}</strong></td><td>\u20ac${nd(gross,2)}</td>
       <td>${nd(cf*100,1)}%</td><td>${nd((1-cf)*100,1)}%</td>
       <td style="font-weight:600">\u20ac${nd(net,2)}</td></tr>`;}).join("");
+})();
+
+// ---------------------------------------------------------------- formula tab: default vs measured cement
+(function(){
+  const tb=document.querySelector("#fxTbl tbody"); if(!tb) return;
+  const P=82.32, DV=1.42, SEE_M=0.024+0.80*0.879, BM=0.666, CLK=0.80;
+  const MU=y=>y===2026?0.10:(y===2027?0.20:0.30);
+  tb.innerHTML=Object.keys(CBAMF).map(Number).sort((a,b)=>a-b).map(y=>{
+    const cf=CBAMF[y], d=DV*(1+MU(y))-cf*BM, m=SEE_M-CLK*cf*BM;
+    return `<tr><td class="l"><strong>${y}</strong></td><td>${(MU(y)*100).toFixed(0)}%</td><td>${(cf*100).toFixed(1)}%</td>
+      <td>${d.toFixed(3)}</td><td style="font-weight:600;color:var(--up)">€${(d*P).toFixed(0)}</td>
+      <td>${m.toFixed(3)}</td><td style="font-weight:600;color:var(--down)">€${(m*P).toFixed(0)}</td></tr>`;}).join("");
 })();
 
 // ---------------------------------------------------------------- calculator
