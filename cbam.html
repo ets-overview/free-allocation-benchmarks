@@ -664,13 +664,19 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="tblscroll">
       <table id="ctTbl">
         <thead><tr><th class="l">Country</th><th class="l">Main CBAM exports</th>
-          <th>Chargeable default</th><th>Direct</th><th>Indirect</th>
+          <th>Chargeable default</th><th>Direct</th><th>Indirect</th><th title="Default grid emission factor, Annex II to Implementing Regulation (EU) 2025/2621">Grid factor<br><span style="font-weight:400;text-transform:none">t CO₂/MWh</span></th>
           <th class="l">Carbon pricing</th><th class="l">Article 9 prospect</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
     <div class="warn" style="margin-top:18px"><strong>Two different kinds of information in one table.</strong>
-      The default values are official, from Annex I to Implementing Regulation (EU) 2025/2621. The carbon pricing
+      The default values are official, from Annex I to Implementing Regulation (EU) 2025/2621, and so are the grid
+      factors, from Annex II of the same regulation. A grid factor converts the electricity a plant uses into
+      indirect emissions; it applies to cement and fertilisers whenever the importer reports measured values but
+      the producer cannot document an actual factor through a direct link to a generator or a power purchase
+      agreement (the <a href="#formula">How it is calculated</a> tab works an example). It is greyed out for goods
+      whose indirect emissions are outside CBAM. Countries not listed in Annex II take the ‘Other countries and
+      territories’ value of 0.465. The carbon pricing
       and Article 9 columns are a third-party assessment compiled by
       <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a> as of April 2026,
       with the Türkiye row updated for the ETS regulation published on 27 August 2026 —
@@ -815,10 +821,14 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
                   from heat the process imports are added; heat exported is deducted.</td></tr>
           <tr><td class="l"><strong>Indirect emissions</strong></td>
               <td class="l" style="white-space:normal">Electricity consumed × an emission factor. Counted only for
-                  cement and fertilisers. The factor is the default grid factor of the country in Annex II to
-                  Implementing Regulation (EU) 2025/2621 — 0.605 t CO₂/MWh for China, 0.420 for Türkiye, 0.726 for
-                  India — unless the producer can show a direct technical link to a generator or a qualifying power
-                  purchase agreement.</td></tr>
+                  cement and fertilisers. The two halves have different sources. The <strong>electricity
+                  consumed</strong> (MWh) is measured at the installation. The <strong>emission factor</strong> normally
+                  is not: it is the default grid factor of the country in Annex II to Implementing Regulation (EU)
+                  2025/2621, built from International Energy Agency data — 0.605 t CO₂/MWh for China, 0.420 for
+                  Türkiye, 0.726 for India (all sixteen origins on the <a href="#countries">Countries</a> tab). A
+                  producer may use an actual factor instead only if it can show a direct
+                  technical link to a generator or a qualifying power purchase agreement. So even an importer with
+                  fully measured data usually carries a default inside its indirect emissions.</td></tr>
           <tr><td class="l"><strong>Precursors</strong></td>
               <td class="l" style="white-space:normal">The embedded emissions of relevant precursors, such as clinker in
                   cement or pig iron in steel, carried into the good in proportion to the mass consumed. The producer may
@@ -837,7 +847,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <h2>Worked example: 1 000 t of grey Portland cement from China, 2026</h2>
     <p class="sub">CN 2523 29 00, imported in 2026, valued at the Q3 2026 certificate price of €82.32, with the CBAM
        factor at 97.5%, the correction factor at 100% and no carbon price paid in China. The default figures are
-       official; the plant figures on the right are illustrative but typical of a modern dry-process kiln.</p>
+       official; the plant figures on the right are illustrative but typical of a modern dry-process kiln, except the
+       grid factor of 0.605, which is China's official default. The table below the two routes gives the source of
+       every number.</p>
     <div class="grid2">
       <div>
         <h3>Route A — default values</h3>
@@ -864,7 +876,39 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
         </div>
       </div>
     </div>
-    <div class="warn" style="margin-top:4px"><strong>The same cement, a fourfold difference.</strong> Two things
+    <h3 style="margin-top:14px">Where the numbers come from</h3>
+    <div class="tblscroll">
+      <table>
+        <thead><tr><th class="l">Figure</th><th class="l">What it is</th><th class="l">Source</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><strong>1.35 / 0.07 / 1.42</strong></td>
+              <td class="l" style="white-space:normal">Route A: direct, indirect and total default for grey Portland cement from China</td>
+              <td class="l" style="white-space:normal">Official — Annex I to Implementing Regulation (EU) 2025/2621</td></tr>
+          <tr><td class="l"><strong>0.84</strong></td>
+              <td class="l" style="white-space:normal">Direct emissions per tonne of clinker: calcination plus kiln fuel</td>
+              <td class="l" style="white-space:normal">Would be measured at the plant · <em>illustrative here</em>, typical of a modern dry kiln</td></tr>
+          <tr><td class="l"><strong>0.065 MWh</strong></td>
+              <td class="l" style="white-space:normal">Electricity used per tonne of clinker (raw meal grinding, kiln drives, fans)</td>
+              <td class="l" style="white-space:normal">Would be measured at the plant · <em>illustrative here</em></td></tr>
+          <tr><td class="l"><strong>0.040 MWh</strong></td>
+              <td class="l" style="white-space:normal">Electricity used per tonne of cement for grinding</td>
+              <td class="l" style="white-space:normal">Would be measured at the plant · <em>illustrative here</em></td></tr>
+          <tr><td class="l"><strong>0.605</strong></td>
+              <td class="l" style="white-space:normal">t CO₂ per MWh of electricity, applied to both electricity figures</td>
+              <td class="l" style="white-space:normal">Official default, not measured — China's grid factor in Annex II to Implementing Regulation (EU) 2025/2621</td></tr>
+          <tr><td class="l"><strong>0.80</strong></td>
+              <td class="l" style="white-space:normal">Tonnes of clinker per tonne of cement (the clinker ratio)</td>
+              <td class="l" style="white-space:normal">Would be measured at the plant · <em>illustrative here</em></td></tr>
+          <tr><td class="l"><strong>0.666</strong></td>
+              <td class="l" style="white-space:normal">CBAM benchmark: Column B for cement on Route A, Column A for clinker on Route B</td>
+              <td class="l" style="white-space:normal">Official — Implementing Regulation (EU) 2025/2620</td></tr>
+          <tr><td class="l"><strong>0.975 · 1.0 · €82.32</strong></td>
+              <td class="l" style="white-space:normal">CBAM factor 2026, correction factor, certificate price</td>
+              <td class="l" style="white-space:normal">Official — ETS Directive Art. 10a(1a); Decision (EU) 2026/1862; Commission's Q3 2026 price</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn" style="margin-top:14px"><strong>The same cement, a fourfold difference.</strong> Two things
       drive it. The default is an average for the whole country plus a mark-up, so it sits about twice as high as a
       good plant's real figure. And because the free allocation adjustment is capped by a benchmark rather than
       following the emissions, the whole of that gap lands on the certificates: the adjustment differs by only
@@ -1662,6 +1706,8 @@ const CT=[
  {c:"Japan",       dv:"Japan",          s:"Steel, aluminium",              cp:"GX-ETS since 2023, transitional",      a9:"Not yet mature enough"},
  {c:"United Kingdom",dv:"United Kingdom",s:"Steel, aluminium",             cp:"UK ETS; own CBAM from 2027",           a9:"Linking under negotiation; unresolved"}
 ];
+// Annex II to Implementing Regulation (EU) 2025/2621: default grid emission factors for indirect emissions, t CO2/MWh (IEA data).
+const GRID={"Türkiye": 0.42, "India": 0.726, "China": 0.605, "Russia": 0.366, "Ukraine": 0.31, "South Korea": 0.475, "United States": 0.358, "Brazil": 0.096, "South Africa": 0.963, "Morocco": 0.712, "Egypt": 0.387, "Vietnam": 0.581, "Indonesia": 0.791, "Taiwan": 0.561, "Japan": 0.469, "United Kingdom": 0.193}, GRID_OTHER=0.465;
 const ctSel=document.getElementById("ctGood");
 ctSel.innerHTML=DV_G.map((g,i)=>`<option value="${i}">${DV_L[i]}</option>`).join("");
 function drawCt(){
@@ -1680,6 +1726,7 @@ function drawCt(){
     <td>${r.v?`<strong${r.fb?' style="font-weight:600;color:var(--muted)" title="No value for this origin: the ‘Other countries and territories’ default applies"':''}>${nd(chargeable(g,r.v),3)}${r.fb?' †':''}</strong>`:'<span class="dim">—</span>'}${al&&r.rt==="L"?'<div style="font-size:11px;color:var(--muted)">secondary route</div>':''}</td>
     <td class="dim">${r.v?nd(r.v[0],3):"—"}</td>
     <td class="dim"${ic||!r.v||r.v[1]==null?"":' style="text-decoration:line-through;opacity:.55"'}>${r.v?(r.v[1]==null?"N/A":nd(r.v[1],3)):"—"}</td>
+    <td${ic?"":' style="opacity:.5" title="Not used for this good: indirect emissions are outside CBAM for Annex II goods"'}>${GRID[r.dv]!=null?GRID[r.dv].toFixed(3):"—"}</td>
     <td class="l" style="font-size:12.5px">${r.cp}</td>
     <td class="l" style="font-size:12.5px;color:${/Not eligible|Not yet/.test(r.a9)?"var(--muted)":"var(--accent)"}">${r.a9}</td></tr>`).join("");
 }
