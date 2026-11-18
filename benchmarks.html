@@ -529,8 +529,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <h2>Scenario: the two fall-back benchmarks under COM(2026) 619</h2>
     <p class="sub">Everything else on this page is the law in force. This panel is not: it shows what the heat and
        fuel fall-back benchmarks would become under the proposal of 17 July 2026. Parliament and the Council reached
-       a <strong>provisional agreement on 12 November 2026</strong>, which both still have to approve formally;
-       the figures below are indicative, and nothing here changes a single allocation today.</p>
+       a <strong>provisional agreement on 12 November 2026</strong>, which the member states' ambassadors endorsed
+       on 18 November; Parliament still has to approve it before formal adoption. The figures below are indicative,
+       and nothing here changes a single allocation today.</p>
 
     <p class="sub">The two fall-backs are the clearest case of the clamp doing the work rather than the data. Both
        were computed under Article 10a(2) at the <strong>maximum 50% total reduction</strong> against the 2007/08
@@ -587,14 +588,15 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
                   splits the allowances left unallocated three ways: a third to the Modernisation Fund, a third to
                   the Innovation Fund, a third into the benchmark adjustment. Publishes no indicative benchmark
                   values.</td></tr>
-          <tr><td class="l"><strong>Provisional agreement</strong><br><span class="dim">12 November 2026, awaiting formal approval</span></td>
+          <tr><td class="l"><strong>Provisional agreement</strong><br><span class="dim">12 November 2026, endorsed by Coreper 18 November, awaiting Parliament</span></td>
               <td class="l">The <strong>~88 million</strong> plus the roughly <strong>33 million</strong>
                   conditionality allowances: about <strong>28 million</strong> into the general adjustment of the
                   two fall-backs and up to <strong>5 million</strong> for sector-specific benchmarks where the
                   general fuel benchmark is ill-suited, such as ceramics. Whatever the sector-specific reserve does
-                  not use goes in equal parts to the Modernisation Fund and the Innovation Fund. Fall-back values
-                  around <strong>10% below</strong> 2021–2025 on average, according to Parliament. Reached after a
-                  single trilogue; no consolidated text published yet.</td></tr>
+                  not use goes in equal parts to the Modernisation Fund and the Innovation Fund. The compromise text
+                  gives indicative average values of <strong>42</strong> for heat and <strong>38</strong> for fuel
+                  (allowances/TJ), about <strong>10% below</strong> 2021–2025, and keeps the Council's rule that
+                  future 20% conditionality cuts ignore the raised benchmarks. Reached after a single trilogue.</td></tr>
         </tbody>
       </table>
     </div>
@@ -613,13 +615,13 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        and <strong>37.3</strong> for fuel. Those two numbers are this page's arithmetic on a figure taken from
        reporting, not something either institution has published, and the chart's legend says so. They will be
        replaced once the adopted text can be read against them.</p>
-    <p class="sub">The fifth bar does the same for the provisional agreement of 12 November. Parliament describes
-       the result as fall-back values around 10% lower than in 2021–2025 on average; applied to 47.3 and 42.6 that
-       gives about <strong>42.6</strong> for heat and <strong>38.3</strong> for fuel, close to the Council's
-       indicative pair, as the volumes would suggest. Again this page's arithmetic on a reported average, not a
-       published value: the Commission sets the actual figures in an amending implementing regulation once the
-       agreement is formally adopted. Whether the agreement keeps the Council's rule that future 20% cuts are
-       calculated on the June benchmarks rather than the raised ones has not been reported.</p>
+    <p class="sub">The fifth bar is the provisional agreement of 12 November, and unlike the Parliament bar it is
+       not derived: the compromise text endorsed by Coreper on 18 November states <em>indicative</em> average values
+       for 2026–2030 of <strong>42</strong> allowances/TJ for heat and <strong>38</strong> for fuel, about 10% below
+       2021–2025 and close to the Council's own indicative pair, as the volumes would suggest. The Commission sets the
+       binding figures in an amending implementing regulation once the agreement is formally adopted. The text also
+       keeps the Council's rule that future 20% conditionality cuts are calculated without the raised benchmarks, so
+       an installation that fails a condition loses 20% of the allocation it would have had on the June values.</p>
 
 
     <div class="grid2" style="margin-top:4px">
@@ -2178,7 +2180,7 @@ function buildSectors(){
   const LABELS=["Heat benchmark","Fuel benchmark"];
   const P2=[47.3,42.6], P3=[31.2,28.1], SC=[43.0,38.7];
   const PL=P2.map(function(v){ return +(v*0.875).toFixed(1); });   // 12.5% below 2021-2025, derived
-  const AG=P2.map(function(v){ return +(v*0.90).toFixed(1); });    // ~10% below 2021-2025 (provisional agreement, reported average), derived
+  const AG=[42,38];    // indicative averages stated in the compromise text (Council ST 15928/26, recital 2)
   new Chart(cv,{type:"bar",
     data:{labels:LABELS,datasets:[
       {label:"2021–2025, in force",backgroundColor:"rgba(154,164,176,.55)",borderRadius:3,data:P2},
@@ -2189,7 +2191,7 @@ function buildSectors(){
       {label:"2026–2030, Parliament — derived from a reported 12.5% cap, not a published value",
        backgroundColor:"rgba(217,165,32,.22)",borderColor:"#b8860b",borderWidth:{top:2,left:2,right:2,bottom:0},
        borderRadius:3,data:PL},
-      {label:"2026–2030, provisional agreement — derived from a reported ~10% average, not a published value",
+      {label:"2026–2030, provisional agreement — indicative averages in the compromise text",
        backgroundColor:"rgba(30,132,73,.20)",borderColor:"#1e8449",borderWidth:{top:2,left:2,right:2,bottom:0},
        borderRadius:3,data:AG}]},
     options:{responsive:true,maintainAspectRatio:false,
@@ -2197,7 +2199,7 @@ function buildSectors(){
         tooltip:{callbacks:{label:c=>{
           const v=c.parsed.y, base=P3[c.dataIndex];
           const d=c.datasetIndex>=2 ? `  ·  ${((v/base-1)*100).toFixed(0)}% above the value in force` : "";
-          const w=c.datasetIndex>=3 ? "  ·  derived, not published" : "";
+          const w=c.datasetIndex===3 ? "  ·  derived, not published" : (c.datasetIndex===4 ? "  ·  indicative, per compromise text" : "");
           return `${c.dataset.label}: ${v.toFixed(1)} allowances/TJ${d}${w}`;}}}},
       scales:{y:{beginAtZero:true,title:{display:true,text:"Allowances per terajoule"},grid:{color:"#eef1f5"}},
               x:{grid:{display:false}}}}});
