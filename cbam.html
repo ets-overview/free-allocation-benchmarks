@@ -273,7 +273,8 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <h2>Article 9: the carbon price already paid abroad</h2>
     <p class="sub">If a producer has already paid a carbon price in its own country, the importer may deduct it
        from the CBAM obligation. That is the provision which decides whether CBAM is a tariff or a genuine
-       equalisation — and as of mid-2026 <strong>no country's scheme has been formally recognised</strong>.</p>
+       equalisation. Since <strong>19 November 2026</strong> the rules for doing so are in force: Implementing
+       Regulation (EU) 2026/2498, adopted on 5 November and applying back to 1 January 2026.</p>
     <div class="grid2">
       <div>
         <h3>Three conditions</h3>
@@ -283,23 +284,29 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            scheme existing on paper is not enough.</p>
       </div>
       <div>
-        <h3>Still not operational</h3>
-        <p style="font-size:13.5px;color:#39414d">The Commission published a draft implementing regulation setting
-           out recognition pathways and the calculation method on 13 May 2026, with consultation closing
-           10 June 2026. A vote by the member states' committee was reported for September, but no outcome has
-           been made public, and as of early November 2026 the regulation had still not been adopted or published.
-           The draft would apply retroactively from 1 January 2026, so deductions for this year's imports remain
-           possible in principle; the first declarations are not due until 30 September 2027. No country's scheme
-           is recognised. South Korea's K-ETS, running since 2015, is generally regarded as the most advanced
-           candidate, and formal recognition is Seoul's central ask in its talks with the Commission — but nothing
-           has been granted. Türkiye has moved from planning to law: its ETS regulation was published on
-           27 August 2026, with a pilot covering 2026 (reporting only) and 2027 (surrender at 100% free
-           allocation), which leaves little carbon price actually paid to deduct.</p>
+        <h3>Now in force: Implementing Regulation (EU) 2026/2498</h3>
+        <p style="font-size:13.5px;color:#39414d">The draft of 13 May 2026 failed to win a majority in the member
+           states' committee on 24 September; the Commission adopted it anyway on 5 November, as the comitology rules
+           allow. It was published on 16 November and entered into force on 19 November, applying from 1 January 2026,
+           so it governs the first declarations for 2026 imports, due by 30 September 2027. It does not
+           <em>recognise</em> countries. Its Annex II lists, non-exhaustively, mechanisms that count as a carbon price —
+           among them the ETSs of China, Japan (GX-ETS), Kazakhstan, Indonesia, South Korea, Türkiye, the UK, New
+           Zealand, California, Washington and Oregon; baseline-and-credit systems in India, Australia and Canada;
+           and carbon taxes in Chile, Singapore, South Africa, Ukraine, Taiwan and elsewhere — together with the
+           rebates each one involves, such as free allowances. What can be deducted is still decided installation
+           by installation, on certified evidence of what was actually paid. Being listed only settles that the
+           mechanism qualifies. With free allocation of up to 100% in most of these systems, the net price actually
+           paid will often be small: Türkiye's pilot, for instance, surrenders at 100% free allocation in 2027.</p>
       </div>
     </div>
-    <div class="warn" style="margin-top:16px">Until that regulation is adopted, the deduction field in any
-      calculator — including the one on this page — is hypothetical. Importers can record a carbon price paid,
-      but there is not yet an approved method for converting it into a reduced obligation.</div>
+    <div class="warn" style="margin-top:16px"><strong>Two routes, tied to how emissions were determined.</strong>
+      An importer using the producer's <em>actual</em> emissions can deduct the carbon price effectively paid, net of
+      rebates and free allowances, certified by an accredited independent person — or use a default carbon price.
+      An importer using <em>default</em> emission values can only use the Commission's default carbon price for the
+      country; certified payment evidence cannot be paired with default emissions. The default prices and their
+      methodology are to be published in the CBAM Registry before the first declarations. Article 6 Paris Agreement
+      credits count for at most 10% of emissions. The method is on the <a href="#formula">How it is calculated</a>
+      tab.</div>
   </div>
 
   <div class="panel">
@@ -654,9 +661,10 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <h2>Exposure by country of production</h2>
     <p class="sub">CBAM's legal obligation sits with the EU importer, but its commercial weight lands on
        exporters — through renegotiated contracts and supplier switching. Two things determine how hard: the
-       carbon intensity of a country's production, and whether it has a carbon price that might one day be
-       deductible under Article 9. Select a good to compare the official default value across origins, and read
-       the carbon pricing status alongside.</p>
+       carbon intensity of a country's production, and how much carbon price its producers pay that can be
+       deducted under Article 9. Select a good to compare the official default value across origins, alongside
+       whether the country's carbon pricing mechanism is listed under Article 9 and what that mechanism currently
+       charges.</p>
     <div class="controls">
       <select id="ctGood"></select>
     </div>
@@ -665,7 +673,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <table id="ctTbl">
         <thead><tr><th class="l">Country</th><th class="l">Main CBAM exports</th>
           <th>Chargeable default</th><th>Direct</th><th>Indirect</th><th title="Default grid emission factor, Annex II to Implementing Regulation (EU) 2025/2621">Grid factor<br><span style="font-weight:400;text-transform:none">t CO₂/MWh</span></th>
-          <th class="l">Carbon pricing</th><th class="l">Article 9 prospect</th></tr></thead>
+          <th class="l">Article 9 listing (IR 2026/2498)</th><th class="l" title="Headline market price or statutory rate of the listed mechanism, before free allocation and other rebates; converted at ECB reference rates of mid-November 2026">Price of listed mechanism<br><span style="font-weight:400;text-transform:none">€/t CO₂e, Nov 2026</span></th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -676,15 +684,41 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       the producer cannot document an actual factor through a direct link to a generator or a power purchase
       agreement (the <a href="#formula">How it is calculated</a> tab works an example). It is greyed out for goods
       whose indirect emissions are outside CBAM. Countries not listed in Annex II take the ‘Other countries and
-      territories’ value of 0.465. The carbon pricing
-      and Article 9 columns are a third-party assessment compiled by
-      <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a> as of April 2026,
-      with the Türkiye row updated for the ETS regulation published on 27 August 2026 —
-      not a Commission determination — and since no scheme has been formally recognised, every entry in the last
-      column is a prospect rather than a status. Where the annex gives no value for a good from a listed origin, its
+      territories’ value of 0.465. The Article 9 listing is official too, from Annex II to Implementing Regulation
+      (EU) 2026/2498. The prices are not: they are market prices and statutory rates compiled from exchanges and
+      government sources (listed on the Notes tab), converted to euros and rounded. Where the annex gives no value for a good from a listed origin, its
       own rule applies the value from the table ‘Other countries and territories’; those figures are shown in grey
       and marked †. Eleven representative goods are selectable here, out of several hundred CN codes per country in
       the annex.</div>
+    <h3 style="margin-top:22px">What being listed in Annex II means</h3>
+    <div class="grid2">
+      <div>
+        <p style="font-size:13.5px;color:#39414d"><strong>It settles that the mechanism counts.</strong> Annex II to
+           Implementing Regulation (EU) 2026/2498 names the emissions trading systems, baseline-and-credit schemes and
+           carbon taxes that qualify as a “carbon price” under Article 9, and the rebates each one involves. An importer
+           whose producer pays under a listed mechanism does not have to argue that it is a carbon price at all. The
+           list is <strong>non-exhaustive</strong>: an unlisted mechanism can still qualify if it meets the criteria —
+           binding on all covered operators, priced on emissions, and applied regardless of where the goods are sold.
+           Russia, Brazil, Morocco, Egypt and Vietnam are not listed, and none of them currently charges producers of
+           CBAM goods a carbon price.</p>
+        <p style="font-size:13.5px;color:#39414d"><strong>It is not country recognition, and it fixes no amount.</strong>
+           Nothing is deducted at country level. The reduction is the price <em>this producer</em> effectively paid on
+           <em>these goods'</em> embedded emissions, certified by an accredited independent person, with free allowances,
+           exemptions, reduced rates and refunds subtracted first.</p>
+      </div>
+      <div>
+        <p style="font-size:13.5px;color:#39414d"><strong>The price column is the ceiling, not the deduction.</strong>
+           It shows the headline price before any of those rebates. For industry, free allocation removes most of it:
+           a plant receiving free allowances for 90% of its emissions under a €20 price pays about €2 per tonne. Türkiye's
+           pilot allocates 100% free in 2027, so the net price there is zero; South Africa's tax allowances cut the
+           R308 headline rate to roughly R15–46 per tonne. Even the UK, the highest-priced system listed, sits below
+           the EU allowance price of around €82–83 in late November 2026, so the importer still owes the difference.</p>
+        <p style="font-size:13.5px;color:#39414d"><strong>With default emissions, a default price.</strong> An importer
+           who uses the default emission values in the table above can only deduct the Commission's default carbon price
+           for the country, not a certified figure. Those default prices are to be published in the CBAM Registry and
+           were not yet available in November 2026.</p>
+      </div>
+    </div>
   </div>
 
   <div class="panel">
@@ -952,12 +986,27 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 
   <div class="panel">
     <h2>The second deduction: carbon price paid abroad</h2>
-    <p class="sub" style="margin-bottom:0">Under Article 9 the importer may claim a reduction for a carbon price
-       effectively paid in the country of production on the same embedded emissions — net of any rebate, free
-       allocation or other compensation — converted into a number of certificates at the CBAM certificate price. The
-       claim needs documentary evidence, certified by an independent person. Until the implementing rules on how
-       foreign carbon prices are recognised are adopted, this term is zero in practice for almost every origin; the
-       status is on the <a href="#how">How it works</a> tab.</p>
+    <p class="sub">Under Article 9 the importer may claim a reduction for a carbon price effectively paid in the
+       country of production on the same embedded emissions. Implementing Regulation (EU) 2026/2498, in force since
+       19 November 2026 and applying from 1 January 2026, turns that into a calculation:</p>
+    <div class="eq" style="line-height:2">
+      <strong>CP = ( P<sub>paid</sub> ÷ P<sub>ref,y</sub> ) × M<sub>g</sub></strong><br>
+      <span class="dim">P<sub>paid</sub></span> carbon price effectively paid per tonne of embedded emissions, in euros
+        at the Commission's yearly average exchange rate, after deducting rebates — free allowances, emissions under a
+        baseline, exempted emissions, reduced rates, refunds<br>
+      <span class="dim">P<sub>ref,y</sub></span> the average CBAM certificate price for the year of import<br>
+      <span class="dim">M<sub>g</sub></span> tonnes of the good imported
+    </div>
+    <p class="sub" style="margin-bottom:0">With <strong>measured</strong> emissions, P<sub>paid</sub> is the
+       producer's own figure, certified by an accredited independent person (CBAM verifiers can do this for 2026 and
+       2027), or the Commission's default carbon price. With <strong>default</strong> emissions, only the default carbon
+       price is available. International credits under Article 6 of the Paris Agreement count for at most 10% of the
+       emissions, separately for direct and indirect; credits above that are valued at zero. Revenue-funded subsidies
+       for cutting emissions are not treated as rebates if they meet six conditions, among them being open to every
+       covered installation. In the cement example above CP is set to zero. China's national ETS is listed in Annex II
+       and was extended to cement, steel and aluminium in 2025, but it allocates allowances free against intensity
+       benchmarks, so the net price a cement plant actually pays — and with it CP — is likely to be small. The Commission will review
+       the rules before the end of 2027; the status is on the <a href="#how">How it works</a> tab.</p>
   </div>
 </section>
 
@@ -1270,7 +1319,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <div class="fld">
         <label for="cForeign">Carbon price already paid abroad</label>
         <input type="number" id="cForeign" value="0" min="0" step="any">
-        <div class="hint">€ per tonne CO₂e paid in the country of production. Deductible.</div>
+        <div class="hint">€ per tonne CO₂e effectively paid in the country of production, net of rebates and free allowances (Implementing Regulation (EU) 2026/2498).</div>
       </div>
       <div class="fld">
         <label for="cScen">Phase-out scenario</label>
@@ -1310,7 +1359,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <ul>
       <li><strong>CBAM Regulation</strong> — <a href="http://data.europa.eu/eli/reg/2023/956/oj" target="_blank" rel="noopener">Regulation (EU) 2023/956</a>, as amended by Regulation (EU) 2025/2083 (the October 2025 Omnibus simplification).</li>
       <li><strong>CBAM factor and the free allocation interlock</strong> — Article 10a(1a) of Directive 2003/87/EC as amended by Directive (EU) 2023/959.</li>
-      <li><strong>Country carbon pricing and Article 9 assessments</strong> — compiled by <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a>, April 2026. Third-party analysis, not official. Penalty, holding, buyback and cancellation rules cross-read against Regulation (EU) 2023/956 as amended by Regulation (EU) 2025/2083.</li>
+      <li><strong>Article 9 listing</strong> — Annex II to <a href="http://data.europa.eu/eli/reg_impl/2026/2498/oj" target="_blank" rel="noopener">Commission Implementing Regulation (EU) 2026/2498</a> of 5 November 2026.</li>
+      <li><strong>Prices of listed mechanisms</strong> (mid-November 2026 unless stated; converted at ECB reference rates of 10–18 November 2026, rounded) — China CEA: Carbon Pulse market reports, 6 and 13 November 2026, and the Fudan carbon price index for November 2026. South Korea KAU26: Korea Exchange, 8 October 2026, via Korea Economic Daily. UK: Reuters market print of 20 November 2026; UK ETS Authority October 2026 average (£63.94). Japan: GX-ETS FY2026 price corridor set by METI (December 2025) and the Tax for Climate Change Mitigation. California and Washington: Carbon Pulse, 12 November 2026. South Africa: Carbon Tax Act rate for 2026 (Budget of 25 February 2026) and effective rates after allowances as estimated by Webber Wentzel. Taiwan: Ministry of Environment carbon fee rates. Indonesia: IDXCarbon prices as reported by The Jakarta Post, September 2026. Ukraine: Tax Code of Ukraine, Art. 243. Türkiye and India: Türkiye's TR-ETS pilot rules of 1 October 2026; India's Bureau of Energy Efficiency.</li>
+      <li><strong>Penalty, holding, buyback and cancellation rules</strong> — compiled by <a href="https://cbamguide.com/countries/" target="_blank" rel="noopener">cbamguide.com</a>, April 2026, cross-read against Regulation (EU) 2023/956 as amended by Regulation (EU) 2025/2083.</li>
       <li><strong>Transitional period data</strong> — <a href="https://taxation-customs.ec.europa.eu/document/download/3903da9d-44fd-4508-8915-f27ef25fe033_en?filename=Review+Report_0.pdf" target="_blank" rel="noopener">Commission CBAM review report, COM(2025) 783 final</a>, 16 December 2025. Cement emissions shown as the residual of the reported 167 Mt total.</li>
       <li><strong>Free allocation adjustment, SEFA and CBAM benchmarks</strong> — <a href="http://data.europa.eu/eli/reg_impl/2025/2620/oj" target="_blank" rel="noopener">Commission Implementing Regulation (EU) 2025/2620</a> of 16 December 2025, Annex points 2\u20135. Benchmark values read from the Official Journal text; the table on this site is a representative extract, not the full annex.</li>
       <li><strong>Default values</strong> — Annex I to <a href="http://data.europa.eu/eli/reg_impl/2025/2621/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2025/2621</a>, version adopted 4 February 2026, <strong>as corrected by <a href="http://data.europa.eu/eli/reg_impl/2026/1740/oj" target="_blank" rel="noopener">Implementing Regulation (EU) 2026/1740</a></strong> (published 31 July 2026, applying retroactively from 1 January 2026). The correction revises values for selected aluminium products and for precursors of unknown origin. The figures on this page are the 4 February version; the corrected values have not yet been transcribed, so check the consolidated annex for aluminium in particular. For unwrought aluminium (7601) the values used here — China 3.000, Russia 2.160, India 1.870, Türkiye 1.700 — match those reported from the corrected annex; the correction's larger changes are in downstream aluminium goods such as 7616 and in precursors of unknown origin.</li>
@@ -1351,10 +1402,11 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <li><strong>Embedded emissions are more complicated than one number.</strong> They cover direct emissions and,
           for some goods, indirect emissions from electricity, plus emissions embedded in relevant precursors.
           Default values apply where actual data is not available, and they are deliberately conservative.</li>
-      <li><strong>The Article 9 carbon price deduction is not yet operational.</strong> The implementing
-          regulation setting out recognition pathways was still in draft as of early November 2026 and no
-          third-country scheme has been formally recognised. The deduction field is therefore hypothetical — useful for modelling
-          a future in which a scheme is recognised, not for a 2026 obligation.</li>
+      <li><strong>The Article 9 deduction is simplified.</strong> Implementing Regulation (EU) 2026/2498, in force
+          since 19 November 2026, sets the method: the net carbon price paid, divided by the yearly average certificate
+          price and multiplied by the tonnes imported. The calculator approximates this by subtracting the € per tonne
+          you enter from the certificate price. Enter the price <em>net</em> of rebates and free allowances, as the
+          regulation requires; with default emission values, only the Commission's default carbon price may be used.</li>
       <li><strong>The certificate price is held flat.</strong> It follows the EU ETS, so in practice it moves. All
           cost figures scale linearly with it — halve the price and halve every number.</li>
     </ul>
@@ -1388,7 +1440,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <footer class="wrap" style="padding-bottom:30px">
   Compiled from Commission sources, August 2026; policy status reviewed 26 October 2026. Orientation only — not legal or compliance advice. Verify against
   the Regulation and the Commission's guidance before acting.
-<br><span class="stamp"><strong>Last updated 21 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 25 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1689,25 +1741,25 @@ drawDv();
 
 // ---------------------------------------------------------------- country exposure
 // Default values: official (IR (EU) 2025/2621 Annex I, 4 Feb 2026 version;
-//   corrected by IR (EU) 2026/1740 of 31 July 2026 — aluminium and unknown-origin precursors pending). Carbon pricing / Article 9 columns:
-// third-party compilation by cbamguide.com, April 2026 — not a Commission determination.
+//   corrected by IR (EU) 2026/1740 of 31 July 2026 — aluminium and unknown-origin precursors pending). Article 9 column: Annex II to
+// IR (EU) 2026/2498. Price column: market prices / statutory rates, mid-November 2026, ECB reference rates (see Notes tab).
 const CT=[
- {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        cp:"TR ETS adopted Aug 2026; pilot 2026–27", a9:"Pilot at 100% free allocation"},
- {c:"India",       dv:"India",          s:"Steel, aluminium, fertilisers", cp:"CCTS, pilot phase",                    a9:"Not eligible"},
- {c:"China",       dv:"China",          s:"Steel, aluminium",              cp:"National ETS, electricity only",       a9:"Not eligible"},
- {c:"Russia",      dv:"Russia",         s:"Steel, aluminium, fertilisers", cp:"Token levy",                           a9:"Not eligible"},
- {c:"Ukraine",     dv:"Ukraine",        s:"Steel",                         cp:"ETS in development",                   a9:"Special status as accession candidate"},
- {c:"South Korea", dv:"South Korea",    s:"Steel, aluminium",              cp:"K-ETS, active since 2015",             a9:"Most advanced candidate; unrecognised"},
- {c:"United States",dv:"United States", s:"Steel, aluminium",              cp:"No federal carbon price",              a9:"Not eligible"},
- {c:"Brazil",      dv:"Brazil",         s:"Steel, aluminium",              cp:"National market, 2024 legislation",    a9:"Possible from 2027"},
- {c:"South Africa",dv:"South Africa",   s:"Steel, aluminium, fertilisers", cp:"Carbon Tax Act 2019",                  a9:"Possible; pending assessment"},
- {c:"Morocco",     dv:"Morocco",        s:"Cement, steel, electricity",    cp:"None",                                 a9:"Not eligible"},
- {c:"Egypt",       dv:"Egypt",          s:"Cement, fertilisers, steel",    cp:"None",                                 a9:"Not eligible"},
- {c:"Vietnam",     dv:"Vietnam",        s:"Steel, aluminium",              cp:"In development, 2025\u20132028",           a9:"Not eligible"},
- {c:"Indonesia",   dv:"Indonesia",      s:"Aluminium, steel",              cp:"Voluntary phase since 2023",           a9:"Not eligible"},
- {c:"Taiwan",      dv:"Taiwan",         s:"Steel",                         cp:"Carbon fee since 2024",                a9:"Not eligible"},
- {c:"Japan",       dv:"Japan",          s:"Steel, aluminium",              cp:"GX-ETS since 2023, transitional",      a9:"Not yet mature enough"},
- {c:"United Kingdom",dv:"United Kingdom",s:"Steel, aluminium",             cp:"UK ETS; own CBAM from 2027",           a9:"Linking agreed 20 Nov 2026; target 2028, not yet in force"}
+ {c:"Türkiye",     dv:"Türkiye",        s:"Steel (BF-BOF and EAF)",        a9:"Listed (TR ETS)", p:"No price yet: 2026 reporting only; 2027 allowances 100% free, so nothing paid"},
+ {c:"India",       dv:"India",          s:"Steel, aluminium, fertilisers", a9:"Listed (Carbon Credit Trading Scheme)", p:"No traded price yet: first credits not yet issued"},
+ {c:"China",       dv:"China",          s:"Steel, aluminium",              a9:"Listed (national ETS)", p:"≈ €13 (RMB 95)"},
+ {c:"Russia",      dv:"Russia",         s:"Steel, aluminium, fertilisers", a9:"Not listed", p:"—"},
+ {c:"Ukraine",     dv:"Ukraine",        s:"Steel",                         a9:"Listed (carbon tax)", p:"< €1 (UAH 30 tax)"},
+ {c:"South Korea", dv:"South Korea",    s:"Steel, aluminium",              a9:"Listed (K-ETS)", p:"≈ €20 (KRW 30,450, KAU26, Oct 2026)"},
+ {c:"United States",dv:"United States", s:"Steel, aluminium",              a9:"State systems listed (CA, WA, OR); no federal price", p:"California ≈ €31 ($34); Washington ≈ €38 ($42)"},
+ {c:"Brazil",      dv:"Brazil",         s:"Steel, aluminium",              a9:"Not listed; national market not yet operating", p:"—"},
+ {c:"South Africa",dv:"South Africa",   s:"Steel, aluminium, fertilisers", a9:"Listed (carbon tax)", p:"≈ €17 headline (R308); ≈ €1–2.50 after tax allowances"},
+ {c:"Morocco",     dv:"Morocco",        s:"Cement, steel, electricity",    a9:"Not listed", p:"—"},
+ {c:"Egypt",       dv:"Egypt",          s:"Cement, fertilisers, steel",    a9:"Not listed", p:"—"},
+ {c:"Vietnam",     dv:"Vietnam",        s:"Steel, aluminium",              a9:"Not listed", p:"—"},
+ {c:"Indonesia",   dv:"Indonesia",      s:"Aluminium, steel",              a9:"Listed (ETS)", p:"≈ €4 ($4–5)"},
+ {c:"Taiwan",      dv:"Taiwan",         s:"Steel",                         a9:"Listed (carbon fee)", p:"≈ €8.50 (NT$300); ≈ €1.40–2.80 at preferential rates"},
+ {c:"Japan",       dv:"Japan",          s:"Steel, aluminium",              a9:"Listed (GX-ETS and carbon tax)", p:"GX-ETS corridor ≈ €10–25 (¥1,700–4,300); carbon tax ≈ €1.70 (¥289)"},
+ {c:"United Kingdom",dv:"United Kingdom",s:"Steel, aluminium",             a9:"Listed (UK ETS, Carbon Price Support); ETS link agreed 20 Nov 2026", p:"≈ €72 (£60); Carbon Price Support £18 for power only"}
 ];
 // Annex II to Implementing Regulation (EU) 2025/2621: default grid emission factors for indirect emissions, t CO2/MWh (IEA data).
 const GRID={"Türkiye": 0.42, "India": 0.726, "China": 0.605, "Russia": 0.366, "Ukraine": 0.31, "South Korea": 0.475, "United States": 0.358, "Brazil": 0.096, "South Africa": 0.963, "Morocco": 0.712, "Egypt": 0.387, "Vietnam": 0.581, "Indonesia": 0.791, "Taiwan": 0.561, "Japan": 0.469, "United Kingdom": 0.193}, GRID_OTHER=0.465;
@@ -1730,8 +1782,8 @@ function drawCt(){
     <td class="dim">${r.v?nd(r.v[0],3):"—"}</td>
     <td class="dim"${ic||!r.v||r.v[1]==null?"":' style="text-decoration:line-through;opacity:.55"'}>${r.v?(r.v[1]==null?"N/A":nd(r.v[1],3)):"—"}</td>
     <td${ic?"":' style="opacity:.5" title="Not used for this good: indirect emissions are outside CBAM for Annex II goods"'}>${GRID[r.dv]!=null?GRID[r.dv].toFixed(3):"—"}</td>
-    <td class="l" style="font-size:12.5px">${r.cp}</td>
-    <td class="l" style="font-size:12.5px;color:${/Not eligible|Not yet/.test(r.a9)?"var(--muted)":"var(--accent)"}">${r.a9}</td></tr>`).join("");
+    <td class="l" style="font-size:12.5px;color:${/^Not listed/.test(r.a9)?"var(--muted)":"var(--accent)"}">${r.a9}</td>
+    <td class="l" style="font-size:12.5px">${r.p}</td></tr>`).join("");
 }
 ctSel.onchange=drawCt; drawCt();
 
