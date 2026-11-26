@@ -70,6 +70,11 @@ its own last-updated date**, and `changelog.html` records what changed, when, an
 was a correction or an update. If you cited something from this site, the changelog is where you
 check whether it still says what it said.
 
+Adopted law is described as it stands. Once an act is formally adopted, the pages explain what it
+does and, where useful, why it is designed that way; the proposal, the institutions' negotiating
+positions and the trilogue history are removed. Procedural detail is kept only for files that are
+still in negotiation, and the changelog keeps the record of how each one got there.
+
 Corrections are the most useful thing anyone can send. If something here is wrong, please say so.
 
 ## Technical notes

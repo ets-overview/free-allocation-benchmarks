@@ -365,14 +365,48 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <section id="tab-cap" class="hide">
   <div class="panel">
     <h2>The cap</h2>
-    <p class="sub">ETS 2 has its own cap, set to bring the emissions it covers down
-       <strong>42% below 2005 by 2030</strong>. Like the ETS 1 cap it declines by a fixed quantity each year
-       rather than by a percentage of the previous year, and it was built from reported effort-sharing data for
-       the covered sectors rather than from a bottom-up count of installations.</p>
-    <p class="sub">Because the start moved to 2028, the quantities in the original 2023 text no longer line up
-       with the years they were written for. The amending act rebases them. Anyone using these numbers for
-       modelling should read the current consolidated text rather than the 2023 version — this is exactly the
-       kind of detail a one-year postponement quietly breaks.</p>
+    <p class="sub">ETS 2 has its own cap, designed to bring the emissions it covers down
+       <strong>42% below 2005 by 2030</strong>. Like the ETS 1 cap it falls by a fixed number of allowances each
+       year rather than by a percentage of the previous year's cap. Article 30c of the ETS Directive sets it in two
+       steps.</p>
+    <div class="grid2">
+      <div>
+        <h3>1 · A starting line from inventory data</h3>
+        <p class="sub">Before 2024 nobody measured these emissions at the level of fuel suppliers, so the first line
+           is drawn from the effort-sharing inventory: the 2024 value is the emission limit for the covered sectors,
+           and it falls by <strong>5.10% of that 2024 value</strong> a year, about 62.4 million allowances. The
+           Commission fixed the 2027 point at <strong>1 036 288 784</strong> allowances (Decision (EU) 2024/2951); the
+           line reaches about <strong>849 million in 2030</strong>. Because the system starts in 2028, 2028 is the
+           first year for which allowances are actually issued: no 2027 allowances exist, and the 2027 figure is
+           only a point on the line.</p>
+      </div>
+      <div>
+        <h3>2 · Rebased on what fuel suppliers report</h3>
+        <p class="sub">The cap from 2028 starts again from the <strong>average emissions reported for 2024 to
+           2026</strong>, placed at 2025, and falls by <strong>5.38%</strong> of that value a year — the same absolute
+           reduction as the first line, expressed against its 2025 point. The Commission publishes the 2028 cap by
+           30 June 2027. If reported emissions come in <strong>more than 2% above</strong> the line's 2025 value, the
+           factor is raised so that the cap still reaches the line's 2030 value (Annex IIIa); if they come in lower,
+           5.38% applies and the cap ends lower too.</p>
+      </div>
+    </div>
+    <div style="margin:6px 0 4px;font-size:13.5px;color:#39414d">
+      <label for="capMrv"><strong>Average reported emissions 2024–2026:</strong>
+        <span id="capMrvOut"></span></label><br>
+      <input type="range" id="capMrv" min="900" max="1300" step="1" value="1161" style="width:100%;max-width:520px">
+      <div id="capRead" style="margin-top:4px"></div>
+    </div>
+    <div class="chartbox"><canvas id="capChart"></canvas></div>
+    <p class="sub">The slider starts at the line's own 2025 value, 1 161 million, where the two steps coincide. The
+       2026 figure will not be reported until 2027, and the 957 Mt on the <a href="#" data-goto="size">How big it is</a> tab covers only the eighteen
+       national accounts that had reported for 2024, so it is not a basis for the 2028 cap. One exception in the
+       annex is not modelled: if the gap between reported and inventory emissions for 2025 is under 5% and explains
+       the excess, the 5.38% factor stays.</p>
+    <p class="sub"><strong>Why two steps.</strong> The inventory line was the only basis available when the law was
+       written, but inventory categories and fuel suppliers' reports do not match exactly. Rebasing on reported data
+       makes the cap fit what is actually monitored and surrendered. The asymmetry is deliberate: a starting point
+       that turns out higher than expected cannot loosen the 2030 endpoint, while one that turns out lower tightens
+       it.</p>
   </div>
 
   <div class="panel">
@@ -381,31 +415,42 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        the price rises too far, too fast. It exists because the political tolerance for a carbon price on petrol
        and heating is far narrower than for one on industrial output.</p>
     <div class="eq">
-      If the average allowance price exceeds <strong>€45</strong> (in 2020 prices) over a defined reference
-      period, allowances are released from the ETS 2 market stability reserve.
+      If the average auction price exceeds <strong>€45</strong> (in 2020 prices) for two consecutive months,
+      <strong>40 million allowances</strong> are released from the ETS 2 market stability reserve.
     </div>
     <div class="grid2">
       <div>
-        <h3>The reserve itself is not new</h3>
-        <p class="sub">ETS 2 has had its own market stability reserve since the system was created — a reserve
-           separate from the one serving ETS 1, set up by the same 2023 directive and endowed with
-           <strong>600 million allowances</strong> from the start. Two kinds of trigger move allowances in and
-           out. By <em>volume</em>: if the number in circulation rises above 440 million, 100 million are taken
-           into the reserve over the following twelve months; if it falls below 210 million, 100 million are
-           released. By <em>price</em>: the €45 trigger above, and releases of 50 million allowances if the
-           three-month average price runs at more than twice the preceding six-month average, 150 million at more
-           than three times. Releases can start in 2028 and are normally limited to one a year. What the 2026 act
-           did was strengthen that machinery rather than create it.</p>
+        <h3>The reserve and its price triggers</h3>
+        <p class="sub">ETS 2 has its own market stability reserve, separate from the one serving ETS 1, set up by the
+           2023 directive with <strong>600 million allowances</strong>. Three price conditions release allowances from it.
+           The <strong>€45 trigger</strong> releases 40 million: 20 million under Article 30h(2) of the ETS Directive
+           and a further 20 million added by the MSR Decision. It can fire up to twice a year, so up to
+           <strong>80 million a year</strong>, from the start of auctioning until the end of 2029. Independently of the
+           price level, a <strong>rapid rise</strong> releases 50 million if the average price runs at more than twice
+           its preceding six-month average for more than three consecutive months, and 150 million at more than three
+           times. Every release is spread evenly over three months, starting no later than two months after the
+           Commission publishes that the condition has been met.</p>
       </div>
       <div>
-        <h3>Strengthened, adopted, published</h3>
-        <p class="sub">Council and Parliament reached a provisional agreement on 11 June 2026 that doubles the
-           volume released when the €45 trigger fires, from 20 million allowances to 40 million, extends the
-           reserve beyond 2030, and adds a more gradual release when the number of allowances in circulation falls
-           below 260 million. The stated aim is to reduce volatility before the system ever charges anyone. The
-           <strong>Council adopted the act on 9 October 2026</strong> and it appeared in the Official Journal
-           on <strong>28 October</strong> as Decision (EU) 2026/2402, in force twenty days later on
-           17 November 2026 — more than a year before the system starts charging.</p>
+        <h3>The volume triggers</h3>
+        <p class="sub">Each year by 1 June, from 2028, the Commission publishes the number of allowances in circulation:
+           all ETS 2 allowances issued, minus verified emissions since 1 January 2028, minus allowances cancelled.
+           Above <strong>440 million</strong>, 100 million are taken into the reserve over the following twelve months.
+           Below <strong>210 million</strong>, 100 million are released. Between 210 and <strong>260 million</strong>
+           the release slides: 100 million minus twice the amount by which circulation exceeds 210 million, so
+           50 million at 235 million and nothing at 260 million, added to auction volumes from 1 September. Allowances
+           left in the reserve do not expire: all 600 million stay available after 2030.</p>
+      </div>
+      <div>
+        <h3>Why it is built this way</h3>
+        <p class="sub">The design answers one worry: a price spike on petrol and heating oil in the first years, before
+           households and fuel suppliers have adjusted. Up to 80 million allowances a year at €45 is more than the
+           60 million by which the cap falls each year, so the reserve can more than offset the tightening while the
+           trigger applies. The sliding band between 210 and 260 million replaces a single cliff, where a small change
+           in circulation decided between no release and 100 million. Keeping all 600 million allowances valid beyond
+           2030 means the buffer exists for as long as the system does, rather than ending just as the €45 trigger
+           lapses. The Commission's review of the reserve must weigh what remains in it against environmental integrity
+           and social fairness. These rules are set by Decision (EU) 2026/2402, in force since 17 November 2026.</p>
       </div>
       <div>
         <h3>And the start date is still 2028</h3>
@@ -414,7 +459,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            Greece, pressed to postpone ETS 2 to 2030 or later; a majority, including the Nordic states, the
            Netherlands, France and Germany, refused. The conclusions do not move the date. They ask the
            Commission instead to "update the assessment of all impacts of ETS 2, in particular its design and
-           safeguards" (paragraph 8), and separately call on the co-legislators to accelerate work on the market
+           safeguards" (paragraph 8), and separately call on the co-legislators to accelerate work on the ETS 1 market
            stability reserve (paragraph 7). An impact assessment is not a delay, but it is the instrument through
            which one would be argued for, so it is worth watching what the Commission comes back with.</p>
       </div>
@@ -503,18 +548,24 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        dataset; for the underlying data, go to the Union Registry extract named above.</p>
     <p class="sub"><strong>Postponement.</strong> The one-year delay to 1 January 2028 was adopted in March 2026
        alongside the 2040 climate target; auctioning remains scheduled for 2027.</p>
-    <p class="sub"><strong>The reserve.</strong> Established for ETS 2 by Article 1a of
-       <a href="https://eur-lex.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a>
-       as inserted by Directive (EU) 2023/959: 600 million allowances placed in it from the start, intake of
-       100 million when allowances in circulation exceed 440 million and release of 100 million when they fall
-       below 210 million, alongside the price triggers in the ETS Directive. The figures here follow published
-       explainers of those provisions rather than a clause-by-clause reading.</p>
-    <p class="sub"><strong>Price safeguard.</strong> Amendment to the market stability reserve for ETS 2
-       — 40 million allowances released above the €45 trigger, reserve extended beyond 2030, gradual release
-       below 260 million in circulation. Provisionally agreed 11 June 2026, adopted by the Council on
-       9 October 2026, published in the Official Journal on 28 October 2026 as Decision (EU) 2026/2402 and in
-       force from 17 November 2026. The act number is as reported on the day of publication; check the
-       consolidated text before citing it.</p>
+    <p class="sub"><strong>The cap.</strong> Article 30c(1) and (2) and Annex IIIa of
+       <a href="https://eur-lex.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive 2003/87/EC</a>,
+       as inserted by Directive (EU) 2023/959; the 2027 quantity from
+       <a href="https://eur-lex.europa.eu/eli/dec/2024/2951/oj" target="_blank" rel="noopener">Commission Decision (EU) 2024/2951</a>;
+       2028 as the first year for which the quantity is established, and 2029 as the first year it is adjusted, from
+       Article 30k(2)(a), triggered by Article 2 of Regulation (EU) 2026/667. The line's 2024 value and annual step
+       are derived from the published 2027 figure; the chart rounds to 0.1 million.</p>
+    <p class="sub"><strong>The reserve and the price safeguard.</strong> The ETS 2 reserve is Article 1a of
+       <a href="https://eur-lex.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a>,
+       inserted by Directive (EU) 2023/959 and amended by
+       <a href="https://eur-lex.europa.eu/eli/dec/2026/2402/oj" target="_blank" rel="noopener">Decision (EU) 2026/2402</a>
+       of 21 October 2026 (in force 17 November 2026): the definition and yearly publication of allowances in circulation
+       (Article 1a(4)), the 440, 260 and 210 million thresholds and the sliding release between the last two
+       (Article 1a(5)), the 20 million top-up to releases under the €45 trigger and the three-month release profile
+       (Article 1a(7)), and no invalidation of allowances in the reserve after 2030 (Article 1a(3)). The price triggers
+       themselves are Article 30h of Directive 2003/87/EC. The annual maximum of 80 million allowances, the end of 2029
+       as the last year of the €45 trigger and the comparison with the 60 million annual cap reduction are from the
+       Commission's explanation of its proposal.</p>
 
     <h2>What this page does not cover</h2>
     <p class="sub">The detailed monitoring and reporting rules for fuel suppliers; the treatment of fuels used for
@@ -529,14 +580,14 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     </div>
 
     <footer>Compiled from Commission, Council and Union Registry sources, September 2026. An orientation tool,
-      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 6 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 26 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
   </div>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 6 November 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 26 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -556,6 +607,51 @@ document.addEventListener("click",e=>{
   const btn=document.querySelector(`nav.tabs button[data-tab="${a.dataset.goto}"]`);
   if(btn) btn.click();
 });
+
+// ---------------------------------------------------------------- ETS 2 cap, Article 30c and Annex IIIa
+// Line 1 (Art. 30c(1)): 2024 value V24, minus 5.10% of V24 a year. V24 is backed out of the published
+// 2027 quantity, 1 036 288 784 = V24 x (1 - 3 x 0.051), Commission Decision (EU) 2024/2951.
+// Line 2 (Art. 30c(2)): from 2028, start at the 2024-2026 reported average, placed at 2025, minus 5.38% of it a
+// year; if that average exceeds the line-1 2025 value by more than 2%, Annex IIIa adjusts the factor so the cap
+// reaches the line-1 2030 value: LRFadj = (MRV - (V24 - 6 x 0.051 x V24)) / (5 x MRV).
+(function(){
+  const V24=1036288784/(1-3*0.051), STEP=0.051*V24;
+  const YRS=[2024,2025,2026,2027,2028,2029,2030];
+  const T=y=>(V24-STEP*(y-2024))/1e6;
+  const T25=T(2025), T30=T(2030);
+  function cap(mrv){
+    let lrf=0.0538, adj=false;
+    if(mrv>1.02*T25){ lrf=(mrv-T30)/(5*mrv); adj=true; }
+    return {lrf, adj, v:y=>mrv*(1-lrf*(y-2025))};
+  }
+  const sl=document.getElementById("capMrv"), out=document.getElementById("capMrvOut"), rd=document.getElementById("capRead");
+  const ch=new Chart(document.getElementById("capChart"),{
+    data:{labels:YRS.map(String),datasets:[
+      {type:"bar",label:"Cap issued from 2028, rebased on reported emissions (Art. 30c(2))",data:[],
+       backgroundColor:"rgba(107,91,210,.85)",borderRadius:3,order:2},
+      {type:"line",label:"Starting line from inventory data (Art. 30c(1)) — notional, no allowances issued before 2028",
+       data:YRS.map(T),borderColor:"#8a94a3",borderDash:[6,4],borderWidth:2,pointRadius:2,tension:0,order:1},
+      {type:"line",label:"Published 2027 quantity, Decision (EU) 2024/2951 — not issued",data:YRS.map(y=>y===2027?1036.288784:null),
+       showLine:false,pointRadius:6,pointStyle:"rectRot",backgroundColor:"#c0392b",borderColor:"#c0392b",order:0},
+      {type:"line",label:"Rebased line from the 2025 starting point",data:[],borderColor:"#6b5bd2",borderDash:[2,3],
+       borderWidth:1.5,pointRadius:0,tension:0,order:1}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:"bottom",labels:{boxWidth:14,font:{size:11.5}}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:`${c.dataset.label.split(" — ")[0]}: ${c.parsed.y.toFixed(1)} million allowances`}}},
+      scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances"},grid:{color:"#eef1f5"}},
+        x:{grid:{display:false}}}}});
+  function draw(){
+    const mrv=+sl.value, c=cap(mrv);
+    out.textContent=mrv.toLocaleString("en-GB").replace(/,/g," ")+" Mt CO₂e";
+    ch.data.datasets[0].data=YRS.map(y=>y>=2028?c.v(y):null);
+    ch.data.datasets[3].data=YRS.map(y=>y>=2025?c.v(y):null);
+    ch.update("none");
+    const d=(mrv/T25-1)*100;
+    rd.innerHTML=`${d>=0?"+":""}${d.toFixed(1)}% against the line's 2025 value · factor <strong>${(c.lrf*100).toFixed(2)}%</strong>`+
+      (c.adj?" (raised under Annex IIIa)":"")+` · cap 2028 <strong>${c.v(2028).toFixed(0)}</strong> million, 2030 <strong>${c.v(2030).toFixed(0)}</strong> million`;
+  }
+  sl.addEventListener("input",draw); draw();
+})();
 
 // ---------------------------------------------------------------- reported ETS 2 emissions, 2024
 const E2_C=["DE","FR","IT","NL","BE","ES","CZ","AT","GR","SE","IE","FI","DK","NO","HR","SI","LU","LV"];
