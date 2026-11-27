@@ -343,21 +343,24 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 
     <h3 style="margin-top:24px">The other thing the registry shows: the accounts are being opened now</h3>
     <p class="sub">Reported emissions are not the only ETS 2 trace in the Union Registry. Fuel suppliers caught by
-       the system need a <em>regulated entity holding account</em> to surrender from 2028, and those accounts have
-       gone from a handful to a crowd in three months. On 7 August 2026 there were <strong>49</strong> of them, in
-       seven member states. On 6 November there were <strong>1 184</strong>, in twenty. The first was opened on
-       5 June 2026 and the most recent on 5 November; the monthly run is 25 in June, 92 in July, 124 in August,
-       333 in September, 512 in October and 98 in the first five days of November. Two further accounts sit at
-       Union level, a regulated entity auction account and a total quantity account, which is the plumbing for
-       auctioning rather than for any one supplier.</p>
-    <p class="sub">The distribution is lopsided in a way the emissions figures are not. Italy has opened 483,
-       Austria 120, Belgium 103, Slovakia 90 and Czechia 68, while <strong>Germany, Poland, Portugal, Romania,
-       Hungary, Estonia, Cyprus and Malta have opened none at all</strong>. Germany is the striking one: it
-       reports the largest ETS 2 emissions of any member state and already runs a national carbon price on the
-       same fuels, so its suppliers are the best prepared in the Union and the least visible in the registry.
-       Account openings are an administrative step rather than a measure of readiness, and a state can do them
-       late and quickly. But they are the first hard, countable evidence of ETS 2 being built rather than
-       debated, and on this measure the build-out began in the summer of 2026.</p>
+       the system need a <em>regulated entity holding account</em> to surrender from 2028. On
+       <strong>26 November 2026</strong> there were <strong>2 106</strong> of them, in twenty-one member states and
+       Norway, none closed or flagged for closure. The first was opened on 5 June 2026; the monthly run is 25 in June,
+       92 in July, 124 in August, 333 in September, 512 in October and 1 020 in November to the 25th. The two
+       Union-level accounts that auctioning needs, a regulated entity auction account and a total quantity account,
+       were both opened on <strong>14 October 2026</strong>.</p>
+    <div class="chartbox" style="height:340px"><canvas id="reAccChart"></canvas></div>
+    <p class="sub"><strong>Germany did it in a day.</strong> All 712 German accounts were opened on
+       6 November 2026, which made Germany the largest registry overnight, with a third of the Union total. Ninety-three
+       of them carry "nEHS" or "BEHG" in their names, the labels of Germany's national fuel emissions trading scheme,
+       which ETS 2 will replace: the pattern points to an existing population of suppliers being set up in bulk
+       rather than one by one. Italy follows with 527, built up steadily since June, then Austria 149, Czechia 115,
+       Belgium 103 and Slovakia 101.</p>
+    <p class="sub">The gaps are now few but notable. <strong>Poland, Romania, Portugal, Hungary, Estonia and
+       Cyprus</strong> have opened none. Spain (5) and Malta (3) opened their first in November, and France, the
+       second-largest emitter in the 2024 reports, has 28. Account numbers depend on how each state defines the
+       regulated entity and whether suppliers are grouped, so they are not a measure of coverage; but a state with no
+       accounts thirteen months before the system starts has the most left to do.</p>
   </div>
 </section>
 
@@ -432,16 +435,6 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            Commission publishes that the condition has been met.</p>
       </div>
       <div>
-        <h3>The volume triggers</h3>
-        <p class="sub">Each year by 1 June, from 2028, the Commission publishes the number of allowances in circulation:
-           all ETS 2 allowances issued, minus verified emissions since 1 January 2028, minus allowances cancelled.
-           Above <strong>440 million</strong>, 100 million are taken into the reserve over the following twelve months.
-           Below <strong>210 million</strong>, 100 million are released. Between 210 and <strong>260 million</strong>
-           the release slides: 100 million minus twice the amount by which circulation exceeds 210 million, so
-           50 million at 235 million and nothing at 260 million, added to auction volumes from 1 September. Allowances
-           left in the reserve do not expire: all 600 million stay available after 2030.</p>
-      </div>
-      <div>
         <h3>Why it is built this way</h3>
         <p class="sub">The design answers one worry: a price spike on petrol and heating oil in the first years, before
            households and fuel suppliers have adjusted. Up to 80 million allowances a year at €45 is more than the
@@ -471,6 +464,22 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            in 2028 than it looked in 2023.</p>
       </div>
     </div>
+    <h3 style="margin-top:24px">The volume triggers, drawn: how the reserve responds</h3>
+    <p class="sub">Alongside the price triggers, the reserve reacts to one number: the <strong>allowances in
+       circulation</strong>, published each year by 1 June from 2028 — every ETS 2 allowance issued, minus verified
+       emissions since 1 January 2028, minus allowances cancelled. For any value on the horizontal axis, the chart
+       shows how many allowances the reserve takes in (above zero) or gives back (below zero).</p>
+    <div style="margin:4px 0 6px;font-size:13px;color:#39414d">
+      <label><input type="checkbox" id="volCliff"> Compare with a single cliff at 210 million (no sliding band)</label>
+    </div>
+    <div class="chartbox" style="height:340px"><canvas id="volRuleChart"></canvas></div>
+    <div class="warn" style="margin-top:14px"><strong>Reading the shape.</strong> Above <strong>440 million</strong>
+      the reserve takes in 100 million over the following twelve months. Between 260 and 440 million nothing
+      happens. Between <strong>260 and 210 million</strong> the release rises in a straight line,
+      100 million minus twice the amount by which circulation exceeds 210 million — 50 million at 235 million —
+      and below <strong>210 million</strong> it is a flat 100 million. Releases are added to auction volumes from
+      1 September. The reserve starts with 600 million allowances and none of them expires after 2030, so the
+      release side of the chart stays available for the life of the system.</div>
   </div>
 </section>
 
@@ -541,7 +550,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        ETS 2 national accounts separated by account name, snapshot 7 August 2026. Eighteen accounts reported for 2024; the series
        is reported emissions under the monitoring obligation, not verified compliance data, and not a cap.</p>
     <p class="sub"><strong>Regulated entity accounts.</strong> Union Registry daily account extracts, account
-       type <em>Regulated Entity Holding Account</em>, snapshots of 7 August and 6 November 2026, counted by
+       type <em>Regulated Entity Holding Account</em>, snapshots of 7 August, 6 November and 26 November 2026, counted by
        registry and by opening date. Open accounts only; none in either extract is flagged for closure.</p>
     <p class="sub"><strong>Getting the data out.</strong> The chart on this page has a download button
        underneath it that exports the plotted series as CSV. That is the series as drawn, not the source
@@ -573,21 +582,22 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        carbon prices that ETS 2 replaces, particularly the German and Austrian schemes; and the per-member-state
        allocation of the Social Climate Fund.</p>
     <div class="warn">
-      <strong>The cap figures are the part to check.</strong> The quantities and reduction factors written in the
-      2023 Directive were drafted for a 2027 start. The postponement rebases them, so any figure quoted from the
-      original text against a calendar year after 2027 is likely to be wrong by one year's step. This page
-      therefore states the 2030 target and avoids reproducing annual cap quantities.
+      <strong>The cap figures are the part to check.</strong> The cap chart applies Article 30c as it now
+      operates: 2028 is the first year for which allowances are issued, and the cap from 2028 depends on the average
+      emissions reported for 2024 to 2026, which the Commission will publish by 30 June 2027. Until then the chart
+      shows the rule, not a forecast, and annual quantities quoted elsewhere against calendar years from the 2023
+      text should be checked against it.
     </div>
 
     <footer>Compiled from Commission, Council and Union Registry sources, September 2026. An orientation tool,
-      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 26 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 27 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
   </div>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 26 November 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 27 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -651,6 +661,51 @@ document.addEventListener("click",e=>{
       (c.adj?" (raised under Annex IIIa)":"")+` · cap 2028 <strong>${c.v(2028).toFixed(0)}</strong> million, 2030 <strong>${c.v(2030).toFixed(0)}</strong> million`;
   }
   sl.addEventListener("input",draw); draw();
+})();
+
+// ---------------------------------------------------------------- ETS 2 reserve, volume triggers (Decision 2015/1814, Art. 1a(5) as amended by Decision (EU) 2026/2402)
+(function(){
+  const rule=t=>t>440?100:t>=260?0:t>=210?-(100-2*(t-210)):-100;
+  const cliff=t=>t>440?100:t>=210?0:-100;
+  const xs=[]; for(let t=0;t<=600;t+=1) xs.push(t);
+  const zone=t=>t>440?"above 440 million: 100 million taken into the reserve":t>=260?"between 260 and 440 million: no change":
+     t>=210?"between 210 and 260 million: sliding release":"below 210 million: 100 million released";
+  const vline=(x,lab,col)=>({label:lab,data:[{x,y:-125},{x,y:125}],borderColor:col,borderDash:[3,3],borderWidth:1.2,pointRadius:0,order:3});
+  let ch;
+  function draw(){
+    const ds=[{label:"Rule in force",data:xs.map(t=>({x:t,y:rule(t)})),borderColor:"#6b5bd2",borderWidth:2.6,pointRadius:0,tension:0,order:1}];
+    if(document.getElementById("volCliff").checked)
+      ds.push({label:"Single cliff at 210 million, for comparison",data:xs.map(t=>({x:t,y:cliff(t)})),borderColor:"#8a94a0",borderDash:[6,4],borderWidth:2,pointRadius:0,tension:0,order:2});
+    ds.push(vline(440,"440 million","#c0392b"),vline(260,"260 million","#d9a520"),vline(210,"210 million","#1f8a5f"));
+    const opts={responsive:true,maintainAspectRatio:false,parsing:false,
+      interaction:{mode:"nearest",intersect:false,axis:"x"},
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{filter:c=>c.datasetIndex===0||c.dataset.label.startsWith("Single"),
+          callbacks:{title:c=>`${c[0].parsed.x} million in circulation — ${zone(c[0].parsed.x)}`,
+          label:c=>`${c.dataset.label}: ${c.parsed.y>0?"into the reserve "+c.parsed.y:c.parsed.y<0?"released "+(-c.parsed.y):"no change"}${c.parsed.y?" million":""}`}}},
+      scales:{x:{type:"linear",min:0,max:600,title:{display:true,text:"Allowances in circulation, million"},grid:{color:"#eef1f5"}},
+              y:{min:-125,max:125,ticks:{stepSize:25},title:{display:true,text:"Into (+) / out of (−) the reserve, million"},
+                 grid:{color:c=>c.tick.value===0?"#9aa4b0":"#eef1f5"}}}};
+    if(ch){ch.data={datasets:ds};ch.update();}
+    else ch=new Chart(document.getElementById("volRuleChart"),{type:"line",data:{datasets:ds},options:opts});
+  }
+  document.getElementById("volCliff").onchange=draw; draw();
+})();
+
+// ---------------------------------------------------------------- regulated entity holding accounts, snapshot 26 Nov 2026
+(function(){
+  const C=["DE","IT","AT","CZ","BE","SK","GR","LT","FI","HR","NL","BG","FR","NO","SI","DK","SE","IE","LV","LU","ES","MT"];
+  const N=[712,527,149,115,103,101,60,53,42,35,35,33,28,25,22,18,13,11,9,7,5,3];
+  const NOV=[712,70,46,57,0,21,13,6,8,1,23,9,16,2,6,12,4,2,3,1,5,3];
+  new Chart(document.getElementById("reAccChart"),{type:"bar",
+    data:{labels:C,datasets:[
+      {label:"Opened June–October 2026",data:N.map((v,k)=>v-NOV[k]),backgroundColor:"rgba(107,91,210,.85)",borderRadius:2,stack:"a"},
+      {label:"Opened 1–25 November 2026",data:NOV,backgroundColor:"rgba(107,91,210,.35)",borderRadius:2,stack:"a"}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{footer:c=>`Total ${N[c[0].dataIndex]} accounts`}}},
+      scales:{x:{stacked:true,grid:{display:false}},
+              y:{stacked:true,beginAtZero:true,title:{display:true,text:"Regulated entity holding accounts, 26 Nov 2026"},grid:{color:"#eef1f5"}}}}});
 })();
 
 // ---------------------------------------------------------------- reported ETS 2 emissions, 2024
