@@ -287,15 +287,46 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <div class="card"><div class="k">−1.33 M</div><div class="l">fixed cut each year, 2024–2027</div></div>
       <div class="card"><div class="k">61.7 Mt</div><div class="l">verified aviation CO₂ in 2025 — about 2.4 times that year's cap</div></div>
     </div>
-    <div class="grid2" style="margin-top:18px">
+    <h3 style="margin-top:22px">What the cap limits, and why emissions can exceed it</h3>
+    <p class="sub">The aviation cap limits how many allowances are created <em>on aviation's account</em>, not how
+       much airlines may emit. Airlines can surrender any allowance, so whatever they emit beyond that pool they buy
+       from allowances created under the main cap. In the chart, each year's emissions split into the two.</p>
+    <div class="grid2">
       <div>
-        <h3>A separate cap, but the same allowances</h3>
-        <p class="sub">Since 1 January 2025 the aviation share is issued as general allowances, the same unit that
-           installations and shipping companies surrender, so there is no separate aviation allowance any more. What
-           stays separate is the quantity: the aviation cap decides how many allowances enter the market on aviation's
-           account. Airlines emit far more than that, about 61.7 Mt against 26.2 million allowances in 2025, so the
-           sector is a structural net buyer and covers the gap with allowances issued under the main cap.</p>
+        <h3>One market, two sources of supply</h3>
+        <p class="sub">Since 2013 aircraft operators have been allowed to surrender general allowances, the ones
+           issued under the main cap for power, industry and, since 2024, shipping. For years this worked one way only:
+           airlines could use general allowances, but installations could not use aviation allowances. Since
+           1 January 2025 the aviation share is itself issued as general allowances, so the two are the same unit.</p>
       </div>
+      <div>
+        <h3>What the aviation cap fixes</h3>
+        <p class="sub">How many allowances are added to that common pool because aviation is in the system:
+           26.2 million in 2025, against 61.7 Mt of verified emissions. Airlines covered the other
+           <strong>35 million tonnes</strong> or so by buying allowances issued under the main cap, at auction or
+           from other holders.</p>
+      </div>
+      <div>
+        <h3>The real limit is the combined cap</h3>
+        <p class="sub">What binds is the main cap plus the aviation cap: everything emitted across the system has to
+           be matched by allowances from one pool or the other. Aviation's shortfall does not break the cap. It means
+           aviation uses supply that would otherwise go to installations, which makes the market slightly tighter
+           for everyone else.</p>
+      </div>
+      <div>
+        <h3>Why the gap is so large</h3>
+        <p class="sub">The quantity was set low from the start: calculated from aviation's emissions in the
+           mid-2000s, then cut back sharply when coverage was limited to flights within Europe in 2013. It has fallen
+           every year since, while flying grew until 2019 and has now recovered to almost that level. The Commission's
+           July 2026 reform proposal puts aviation's cumulative net demand on the general pool over 2012–2023 at
+           173 million allowances.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:4px 0 0">So a separate aviation cap is mainly a matter of how supply is counted: it
+       decides how much new supply aviation adds, and airlines buy the rest. Maritime shows the alternative: when
+       shipping joined in 2024, its allowances were simply added to the main cap, with no separate cap at all.</p>
+
+    <div class="grid2" style="margin-top:18px">
       <div>
         <h3>What comes out of it</h3>
         <p class="sub">The aviation cap is shared out in four ways. Free allocation was cut by a quarter in 2024 and
@@ -689,11 +720,13 @@ new Chart(document.getElementById("avCapChart"),{
   data:{labels:AVC_Y,datasets:[
     {type:"bar",label:"Aviation cap, published (million allowances)",data:AVC.map((v,k)=>k<4?v/1e6:null),backgroundColor:"rgba(31,95,191,.85)",borderRadius:3,maxBarThickness:60,stack:"c"},
     {type:"bar",label:"Aviation cap from 2028, calculated at 4.4% (million allowances)",data:AVC.map((v,k)=>k>=4?v/1e6:null),backgroundColor:"rgba(31,95,191,.35)",borderRadius:3,maxBarThickness:60,stack:"c"},
-    {type:"line",label:"Verified aviation CO₂ emissions (Mt)",data:AVC_Y.map(y=>AVC_EM[y]??null),borderColor:"#c0392b",backgroundColor:"#c0392b",pointRadius:5,borderWidth:2,showLine:true,spanGaps:false}]},
+    {type:"bar",label:"Emissions above the aviation cap, covered with allowances from the general pool (Mt)",data:AVC_Y.map((y,k)=>AVC_EM[y]!=null?AVC_EM[y]-AVC[k]/1e6:null),backgroundColor:"rgba(192,57,43,.55)",borderRadius:3,maxBarThickness:60,stack:"c"},
+    {type:"line",label:"Verified aviation CO₂ emissions (Mt)",data:AVC_Y.map(y=>AVC_EM[y]??null),borderColor:"#c0392b",backgroundColor:"#c0392b",pointRadius:5,borderWidth:0,showLine:false}]},
   options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
-      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:(c.dataset.type==="line"?`Verified emissions: ${nd(c.parsed.y)} Mt`:`${c.dataset.label.split(" (")[0]}: ${Math.round(AVC[c.dataIndex]).toLocaleString("en-GB").replace(/,/g," ")} allowances`)}}},
-    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances / Mt CO₂"},grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:(c.dataset.type==="line"?`Verified emissions: ${nd(c.parsed.y)} Mt`:
+        (c.datasetIndex===2?`Bought from the general pool: ${nd(c.parsed.y)} Mt`:`${c.dataset.label.split(" (")[0]}: ${Math.round(AVC[c.dataIndex]).toLocaleString("en-GB").replace(/,/g," ")} allowances`))}}},
+    scales:{y:{beginAtZero:true,stacked:true,title:{display:true,text:"Million allowances / Mt CO₂"},grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
       x:{stacked:true,grid:{display:false}}}}});
 
 // ---------------------------------------------------------------- compliance
