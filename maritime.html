@@ -211,7 +211,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="card"><div class="k">2024</div><div class="l">first year of coverage — the newest sector in the system</div></div>
     <div class="card"><div class="k">5 000 GT</div><div class="l">the size threshold: cargo and passenger ships at or above it are in scope</div></div>
     <div class="card"><div class="k">50%</div><div class="l">of emissions counted on voyages that begin or end outside the EEA</div></div>
-    <div class="card"><div class="k">90.6 Mt</div><div class="l">verified CO₂ in 2024, the first reporting year</div></div>
+    <div class="card"><div class="k">91.0 Mt</div><div class="l">verified CO₂ in 2024, the first reporting year</div></div>
     <div class="card"><div class="k">3 316</div><div class="l">shipping companies assessed for compliance in 2024</div></div>
   </div>
 
@@ -361,13 +361,13 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <div class="panel">
     <h2>Verified emissions, 2024–2025</h2>
     <p class="sub">Two years of data, so this is a starting point rather than a trend. What it does establish is
-       scale: at 90.6 Mt in its first year, maritime immediately became one of the larger activities in the
+       scale: at 91.0 Mt in its first year, maritime immediately became one of the larger activities in the
        system — roughly a fifth of everything the industrial installations emit, added to the ETS in a single
        step.</p>
     <div class="chartbox" style="height:320px"><canvas id="emChart"></canvas></div>
-    <p class="sub" style="margin:16px 0 0">The fall to 80.7 Mt in 2025 should be read cautiously. A first
-       reporting year in a sector with thousands of newly-regulated companies is exactly where you would expect
-       both over- and under-reporting, and the 2025 figure may still be revised. It is far too early to call this
+    <p class="sub" style="margin:16px 0 0">The fall to 87.6 Mt in 2025 should be read cautiously. A second
+       reporting year in a sector with thousands of newly regulated companies is still settling, late reports keep
+       arriving for months after the deadline, and the 2025 figure may yet rise. A 4% dip is far too small to call
        a reduction.</p>
     <div class="warn" style="margin-bottom:0"><strong>This is new coverage, not new emissions.</strong> Ships were
       burning this fuel before 2024; they simply were not counted. When maritime appears in the ETS totals it
@@ -513,9 +513,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
         <a href="https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector/faq-maritime-transport-eu-emissions-trading-system-ets_en" target="_blank" rel="noopener">Commission FAQ on maritime transport in the EU ETS</a>.</li>
       <li><strong>Fuel intensity and onshore power</strong> —
         <a href="http://data.europa.eu/eli/reg/2023/1805/oj" target="_blank" rel="noopener">Regulation (EU) 2023/1805</a> (FuelEU Maritime).</li>
-      <li><strong>Emissions</strong> — European Environment Agency EU ETS data viewer, July 2026 release, main
-        activity code 50 (maritime transport), EEA scope excluding the United Kingdom. Same extraction as the
-        <a href="ets.html">ETS overview</a> page.</li>
+      <li><strong>Emissions</strong> — EU Union Registry, operator yearly activity data from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a>, snapshot 28 November 2026: verified emissions of shipping companies (main activity code 50 in the Commission's verified emissions file, plus companies registered since, identified by registry account type), excluding accounts administered by the United Kingdom. The same series as the <a href="ets.html">ETS overview</a> page.</li>
       <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2024 compliance year.</li>
       <li><strong>IMO</strong> — outcome of the extraordinary session of the Marine Environment Protection
         Committee, October 2025, and the IMO meeting schedule for the resumed session of 4 December 2026.</li>
@@ -538,9 +536,10 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 
   <details>
     <summary>On the 2025 figure</summary>
-    <p>The 2025 value of 80.7 Mt comes from the July 2026 data release and reflects reporting as it stood at that
-       point. Compliance reporting for a given year continues to be corrected after first publication, and this is
-       only the sector's second cycle. Treat the 2024–2025 difference as provisional; it is not yet evidence of
+    <p>Both values are verified emissions in the Union Registry (snapshot of 28 November 2026), summed over
+       shipping companies, before the phase-in coefficient. The 2025 value includes about 270 companies registered
+       after the Commission's April 2026 publication. Late reports were still arriving: on 1 April 2026 the registry
+       showed 43.3 Mt for 2025. Treat the 2024–2025 difference as provisional; it is not yet evidence of
        abatement.</p>
   </details>
 
@@ -553,14 +552,14 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        and not law.</p>
   </details>
 
-  <footer>Compiled from Commission, EMSA and EEA sources, August 2026; policy status reviewed 26 October 2026. An orientation tool, not an official
-    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 26 October 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+  <footer>Compiled from Commission, EMSA and Union Registry sources, August–November 2026; policy status reviewed 26 October 2026. An orientation tool, not an official
+    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 28 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 26 October 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 28 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -598,9 +597,10 @@ new Chart(document.getElementById("phaseChart"),{type:"bar",
             x:{grid:{display:false}}}}});
 
 // ---------------------------------------------------------------- emissions
-// EEA EU ETS data viewer, July 2026 release, main activity 50 (maritime transport).
+// Union Registry, operator yearly activity, snapshot 28 Nov 2026: verified emissions of shipping companies
+// (main activity 50, plus companies registered after the April 2026 code list, identified by account type).
 const EM_Y=[2024,2025];
-const EM_V=[90.6,80.7];
+const EM_V=[91.0,87.6];
 new Chart(document.getElementById("emChart"),{type:"bar",
   data:{labels:EM_Y,datasets:[{data:EM_V,
     backgroundColor:["rgba(22,160,133,.88)","rgba(22,160,133,.6)"],

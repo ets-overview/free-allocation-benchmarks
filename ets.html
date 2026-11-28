@@ -212,6 +212,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <nav class="tabs">
   <div class="headerinner">
     <button data-tab="cap" class="on">Cap &amp; supply</button>
+    <button data-tab="who">Who it covers</button>
     <button data-tab="msr">Market Stability Reserve</button>
     <button data-tab="out">Outcomes</button>
     <button data-tab="rev">Revenue &amp; spending</button>
@@ -396,6 +397,109 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 </section>
 
 <!-- ===================== MSR ===================== -->
+<section id="tab-who" class="hide">
+  <div class="panel">
+    <h2>Who the ETS applies to: the activities in Annex I</h2>
+    <p class="sub">The ETS does not cover sectors or companies as such. It covers <strong>activities</strong>, listed
+       in Annex I of <a href="http://data.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive
+       2003/87/EC</a>, mostly with a capacity threshold attached. Any installation that carries out a listed
+       activity above its threshold needs a greenhouse gas emissions permit, must monitor and report its emissions,
+       and must surrender allowances for them every year. The obligation sits with the <em>operator</em> of the
+       installation, the <em>aircraft operator</em> for flights and the <em>shipping company</em> for voyages.
+       Annex I also says which gases count: carbon dioxide everywhere, nitrous oxide from three acid processes,
+       perfluorocarbons from primary aluminium, and methane and nitrous oxide from shipping since 2026.</p>
+    <div class="cards" style="margin:8px 0 18px">
+      <div class="card"><div class="k">28</div><div class="l">stationary activities with a surrender obligation, from fuel combustion to CO₂ storage</div></div>
+      <div class="card"><div class="k">+1</div><div class="l">monitored but not yet priced: municipal waste incineration, reporting since 2024</div></div>
+      <div class="card"><div class="k">2</div><div class="l">transport activities: aviation since 2012, maritime since 2024</div></div>
+      <div class="card"><div class="k">4</div><div class="l">greenhouse gases: CO₂, N₂O, PFCs, and CH₄ for shipping</div></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Where the emissions are, 2025</h3>
+        <div class="chartbox" style="height:290px"><canvas id="whoChart"></canvas></div>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Reading it</h3>
+        <p style="font-size:13.5px;color:#39414d">One Annex I line, combustion of fuels above 20 MW, accounts for half of
+           verified emissions: power stations, combined heat and power, and stand-alone combustion plants at
+           industrial sites that fall under no more specific activity. The other industrial activities together
+           make up a little under two fifths, led by iron and steel, cement, refining and chemicals. Aviation and maritime are
+           the newer and smaller entries, but they cover operators rather than plants, so they add thousands of
+           obligated parties: in the 2025 compliance year more than 3 800 shipping companies and 500 aircraft
+           operators, against roughly nine thousand stationary installations.</p>
+        <p style="font-size:13.5px;color:#39414d;margin:0">Emissions are grouped by each installation's main
+           activity code in the Union Registry, so the industrial share includes the combustion units inside
+           industrial installations. The same series is
+           on the <a href="#out" data-goto="out">Outcomes</a> tab.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>All activities in Annex I</h2>
+    <p class="sub">Filter by group. Thresholds are as worded in the consolidated Annex I, shortened where the full
+       text lists examples. The last column gives the number of installations or operators assessed for the
+       2025 compliance year where the Union Registry groups at least fifty of them under that activity.</p>
+    <div style="margin:0 0 12px"><span class="seg" id="whoSeg" style="flex-wrap:wrap"></span></div>
+    <div style="overflow-x:auto">
+      <table id="whoTbl" class="wrap">
+        <thead><tr><th class="l">Activity</th><th class="l">Threshold for inclusion</th><th class="l">Gases</th><th>In since</th><th>Assessed 2025</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:12px 0 0">“—” in the last column means fewer than fifty assessed under that
+       activity code, or no separate code. Combustion also includes 226 installations still coded under the older
+       “combustion installations above 20 MW” activity. “Since” is the year the activity first carried a surrender
+       obligation across the system; some member states opted individual activities in earlier.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The rules that decide who is in</h2>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Capacity, not output</h3>
+        <p style="font-size:13.5px;color:#39414d">Thresholds refer to production capacity or rated thermal input, not
+           to what a plant actually produced in a given year, so a site does not drop in and out with the business
+           cycle. Capacities of activities in the same category at one installation are added up. For the 20 MW
+           test, the rated thermal inputs of all combustion units — boilers, turbines, engines, furnaces, flares — are
+           summed, leaving out units below 3 MW. Once any activity at a site crosses its threshold, all its
+           combustion units are covered, except those burning hazardous or municipal waste.</p>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Who is left out</h3>
+        <p style="font-size:13.5px;color:#39414d">Installations used for research, development and testing of new
+           products and processes. Installations where sustainable biomass makes up more than 95% of emissions on
+           average over the preceding five years. Hazardous waste incinerators, and municipal waste incinerators,
+           which have reported their emissions since 2024 but surrender nothing (the July 2026 review proposal would
+           bring them in from 2031). Member states may also exclude small emitters, with reported emissions below
+           25 000 tonnes and, for combustion, below 35 MW, as well as hospitals, provided equivalent measures apply
+           (Article 27), and sites below 2 500 tonnes outright (Article 27a). In the 2025 compliance year
+           1 085 installations were excluded this way.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Transport is defined differently</h3>
+        <p style="font-size:13.5px;color:#39414d">Aviation and maritime are covered by journey, not by plant.
+           Aviation covers flights departing from or arriving at aerodromes in the EEA, with long lists of exemptions
+           (military, rescue, training and small aircraft among them) and, for now, only flights within the EEA and
+           to Switzerland and the United Kingdom. Maritime covers ships of 5 000 gross tonnage and above carrying
+           cargo or passengers: all emissions on voyages within the EU and at berth, and half on voyages to or from
+           third countries. Detail is on the <a href="aviation.html">aviation</a> and
+           <a href="maritime.html">maritime</a> pages.</p>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Opting in, and what is elsewhere</h3>
+        <p style="font-size:13.5px;color:#39414d">A member state can add further activities and installations
+           under Article 24, with Commission approval; about 200 opted-in installations were assessed for 2025.
+           Fuels for buildings, road transport and smaller industry are not in Annex I at all: they belong to the
+           separate <a href="ets2.html">ETS 2</a> under Annex III. Agriculture, non-incinerated waste and most
+           domestic transport fall under the <a href="effort-sharing.html">Effort Sharing Regulation</a>.</p>
+        <h3 style="font-size:14.5px;margin:0 0 8px">Why thresholds</h3>
+        <p style="font-size:13.5px;color:#39414d;margin:0">Monitoring, verification and permits cost much the same
+           for a small site as for a large one. Drawing the line at capacity thresholds keeps the number of
+           installations to roughly nine thousand while capturing the large point sources that make up most
+           industrial and power-sector emissions; the small-emitter exclusions then trim the tail further.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="tab-msr" class="hide">
   <div class="panel">
     <h2>The surplus and the Market Stability Reserve</h2>
@@ -560,25 +664,20 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     <div class="controls" id="emToggles"></div>
     <div class="chartbox" style="height:420px"><canvas id="emChart"></canvas></div>
     <div class="cards" id="emCards" style="margin:18px 0 0"></div>
-    <div class="warn" style="margin-top:18px"><strong>Combustion has fallen 54% since 2005. Industry has fallen
+    <div class="warn" style="margin-top:18px"><strong>Combustion has fallen 53% since 2005. Industry has fallen
       18%.</strong> A carbon price plus cheap renewables was enough to transform electricity generation. It has
       not been enough to transform steel, cement or chemicals — which is precisely why free allocation, the
       benchmark system and CBAM exist, and why the argument about them is so persistent. Aviation tells a third
-      story: down 63% in 2020, then back to about a fifth below its 2012 level by 2025 — the only series here whose
+      story: down 63% in 2020, then back to about a sixth below its 2012 level by 2025 — the only series here whose
       low point is behind it rather than at the end.</div>
-    <div class="warn" style="margin-top:12px"><strong>The last point is still moving.</strong> This series is the
-      EEA ETS data viewer, July 2026 release. The Union Registry's own extract of 6 November 2026 puts 2025
-      verified emissions at <strong>1 161.9 Mt</strong> against the 1 148.8 Mt plotted here — 13 Mt higher,
-      almost all of it maritime (87.6 Mt against 80.7) and aviation (61.7 Mt against 58.9), where late reports
-      are still arriving in the first full year of maritime coverage. The fill-in is visible across three
-      snapshots of the same year: the registry's own extract of 1 April 2026 had 2025 at just 1 035.4 Mt, with
-      maritime at 43.3; by July the EEA release had 1 148.8; by November the registry has 1 161.9. The same
-      thing happened a year earlier: the April 2025 extract put 2024 at 1 018.1 Mt against the 1 186 Mt it
-      finally settled at, 14% low. So this is a reporting lag with a shape, not a revision to argue about, and
-      the final figures for 2024 now agree between the sources to within 0.3 Mt. The chart stays on the EEA release because it draws the line between combustion and other
-      industrial activity in a slightly different place from the registry's activity codes, and splicing the two
-      mid-series would be worse than being a few months behind on the final point. Both are linked under
-      <a href="#notes" data-goto="notes">Data &amp; caveats</a>.</div>
+    <div class="warn" style="margin-top:12px"><strong>Where the numbers come from, and why the last point still
+      moves.</strong> From 2013 the series is the Union Registry's own record: verified emissions per installation
+      and operator from the registry's daily data, snapshot of 28 November 2026, grouped by each installation's main
+      activity code. For 2025 that gives <strong>1 162.0 Mt</strong>, of which maritime 87.6 Mt and aviation 61.7 Mt.
+      The latest year fills in for months after the 31 March reporting deadline as late reports are verified: the
+      registry had 2025 at 1 035.4 Mt on 1 April 2026, with maritime at 43.3, and 2024 started at 1 018.1 Mt in
+      April 2025 before settling at 1 186.0. So the final point is provisional, and it will be refreshed with each
+      new registry extract. Detail under <a href="#notes" data-goto="notes">Data &amp; caveats</a>.</div>
   </div>
 
   <div class="panel">
@@ -677,7 +776,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        allowances trading between €4 and €8 and the carbon price changed almost nobody's investment decision.
        A steep climb from 2018, as the Market Stability Reserve began withdrawing that surplus and the 2030
        target was tightened. Then a plateau from 2022 at levels an order of magnitude higher, where the price
-       genuinely competes with the cost of abatement. Monthly averages of primary-market prices, running to
+       genuinely competes with the cost of abatement. Monthly averages of EEX auction clearing prices, running to
        30 September 2026; switch to annual for the smoothed view.</p>
     <div class="controls">
       <span class="seg">
@@ -694,21 +793,13 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <div class="card"><div class="k">€85.43</div><div class="l">October 2026 so far — mean of 17 auction clearing prices to 26 October, month not complete</div></div>
     </div>
 
-    <div class="warn" style="margin-top:18px"><strong>The line used to stop in June. Why it now runs to
-      September, and why that is not a change of source.</strong> Until this update the series ended on
-      30 June 2026, where ICAP's published data ends, and this box explained that splicing in another source
-      mid-chart would be worse than stopping. The months since have now been added from EEX's own
-      <em>primary market auction report</em> — the market operator's record of every EU ETS auction, with the
-      clearing price for each one.
-      <br><br>That turned out not to be a second source at all. Rebuilding the first half of 2026 from the EEX
-      file gives 86.51, 73.77, 68.17, 72.81, 74.95 and 77.82: the same six monthly means that were already on
-      this chart, to the cent, from the same 107 observations, and an identical annual mean of €75.39 for the
-      half-year. ICAP's primary-market series for the EU ETS <em>is</em> the auction series. There is no seam at
-      June because there is nothing to splice.
+    <div class="warn" style="margin-top:18px"><strong>What the line is.</strong> Every point is built from
+      EEX's <em>primary market auction report</em>, the auction platform's record of every EU ETS auction with its
+      clearing price: monthly or annual means of those clearing prices, all auction calendars together.
       <br><br>October is left off because the month is not over. Through 26 October its 17 auctions average
       <strong>€85.43</strong>, and the auction of 26 October cleared at <strong>€87.68</strong>, the highest
       since mid-January.
-      <br><br>One more check falls out of the same file. The CBAM certificate price is defined as the
+      <br><br>The same file checks against an official figure. The CBAM certificate price is defined as the
       volume-weighted average of EU ETS auction clearing prices over a quarter, and weighting the 59 auctions of
       July to September by their volumes gives <strong>€82.32</strong> — exactly the figure the Commission
       published for Q3 2026 on 5 October. The simple mean of the same 59 auctions is €82.18; the difference is
@@ -801,8 +892,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <li><strong>Cap.</strong> <a href="https://climate.ec.europa.eu/eu-action/carbon-markets/eu-emissions-trading-system-eu-ets/eu-ets-emissions-cap_en" target="_blank" rel="noopener">Commission EU ETS emissions cap page</a> for the explanation of the cap and its calculation; <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023D1575" target="_blank" rel="noopener">Commission Decision (EU) 2023/1575</a> for the 2024 figure of 1 386 051 745 allowances; <a href="https://eur-lex.europa.eu/legal-content/GA/TXT/?uri=CELEX:32020D1722" target="_blank" rel="noopener">Commission Decision (EU) 2020/1722</a> for 2021.</li>
       <li><strong>Reduction factors and rebasings.</strong> <a href="https://eur-lex.europa.eu/eli/dir/2003/87/oj/eng" target="_blank" rel="noopener">Directive 2003/87/EC</a> as amended by <a href="https://eur-lex.europa.eu/eli/dir/2023/959/oj/eng" target="_blank" rel="noopener">Directive (EU) 2023/959</a>.</li>
       <li><strong>TNAC and MSR.</strong> <a href="https://op.europa.eu/en/search-results?p_p_id=eu_europa_publications_portlet_search_executor_SearchExecutorPortlet_INSTANCE_q8EzsBteHybf&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;queryText=total+number+of+allowances+in+circulation&amp;facet.collection=EULex%2CEUPub%2CEUDir%2CEUWebPage%2CEUSummariesOfLegislation%2CPublicProcurement&amp;startRow=1&amp;resultsPerPage=10&amp;SEARCH_TYPE=SIMPLE" target="_blank" rel="noopener">Annual Commission communications publishing the total number of allowances in circulation</a>; <a href="http://data.europa.eu/eli/dec/2015/1814/oj" target="_blank" rel="noopener">Decision (EU) 2015/1814</a> as amended.</li>
-      <li><strong>Allowance price.</strong> Two sources for one series. Through 30 June 2026: <a href="https://icapcarbonaction.com/en/ets-prices" target="_blank" rel="noopener">ICAP Allowance Price Explorer</a>, daily primary-market prices combining ICAP's pre-2018 and post-2019 series. From 1 July to 30 September 2026: the <a href="https://www.eex.com/en/market-data/environmental-markets/auction-market" target="_blank" rel="noopener">EEX emission spot primary market auction report</a> for 2026, monthly means of the clearing price of every auction, all auction calendars together. The join was validated rather than assumed: the EEX file reproduces each of the six ICAP months of 2026 to the cent, with the same observation count and the same half-year mean, so the two are the same underlying series. 3 084 observations in all, of which 166 fall in 2026. The 2026 annual figure is a part-year mean to 30 September. October is not plotted because the month was incomplete at the time of writing.</li>
-      <li><strong>Emissions.</strong> <a href="https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards" target="_blank" rel="noopener">European Environment Agency EU ETS data viewer</a>, underlying database, July 2026 release. Series computed from the field “EU ETS verified emissions”, summed across EEA countries excluding the United Kingdom, by main activity code.</li>
+      <li><strong>Allowance price.</strong> <a href="https://www.eex.com/en/market-data/environmental-markets/auction-market" target="_blank" rel="noopener">EEX emission spot primary market auction reports</a>: the clearing price of every EU ETS auction, January 2010 to 30 September 2026, averaged by month or year across all auction calendars. 3 084 auctions in all, of which 166 fall in 2026. The 2026 annual figure is a part-year mean to 30 September. October is not plotted because the month was incomplete at the time of writing.</li>
+      <li><strong>Covered activities.</strong> Annex I of <a href="http://data.europa.eu/eli/dir/2003/87/oj" target="_blank" rel="noopener">Directive 2003/87/EC</a>, consolidated version of 1 March 2024 (as amended by Directives (EU) 2023/958 and 2023/959); exclusions in Articles 24, 27 and 27a. Counts per activity are the 2025 compliance-year registry data used for the compliance chart.</li>
+      <li><strong>Emissions.</strong> From 2013: EU Union Registry, operator yearly activity data from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a> (snapshot 28 November 2026), with main activity codes from the Commission's annual verified emissions files, 2021–2025 editions. 2005–2012: <a href="https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards" target="_blank" rel="noopener">EEA EU ETS data viewer</a>, July 2026 release, by main activity code, EEA countries excluding the United Kingdom.</li>
       <li><strong>Free allocation.</strong> EU Union Registry daily data extracts from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a> (operator yearly activity, snapshot 7 August 2026), aggregated per year excluding the United Kingdom. The 957 Mt of ETS 2 emissions reported for 2024, quoted on the scope tab, comes from the same extract with the ETS 2 national accounts separated by account name; it is charted on the <a href="ets2.html">EU ETS 2 page</a>.</li>
       <li><strong>Auction revenue and its use.</strong> <a href="https://www.eea.europa.eu/en/analysis/indicators/use-of-auctioning-revenues-generated" target="_blank" rel="noopener">EEA indicator: use of auctioning revenues generated under the EU ETS</a>, EU-27 scope. Category breakdown available from the 2023 reporting year only.</li>
       <li><strong>Compliance.</strong> EU Union Registry compliance-code extracts for the <strong>2023, 2024 and 2025 compliance years</strong> (codes A, B, C by installation and main activity type), from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a>. The chart is 2025: 15 305 installation records, of which 13 594 carry a calculated A or B status, grouped by main activity type and limited to activities with at least fifty installations — eighteen of them, covering 97.8% of the records. The 2023 and 2024 extracts are used only for the comparisons in the text and tooltips; running the same method over the 2024 file returns 12 576 compliant of 12 873 and 97.7%, which is what this page published for that year before.</li>
@@ -843,14 +935,23 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   </details>
 
   <details open>
-    <summary>Why the emissions figures need care — and why they differ from the EEA headline</summary>
-    <p>The emissions series is built from the EEA's EU ETS data viewer database (July 2026 release), using
-       <em>EU ETS verified emissions</em> summed across the EEA — the EU 27 plus Iceland, Liechtenstein, Norway and
-       Northern Ireland. The United Kingdom is excluded throughout, so the pre-2021 years are comparable with the
-       later ones. Activity codes follow the EEA's own grouping: 10 aviation, 20 combustion of fuels, 21–99 all
-       industrial installations except combustion, 50 maritime transport. Combustion plus industry reconciles
-       exactly to the EEA's own 20–99 stationary aggregate in every year, which is the check that the extraction
-       is right.</p>
+    <summary>Why the emissions figures need care — and why they differ from the EEA's headline</summary>
+    <p>From 2013 the emissions series comes from the Union Registry: <em>verified emissions</em> per installation
+       and aircraft or shipping operator in the registry's operator yearly activity data (snapshot of
+       28 November 2026), summed across the EU 27 plus Iceland, Liechtenstein, Norway and Northern Ireland. Accounts
+       administered by the United Kingdom are excluded throughout, so the pre-2021 years are comparable with the later
+       ones. Each installation is grouped by its main activity code from the Commission's annual verified emissions
+       files (2021–2025 editions): code 10 aviation, 20 and the older code 1 combustion of fuels, 50 maritime, all
+       other codes industry. About 270 shipping companies and 75 smaller installations registered after the April
+       2026 edition have no code yet: the shipping companies are identified from their registry account type or name,
+       and the installations, 0.2 Mt in 2025, are counted as industry.</p>
+    <p><strong>Before 2013 the split by activity is the EEA's.</strong> The registry carries the same totals for
+       2005–2012, to within 0.1 Mt, but the Commission's files list no activity code for installations that closed
+       before 2013 — 31 to 103 Mt a year, depending on the year. The EEA's ETS data viewer (July 2026 release) does
+       classify them, so those years keep its combustion and industry figures. The EEA also groups some installations
+       differently from their registry code: from 2013 the registry series puts 5 to 12 Mt a year more under
+       combustion and the same amount less under industry than the EEA would, with identical totals. The step at
+       2013 is small next to that year's scope change, when Phase 3 brought new activities and gases in.</p>
     <p><strong>These are emissions as reported, not scope-corrected.</strong> The EEA's headline that stationary
        emissions fell 51% between 2005 and 2024 uses a scope-corrected series, which estimates what past emissions
        would have been under today's system boundaries. On a reported basis the same fall is 42%. The difference
@@ -873,9 +974,9 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 </section>
 
 <footer class="wrap" style="padding-bottom:30px">
-  Compiled from Commission and EEA sources, August 2026; policy status reviewed 6 November 2026. An orientation tool, not an official publication —
+  Compiled from Commission, Union Registry and EEA sources, August–November 2026; policy status reviewed 6 November 2026. An orientation tool, not an official publication —
   verify against the primary sources before relying on any figure.
-<br><span class="stamp"><strong>Last updated 21 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+<br><span class="stamp"><strong>Last updated 28 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </div>
 
 <script>
@@ -1207,10 +1308,10 @@ drawMsrRule();
 // ---------------------------------------------------------------- emissions by activity
 const EM_Y=[2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 const EM={
-  combustion:{label:"Combustion of fuels",col:"#c0392b",data:[1254.1,1258.6,1346.7,1291.9,1189.2,1216.5,1201.6,1178.7,1152.9,1083.4,1092.9,1069,1076.1,1015.1,882.9,760.4,818.3,826,649.9,588.9,578.4]},
-  industry:  {label:"Industrial installations excl. combustion",col:"#1f5fbf",data:[522.7,531.8,566.2,567.6,462.1,488.9,485.7,461.1,533.9,536.1,537.8,538.3,545,542,531.6,493,518.7,487.1,446.8,444.6,430.8]},
-  aviation:  {label:"Aviation",col:"#8e44ad",data:[null,null,null,null,null,null,null,74.4,47.4,48.6,50.8,54.6,57.1,63.4,67.1,25.0,28.0,49.2,54.2,62.2,58.9]},
-  maritime:  {label:"Maritime transport",col:"#16a085",data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,90.6,80.7]}
+  combustion:{label:"Combustion of fuels",col:"#c0392b",data:[1254.1,1258.6,1346.7,1291.9,1189.2,1216.5,1201.6,1178.7,1164.1,1094.9,1104.9,1081.6,1085.1,1024.5,890.8,767.6,827.7,833.6,656.9,594,584.1]},
+  industry:  {label:"Industrial installations excl. combustion",col:"#1f5fbf",data:[522.7,531.8,566.2,567.6,462.1,488.9,485.7,461.1,522.8,524.6,525.8,525.7,536,532.7,523.8,485.9,509.4,479.6,439.9,439.5,428.6]},
+  aviation:  {label:"Aviation",col:"#8e44ad",data:[null,null,null,null,null,null,null,74.4,47.4,48.6,50.8,54.6,57.1,63.4,67.1,24.7,27.7,48.7,53.5,61.5,61.7]},
+  maritime:  {label:"Maritime transport",col:"#16a085",data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,91,87.6]}
 };
 const emOn={combustion:true,industry:true,aviation:true,maritime:true};
 const hex2rgba=(hex,a)=>{const n=parseInt(hex.slice(1),16);
@@ -1279,6 +1380,68 @@ new Chart(document.getElementById("cmpChart"),{type:"bar",
                grid:{color:"#eef1f5"}},
             y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 
+
+// ---------------------------------------------------------------- Annex I activities
+// Directive 2003/87/EC, Annex I (consolidated 1 March 2024). n = installations/operators assessed for the 2025
+// compliance year (Union Registry, A+B codes), only where at least 50 sit under the activity code (same data as CMP).
+(function(){
+  const G={en:"Energy",met:"Metals",min:"Minerals",pp:"Pulp & paper",chem:"Chemicals",ccs:"CO₂ capture & storage",tr:"Transport"};
+  const A=[
+   ["en","Combustion of fuels","Total rated thermal input above 20 MW (except hazardous or municipal waste incineration)","CO₂",2005,5515],
+   ["en","Municipal waste incineration — monitoring and reporting only","Total rated thermal input above 20 MW; reporting since 1 January 2024, no surrender","CO₂","2024 (reporting)",null],
+   ["en","Refining of oil","Where combustion units above 20 MW are operated","CO₂",2005,108],
+   ["en","Production of coke","No threshold","CO₂",2005,null],
+   ["met","Metal ore roasting or sintering, including pelletisation","No threshold","CO₂",2005,null],
+   ["met","Production of iron or steel, including continuous casting","Capacity above 2.5 tonnes per hour","CO₂",2005,180],
+   ["met","Production or processing of ferrous metals, including ferro-alloys","Where combustion units above 20 MW are operated","CO₂",2013,208],
+   ["met","Production of primary aluminium or alumina","No threshold","CO₂, PFCs",2013,null],
+   ["met","Production of secondary aluminium","Where combustion units above 20 MW are operated","CO₂",2013,null],
+   ["met","Production or processing of non-ferrous metals, including alloys, refining and foundry casting","Where combustion units above 20 MW are operated, including fuels used as reducing agents","CO₂",2013,77],
+   ["min","Production of cement clinker","Rotary kilns above 500 t/day, or other furnaces above 50 t/day","CO₂",2005,205],
+   ["min","Production of lime, or calcination of dolomite or magnesite","Rotary kilns or other furnaces above 50 t/day","CO₂",2005,203],
+   ["min","Manufacture of glass, including glass fibre","Melting capacity above 20 t/day","CO₂",2005,294],
+   ["min","Manufacture of ceramic products by firing (roofing tiles, bricks, refractory bricks, tiles, stoneware, porcelain)","Production capacity above 75 t/day","CO₂",2005,612],
+   ["min","Manufacture of mineral wool insulation from glass, rock or slag","Melting capacity above 20 t/day","CO₂",2013,null],
+   ["min","Drying or calcination of gypsum, or production of plaster boards and other gypsum products","Above 20 t/day in total","CO₂",2013,104],
+   ["pp","Production of pulp from timber or other fibrous materials","No threshold","CO₂",2005,133],
+   ["pp","Production of paper or cardboard","Production capacity above 20 t/day","CO₂",2005,462],
+   ["chem","Production of carbon black","Production capacity above 50 t/day","CO₂",2013,null],
+   ["chem","Production of nitric acid","No threshold","CO₂, N₂O",2013,null],
+   ["chem","Production of adipic acid","No threshold","CO₂, N₂O",2013,null],
+   ["chem","Production of glyoxal and glyoxylic acid","No threshold","CO₂, N₂O",2013,null],
+   ["chem","Production of ammonia","No threshold","CO₂",2013,null],
+   ["chem","Production of bulk organic chemicals by cracking, reforming, partial or full oxidation or similar processes","Production capacity above 100 t/day","CO₂",2013,302],
+   ["chem","Production of hydrogen and synthesis gas","Production capacity above 5 t/day","CO₂",2013,72],
+   ["chem","Production of soda ash and sodium bicarbonate","No threshold","CO₂",2013,null],
+   ["ccs","Capture of greenhouse gases from covered installations for transport and geological storage","No threshold","CO₂",2013,null],
+   ["ccs","Transport of greenhouse gases for geological storage","To a storage site permitted under Directive 2009/31/EC","CO₂",2013,null],
+   ["ccs","Geological storage of greenhouse gases","In a storage site permitted under Directive 2009/31/EC","CO₂",2013,null],
+   ["tr","Aviation","Flights departing from or arriving at aerodromes in a member state, with listed exemptions; currently flights within the EEA and to Switzerland and the UK","CO₂",2012,515],
+   ["tr","Maritime transport","Ships of 5 000 gross tonnage and above carrying cargo or passengers: 100% of emissions within the EU and at berth, 50% on voyages to or from third countries","CO₂; CH₄ and N₂O from 2026",2024,3879]];
+  const fmt=n=>n==null?"—":n.toLocaleString("en-GB").replace(/,/g," ");
+  let cur="all";
+  const seg=document.getElementById("whoSeg");
+  seg.innerHTML=[["all","All ("+A.length+")"],...Object.entries(G).map(([k,v])=>[k,v+" ("+A.filter(a=>a[0]===k).length+")"])]
+    .map(([k,v])=>`<button data-g="${k}"${k==="all"?' class="on"':""}>${v}</button>`).join("");
+  function draw(){
+    seg.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.g===cur));
+    document.querySelector("#whoTbl tbody").innerHTML=A.filter(a=>cur==="all"||a[0]===cur).map(a=>
+      `<tr><td class="l"><span style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">${G[a[0]]}</span><br>${a[1]}</td>
+       <td class="l">${a[2]}</td><td class="l">${a[3]}</td><td>${a[4]}</td><td>${fmt(a[5])}</td></tr>`).join("");
+  }
+  seg.onclick=e=>{const b=e.target.closest("button"); if(b){cur=b.dataset.g; draw();}};
+  draw();
+  const k=EM_Y.length-1;
+  const parts=[["Combustion of fuels",EM.combustion.data[k],"#c0392b"],["Other industrial activities",EM.industry.data[k],"#1f5fbf"],
+               ["Maritime transport",EM.maritime.data[k],"#16a085"],["Aviation",EM.aviation.data[k],"#8e44ad"]];
+  const tot=parts.reduce((a,b)=>a+b[1],0);
+  new Chart(document.getElementById("whoChart"),{type:"doughnut",
+    data:{labels:parts.map(p=>p[0]),datasets:[{data:parts.map(p=>p[1]),backgroundColor:parts.map(p=>p[2]),borderWidth:2,borderColor:"#fff"}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"58%",
+      plugins:{legend:{position:"right",labels:{boxWidth:12,font:{size:12},
+        generateLabels:ch=>parts.map((p,i)=>({text:`${p[0]} — ${Math.round(p[1])} Mt (${(100*p[1]/tot).toFixed(0)}%)`,fillStyle:p[2],strokeStyle:p[2],index:i}))}},
+        tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed.toFixed(1)} Mt CO₂e, ${(100*c.parsed/tot).toFixed(1)}% of ${Math.round(tot)} Mt`}}}}});
+})();
 
 // ---------------------------------------------------------------- auction revenue & spending
 // EEA, use of ETS auctioning revenues. EU-27 scope. Reporting categories changed in 2023.

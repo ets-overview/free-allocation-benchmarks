@@ -210,7 +210,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   <div class="cards">
     <div class="card"><div class="k">2012</div><div class="l">the year aviation entered the ETS — the first sector beyond fixed installations</div></div>
     <div class="card"><div class="k">~4%</div><div class="l">of total EU greenhouse gas emissions come from aviation</div></div>
-    <div class="card"><div class="k">58.2 Mt</div><div class="l">verified CO₂ under the ETS in 2025, from intra-European flights only</div></div>
+    <div class="card"><div class="k">61.7 Mt</div><div class="l">verified CO₂ under the ETS in 2025, from intra-European flights only</div></div>
     <div class="card"><div class="k">2026</div><div class="l">free allocation to airlines ends entirely; the sector moves to full auctioning</div></div>
     <div class="card"><div class="k">66%</div><div class="l">of aviation's net climate forcing comes from effects other than CO₂</div></div>
   </div>
@@ -253,7 +253,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       <div>
         <h3>The excluded flights are the emitting ones</h3>
         <p class="sub">Long-haul flights burn far more fuel per passenger than short hops, and it is precisely
-           long-haul that sits outside the ETS. So the sector's coverage figure — around 58 Mt priced in 2025 —
+           long-haul that sits outside the ETS. So the sector's coverage figure — around 62 Mt priced in 2025 —
            is not a measure of aviation's climate impact but of the portion Europe felt able to price without
            provoking a trade fight.</p>
       </div>
@@ -274,13 +274,53 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
 <!-- ================= CAP ================= -->
 <section id="tab-cap" class="hide">
   <div class="panel">
-    <h2>Aviation has its own allowances, and its own trajectory</h2>
-    <p class="sub">Aviation allowances are a separate quantity from the main
-       <a href="ets.html">ETS cap</a> for stationary installations, calculated bottom-up rather than from the
-       reduction factor applied to industry. Aircraft operators may use general allowances to comply, but the
-       allowances issued for aviation are their own pool. From 2024 that pool shrinks by a linear reduction factor
-       of <strong>4.3% a year</strong>.</p>
-    <p class="sub" style="margin-bottom:0">This is worth holding onto when reading the charts on the ETS overview
+    <h2>Aviation has its own cap</h2>
+    <p class="sub">Article 3c of the ETS Directive gives aviation a cap of its own, separate from the
+       <a href="ets.html">main cap</a> for power, industry and maritime. Its starting point is the number of
+       allowances allocated to aircraft operators in <strong>2023</strong>, reduced by the linear reduction factor to
+       give the 2024 quantity. From there it falls by a fixed number of allowances each year, not by a percentage of the
+       previous year: <strong>4.3% of the reference quantity</strong> from 2024 to 2027, which is
+       <strong>1 330 226 allowances a year</strong>, and <strong>4.4%</strong> from 2028, about 1.36 million.</p>
+    <div class="chartbox" style="height:330px"><canvas id="avCapChart"></canvas></div>
+    <div class="cards" style="margin:16px 0 0">
+      <div class="card"><div class="k">24.9 M</div><div class="l">aviation cap in 2026, allowances</div></div>
+      <div class="card"><div class="k">−1.33 M</div><div class="l">fixed cut each year, 2024–2027</div></div>
+      <div class="card"><div class="k">61.7 Mt</div><div class="l">verified aviation CO₂ in 2025 — about 2.4 times that year's cap</div></div>
+    </div>
+    <div class="grid2" style="margin-top:18px">
+      <div>
+        <h3>A separate cap, but the same allowances</h3>
+        <p class="sub">Since 1 January 2025 the aviation share is issued as general allowances, the same unit that
+           installations and shipping companies surrender, so there is no separate aviation allowance any more. What
+           stays separate is the quantity: the aviation cap decides how many allowances enter the market on aviation's
+           account. Airlines emit far more than that, about 61.7 Mt against 26.2 million allowances in 2025, so the
+           sector is a structural net buyer and covers the gap with allowances issued under the main cap.</p>
+      </div>
+      <div>
+        <h3>What comes out of it</h3>
+        <p class="sub">The aviation cap is shared out in four ways. Free allocation was cut by a quarter in 2024 and
+           by half in 2025, to 10.9 million allowances, and ends in 2026 (next panel). Up to <strong>20 million
+           allowances</strong> are reserved from the cap for operators' use of sustainable aviation fuels to 2030.
+           A share goes to the Innovation Fund, and the rest is auctioned: about 11.6 million allowances in 2025. With
+           free allocation gone, almost everything outside the fuel reserve and the Innovation Fund is now
+           auctioned.</p>
+      </div>
+      <div>
+        <h3>Why it is built this way</h3>
+        <p class="sub">Anchoring the cap to the 2023 allocation ties it to the flights actually in scope; the
+           historical-emissions formula used before was written for the full international scope, which applied
+           only in 2012. Applying the same reduction rates as the main cap means aviation's supply shrinks in step with the
+           rest of the system, while the fixed annual step makes each year's quantity predictable years ahead.</p>
+      </div>
+      <div>
+        <h3>Tied to the current scope</h3>
+        <p class="sub">The cap covers the flights now in scope (see the first tab). It is published by the Commission
+           and would be recalculated if the scope changed; the extension to longer departing flights in the July 2026
+           revision proposal is a proposal, not law. The 2028–2030 bars apply the 4.4% rate to the same reference and
+           are this page's calculation, not published figures.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin:16px 0 0">This is worth holding onto when reading the charts on the ETS overview
        page: the headline cap figure quoted there is for electricity, heat, industry and maritime. Aviation sits
        alongside it, not inside it.</p>
   </div>
@@ -326,7 +366,7 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
       </div>
       <div>
         <h3>The recovery is the real result</h3>
-        <p class="sub">By 2024 emissions were back to 61.5 Mt, easing to 58.2 Mt in 2025 — about 13% below the
+        <p class="sub">By 2024 emissions were back to 61.5 Mt, and 2025 held at 61.7 Mt — about 8% below the
            2019 peak, measured on the same restricted scope. Aviation is the only ETS activity whose low point is
            behind it rather than at the end of the series. Every other sector's chart trends down.</p>
       </div>
@@ -507,15 +547,24 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
         as amended for aviation by <a href="http://data.europa.eu/eli/dir/2023/958/oj" target="_blank" rel="noopener">Directive (EU) 2023/958</a>.
         Aviation entered the system through Directive 2008/101/EC; the geographic restriction originates in
         Decision No 377/2013/EU and has been extended since.</li>
+      <li><strong>Aviation cap</strong> — Article 3c of Directive 2003/87/EC as amended by Directive (EU) 2023/958;
+        annual quantities for 2024–2027, the 2025 free allocation (10.9 million), auctioned volume (about 11.6 million)
+        and verified emissions from the Commission's
+        <a href="https://ec.europa.eu/transparency/documents-register/api/files/COM(2026)596_0/090166e53689632f" target="_blank" rel="noopener">report on the functioning of the carbon market in 2025, COM(2026) 596</a>;
+        aviation's move to general allowances from 1 January 2025 from Delegated Regulation (EU) 2025/1253. The
+        2028–2030 values are this page's calculation.</li>
       <li><strong>Scope, free allocation, SAF reserve and non-CO₂ MRV</strong> —
         <a href="https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-aviation_en" target="_blank" rel="noopener">Commission page on reducing emissions from aviation</a>.</li>
       <li><strong>Non-CO₂ climate forcing</strong> — European Aviation Safety Agency analysis, reported in
         COM(2020) 747, updated analysis of the non-CO₂ climate impacts of aviation.</li>
       <li><strong>SAF blending mandates</strong> —
         <a href="http://data.europa.eu/eli/reg/2023/2405/oj" target="_blank" rel="noopener">Regulation (EU) 2023/2405</a> (ReFuelEU Aviation).</li>
-      <li><strong>Emissions</strong> — European Environment Agency EU ETS data viewer, July 2026 release, main
-        activity code 10 (aviation), EEA scope excluding the United Kingdom. The same extraction as the
-        <a href="ets.html">ETS overview</a> page, so the two are consistent.</li>
+      <li><strong>Emissions</strong> — Commission and Union Registry figures. For 2024 and 2025 the Commission's
+        reports on the functioning of the carbon market (COM(2025) 735 and COM(2026) 596) give 62.6 and 62.7 Mt,
+        including 1.1 Mt and 0.99 Mt from aircraft operators administered by Switzerland; the series here excludes
+        them, which gives 61.5 and 61.7 Mt, the latter also the figure in the Union Registry extract of
+        6 November 2026 and the 28 November 2026 snapshot. 2013–2023 are the registry's final verified emissions,
+        the same series as on the ETS overview page; 2012 is from the EEA ETS data viewer (July 2026 release).</li>
       <li><strong>Compliance</strong> — EU Union Registry compliance data for the 2025 compliance year, from the <a href="https://union-registry-data.ec.europa.eu/report/welcome" target="_blank" rel="noopener">Union Registry data reporting portal</a>.</li>
     </ul>
     <p class="sub"><strong>Getting the data out.</strong> Every chart on this page has a download button
@@ -554,13 +603,13 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
   </details>
 
   <footer>Compiled from Commission, EASA and EEA sources, August 2026; policy status reviewed 6 November 2026. An orientation tool, not an official
-    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 6 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+    publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 28 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 6 November 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 28 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -577,10 +626,10 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
 const nd=(v,d=1)=>v==null?"—":v.toLocaleString("en-GB",{minimumFractionDigits:d,maximumFractionDigits:d});
 
 // ---------------------------------------------------------------- emissions
-// EEA EU ETS data viewer, July 2026 release, main activity 10 (aviation),
-// EEA scope excluding the UK. Identical extraction to the ETS overview page.
+// 2012: EEA EU ETS data viewer, July 2026 release. 2013-2023: Union Registry final verified emissions (identical values).
+// 2024-2025: Commission carbon market reports, excluding operators administered by Switzerland (= Union Registry).
 const AV_Y=[2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
-const AV_E=[74.4,47.4,48.6,50.8,54.6,57.1,63.4,67.1,24.7,27.7,48.7,53.5,61.5,58.2];
+const AV_E=[74.4,47.4,48.6,50.8,54.6,57.1,63.4,67.1,24.7,27.7,48.7,53.5,61.5,61.7];
 
 new Chart(document.getElementById("emChart"),{type:"line",
   data:{labels:AV_Y,datasets:[{
@@ -603,8 +652,8 @@ new Chart(document.getElementById("emChart"),{type:"line",
   const cards=[
     [nd(AV_E[7])+" Mt","pre-pandemic peak, in 2019"],
     ["−63%","fall in 2020, from 67.1 Mt to 24.7 Mt"],
-    [nd(last)+" Mt","2025, 13% below the 2019 peak on the same scope"],
-    ["+136%","recovery from the 2020 low to 2025"]
+    [nd(last)+" Mt","2025, 8% below the 2019 peak on the same scope"],
+    ["+150%","recovery from the 2020 low to 2025"]
   ];
   document.getElementById("emCards").innerHTML=cards.map(c=>
     `<div class="card"><div class="k">${c[0]}</div><div class="l">${c[1]}</div></div>`).join("");
@@ -614,7 +663,7 @@ new Chart(document.getElementById("emChart"),{type:"line",
 // Art. 3d and 10a of Dir. 2003/87/EC as amended by Dir. (EU) 2023/958:
 // free allocation cut 25% in 2024, 50% in 2025, and ended entirely from 2026.
 const FA_Y=[2024,2025,2026];
-const FA_V=[16.1,10.7,0];
+const FA_V=[16.1,10.9,0];
 new Chart(document.getElementById("allocChart"),{type:"bar",
   data:{labels:FA_Y,datasets:[{data:FA_V,
     backgroundColor:["rgba(31,95,191,.85)","rgba(31,95,191,.6)","rgba(192,57,43,.8)"],
@@ -627,6 +676,25 @@ new Chart(document.getElementById("allocChart"),{type:"bar",
     scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances allocated free"},
                grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
             x:{grid:{display:false}}}}});
+
+// ---------------------------------------------------------------- aviation cap, Article 3c
+// 2024-2027: Commission carbon market report COM(2026) 596, Table 1. Annual step 1 330 226 = 4.3% of the
+// reference quantity; from 2028 the factor is 4.4% of the same reference: 1 330 226 x 4.4/4.3 (page's calculation).
+const AVC_Y=[2024,2025,2026,2027,2028,2029,2030];
+const AVC_PUB=[27563529,26233302,24903076,23572850];
+const AVC_STEP28=1330226*4.4/4.3;
+const AVC=AVC_Y.map((y,k)=>k<4?AVC_PUB[k]:AVC_PUB[3]-AVC_STEP28*(y-2027));
+const AVC_EM={2024:61.5,2025:61.7};
+new Chart(document.getElementById("avCapChart"),{
+  data:{labels:AVC_Y,datasets:[
+    {type:"bar",label:"Aviation cap, published (million allowances)",data:AVC.map((v,k)=>k<4?v/1e6:null),backgroundColor:"rgba(31,95,191,.85)",borderRadius:3,maxBarThickness:60,stack:"c"},
+    {type:"bar",label:"Aviation cap from 2028, calculated at 4.4% (million allowances)",data:AVC.map((v,k)=>k>=4?v/1e6:null),backgroundColor:"rgba(31,95,191,.35)",borderRadius:3,maxBarThickness:60,stack:"c"},
+    {type:"line",label:"Verified aviation CO₂ emissions (Mt)",data:AVC_Y.map(y=>AVC_EM[y]??null),borderColor:"#c0392b",backgroundColor:"#c0392b",pointRadius:5,borderWidth:2,showLine:true,spanGaps:false}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:(c.dataset.type==="line"?`Verified emissions: ${nd(c.parsed.y)} Mt`:`${c.dataset.label.split(" (")[0]}: ${Math.round(AVC[c.dataIndex]).toLocaleString("en-GB").replace(/,/g," ")} allowances`)}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:"Million allowances / Mt CO₂"},grid:{color:"#eef1f5"},ticks:{callback:v=>nd(v,0)}},
+      x:{stacked:true,grid:{display:false}}}}});
 
 // ---------------------------------------------------------------- compliance
 // Union Registry, 2025 compliance year: operators coded A against coded B.

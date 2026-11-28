@@ -150,6 +150,8 @@ header a.xnav{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5p
   color:#eaf7fb;font-weight:600;font-size:13px}
 header a.xnav:hover{background:rgba(10,147,181,.55);color:#fff;border-color:#5fd0e8}
 header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:0 0 auto}
+  .ptb{font:inherit;font-size:13px;padding:6px 12px;border:1px solid #d5dae2;border-radius:999px;background:#fff;color:#39414d;cursor:pointer}
+  .ptb.on{background:#6b5bd2;border-color:#6b5bd2;color:#fff}
 </style></head>
 <body>
 
@@ -426,13 +428,17 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
         <h3>The reserve and its price triggers</h3>
         <p class="sub">ETS 2 has its own market stability reserve, separate from the one serving ETS 1, set up by the
            2023 directive with <strong>600 million allowances</strong>. Three price conditions release allowances from it.
-           The <strong>€45 trigger</strong> releases 40 million: 20 million under Article 30h(2) of the ETS Directive
-           and a further 20 million added by the MSR Decision. It can fire up to twice a year, so up to
-           <strong>80 million a year</strong>, from the start of auctioning until the end of 2029. Independently of the
-           price level, a <strong>rapid rise</strong> releases 50 million if the average price runs at more than twice
-           its preceding six-month average for more than three consecutive months, and 150 million at more than three
-           times. Every release is spread evenly over three months, starting no later than two months after the
-           Commission publishes that the condition has been met.</p>
+           The <strong>€45 trigger</strong> (in 2020 prices, adjusted for inflation) releases 40 million when the
+           average auction price stays above it for two consecutive months: 20 million under Article 30h(2) of the ETS
+           Directive and a further 20 million added by the MSR Decision. It applies from the start of auctioning until
+           the end of 2029. Independently of the price level, a <strong>rapid rise</strong> releases 50 million if the
+           average price over more than three consecutive months is more than twice the average of the six months
+           before (1.5 times in 2027 and 2028), and 150 million at more than three times. Releases are not added
+           together, and after any release nothing more is injected for twelve months, with one exception: if the
+           price is above €45 again in the second half of that year, the €45 trigger can fire a second time. That is
+           why it can deliver up to <strong>80 million a year</strong>. Every release is spread evenly over three
+           months, starting no later than two months after the Commission publishes that the condition has been
+           met.</p>
       </div>
       <div>
         <h3>Why it is built this way</h3>
@@ -464,6 +470,29 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
            in 2028 than it looked in 2023.</p>
       </div>
     </div>
+    <h3 style="margin-top:24px">The price triggers, drawn: what a price path would set off</h3>
+    <p class="sub">Pick a price path for the first two and a half years of auctions. The chart applies the three
+       price triggers month by month and shows, as bars, what the reserve would release. The paths are illustrations,
+       not forecasts, and prices are in 2020 euros, the unit the €45 threshold is written in.</p>
+    <div id="ptBtns" style="display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px">
+      <button type="button" class="ptb" data-s="climb">Gradual climb past €45</button>
+      <button type="button" class="ptb" data-s="spike">Sudden jump</button>
+      <button type="button" class="ptb" data-s="shock">Extreme spike</button>
+      <button type="button" class="ptb" data-s="calm">Stays below €45</button>
+    </div>
+    <div class="chartbox" style="height:360px"><canvas id="ptChart"></canvas></div>
+    <div id="ptLog" class="sub" style="margin-top:8px"></div>
+    <div class="warn" style="margin-top:12px"><strong>How the chart decides.</strong> The €45 trigger fires in the
+      second of two consecutive months above €45 and releases 40 million. The rapid-rise trigger compares the average
+      of the latest three months with the average of the six months before them: above 1.5 times in 2027 and 2028, or
+      twice from 2029, it releases 50 million; above three times, 150 million. If the €45 condition is met together
+      with a rapid-rise condition, only the rapid-rise release counts (Article 30h(4)). After any release, no further
+      release under the article can follow for twelve months (Article 30h(6)) — which also blocks the 150 million
+      tier, as the extreme spike shows. The one exception is a second €45 release when the price is above €45 again
+      in the second half of that period, which the Commission <em>may</em> allow by implementing act
+      (Article 30h(7)); the chart assumes it does. The 1.5-times factor is written for 2027 and 2028. Simplifications: one price per month instead of the auction-by-auction average, and no
+      inflation adjustment, which in nominal euros puts the threshold well above €45 by 2028.</div>
+
     <h3 style="margin-top:24px">The volume triggers, drawn: how the reserve responds</h3>
     <p class="sub">Alongside the price triggers, the reserve reacts to one number: the <strong>allowances in
        circulation</strong>, published each year by 1 June from 2028 — every ETS 2 allowance issued, minus verified
@@ -572,7 +601,10 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
        (Article 1a(4)), the 440, 260 and 210 million thresholds and the sliding release between the last two
        (Article 1a(5)), the 20 million top-up to releases under the €45 trigger and the three-month release profile
        (Article 1a(7)), and no invalidation of allowances in the reserve after 2030 (Article 1a(3)). The price triggers
-       themselves are Article 30h of Directive 2003/87/EC. The annual maximum of 80 million allowances, the end of 2029
+       themselves are Article 30h of Directive 2003/87/EC: paragraph 1 (50 million; 1.5 times in 2027 and 2028),
+       paragraph 2 (€45 in 2020 prices, until 31 December 2029), paragraph 3 (150 million), paragraph 4 (no stacking
+       with the €45 trigger), paragraphs 6 and 7 (the twelve-month block and the Commission's option to lift it for a
+       second €45 release). The price-trigger chart uses invented price paths. The annual maximum of 80 million allowances, the end of 2029
        as the last year of the €45 trigger and the comparison with the 60 million annual cap reduction are from the
        Commission's explanation of its proposal.</p>
 
@@ -590,14 +622,14 @@ header a.xnav .xico{width:18px;height:18px;border-radius:4px;display:block;flex:
     </div>
 
     <footer>Compiled from Commission, Council and Union Registry sources, September 2026. An orientation tool,
-      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 27 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
+      not an official publication — verify against the primary sources before relying on any figure.<br><span class="stamp"><strong>Last updated 28 November 2026.</strong> <a href="changelog.html">What changed &rarr;</a></span></footer>
   </div>
 </section>
 
 
   <div class="sitefoot">
     <span>EU Climate Policy Explorer · an independent, non-commercial resource</span>
-    <span><strong>Last updated 27 November 2026</strong> · <a href="changelog.html">what changed</a></span>
+    <span><strong>Last updated 28 November 2026</strong> · <a href="changelog.html">what changed</a></span>
   </div>
 </div>
 
@@ -661,6 +693,72 @@ document.addEventListener("click",e=>{
       (c.adj?" (raised under Annex IIIa)":"")+` · cap 2028 <strong>${c.v(2028).toFixed(0)}</strong> million, 2030 <strong>${c.v(2030).toFixed(0)}</strong> million`;
   }
   sl.addEventListener("input",draw); draw();
+})();
+
+// ---------------------------------------------------------------- ETS 2 price triggers, Article 30h ETS Directive (illustrative simulation)
+(function(){
+  const M=[]; for(let y=2027;y<=2029;y++) for(let m=1;m<=12;m++) if(y>2027||m>=7) M.push({y,m});
+  const lab=M.map(o=>["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][o.m-1]+" "+String(o.y).slice(2));
+  const n=M.length;
+  const P={
+    climb:Array.from({length:n},(_,i)=>+(36+i*0.95+1.2*Math.sin(i*1.3)).toFixed(1)),
+    spike:Array.from({length:n},(_,i)=>i<9?33+((i*7)%5)*0.6:i<15?[58,72,76,70,64,60][i-9]:58-(i-15)*0.5),
+    shock:Array.from({length:n},(_,i)=>i<9?31+((i*7)%5)*0.5:i<14?[60,105,132,126,112][i-9]:Math.max(50,100-(i-14)*4)),
+    calm:Array.from({length:n},(_,i)=>+(34+5*Math.sin(i/2.2)+((i*7)%4)*0.8).toFixed(1))};
+  const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+  function run(p){
+    const a3=p.map((_,i)=>i>=2?avg(p.slice(i-2,i+1)):null);
+    const rel=new Array(n).fill(0), why=new Array(n).fill(""), thr=new Array(n).fill(null), thr3=new Array(n).fill(null), blk=new Array(n).fill(0), bwhy=new Array(n).fill("");
+    let last=-99, lastKind="";
+    for(let i=0;i<n;i++){
+      let cand=[];
+      if(i>=8){
+        const base=avg(p.slice(i-8,i-2)), cur=avg(p.slice(i-2,i+1)), k=M[i].y<=2028?1.5:2;
+        thr[i]=k*base; thr3[i]=3*base;
+        if(cur>3*base) cand.push([150,"rapid rise, more than three times the earlier six-month average"]);
+        else if(cur>k*base) cand.push([50,`rapid rise, more than ${k===1.5?"1.5":"two"} times the earlier six-month average`]);
+      }
+      const e45=i>=1&&p[i]>45&&p[i-1]>45&&M[i].y<=2029;
+      const locked=i-last<12;
+      if(locked){
+        if(e45&&lastKind==="45"&&(i-1)-last>=6&&!cand.length){rel[i]=40;why[i]="€45 trigger again in the second half of the twelve months, if the Commission so decides by implementing act";last=i;}
+        else if(cand.length){cand.sort((a,b)=>b[0]-a[0]); blk[i]=cand[0][0]; bwhy[i]=cand[0][1];}
+        continue;
+      }
+      if(e45) cand.push([40,"€45 trigger, two consecutive months above €45"]);
+      if(cand.length){cand.sort((a,b)=>b[0]-a[0]); rel[i]=cand[0][0]; why[i]=cand[0][1];
+        last=i; lastKind=cand[0][0]===40?"45":"rr";}
+    }
+    return {rel,why,thr,thr3,blk,bwhy,a3};
+  }
+  let ch;
+  function draw(key){
+    document.querySelectorAll(".ptb").forEach(b=>b.classList.toggle("on",b.dataset.s===key));
+    const p=P[key], r=run(p);
+    const ds=[
+      {type:"line",label:"Average auction price (2020 €/t)",data:p,borderColor:"#1f2a44",borderWidth:2.2,pointRadius:2,tension:.25,yAxisID:"y",order:1},
+      {type:"line",label:"Three-month average (what the rapid-rise thresholds are compared with)",data:r.a3,borderColor:"#6b5bd2",borderWidth:1.4,pointRadius:0,tension:.25,yAxisID:"y",order:1},
+      {type:"line",label:"€45 threshold",data:p.map(()=>45),borderColor:"#1f8a5f",borderDash:[6,4],borderWidth:1.6,pointRadius:0,yAxisID:"y",order:2},
+      {type:"line",label:"Rapid-rise threshold (1.5× / 2× earlier six-month average)",data:r.thr,borderColor:"#d9822b",borderDash:[3,3],borderWidth:1.6,pointRadius:0,tension:.2,yAxisID:"y",order:2},
+      {type:"line",label:"Three times earlier six-month average",data:r.thr3,borderColor:"#c0392b",borderDash:[2,4],borderWidth:1.2,pointRadius:0,tension:.2,yAxisID:"y",order:2,hidden:key!=="shock"},
+      {type:"bar",label:"Released from the reserve (million allowances)",data:r.rel.map(v=>v||null),backgroundColor:"rgba(107,91,210,.55)",borderRadius:3,yAxisID:"y2",order:3,barPercentage:.7},
+      {type:"line",label:"Rapid-rise condition met but blocked by the twelve-month rule",data:r.blk.map(v=>v||null),showLine:false,pointStyle:"crossRot",pointRadius:7,borderWidth:2,borderColor:"#8a94a0",yAxisID:"y2",order:0}];
+    const opts={responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:(c.dataset.yAxisID==="y2"?(c.dataset.type==="bar"?`Released: ${c.parsed.y} million`:`Blocked: ${c.parsed.y} million`):`${c.dataset.label}: €${c.parsed.y.toFixed(1)}`),
+          afterBody:c=>{const i=c[0].dataIndex;return r.why[i]?["→ "+r.why[i]]:r.bwhy[i]?["× "+r.bwhy[i]+" met, but a release came less than twelve months ago"]:[];}}}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:15}},
+        y:{beginAtZero:true,max:{climb:100,spike:120,shock:160,calm:100}[key],title:{display:true,text:"€ per allowance, 2020 prices"},grid:{color:"#eef1f5"}},
+        y2:{position:"right",beginAtZero:true,max:300,title:{display:true,text:"Released, million"},grid:{display:false},ticks:{stepSize:50}}}};
+    if(ch){ch.data.datasets=ds; ch.options=opts; ch.update();} else ch=new Chart(document.getElementById("ptChart"),{data:{labels:lab,datasets:ds},options:opts});
+    const ev=r.rel.map((v,i)=>v?`<strong>${lab[i]}</strong>: ${v} million (${r.why[i]})`:null).filter(Boolean);
+    const tot=r.rel.reduce((a,b)=>a+b,0);
+    const bl=r.blk.map((v,i)=>v?`${lab[i]} (${v})`:null).filter(Boolean);
+    document.getElementById("ptLog").innerHTML=(ev.length?`Releases: ${ev.join(" · ")}. Total <strong>${tot} million</strong>.`:"No trigger fires: the price never stays above €45 for two months and never rises fast enough.")+
+      (bl.length?` Blocked by the twelve-month rule: ${bl.join(", ")}.`:"");
+  }
+  document.querySelectorAll(".ptb").forEach(b=>b.onclick=()=>draw(b.dataset.s));
+  draw("climb");
 })();
 
 // ---------------------------------------------------------------- ETS 2 reserve, volume triggers (Decision 2015/1814, Art. 1a(5) as amended by Decision (EU) 2026/2402)
